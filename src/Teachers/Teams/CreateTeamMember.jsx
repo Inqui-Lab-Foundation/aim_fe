@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import './styles.scss';
@@ -20,7 +21,9 @@ const studentBody = {
     full_name: '',
     Age: '',
     Grade: '',
-    Gender: ''
+    Gender: '',
+    disability: '',
+    username: ''
 };
 const grades = [6, 7, 8, 9, 10, 11, 12];
 const allowedAge = [10, 11, 12, 13, 14, 15, 16, 17, 18];
@@ -32,7 +35,9 @@ const CreateMultipleMembers = ({ id }) => {
         full_name: '',
         Age: '',
         Grade: '',
-        Gender: ''
+        Gender: '',
+        disability: '',
+        username: ''
     };
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -46,7 +51,9 @@ const CreateMultipleMembers = ({ id }) => {
             full_name: '',
             Age: '',
             Grade: '',
-            Gender: ''
+            Gender: '',
+            username: '',
+            disability: ''
         },
         {
             team_id: id,
@@ -54,10 +61,13 @@ const CreateMultipleMembers = ({ id }) => {
             full_name: '',
             Age: '',
             Grade: '',
-            Gender: ''
+            Gender: '',
+            username: '',
+            disability: ''
         }
     ]);
-    let pattern = /[A-Za-z0-9 ]*$/;
+    let pattern = /[A-Za-z0-9]*$/;
+    const emailRegex = /[A-Za-z0-9.@]*$/;
     // const re = new RegExp("/[A-Za-z0-9 ]*$/");
     const handleChange = (e, i) => {
         let newItem = [...studentData];
@@ -81,6 +91,19 @@ const CreateMultipleMembers = ({ id }) => {
                             }
                         }
                     }
+                    if (item === 'username') {
+                        let check = e.target.value;
+                        if (check && check.match(emailRegex)) {
+                            const { index } = check.match(emailRegex);
+                            if (index) {
+                                const foo = { ...errCopy[i] };
+                                foo[e.target.name] = 'Enter Valid Mail Id';
+                                errCopy[i] = { ...foo };
+                                setItemDataErrors(errCopy);
+                                return;
+                            }
+                        }
+                    }
                     const foo = { ...errCopy[i] };
                     foo[e.target.name] = '';
                     errCopy[i] = { ...foo };
@@ -89,6 +112,7 @@ const CreateMultipleMembers = ({ id }) => {
                 return;
             });
         }
+
         setStudentData(newItem);
     };
     const validateItemData = () => {
@@ -102,7 +126,16 @@ const CreateMultipleMembers = ({ id }) => {
                     err['full_name'] = 'Only alphanumeric are allowed';
                 }
             }
+            if (!item.username.trim()) err['username'] = 'Email is Required';
+            if (item.username && item.username.match(emailRegex)) {
+                const { index } = item.username.match(emailRegex);
+                if (index) {
+                    err['username'] = 'Enter Valid Mail Id';
+                }
+            }
             if (!item.Age) err['Age'] = 'Age is Required';
+
+            if (!item.disability) err['disability'] = ' Status is Required';
             if (!item.Grade) err['Grade'] = 'Class is Required';
             if (!item.Gender) err['Gender'] = 'Gender is Required';
             if (Object.values(err).length === 0) {
@@ -176,7 +209,7 @@ const CreateMultipleMembers = ({ id }) => {
                         </div>
                         <hr />
                         <Row className="mb-3">
-                            <Col md={4}>
+                            <Col md={3}>
                                 <Label
                                     className="name-req-create-member"
                                     htmlFor="fullName"
@@ -235,7 +268,85 @@ const CreateMultipleMembers = ({ id }) => {
                                     </small>
                                 ) : null}
                             </Col>
-                            <Col md={3}>
+                            <Col md={2} className="mb-xl-0">
+                                <Label
+                                    className="name-req-create-member"
+                                    htmlFor="disability"
+                                >
+                                    {/* {t('teacher_teams.age')} */}
+                                    Disability
+                                    <span required className="p-1">
+                                        *
+                                    </span>
+                                </Label>
+                                <select
+                                    name="disability"
+                                    className="form-control custom-dropdown"
+                                    value={item.disability}
+                                    onChange={(e) => handleChange(e, i)}
+                                >
+                                    <option value="">Select Status</option>
+                                    <option value="No">No</option>
+                                    <option value="Physically Challenged">
+                                        Physically Challenged
+                                    </option>
+                                    <option value="Visually Challenged">
+                                        Visually Challenged
+                                    </option>
+                                    <option value="Locomotor Disability">
+                                        Locomotor Disability
+                                    </option>
+                                    <option value="Intellectual Disability">
+                                        Intellectual Disability
+                                    </option>
+                                    <option value="Learning Disability">
+                                        Learning Disability
+                                    </option>
+                                    <option value="Hearing Impaired">
+                                        Hearing Impaired
+                                    </option>
+                                    <option value="Autism/Cerebral Palsy/Other">
+                                        Autism/Cerebral Palsy/Other
+                                    </option>
+                                    <option value="Others">Others</option>
+                                </select>
+                                {foundErrObject?.disability ? (
+                                    <small className="error-cls">
+                                        {foundErrObject.disability}
+                                    </small>
+                                ) : null}
+                            </Col>
+                            <Col md={2} className="mb-xl-0">
+                                <Label
+                                    className="name-req-create-member"
+                                    htmlFor="username"
+                                >
+                                    {/* {t('teacher_teams.age')} */}
+                                    Email Address
+                                    <span required className="p-1">
+                                        *
+                                    </span>
+                                </Label>
+                                <InputBox
+                                    className={'defaultInput'}
+                                    placeholder="Enter Email Id"
+                                    // {t(
+                                    //     'teacher_teams.student_name_pl'
+                                    // )}
+                                    id="username"
+                                    name="username"
+                                    onChange={(e) => {
+                                        handleChange(e, i);
+                                    }}
+                                    value={item.username}
+                                />
+                                {foundErrObject?.username ? (
+                                    <small className="error-cls">
+                                        {foundErrObject.username}
+                                    </small>
+                                ) : null}
+                            </Col>
+                            <Col md={2}>
                                 <Label
                                     className="name-req-create-member"
                                     htmlFor="grade"
@@ -337,19 +448,19 @@ const CreateMultipleMembers = ({ id }) => {
                             disabled={true}
                         />
                     )}
-                    {studentData.length < 6 && (
+                    {studentData.length < 4 && (
                         <div className="">
                             <Button
                                 label={'Add More'}
                                 onClick={addItem}
                                 btnClass={
                                     // 'primary d-flex justify-content-center mt-2'
-                                    studentData.length != 5
+                                    studentData.length != 3
                                         ? 'primary'
                                         : 'default'
                                 }
                                 size="small"
-                                disabled={studentData.length === 5}
+                                disabled={studentData.length === 3}
                             />
                         </div>
                     )}
@@ -415,7 +526,9 @@ const CreateTeamMember = (props) => {
             fullName: '',
             age: '',
             grade: '',
-            gender: ''
+            gender: '',
+            disability: '',
+            username: ''
         },
 
         validationSchema: Yup.object({
@@ -434,6 +547,8 @@ const CreateTeamMember = (props) => {
                 .max(18, 'Max age is 18')
                 .required('required'),
             gender: Yup.string().required('Please select valid gender'),
+            username: Yup.string().email('Must be a valid email').max(255),
+            disability: Yup.string().required('Please select disability'),
             grade: Yup.string()
                 .matches('', 'Please enter valid class')
                 .max(40)
@@ -459,6 +574,8 @@ const CreateTeamMember = (props) => {
                     Age: values.age,
                     Grade: values.grade,
                     Gender: values.gender,
+                    disability: values.disability,
+                    username: values.username,
                     country: values.country
                 };
                 var config = {
@@ -714,6 +831,117 @@ const CreateTeamMember = (props) => {
                                                 formik.errors.gender ? (
                                                     <small className="error-cls">
                                                         {formik.errors.gender}
+                                                    </small>
+                                                ) : null}
+                                            </Col>
+                                            <Col
+                                                md={3}
+                                                className="mb-5 mb-xl-0"
+                                            >
+                                                <Label
+                                                    className="name-req-create-member"
+                                                    htmlFor="username"
+                                                >
+                                                    Email Address
+                                                    {/* {t(
+                                                        'teacher_teams.student_name'
+                                                    )} */}
+                                                    <span
+                                                        required
+                                                        className="p-1"
+                                                    >
+                                                        *
+                                                    </span>
+                                                </Label>
+                                                <InputBox
+                                                    className={'defaultInput'}
+                                                    placeholder="Enter Email Address"
+                                                    id="username"
+                                                    name="username"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    value={
+                                                        formik.values.username
+                                                    }
+                                                />
+
+                                                {formik.touched.username &&
+                                                formik.errors.username ? (
+                                                    <small className="error-cls">
+                                                        {formik.errors.username}
+                                                    </small>
+                                                ) : null}
+                                            </Col>
+                                            <Col
+                                                md={3}
+                                                className="mb-5 mb-xl-0"
+                                            >
+                                                <Label
+                                                    className="name-req-create-member"
+                                                    htmlFor="disability"
+                                                >
+                                                    Disability
+                                                    {/* {t('teacher_teams.gender')} */}
+                                                    <span
+                                                        required
+                                                        className="p-1"
+                                                    >
+                                                        *
+                                                    </span>
+                                                </Label>
+
+                                                <select
+                                                    name="disability"
+                                                    className="form-control custom-dropdown"
+                                                    value={
+                                                        formik.values.disability
+                                                    }
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                >
+                                                    <option value="">
+                                                        Select Status
+                                                    </option>
+                                                    <option value="No">
+                                                        No
+                                                    </option>
+                                                    <option value="Physically Challenged">
+                                                        Physically Challenged
+                                                    </option>
+                                                    <option value="Visually Challenged">
+                                                        Visually Challenged
+                                                    </option>
+                                                    <option value="Locomotor Disability">
+                                                        Locomotor Disability
+                                                    </option>
+                                                    <option value="Intellectual Disability">
+                                                        Intellectual Disability
+                                                    </option>
+                                                    <option value="Learning Disability">
+                                                        Learning Disability
+                                                    </option>
+                                                    <option value="Hearing Impaired">
+                                                        Hearing Impaired
+                                                    </option>
+                                                    <option value="Autism/Cerebral Palsy/Other">
+                                                        Autism/Cerebral
+                                                        Palsy/Other
+                                                    </option>
+                                                    <option value="Others">
+                                                        Others
+                                                    </option>
+                                                </select>
+
+                                                {formik.touched.disability &&
+                                                formik.errors.disability ? (
+                                                    <small className="error-cls">
+                                                        {
+                                                            formik.errors
+                                                                .disability
+                                                        }
                                                     </small>
                                                 ) : null}
                                             </Col>

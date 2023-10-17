@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, List, Label, Card } from 'reactstrap';
-import { Tabs} from 'antd';
+import { Tabs } from 'antd';
 import Layout from '../Layout';
 import { BsPlusLg } from 'react-icons/bs';
 import { Button } from '../../stories/Button';
@@ -48,6 +48,7 @@ const TicketsPage = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
+                    console.log(response, '1');
                     setTeamsList(response.data.data);
                 }
             })
@@ -66,7 +67,7 @@ const TicketsPage = () => {
         setTeamsArray(teamsArrays);
         setLoading(false);
     }, [teamsList]);
-
+    // console.log(teamsArray, '1');
     const adminTeamsList = {
         data: teamsArray,
         columns: [
@@ -81,6 +82,11 @@ const TicketsPage = () => {
                 sortable: true,
                 // maxlength: '5',
                 width: '43rem'
+            },
+            {
+                name: 'Mentor Details',
+                selector: 'mentor_details',
+                width: '23rem'
             },
             {
                 name: t('teacher_teams.team_members_count'),
@@ -134,11 +140,11 @@ const TicketsPage = () => {
     };
     const handleView = (item) => {
         // here item = team member details  //
-        item['mentorid']=currentUser?.data[0]?.mentor_id;
+        item['mentorid'] = currentUser?.data[0]?.mentor_id;
         history.push({
             pathname: '/teacher/view-team-member',
             item: item,
-            mentorid :currentUser?.data[0]?.mentor_id
+            mentorid: currentUser?.data[0]?.mentor_id
         });
         localStorage.setItem('teamId', JSON.stringify(item));
     };
