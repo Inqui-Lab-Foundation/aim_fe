@@ -322,6 +322,8 @@
         "school": "School",
         "city": "City",
         "district": "District",
+        "state": "State",
+        "pincode": "Pin Code",
         "faculty_name": "Faculty Name",
         "title": "Title",
         "teacher_title": "Select Title",

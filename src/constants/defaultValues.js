@@ -114,6 +114,13 @@ export const URL = {
     getStudents: process.env.REACT_APP_API_BASE_URL + '/students',
     getDistrictsOnly:
         process.env.REACT_APP_API_BASE_URL + '/organizations/districts',
+    getPinCodesOnly:
+        process.env.REACT_APP_API_BASE_URL + '/organizations/pinCode?district=',
+    getAtlCodesOnly:
+        process.env.REACT_APP_API_BASE_URL + '/organizations/ATLCode?pin_code=',
+    getFetchDistsOnly:
+        process.env.REACT_APP_API_BASE_URL + '/organizations/districts?state=',
+    getStatesOnly: process.env.REACT_APP_API_BASE_URL + '/organizations/states',
     getStudentBadges: process.env.REACT_APP_API_BASE_URL + '/students/',
     getStudentById: process.env.REACT_APP_API_BASE_URL + '/students/',
     getAdmin: process.env.REACT_APP_API_BASE_URL + '/admins/',

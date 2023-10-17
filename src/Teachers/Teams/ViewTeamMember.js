@@ -312,6 +312,16 @@ const ViewTeamMember = (props) => {
                 width: '16rem'
             },
             {
+                name: 'Email Id',
+                selector: 'user.username',
+                width: '10rem'
+            },
+            {
+                name: 'Disability',
+                selector: 'disability',
+                width: '10rem'
+            },
+            {
                 name: 'Class',
                 selector: 'Grade',
                 width: '10rem'
@@ -452,7 +462,6 @@ const ViewTeamMember = (props) => {
                 }
             });
     };
-
 
     return (
         <Layout>

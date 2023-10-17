@@ -62,15 +62,15 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
             setMenuCollapse(true);
         }
     });
-    const handleClick = (e, type) => {
-        const typeFilter = type && schedules[0].teacher[type];
-        if (presurveyStatus !== 'COMPLETED') e.preventDefault();
+    // const handleClick = (e, type) => {
+    //     const typeFilter = type && schedules[0].teacher[type];
+    //     if (presurveyStatus !== 'COMPLETED') e.preventDefault();
 
-        if (type) {
-            if (presurveyStatus === 'COMPLETED' && !compareDates(typeFilter))
-                e.preventDefault();
-        }
-    };
+    //     if (type) {
+    //         if (presurveyStatus === 'COMPLETED' && !compareDates(typeFilter))
+    //             e.preventDefault();
+    //     }
+    // };
     const handleLogout = (e) => {
         logout(history, t, 'teacher', dispatch);
         e.preventDefault();
@@ -124,7 +124,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
 
             <SidebarContent>
                 <Menu iconShape="circle">
-                    <MenuItem
+                    {/* <MenuItem
                         icon={<RiSurveyFill />}
                         className={
                             location.pathname === '/teacher/pre-survey' &&
@@ -134,7 +134,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                         <NavLink exact={true} to={'/teacher/pre-survey'}>
                             {t('teacher.pre_survey')}
                         </NavLink>
-                    </MenuItem>
+                    </MenuItem> */}
 
                     <MenuItem
                         icon={
@@ -143,6 +143,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                                 style={{ width: '20px' }}
                             />
                         }
+                        // icon={<RiTeamFill />}
                         className={
                             location.pathname === '/teacher/dashboard' &&
                             'sidebar-active'
@@ -151,7 +152,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                             to={'/teacher/dashboard'}
                         >
                             {t('teacher.dashboard')}
@@ -166,7 +167,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                             to={`/teacher/playvideo/${1}`}
                         >
                             {t('teacher.course')}
@@ -187,7 +188,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                             to={'/teacher/teamlist'}
                         >
                             {t('teacher.team')}
@@ -203,7 +204,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e)}
+                            // onClick={(e) => handleClick(e)}
                             // onClick={(e) => handleClick(e, 'Resources')}
                             to={'/teacher/Resources/index'}
                         >
@@ -221,7 +222,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                         <NavLink
                             exact={true}
                             to={'/teacher/faq'}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                         >
                             {' '}
                             {t('teacher.faq')}
@@ -240,7 +241,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                             to={'/teacher/support-journey'}
                         >
                             {' '}
@@ -258,7 +259,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                             to={'/teacher/post-survey'}
                         >
                             {t('teacher.post_survey')}
@@ -273,7 +274,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     >
                         <NavLink
                             exact={true}
-                            onClick={(e) => handleClick(e, '')}
+                            // onClick={(e) => handleClick(e, '')}
                             to={'/teacher/my-certificate'}
                         >
                             {t('teacher.certificate')}

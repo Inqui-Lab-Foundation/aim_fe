@@ -17,12 +17,20 @@ const CreateTeam = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            teamName: ''
+            teamName: '',
+            mentorData: ''
         },
 
         validationSchema: Yup.object({
             teamName: Yup.string()
                 .required('Please enter Team name')
+                .matches(
+                    /^[A-Za-z0-9 ]*$/,
+                    'Please enter only alphanumeric characters'
+                )
+                .trim(),
+            mentorData: Yup.string()
+                .required('Please enter Mentor Details')
                 .matches(
                     /^[A-Za-z0-9 ]*$/,
                     'Please enter only alphanumeric characters'
@@ -33,7 +41,8 @@ const CreateTeam = (props) => {
         onSubmit: (values) => {
             const body = JSON.stringify({
                 mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
-                team_name: values.teamName
+                team_name: values.teamName,
+                mentor_details: values.mentorData
             });
             var config = {
                 method: 'post',
@@ -108,6 +117,35 @@ const CreateTeam = (props) => {
                                             formik.errors.teamName ? (
                                                 <small className="error-cls">
                                                     {formik.errors.teamName}
+                                                </small>
+                                            ) : null}
+                                        </Col>
+                                        <Col md={6} className="mb-5 mb-xl-0">
+                                            <Label
+                                                className="name-req"
+                                                htmlFor="mentorData"
+                                            >
+                                                {/* {t('teacher_teams.team_name')} */}
+                                                Mentor Details
+                                                <span required className="p-1">
+                                                    *
+                                                </span>
+                                            </Label>
+
+                                            <InputBox
+                                                className={'defaultInput'}
+                                                placeholder="Enter Mentor Details"
+                                                id="mentorData"
+                                                name="mentorData"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.mentorData}
+                                            />
+
+                                            {formik.touched.mentorData &&
+                                            formik.errors.mentorData ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.mentorData}
                                                 </small>
                                             ) : null}
                                         </Col>
