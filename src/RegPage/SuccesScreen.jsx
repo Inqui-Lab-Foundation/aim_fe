@@ -25,11 +25,11 @@ const SuccessPage = () => {
     const { t } = useTranslation();
     const mentorDaTa = JSON.parse(localStorage.getItem('mentorData'));
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
-    const username = mentorDaTa.username;
-    const myArray = username.split('@');
+    const user = mentorDaTa.username;
+    const myArray = user.split('@');
     const word = myArray[0];
 
-    console.log(word, 'data');
+    console.log(mentorDaTa, 'data');
 
     const successData = history && history.location && history.location.data;
     return (
