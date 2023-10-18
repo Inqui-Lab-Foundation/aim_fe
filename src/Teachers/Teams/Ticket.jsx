@@ -121,7 +121,7 @@ const TicketsPage = () => {
                             )}
                         </div>,
                         <div key={params} onClick={() => handleView(params)}>
-                            {!params.StudentCount < 1 && (
+                            {!params.StudentCount < 4 && (
                                 <div className="btn btn-primary  mr-5">
                                     {t('teacher_teams.view')}
                                 </div>
