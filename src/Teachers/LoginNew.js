@@ -343,7 +343,7 @@ const LoginNew = (props) => {
                                     </div>
                                     <div className="form-row row mb-5">
                                         <Link
-                                            to={'/register'}
+                                            to={'/registration'}
                                             exact
                                             className="w-100 d-block text-center"
                                         >
