@@ -72,6 +72,7 @@ function RegisterNew() {
     const [disable, setDisable] = useState(false);
     const [timer, setTimer] = useState(0);
     const [or, setOr] = useState('');
+    const [orgName, setOrgname] = useState('');
     localStorage.setItem('mentorData', JSON.stringify(mentorData));
     localStorage.setItem('orgData', JSON.stringify(orgData));
     // const fullDistrictsNames = useSelector(
@@ -150,6 +151,8 @@ function RegisterNew() {
             if (values.otp.length < 5) {
                 setErrorMsg(true);
             } else {
+                handleRegist();
+
                 const axiosConfig = getNormalHeaders(KEY.User_API_Key);
                 var pass = values.email.trim();
                 var myArray = pass.split('@');
@@ -261,8 +264,71 @@ function RegisterNew() {
     const handleOnChangeSchool = (e) => {
         setSchoolname(e.target.value);
     };
-
+    console.log(orgData, 'data');
     const handleSubmit = (e) => {
+        const body = {
+            state: stateData,
+            district: district,
+            pin_code: pinCode,
+            category: 'Non ATL',
+            organization_code: atlCode,
+            organization_name: schoolname,
+            // organization_name: orgNewData.organization_name,
+            address: textData
+        };
+        setOrgData(body);
+        setBtn(false);
+        setSchoolBtn(true);
+        // var config = {
+        //     method: 'post',
+        //     url:
+        //         process.env.REACT_APP_API_BASE_URL +
+        //         '/organizations/createOrg?nonatlcode=true',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     data: body
+        // };
+        // axios(config)
+        //     .then(function (response) {
+        //     se
+
+        // if (response?.status == 201) {
+        //     console.log(response, 'data1');
+
+        //     // if (
+        //     //     response?.data?.data[0].mentor != null &&
+        //     //     process.env.REACT_APP_USEDICECODE == 1
+        //     // ) {
+        //     //     setError(
+        //     //         'Another Teacher is already registered in given School'
+        //     //     );
+        //     // } else {
+        //     //     if (Object.keys(response?.data?.data[0]).length) {
+        //     //         setOrgData(response?.data?.data[0]);
+        //     //         formik.setFieldValue(
+        //     //             'organization_code',
+        //     //             response?.data?.data[0].organization_code
+        //     //         );
+
+        //     //         setBtn(false);
+        //     //         setSchoolBtn(true);
+        //     //     } else {
+        //     //         setError('Oops..! UDISE Code seems incorrect');
+        //     //     }
+        //     // }
+        // }
+        // setOrgData(response?.data?.data);
+        // console.log(orgData.district);
+        // })
+
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
+
+        e.preventDefault();
+    };
+    const handleRegist = (e) => {
         const body = JSON.stringify({
             state: stateData,
             district: district,
@@ -287,27 +353,28 @@ function RegisterNew() {
             .then(function (response) {
                 // console.log(response, 'data');
                 if (response?.status == 201) {
-                    if (
-                        response?.data?.data[0].mentor != null &&
-                        process.env.REACT_APP_USEDICECODE == 1
-                    ) {
-                        setError(
-                            'Another Teacher is already registered in given School'
-                        );
-                    } else {
-                        if (Object.keys(response?.data?.data[0]).length) {
-                            setOrgData(response?.data?.data[0]);
-                            formik.setFieldValue(
-                                'organization_code',
-                                response?.data?.data[0].organization_code
-                            );
+                    console.log(response, 'data');
+                    // if (
+                    //     response?.data?.data[0].mentor != null &&
+                    //     process.env.REACT_APP_USEDICECODE == 1
+                    // ) {
+                    //     setError(
+                    //         'Another Teacher is already registered in given School'
+                    //     );
+                    // } else {
+                    //     if (Object.keys(response?.data?.data[0]).length) {
+                    //         // setOrgData(response?.data?.data[0]);
+                    //         // formik.setFieldValue(
+                    //         //     'organization_code',
+                    //         //     response?.data?.data[0].organization_code
+                    //         // );
 
-                            setBtn(false);
-                            setSchoolBtn(true);
-                        } else {
-                            setError('Oops..! UDISE Code seems incorrect');
-                        }
-                    }
+                    //         // setBtn(false);
+                    //         setSchoolBtn(true);
+                    //     } else {
+                    //         setError('Oops..! UDISE Code seems incorrect');
+                    //     }
+                    // }
                 }
                 // setOrgData(response?.data?.data);
                 // console.log(orgData.district);
@@ -319,7 +386,6 @@ function RegisterNew() {
 
         e.preventDefault();
     };
-
     useEffect(() => {
         const updatedData = [...fiterAtlCodeData];
         const index =
