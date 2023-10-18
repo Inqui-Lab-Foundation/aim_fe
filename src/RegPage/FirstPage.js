@@ -177,6 +177,22 @@ function RegisterNew() {
                                                 }
                                             />
                                         </div>
+                                        <div className="form-row row mb-5 mt-5 text-center">
+                                            <p>
+                                                {' '}
+                                                Already a member ?
+                                                <Link
+                                                    to={'/teacher'}
+                                                    exact
+                                                    className=" m-3 text-center"
+                                                    style={{
+                                                        color: 'blue'
+                                                    }}
+                                                >
+                                                    Login Here
+                                                </Link>
+                                            </p>
+                                        </div>
                                         {/* </Col> */}
                                         {/* <Col md={12} className="m-5"> */}
 

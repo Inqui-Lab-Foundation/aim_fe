@@ -454,7 +454,7 @@ function AtlPage() {
                     <Row className="article-header mb-4 mt-4 text-center">
                         <h4 className="mb-4">
                             <span className="color-black">
-                                TEACHER REGISTRATION
+                                ATL School Registration
                             </span>
                         </h4>
                     </Row>
@@ -524,14 +524,21 @@ function AtlPage() {
                                                     />
                                                 </div>
                                             )}
-                                            <div className="form-row row mb-5">
-                                                <Link
-                                                    to={'/teacher'}
-                                                    exact
-                                                    className=" m-3 text-center"
-                                                >
-                                                    Already have an Account
-                                                </Link>
+                                            <div className="form-row row mb-5 mt-5">
+                                                <p>
+                                                    {' '}
+                                                    Already a member ?
+                                                    <Link
+                                                        to={'/teacher'}
+                                                        exact
+                                                        className=" m-3 text-center"
+                                                        style={{
+                                                            color: 'blue'
+                                                        }}
+                                                    >
+                                                        Login Here
+                                                    </Link>
+                                                </p>
                                             </div>
                                         </Col>
                                     </div>
@@ -756,26 +763,26 @@ function AtlPage() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 7
-                                                            : 6
-                                                    }
+                                                    // xs={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // sm={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // md={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // xl={
+                                                    //     formik.values.title
+                                                    //         ? 7
+                                                    //         : 6
+                                                    // }
                                                     // xs={6}
                                                     // sm={12}
                                                     // md={10}

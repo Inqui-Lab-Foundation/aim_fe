@@ -25,9 +25,9 @@ const SuccessPage = () => {
     const { t } = useTranslation();
     const mentorDaTa = JSON.parse(localStorage.getItem('mentorData'));
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
-    const user = mentorDaTa.username;
-    const myArray = user.split('@');
-    const word = myArray[0];
+    // const user = mentorDaTa.username;
+    // const myArray = user.split('@');
+    // const word = myArray[0];
 
     console.log(mentorDaTa, 'data');
 
@@ -204,14 +204,14 @@ const SuccessPage = () => {
                                 >
                                     Whatsapp Number: {mentorDaTa.whatapp_mobile}
                                 </p>
-                                <p
+                                {/* <p
                                     style={{
                                         color: 'gray',
                                         marginBottom: '1rem'
                                     }}
                                 >
                                     Password: {word}
-                                </p>
+                                </p> */}
                                 {/* <p
                                     style={{
                                         color: 'gray',

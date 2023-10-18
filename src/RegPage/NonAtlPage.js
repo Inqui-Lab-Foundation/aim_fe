@@ -51,6 +51,7 @@ function RegisterNew() {
     const [orgNewData, setOrgNewData] = useState([]);
 
     const [textData, setTextData] = useState('');
+    const [schoolname, setSchoolname] = useState('');
     const [btn, setBtn] = useState(true);
     const [error, setError] = useState('');
     const [schoolBtn, setSchoolBtn] = useState(false);
@@ -71,6 +72,8 @@ function RegisterNew() {
     const [disable, setDisable] = useState(false);
     const [timer, setTimer] = useState(0);
     const [or, setOr] = useState('');
+    localStorage.setItem('mentorData', JSON.stringify(mentorData));
+    localStorage.setItem('orgData', JSON.stringify(orgData));
     // const fullDistrictsNames = useSelector(
     //     (state) => state?.studentRegistration?.dists
     // );
@@ -253,7 +256,10 @@ function RegisterNew() {
         className: 'defaultInput'
     };
     const handleOnChange = (e) => {
-        setTextData(e.target.value.trim());
+        setTextData(e.target.value);
+    };
+    const handleOnChangeSchool = (e) => {
+        setSchoolname(e.target.value);
     };
 
     const handleSubmit = (e) => {
@@ -263,7 +269,8 @@ function RegisterNew() {
             pin_code: pinCode,
             category: 'Non ATL',
             organization_code: atlCode,
-            organization_name: orgNewData.organization_name,
+            organization_name: schoolname,
+            // organization_name: orgNewData.organization_name,
             address: textData
         });
         var config = {
@@ -504,7 +511,7 @@ function RegisterNew() {
                     <Row className="article-header mb-4 mt-4 text-center">
                         <h4 className="mb-4">
                             <span className="color-black">
-                                TEACHER REGISTRATION
+                                Non ATL School Registration
                             </span>
                         </h4>
                     </Row>
@@ -513,7 +520,7 @@ function RegisterNew() {
                         <Row className="mt-5">
                             <Col md={12}>
                                 <Row className="align-items-center">
-                                    <Col md={4}>
+                                    <Col md={3}>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fullStatesNames}
@@ -524,7 +531,7 @@ function RegisterNew() {
                                         </div>
                                     </Col>
 
-                                    <Col md={4}>
+                                    <Col md={3}>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterDistData}
@@ -534,7 +541,7 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={3}>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterPinCodeData}
@@ -544,7 +551,7 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={3}>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterAtlCodeData}
@@ -555,7 +562,41 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <div className="form-row row mb-5">
+                                    <div className="form-row row mb-3 mt-5">
+                                        <Col
+                                            className="form-group"
+                                            xs={12}
+                                            sm={12}
+                                            md={12}
+                                            xl={12}
+                                        >
+                                            <Label
+                                                className="mb-2"
+                                                htmlFor="organization_name"
+                                            >
+                                                Enter Your School Name
+                                            </Label>
+                                            <Input
+                                                {...inputField}
+                                                id="organization_name"
+                                                onChange={(e) =>
+                                                    handleOnChangeSchool(e)
+                                                }
+                                                value={schoolname}
+                                                // maxLength={11}
+                                                // minLength={11}
+                                                name="organization_name"
+                                                placeholder="Enter Your School Name"
+                                                className="w-100 mb-3 mb-md-0"
+                                                style={{
+                                                    borderRadius: '0px',
+                                                    padding: '9px 11px'
+                                                    // color: 'red'
+                                                }}
+                                            />
+                                        </Col>
+                                    </div>
+                                    <div className="form-row row mb-3">
                                         <Col
                                             className="form-group"
                                             xs={12}
@@ -567,7 +608,7 @@ function RegisterNew() {
                                                 className="mb-2"
                                                 htmlFor="address"
                                             >
-                                                Address
+                                                Enter Your School Address
                                             </Label>
                                             <Input
                                                 {...inputField}
@@ -576,10 +617,10 @@ function RegisterNew() {
                                                     handleOnChange(e)
                                                 }
                                                 value={textData}
-                                                maxLength={11}
-                                                minLength={11}
+                                                // maxLength={11}
+                                                // minLength={11}
                                                 name="address"
-                                                // placeholder="Enter UDISE Code"
+                                                placeholder="Enter Your School Address"
                                                 className="w-100 mb-3 mb-md-0"
                                                 style={{
                                                     borderRadius: '0px',
@@ -589,18 +630,35 @@ function RegisterNew() {
                                             />
                                         </Col>
                                     </div>
-                                    <Button
-                                        label={'Submit'}
-                                        btnClass={'primary'}
-                                        size="small w-50"
-                                        onClick={(e) => handleSubmit(e)}
-                                        // disabled={
-                                        //     !(
-                                        //         formik.values.otp.length > 5 &&
-                                        //         otpRes == formik.values.otp
-                                        //     )
-                                        // }
-                                    />
+                                    <div className="d-flex justify-content-end mt-4">
+                                        <Button
+                                            label={'PROCEED'}
+                                            btnClass={'primary'}
+                                            shape="btn-square"
+                                            size="small"
+                                            onClick={(e) => handleSubmit(e)}
+                                            // disabled={
+                                            //     !(
+                                            //         formik.values.otp.length > 5 &&
+                                            //         otpRes == formik.values.otp
+                                            //     )
+                                            // }
+                                        />
+                                    </div>
+                                    <div className="form-row row mb-5">
+                                        <p>
+                                            {' '}
+                                            Already a member ?
+                                            <Link
+                                                to={'/teacher'}
+                                                exact
+                                                className=" m-3 text-center"
+                                                style={{ color: 'blue' }}
+                                            >
+                                                Login Here
+                                            </Link>
+                                        </p>
+                                    </div>
                                 </Row>
                             </Col>
                         </Row>
@@ -813,26 +871,26 @@ function RegisterNew() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 7
-                                                            : 6
-                                                    }
+                                                    // xs={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // sm={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // md={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // xl={
+                                                    //     formik.values.title
+                                                    //         ? 7
+                                                    //         : 6
+                                                    // }
                                                     // xs={6}
                                                     // sm={12}
                                                     // md={10}
