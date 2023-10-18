@@ -311,15 +311,15 @@ const ViewTeamMember = (props) => {
                 selector: 'full_name',
                 width: '16rem'
             },
-            {
-                name: 'Email Id',
-                selector: 'user.username',
-                width: '10rem'
-            },
+            // {
+            //     name: 'Email Id',
+            //     selector: 'user.username',
+            //     width: '10rem'
+            // },
             {
                 name: 'Disability',
                 selector: 'disability',
-                width: '10rem'
+                width: '15rem'
             },
             {
                 name: 'Class',

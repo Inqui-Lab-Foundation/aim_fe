@@ -14,11 +14,23 @@ import { useTranslation } from 'react-i18next';
 const CreateTeam = (props) => {
     const currentUser = getCurrentUser('current_user');
     const { t } = useTranslation();
-
+    const inputEmail = {
+        type: 'text',
+        placeholder: 'Enter Email Id',
+        className: 'defaultInput'
+    };
+    const inputUsername = {
+        type: 'text',
+        placeholder: `${t('teacehr_red.faculty_ph')}`,
+        className: 'defaultInput'
+    };
     const formik = useFormik({
         initialValues: {
             teamName: '',
-            mentorData: ''
+            name: '',
+            email: '',
+            gender: '',
+            mobile: ''
         },
 
         validationSchema: Yup.object({
@@ -29,20 +41,37 @@ const CreateTeam = (props) => {
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),
-            mentorData: Yup.string()
+            name: Yup.string()
                 .required('Please enter Mentor Details')
                 .matches(
                     /^[A-Za-z0-9 ]*$/,
                     'Please enter only alphanumeric characters'
                 )
+                .trim(),
+            mobile: Yup.string()
+                .required('required')
                 .trim()
+                .matches(
+                    /^\d+$/,
+                    'Mobile number is not valid (Enter only digits)'
+                )
+                .max(10, 'Please enter only 10 digit valid number')
+                .min(10, 'Number is less than 10 digits'),
+            email: Yup.string()
+                .email('Must be a valid email')
+                .max(255)
+                .required(),
+            gender: Yup.string().required('Please select valid gender')
         }),
 
         onSubmit: (values) => {
             const body = JSON.stringify({
                 mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
                 team_name: values.teamName,
-                mentor_details: values.mentorData
+                moc_name: values.name,
+                moc_gender: values.gender,
+                moc_email: values.email,
+                moc_phone: values.mobile
             });
             var config = {
                 method: 'post',
@@ -123,10 +152,10 @@ const CreateTeam = (props) => {
                                         <Col md={6} className="mb-5 mb-xl-0">
                                             <Label
                                                 className="name-req"
-                                                htmlFor="mentorData"
+                                                htmlFor="name"
                                             >
                                                 {/* {t('teacher_teams.team_name')} */}
-                                                Mentor Details
+                                                Mentor Name
                                                 <span required className="p-1">
                                                     *
                                                 </span>
@@ -134,18 +163,102 @@ const CreateTeam = (props) => {
 
                                             <InputBox
                                                 className={'defaultInput'}
-                                                placeholder="Enter Mentor Details"
-                                                id="mentorData"
-                                                name="mentorData"
+                                                placeholder="Enter Mentor Name"
+                                                id="name"
+                                                name="name"
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                value={formik.values.mentorData}
+                                                value={formik.values.name}
                                             />
 
-                                            {formik.touched.mentorData &&
-                                            formik.errors.mentorData ? (
+                                            {formik.touched.name &&
+                                            formik.errors.name ? (
                                                 <small className="error-cls">
-                                                    {formik.errors.mentorData}
+                                                    {formik.errors.name}
+                                                </small>
+                                            ) : null}
+                                        </Col>
+                                        <Col md={6}>
+                                            <Label
+                                                className="mb-2"
+                                                htmlFor="email"
+                                            >
+                                                Email Address
+                                            </Label>
+                                            <InputBox
+                                                {...inputEmail}
+                                                id="email"
+                                                name="email"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.email}
+                                            />
+
+                                            {formik.touched.email &&
+                                            formik.errors.email ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.email}
+                                                </small>
+                                            ) : null}
+                                        </Col>
+                                        <Col md={6}>
+                                            <Label
+                                                className="mb-2"
+                                                htmlFor="gender"
+                                            >
+                                                {t('teacehr_red.gender')}
+                                            </Label>
+                                            <select
+                                                name="gender"
+                                                // id="gender"
+                                                className="col-8 selectDropdown"
+                                                value={formik.values.gender}
+                                                onBlur={formik.handleBlur}
+                                                onChange={formik.handleChange}
+                                            >
+                                                <option value="">
+                                                    {t(
+                                                        'teacehr_red.teacher_gender'
+                                                    )}
+                                                </option>
+                                                <option value="Male">
+                                                    {t(
+                                                        'teacehr_red.teacher_gender_male'
+                                                    )}
+                                                </option>
+                                                <option value="Female">
+                                                    {t(
+                                                        'teacehr_red.teacher_gender_female'
+                                                    )}
+                                                </option>
+                                            </select>
+                                            {formik.touched.gender &&
+                                            formik.errors.gender ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.gender}
+                                                </small>
+                                            ) : null}
+                                        </Col>
+                                        <Col md={6}>
+                                            <Label
+                                                className="mb-2 mt-3"
+                                                htmlFor="mobile"
+                                            >
+                                                Mobile Number
+                                            </Label>
+                                            <InputBox
+                                                {...inputUsername}
+                                                id="mobile"
+                                                name="mobile"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.mobile}
+                                            />
+
+                                            {formik.touched.mobile &&
+                                            formik.errors.mobile ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.mobile}
                                                 </small>
                                             ) : null}
                                         </Col>
