@@ -15,7 +15,11 @@ const Select = ({ list, setValue, placeHolder, value, drop }) => {
                         key={i}
                         value={drop == 1 ? item.organization_code : item}
                     >
-                        {drop == 1 ? item.organization_code : item}
+                        {drop == 1
+                            ? item.organization_code +
+                              '-' +
+                              item.organization_name
+                            : item}
                     </option>
                 ))
             ) : (

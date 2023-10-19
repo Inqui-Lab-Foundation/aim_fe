@@ -2,7 +2,7 @@
 /* eslint-disable indent */
 /* eslint-disable react/jsx-key */
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardText } from 'reactstrap';
 import { Tabs } from 'antd';
 import Layout from '../Layout';
 import { BsPlusLg } from 'react-icons/bs';
@@ -28,6 +28,7 @@ import { Modal } from 'react-bootstrap';
 // const { TabPane } = Tabs;
 
 const ViewTeamMember = (props) => {
+    // console.log(props, 'props');
     const { t } = useTranslation();
     const currentUser = getCurrentUser('current_user');
     const teamID = JSON.parse(localStorage.getItem('teamId'));
@@ -59,6 +60,7 @@ const ViewTeamMember = (props) => {
     const [teamchangeobj, setteamchangeObj] = useState({});
     const [selectedstudent, setselectedstudent] = useState();
     const [IdeaStatus, setIdeaStatus] = useState('No Idea');
+    const [data, setData] = useState('');
     useEffect(async () => {
         props.getAdminTeamMembersListAction(teamId);
         ideaStatusfun();
@@ -131,7 +133,32 @@ const ViewTeamMember = (props) => {
                 console.log(error);
             });
     };
-
+    useEffect(() => {
+        mentorsData();
+    }, []);
+    const mentorsData = () => {
+        var config = {
+            method: 'get',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                `/teams/teamMentor?team_id=${teamId}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (response) {
+                if (response.status === 200) {
+                    // console.log(response, 'v');
+                    setData(response.data.data[0]);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     const handleDelete = (id) => {
         // here we can delete the team //
         const swalWithBootstrapButtons = Swal.mixin({
@@ -462,7 +489,20 @@ const ViewTeamMember = (props) => {
                 }
             });
     };
-
+    const handleEdit = () => {
+        // alert('hii');
+        history.push({
+            pathname: '/mentor/edit',
+            item: {
+                moc_name: data?.moc_name,
+                moc_gender: data?.moc_gender,
+                moc_email: data?.moc_email,
+                moc_phone: data?.moc_phone,
+                team_name: data?.team_name,
+                team_id: data?.team_id
+            }
+        });
+    };
     return (
         <Layout>
             <Container className="ticket-page mt-5 mb-50 userlist">
@@ -475,8 +515,16 @@ const ViewTeamMember = (props) => {
                         <Col className="ticket-btn col ml-auto ">
                             <div className="d-flex justify-content-end">
                                 <Button
+                                    label="Edit"
+                                    btnClass="primary ml-2 m-5"
+                                    size="small"
+                                    shape="btn-square"
+                                    Icon={BsPlusLg}
+                                    onClick={handleEdit}
+                                />
+                                <Button
                                     label={t('teacher_teams.back')}
-                                    btnClass="primary ml-2"
+                                    btnClass="primary ml-2 m-5"
                                     size="small"
                                     shape="btn-square"
                                     Icon={BsPlusLg}
@@ -484,7 +532,197 @@ const ViewTeamMember = (props) => {
                                         history.push('/teacher/teamlist')
                                     }
                                 />
+                                {/* </div> */}
+                                {/* <div className="d-flex justify-content-end"> */}
                             </div>
+                        </Col>
+                        <Col md={12}>
+                            <Card className="w-100  mb-5 p-4">
+                                <CardBody>
+                                    <Row>
+                                        <Col
+                                            md={8}
+                                            className="border-right my-auto "
+                                        >
+                                            <Row>
+                                                <Col
+                                                    md={7}
+                                                    className="my-auto profile-detail w-100"
+                                                >
+                                                    <CardText>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    Mentor Name
+                                                                </b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_name
+                                                                        ? data?.moc_name
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    Email
+                                                                    Address
+                                                                </b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_email
+                                                                        ? data?.moc_email
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>Gender</b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_gender
+                                                                        ? data?.moc_gender
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>Mobile</b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_phone
+                                                                        ? data?.moc_phone
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>Team Name</b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.team_name
+                                                                        ? data?.team_name
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                    </CardText>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </CardBody>
+                            </Card>
                         </Col>
                     </Row>
                     <div className="ticket-data">
