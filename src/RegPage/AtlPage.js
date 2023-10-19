@@ -186,7 +186,6 @@ function AtlPage() {
                 await axios(config)
                     .then((mentorRegRes) => {
                         if (mentorRegRes?.data?.status == 201) {
-                            // console.log(mentorRegRes, 'Data');
                             setMentorData(mentorRegRes?.data?.data[0]);
                             const successData = {
                                 full_name:
@@ -224,7 +223,6 @@ function AtlPage() {
             }
         }
     });
-    // console.log(formik.values.password, '1');
     const handleRegister = (e) => {
         const body = JSON.stringify({
             organization_code: diesCode
@@ -366,38 +364,6 @@ function AtlPage() {
         <div className="container-fluid  SignUp Login">
             <Row className="row-flex  ">
                 <div className="col-md-6 aside mobile-header">
-                    {/* <div className="row">
-                        <Link to={'/'} exact>
-                            <Col md={12} className=" mr-auto mobile_tab-hide">
-                                {' '}
-                                <h2 className="text-white">
-                                    <img
-                                        src={signuplogo}
-                                        alt="Signup logo"
-                                        className="img-fluid w-50"
-                                    />
-                                </h2>
-                            </Col>
-                        </Link>
-                    </div> */}
-
-                    {/* <h1 className="text-left pb-5 mobile_tab-hide">
-                        {t('login.Title')}
-                    </h1>
-                    <p className="mobile_tab-hide">{t('login.subtitle')}</p>
-                    <div className="mobile_tab-hide">
-                        <figure>
-                            <img
-                                src={image_1}
-                                alt="image_1"
-                                className="img-fluid img-1"
-                            />
-                        </figure>
-                    </div> */}
-                    {/* <h1 className="text-left pb-5 mobile_tab-hide">
-                        {t('login.Title')}
-                    </h1>
-                    <p className="mobile_tab-hide">{t('login.subtitle')}</p> */}
                     <Carousel>
                         <Carousel.Item>
                             <div className="mobile_tab-hide">
@@ -1050,54 +1016,6 @@ function AtlPage() {
                                                         </small>
                                                     ) : null}
                                                 </Col>
-                                                {/* <Row
-                                                    className="form-group mt-3"
-                                                    xs={12}
-                                                    sm={12}
-                                                    md={10}
-                                                    xl={7}
-                                                >
-                                                    <Col
-                                                        xs={10}
-                                                        sm={10}
-                                                        md={8}
-                                                        xl={6}
-                                                    >
-                                                        <p>
-                                                            {' '}
-                                                            Mobile Number Same
-                                                            as WhatsApp Number
-                                                            Click Here !
-                                                        </p>
-                                                    </Col>
-                                                    <Col
-                                                        className="form-group "
-                                                        // xs={12}
-                                                        // sm={12}
-                                                        // md={10}
-                                                        // xl={7}
-                                                        xs={2}
-                                                        sm={2}
-                                                        md={2}
-                                                        xl={1}
-                                                    >
-                                                        <div className="my-10 checkbox-right">
-                                                            <Input
-                                                                type="checkbox"
-                                                                className="mt-3 mb-8 my-10 pb-4 pt-3 "
-                                                                name="click"
-                                                                id="click"
-                                                                onClick={(e) =>
-                                                                    handleCheckbox(
-                                                                        e,
-                                                                        !checkBox
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    
-                                                </Row> */}
                                             </Row>
                                             <div className="mt-5 d-flex align-items-center">
                                                 <Button
@@ -1243,70 +1161,6 @@ function AtlPage() {
                                         </Col>
                                     </div>
                                 )}
-                                {/* {regBtn && (
-                                    <Button
-                                        label="Click Here to Continue"
-                                        btnClass={'primary mt-5'}
-                                        centered
-                                        size="small"
-                                        type="submit"
-                                        onClick={() => {
-                                            history.push('/teacher');
-                                        }}
-                                    />
-                                )} */}
-                                {/* <Modal
-                                    size="lg"
-                                    aria-labelledby="contained-modal-title-vcenter"
-                                    centered
-                                    show={btn}
-                                    className="assign-evaluator ChangePSWModal teacher-register-modal"
-                                    backdrop="static"
-                                >
-                                    <Modal.Header
-                                        closeButton
-                                        onHide={handleClose}
-                                    >
-                                        <Modal.Title
-                                            id="contained-modal-title-vcenter"
-                                            className="w-100 d-block text-center"
-                                        >
-                                            Register
-                                        </Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <div className=" row ">
-                                            <div className="mt-5">
-                                                <figure className="text-center">
-                                                    <img
-                                                        className="img-fluid w-25"
-                                                        src={successIcon}
-                                                        alt="success"
-                                                    />
-                                                    <h3>
-                                                        {t(
-                                                            'teacehr_red.success'
-                                                        )}
-                                                    </h3>
-                                                </figure>
-
-                                                <Button
-                                                    label="Click Here to Continue"
-                                                    btnClass={'primary mt-5'}
-                                                    centered
-                                                    size="small"
-                                                    type="submit"
-                                                    onClick={() => {
-                                                        history.push(
-                                                            '/teacher'
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </Modal.Body>
-                                </Modal> */}
-                                {/* )} */}
                             </Form>
                         </Col>
                     </Row>

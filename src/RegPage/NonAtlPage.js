@@ -50,16 +50,17 @@ function RegisterNew() {
     const [atlCode, setAtlCode] = useState('');
     const [orgNewData, setOrgNewData] = useState([]);
 
+    const [btn, setBtn] = useState(false);
+    const [schoolBtn, setSchoolBtn] = useState(false);
+    const [diceBtn, setDiceBtn] = useState(true);
+
     const [textData, setTextData] = useState('');
     const [schoolname, setSchoolname] = useState('');
-    const [btn, setBtn] = useState(true);
     const [error, setError] = useState('');
-    const [schoolBtn, setSchoolBtn] = useState(false);
     const [btnOtp, setBtnOtp] = useState(false);
     const [otpRes, setOtpRes] = useState('');
     const [errorMsg, setErrorMsg] = useState(false);
     const [mentorData, setMentorData] = useState({});
-    const [diceBtn, setDiceBtn] = useState(true);
     const [checkBox, setCheckBox] = useState(false);
     const [change, setChange] = useState('Send OTP');
     const [wtsNum, setWtsNum] = useState('');
@@ -75,10 +76,7 @@ function RegisterNew() {
     const [orgName, setOrgname] = useState('');
     localStorage.setItem('mentorData', JSON.stringify(mentorData));
     localStorage.setItem('orgData', JSON.stringify(orgData));
-    // const fullDistrictsNames = useSelector(
-    //     (state) => state?.studentRegistration?.dists
-    // );
-    // console.log(orgData.district, '1');
+
     const fullStatesNames = useSelector(
         (state) => state?.studentRegistration?.regstate
     );
@@ -91,17 +89,54 @@ function RegisterNew() {
     const fiterAtlCodeData = useSelector(
         (state) => state?.studentRegistration?.atlcode
     );
-    // console.log(fiterDistData, '1');
     useEffect(() => {
         dispatch(getStateData());
         dispatch(getFetchDistData(stateData));
         dispatch(getPinCodeData(district));
         dispatch(getAtlCodeData(pinCode));
     }, [stateData, district, pinCode]);
+    const handleOnChangeCode = (e) => {
+        setDiesCode(e.target.value.trim());
+        setOrgData();
+        setError('');
+    };
+    const handleRegister = (e) => {
+        const body = JSON.stringify({
+            unique_code: diesCode
+        });
+        var config = {
+            method: 'post',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                '/organizations/checkUniqueCode',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: body
+        };
+        axios(config)
+            .then(function (response) {
+                if (response?.status == 200) {
+                    setError(
+                        'Another Teacher is already registered in given School'
+                    );
+                    setDiceBtn(true);
+                    setBtn(false);
+                }
+            })
+            .catch(function (error) {
+                if (error?.response?.data?.status === 404) {
+                    setBtn(true);
+                    setDiceBtn(false);
+                }
+            });
+
+        e.preventDefault();
+    };
     const formik = useFormik({
         initialValues: {
             full_name: '',
-            organization_code: diesCode,
+            organization_code: atlCode,
             // username: '',
             mobile: '',
             whatapp_mobile: '',
@@ -170,7 +205,7 @@ function RegisterNew() {
                 // values.password = encrypted;
                 const body = JSON.stringify({
                     full_name: values.full_name.trim(),
-                    organization_code: values.organization_code.trim(),
+                    organization_code: atlCode,
                     mobile: values.mobile.trim(),
                     whatapp_mobile: values.whatapp_mobile.trim(),
                     username: values.email.trim(),
@@ -192,10 +227,11 @@ function RegisterNew() {
 
                     data: body
                 };
+                console.log(body);
+
                 await axios(config)
                     .then((mentorRegRes) => {
                         if (mentorRegRes?.data?.status == 201) {
-                            // console.log(mentorRegRes, 'Data');
                             setMentorData(mentorRegRes?.data?.data[0]);
                             const successData = {
                                 full_name:
@@ -233,6 +269,7 @@ function RegisterNew() {
             }
         }
     });
+
     const inputField = {
         type: 'text',
         className: 'defaultInput'
@@ -264,7 +301,6 @@ function RegisterNew() {
     const handleOnChangeSchool = (e) => {
         setSchoolname(e.target.value);
     };
-    console.log(orgData, 'data');
     const handleSubmit = (e) => {
         const body = {
             state: stateData,
@@ -273,58 +309,12 @@ function RegisterNew() {
             category: 'Non ATL',
             organization_code: atlCode,
             organization_name: schoolname,
-            // organization_name: orgNewData.organization_name,
+
             address: textData
         };
         setOrgData(body);
         setBtn(false);
         setSchoolBtn(true);
-        // var config = {
-        //     method: 'post',
-        //     url:
-        //         process.env.REACT_APP_API_BASE_URL +
-        //         '/organizations/createOrg?nonatlcode=true',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     data: body
-        // };
-        // axios(config)
-        //     .then(function (response) {
-        //     se
-
-        // if (response?.status == 201) {
-        //     console.log(response, 'data1');
-
-        //     // if (
-        //     //     response?.data?.data[0].mentor != null &&
-        //     //     process.env.REACT_APP_USEDICECODE == 1
-        //     // ) {
-        //     //     setError(
-        //     //         'Another Teacher is already registered in given School'
-        //     //     );
-        //     // } else {
-        //     //     if (Object.keys(response?.data?.data[0]).length) {
-        //     //         setOrgData(response?.data?.data[0]);
-        //     //         formik.setFieldValue(
-        //     //             'organization_code',
-        //     //             response?.data?.data[0].organization_code
-        //     //         );
-
-        //     //         setBtn(false);
-        //     //         setSchoolBtn(true);
-        //     //     } else {
-        //     //         setError('Oops..! UDISE Code seems incorrect');
-        //     //     }
-        //     // }
-        // }
-        // setOrgData(response?.data?.data);
-        // console.log(orgData.district);
-        // })
-
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
 
         e.preventDefault();
     };
@@ -336,7 +326,7 @@ function RegisterNew() {
             category: 'Non ATL',
             organization_code: atlCode,
             organization_name: schoolname,
-            // organization_name: orgNewData.organization_name,
+            unique_code: diesCode,
             address: textData
         });
         var config = {
@@ -351,40 +341,13 @@ function RegisterNew() {
         };
         axios(config)
             .then(function (response) {
-                // console.log(response, 'data');
                 if (response?.status == 201) {
-                    console.log(response, 'data');
-                    // if (
-                    //     response?.data?.data[0].mentor != null &&
-                    //     process.env.REACT_APP_USEDICECODE == 1
-                    // ) {
-                    //     setError(
-                    //         'Another Teacher is already registered in given School'
-                    //     );
-                    // } else {
-                    //     if (Object.keys(response?.data?.data[0]).length) {
-                    //         // setOrgData(response?.data?.data[0]);
-                    //         // formik.setFieldValue(
-                    //         //     'organization_code',
-                    //         //     response?.data?.data[0].organization_code
-                    //         // );
-
-                    //         // setBtn(false);
-                    //         setSchoolBtn(true);
-                    //     } else {
-                    //         setError('Oops..! UDISE Code seems incorrect');
-                    //     }
-                    // }
                 }
-                // setOrgData(response?.data?.data);
-                // console.log(orgData.district);
             })
 
             .catch(function (error) {
                 console.log(error);
             });
-
-        e.preventDefault();
     };
     useEffect(() => {
         const updatedData = [...fiterAtlCodeData];
@@ -392,7 +355,6 @@ function RegisterNew() {
             fiterAtlCodeData.length > 0 &&
             fiterAtlCodeData.findIndex((x) => x.organization_code == atlCode);
         if (index !== -1) {
-            // console.log('v', updatedData[index], index);
             setOrgNewData(fiterAtlCodeData[index]);
         }
     }, [atlCode]);
@@ -489,38 +451,6 @@ function RegisterNew() {
         <div className="container-fluid  SignUp Login">
             <Row className="row-flex  ">
                 <div className="col-md-6 aside mobile-header">
-                    {/* <div className="row">
-                        <Link to={'/'} exact>
-                            <Col md={12} className=" mr-auto mobile_tab-hide">
-                                {' '}
-                                <h2 className="text-white">
-                                    <img
-                                        src={signuplogo}
-                                        alt="Signup logo"
-                                        className="img-fluid w-50"
-                                    />
-                                </h2>
-                            </Col>
-                        </Link>
-                    </div> */}
-
-                    {/* <h1 className="text-left pb-5 mobile_tab-hide">
-                        {t('login.Title')}
-                    </h1>
-                    <p className="mobile_tab-hide">{t('login.subtitle')}</p>
-                    <div className="mobile_tab-hide">
-                        <figure>
-                            <img
-                                src={image_1}
-                                alt="image_1"
-                                className="img-fluid img-1"
-                            />
-                        </figure>
-                    </div> */}
-                    {/* <h1 className="text-left pb-5 mobile_tab-hide">
-                        {t('login.Title')}
-                    </h1>
-                    <p className="mobile_tab-hide">{t('login.subtitle')}</p> */}
                     <Carousel>
                         <Carousel.Item>
                             <div className="mobile_tab-hide">
@@ -581,7 +511,81 @@ function RegisterNew() {
                             </span>
                         </h4>
                     </Row>
+                    {diceBtn && (
+                        <div className="form-row row mb-5">
+                            <Col
+                                className="form-group"
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                xl={12}
+                            >
+                                <Label
+                                    className="mb-2"
+                                    htmlFor="organization_code"
+                                >
+                                    {/* {t('teacehr_red.UDISE')} */}
+                                    UDICE Code
+                                </Label>
+                                <Input
+                                    {...inputField}
+                                    id="organization_code"
+                                    onChange={(e) => handleOnChangeCode(e)}
+                                    value={diesCode}
+                                    maxLength={11}
+                                    minLength={11}
+                                    name="organization_code"
+                                    placeholder="Enter UDICE Code"
+                                    className="w-100 mb-3 mb-md-0"
+                                    style={{
+                                        borderRadius: '0px',
+                                        padding: '9px 11px'
+                                        // color: 'red'
+                                    }}
+                                />
+                                {error ? (
+                                    <p
+                                        style={{
+                                            color: 'red'
+                                        }}
+                                    >
+                                        {error}
+                                    </p>
+                                ) : null}
 
+                                {diceBtn && (
+                                    <div className="mt-4">
+                                        <Button
+                                            label={t('teacehr_red.continue')}
+                                            btnClass={
+                                                !diesCode.length
+                                                    ? 'default rounded-0'
+                                                    : 'primary rounded-0'
+                                            }
+                                            size="small"
+                                            onClick={(e) => handleRegister(e)}
+                                        />
+                                    </div>
+                                )}
+                                <div className="form-row row mb-5 mt-5">
+                                    <p>
+                                        {' '}
+                                        Already a member ?
+                                        <Link
+                                            to={'/teacher'}
+                                            exact
+                                            className=" m-3 text-center"
+                                            style={{
+                                                color: 'blue'
+                                            }}
+                                        >
+                                            Login Here
+                                        </Link>
+                                    </p>
+                                </div>
+                            </Col>
+                        </div>
+                    )}
                     {btn && (
                         <Row className="mt-5">
                             <Col md={12}>
@@ -649,8 +653,6 @@ function RegisterNew() {
                                                     handleOnChangeSchool(e)
                                                 }
                                                 value={schoolname}
-                                                // maxLength={11}
-                                                // minLength={11}
                                                 name="organization_name"
                                                 placeholder="Enter Your School Name"
                                                 className="w-100 mb-3 mb-md-0"
@@ -683,8 +685,6 @@ function RegisterNew() {
                                                     handleOnChange(e)
                                                 }
                                                 value={textData}
-                                                // maxLength={11}
-                                                // minLength={11}
                                                 name="address"
                                                 placeholder="Enter Your School Address"
                                                 className="w-100 mb-3 mb-md-0"
@@ -703,12 +703,6 @@ function RegisterNew() {
                                             shape="btn-square"
                                             size="small"
                                             onClick={(e) => handleSubmit(e)}
-                                            // disabled={
-                                            //     !(
-                                            //         formik.values.otp.length > 5 &&
-                                            //         otpRes == formik.values.otp
-                                            //     )
-                                            // }
                                         />
                                     </div>
                                     <div className="form-row row mb-5">
@@ -747,11 +741,11 @@ function RegisterNew() {
                                         >
                                             {t('teacehr_red.school')}:{' '}
                                             {orgData?.organization_name} <br />
-                                            {t('teacehr_red.city')}:{' '}
+                                            {/* {t('teacehr_red.city')}:{' '}
                                             {orgData?.city
                                                 ? orgData?.city
                                                 : ' N/A'}{' '}
-                                            <br />
+                                            <br /> */}
                                             {t('teacehr_red.district')}:{' '}
                                             {orgData?.district
                                                 ? orgData?.district
@@ -1223,54 +1217,6 @@ function RegisterNew() {
                                                         </small>
                                                     ) : null}
                                                 </Col>
-                                                {/* <Row
-                                                    className="form-group mt-3"
-                                                    xs={12}
-                                                    sm={12}
-                                                    md={10}
-                                                    xl={7}
-                                                >
-                                                    <Col
-                                                        xs={10}
-                                                        sm={10}
-                                                        md={8}
-                                                        xl={6}
-                                                    >
-                                                        <p>
-                                                            {' '}
-                                                            Mobile Number Same
-                                                            as WhatsApp Number
-                                                            Click Here !
-                                                        </p>
-                                                    </Col>
-                                                    <Col
-                                                        className="form-group "
-                                                        // xs={12}
-                                                        // sm={12}
-                                                        // md={10}
-                                                        // xl={7}
-                                                        xs={2}
-                                                        sm={2}
-                                                        md={2}
-                                                        xl={1}
-                                                    >
-                                                        <div className="my-10 checkbox-right">
-                                                            <Input
-                                                                type="checkbox"
-                                                                className="mt-3 mb-8 my-10 pb-4 pt-3 "
-                                                                name="click"
-                                                                id="click"
-                                                                onClick={(e) =>
-                                                                    handleCheckbox(
-                                                                        e,
-                                                                        !checkBox
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    
-                                                </Row> */}
                                             </Row>
                                             <div className="mt-5 d-flex align-items-center">
                                                 <Button
