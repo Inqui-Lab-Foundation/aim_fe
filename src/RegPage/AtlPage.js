@@ -19,7 +19,7 @@ import * as Yup from 'yup';
 import { Button } from '../stories/Button';
 import { URL, KEY } from '../constants/defaultValues';
 import { Modal } from 'react-bootstrap';
-import './dropDown.scss';
+// import './dropDown.scss';
 import { getNormalHeaders, openNotificationWithIcon } from '../helpers/Utils';
 
 import axios from 'axios';
@@ -28,7 +28,7 @@ import OtpInput from 'react-otp-input-rc-17';
 import { useHistory } from 'react-router-dom';
 import { isDisabled } from '@testing-library/user-event/dist/utils';
 
-function RegisterNew() {
+function AtlPage() {
     const { t } = useTranslation();
     const history = useHistory();
     const [diesCode, setDiesCode] = useState('');
@@ -85,12 +85,17 @@ function RegisterNew() {
         placeholder: `${t('teacehr_red.faculty_mobile')}`,
         className: 'defaultInput'
     };
+    const inputEmail = {
+        type: 'text',
+        placeholder: 'Enter Email Id',
+        className: 'defaultInput'
+    };
 
     const formik = useFormik({
         initialValues: {
             full_name: '',
             organization_code: diesCode,
-            username: '',
+            // username: '',
             mobile: '',
             whatapp_mobile: '',
             role: 'MENTOR',
@@ -100,6 +105,7 @@ function RegisterNew() {
             password: '',
             gender: '',
             title: '',
+            email: '',
             click: false,
             checkbox: false
         },
@@ -110,7 +116,7 @@ function RegisterNew() {
                 .min(2, 'Enter Name')
                 .matches(/^[aA-zZ\s]+$/, 'Special Characters are not allowed')
                 .required('Required'),
-            username: Yup.string()
+            mobile: Yup.string()
                 .required('required')
                 .trim()
                 .matches(
@@ -119,6 +125,7 @@ function RegisterNew() {
                 )
                 .max(10, 'Please enter only 10 digit valid number')
                 .min(10, 'Number is less than 10 digits'),
+            email: Yup.string().email('Must be a valid email').max(255),
             whatapp_mobile: Yup.string()
                 .required('required')
                 .trim()
@@ -138,14 +145,16 @@ function RegisterNew() {
                 setErrorMsg(true);
             } else {
                 const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-                var pass = values.username.trim();
+                var pass = values.email.trim();
+                var myArray = pass.split('@');
+                let word = myArray[0];
                 const key = CryptoJS.enc.Hex.parse(
                     '253D3FB468A0E24677C28A624BE0F939'
                 );
                 const iv = CryptoJS.enc.Hex.parse(
                     '00000000000000000000000000000000'
                 );
-                const encrypted = CryptoJS.AES.encrypt(pass, key, {
+                const encrypted = CryptoJS.AES.encrypt(word, key, {
                     iv: iv,
                     padding: CryptoJS.pad.NoPadding
                 }).toString();
@@ -155,7 +164,7 @@ function RegisterNew() {
                     organization_code: values.organization_code.trim(),
                     mobile: values.mobile.trim(),
                     whatapp_mobile: values.whatapp_mobile.trim(),
-                    username: values.username.trim(),
+                    username: values.email.trim(),
                     qualification: values.qualification.trim(),
                     role: values.role.trim(),
                     gender: values.gender,
@@ -190,12 +199,13 @@ function RegisterNew() {
                                 gender: mentorRegRes?.data?.data[0].gender,
                                 title: mentorRegRes?.data?.data[0].title,
                                 mobile: mentorRegRes?.data?.data[0].mobile,
+                                username: mentorRegRes?.data?.data[0].email,
                                 whatapp_mobile:
                                     mentorRegRes?.data?.data[0].whatapp_mobile
                             };
                             // setBtn(true);
                             history.push({
-                                pathname: '/success',
+                                pathname: '/successScreen',
                                 data: successData
                             });
                         }
@@ -214,7 +224,7 @@ function RegisterNew() {
             }
         }
     });
-
+    // console.log(formik.values.password, '1');
     const handleRegister = (e) => {
         const body = JSON.stringify({
             organization_code: diesCode
@@ -265,7 +275,7 @@ function RegisterNew() {
     const handleSendOtp = async (e) => {
         setHoldKey(true);
         setDisable(false);
-        formik.setFieldValue('mobile', formik.values.username);
+        formik.setFieldValue('mobile', formik.values.mobile);
         setTimer(timer + 1);
         setSec(59);
         setCounter(59);
@@ -283,7 +293,7 @@ function RegisterNew() {
             setTimer(0);
         }, 60000);
         const body = JSON.stringify({
-            mobile: formik.values.username
+            username: formik.values.email
         });
         var config = {
             method: 'post',
@@ -296,7 +306,7 @@ function RegisterNew() {
         axios(config).then(function (response) {
             if (response.status === 202) {
                 setOtpRes(response?.data?.data);
-                openNotificationWithIcon('success', 'Otp send to mobile');
+                openNotificationWithIcon('success', 'Otp send to Email Id');
                 setBtnOtp(true);
             }
         });
@@ -313,7 +323,8 @@ function RegisterNew() {
             formik.values.title.length > 0 &&
             formik.values.full_name.length > 0 &&
             formik.values.gender.length > 0 &&
-            formik.values.username.length > 0 &&
+            formik.values.mobile.length > 0 &&
+            formik.values.email.length > 0 &&
             formik.values.whatapp_mobile.length > 0
         ) {
             setDisable(true);
@@ -325,6 +336,8 @@ function RegisterNew() {
         formik.values.full_name,
         formik.values.gender,
         formik.values.username,
+        formik.values.email,
+
         formik.values.whatapp_mobile
     ]);
 
@@ -336,8 +349,8 @@ function RegisterNew() {
     const handleCheckbox = (e, click) => {
         if (click) {
             setCheckBox(click);
-            formik.setFieldValue('whatapp_mobile', formik.values.username);
-            setWtsNum(formik.values.username);
+            formik.setFieldValue('whatapp_mobile', formik.values.mobile);
+            setWtsNum(formik.values.mobile);
         } else {
             setCheckBox(click);
             formik.setFieldValue('whatapp_mobile', '');
@@ -347,7 +360,7 @@ function RegisterNew() {
     useEffect(() => {
         setCheckBox(false);
         formik.setFieldValue('whatapp_mobile', '');
-    }, [formik.values.username.length == 0]);
+    }, [formik.values.mobile.length == 0]);
 
     return (
         <div className="container-fluid  SignUp Login">
@@ -462,7 +475,8 @@ function RegisterNew() {
                                                 className="mb-2"
                                                 htmlFor="organization_code"
                                             >
-                                                {t('teacehr_red.UDISE')}
+                                                {/* {t('teacehr_red.UDISE')} */}
+                                                ATL Code
                                             </Label>
                                             <Input
                                                 {...inputField}
@@ -474,7 +488,7 @@ function RegisterNew() {
                                                 maxLength={11}
                                                 minLength={11}
                                                 name="organization_code"
-                                                placeholder="Enter UDISE Code"
+                                                placeholder="Enter ATL Code"
                                                 className="w-100 mb-3 mb-md-0"
                                                 style={{
                                                     borderRadius: '0px',
@@ -560,6 +574,21 @@ function RegisterNew() {
                                                         {orgData?.district
                                                             ? orgData?.district
                                                             : ' N/A'}
+                                                        <br />
+                                                        {t('teacehr_red.state')}
+                                                        :{' '}
+                                                        {orgData?.state
+                                                            ? orgData?.state
+                                                            : ' N/A'}{' '}
+                                                        <br />
+                                                        {t(
+                                                            'teacehr_red.pincode'
+                                                        )}
+                                                        :{' '}
+                                                        {orgData?.pin_code
+                                                            ? orgData?.pin_code
+                                                            : ' N/A'}{' '}
+                                                        <br />
                                                     </UncontrolledAlert>
                                                 </Label>
                                             </Col>
@@ -727,6 +756,70 @@ function RegisterNew() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
+                                                    xs={
+                                                        formik.values.title
+                                                            ? 8
+                                                            : 7
+                                                    }
+                                                    sm={
+                                                        formik.values.title
+                                                            ? 8
+                                                            : 7
+                                                    }
+                                                    md={
+                                                        formik.values.title
+                                                            ? 8
+                                                            : 7
+                                                    }
+                                                    xl={
+                                                        formik.values.title
+                                                            ? 7
+                                                            : 6
+                                                    }
+                                                    // xs={6}
+                                                    // sm={12}
+                                                    // md={10}
+                                                    // xl={7}
+                                                >
+                                                    <Label
+                                                        className="mb-2"
+                                                        htmlFor="email"
+                                                    >
+                                                        Email Address
+                                                    </Label>
+                                                    <InputBox
+                                                        {...inputEmail}
+                                                        id="email"
+                                                        isDisabled={
+                                                            holdKey
+                                                                ? true
+                                                                : false
+                                                        }
+                                                        name="email"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        onBlur={
+                                                            formik.handleBlur
+                                                        }
+                                                        value={
+                                                            formik.values.email
+                                                        }
+                                                    />
+
+                                                    {formik.touched.email &&
+                                                    formik.errors.email ? (
+                                                        <small className="error-cls">
+                                                            {
+                                                                formik.errors
+                                                                    .email
+                                                            }
+                                                        </small>
+                                                    ) : null}
+                                                </Col>
+
+                                                <Col
+                                                    className="form-group"
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
@@ -816,13 +909,13 @@ function RegisterNew() {
                                                     </Label>
                                                     <InputBox
                                                         {...inputUsername}
-                                                        id="username"
+                                                        id="mobile"
                                                         isDisabled={
                                                             holdKey
                                                                 ? true
                                                                 : false
                                                         }
-                                                        name="username"
+                                                        name="mobile"
                                                         onChange={
                                                             formik.handleChange
                                                         }
@@ -830,17 +923,16 @@ function RegisterNew() {
                                                             formik.handleBlur
                                                         }
                                                         value={
-                                                            formik.values
-                                                                .username
+                                                            formik.values.mobile
                                                         }
                                                     />
 
-                                                    {formik.touched.username &&
-                                                    formik.errors.username ? (
+                                                    {formik.touched.mobile &&
+                                                    formik.errors.mobile ? (
                                                         <small className="error-cls">
                                                             {
                                                                 formik.errors
-                                                                    .username
+                                                                    .mobile
                                                             }
                                                         </small>
                                                     ) : null}
@@ -890,7 +982,7 @@ function RegisterNew() {
                                                                 disabled={
                                                                     (formik
                                                                         .values
-                                                                        .username
+                                                                        .mobile
                                                                         .length >
                                                                     0
                                                                         ? false
@@ -917,8 +1009,8 @@ function RegisterNew() {
                                                         id="whatapp_mobile"
                                                         isDisabled={
                                                             (formik.values
-                                                                .username
-                                                                .length > 0
+                                                                .mobile.length >
+                                                            0
                                                                 ? false
                                                                 : true) ||
                                                             (holdKey
@@ -1217,4 +1309,4 @@ function RegisterNew() {
     );
 }
 
-export default RegisterNew;
+export default AtlPage;

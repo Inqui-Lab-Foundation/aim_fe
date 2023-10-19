@@ -56,16 +56,17 @@ const LoginNew = (props) => {
         },
 
         validationSchema: Yup.object({
-            phone: Yup.string()
-                .required('required')
-                // .trim()
-                .matches(
-                    /^[0-9\s/^ *$/]+$/,
-                    'Enter Valid Phone No (Enter only digits) '
-                )
-                // .matches(/^$|^[1-9]\d*$/, 'Mobile number is not valid')
-                .max(10, 'Please enter only 10 digit valid number')
-                .min(10, 'Number is less than 10 digits'),
+            // phone: Yup.string()
+            //     .required('required')
+            //     // .trim()
+            //     .matches(
+            //         /^[0-9\s/^ *$/]+$/,
+            //         'Enter Valid Phone No (Enter only digits) '
+            //     )
+            //     // .matches(/^$|^[1-9]\d*$/, 'Mobile number is not valid')
+            //     .max(10, 'Please enter only 10 digit valid number')
+            //     .min(10, 'Number is less than 10 digits'),
+            phone: Yup.string().email('Must be a valid email').max(255),
             password: Yup.string().required('Required password').trim()
         }),
         // TEACHER ROLE
@@ -228,14 +229,14 @@ const LoginNew = (props) => {
                                                 className="mb-2"
                                                 htmlFor="phone"
                                             >
-                                                Mobile Number
+                                                Email Address
                                             </Label>
                                             <InputBox
                                                 {...inputUserId}
                                                 id="phone"
                                                 name="phone"
-                                                maxLength={10}
-                                                minLength={10}
+                                                // maxLength={10}
+                                                // minLength={10}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.phone}
@@ -342,7 +343,7 @@ const LoginNew = (props) => {
                                     </div>
                                     <div className="form-row row mb-5">
                                         <Link
-                                            to={'/register'}
+                                            to={'/registration'}
                                             exact
                                             className="w-100 d-block text-center"
                                         >

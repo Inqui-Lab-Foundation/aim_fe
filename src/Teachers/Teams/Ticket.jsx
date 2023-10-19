@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, List, Label, Card } from 'reactstrap';
-import { Tabs} from 'antd';
+import { Tabs } from 'antd';
 import Layout from '../Layout';
 import { BsPlusLg } from 'react-icons/bs';
 import { Button } from '../../stories/Button';
@@ -48,6 +48,7 @@ const TicketsPage = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
+                    console.log(response, '1');
                     setTeamsList(response.data.data);
                 }
             })
@@ -66,26 +67,46 @@ const TicketsPage = () => {
         setTeamsArray(teamsArrays);
         setLoading(false);
     }, [teamsList]);
-
+    // console.log(teamsArray, '1');
     const adminTeamsList = {
         data: teamsArray,
         columns: [
             {
                 name: t('teacher_teams.s_no'),
                 selector: 'key',
-                width: '12rem'
+                width: '6rem'
             },
             {
                 name: t('teacher_teams.team_name'),
                 selector: 'team_name',
                 sortable: true,
                 // maxlength: '5',
-                width: '43rem'
+                width: '20rem'
             },
+            // {
+            //     name: 'MentorName',
+            //     selector: 'moc_name',
+            //     width: '20rem'
+            // },
+            // {
+            //     name: 'Gender',
+            //     selector: 'moc_gender',
+            //     width: '10rem'
+            // },
+            // {
+            //     name: 'Mobile No',
+            //     selector: 'moc_phone',
+            //     width: '20rem'
+            // },
+            // {
+            //     name: 'Email Id',
+            //     selector: 'moc_email',
+            //     width: '20rem'
+            // },
             {
-                name: t('teacher_teams.team_members_count'),
+                name: 'Team Count',
                 selector: 'StudentCount',
-                width: '23rem'
+                width: '15rem'
             },
             {
                 name: t('teacher_teams.actions'),
@@ -100,7 +121,7 @@ const TicketsPage = () => {
                             )}
                         </div>,
                         <div key={params} onClick={() => handleView(params)}>
-                            {!params.StudentCount < 1 && (
+                            {!params.StudentCount < 4 && (
                                 <div className="btn btn-primary  mr-5">
                                     {t('teacher_teams.view')}
                                 </div>
@@ -134,11 +155,11 @@ const TicketsPage = () => {
     };
     const handleView = (item) => {
         // here item = team member details  //
-        item['mentorid']=currentUser?.data[0]?.mentor_id;
+        item['mentorid'] = currentUser?.data[0]?.mentor_id;
         history.push({
             pathname: '/teacher/view-team-member',
             item: item,
-            mentorid :currentUser?.data[0]?.mentor_id
+            mentorid: currentUser?.data[0]?.mentor_id
         });
         localStorage.setItem('teamId', JSON.stringify(item));
     };

@@ -8,24 +8,74 @@ import { Col, Container, Row, CardBody, CardText } from 'reactstrap';
 import { getCurrentUser } from '../../helpers/Utils';
 import Layout from '../Layout';
 import DoughnutChart from './DoughnutChart';
+import { Modal } from 'react-bootstrap';
+
 // import LatestNewsNew from './LatestNewsNew';
 import LatestScrollNew from './LatestScrollNew';
 
 import { Card } from 'react-bootstrap';
 import axios from 'axios';
+const GreetingModal = (props) => {
+    return (
+        <Modal
+            show={props.show}
+            size="lg"
+            centered
+            className="modal-popup text-center"
+            onHide={props.handleClose}
+            backdrop={true}
+        >
+            <Modal.Header closeButton></Modal.Header>
+
+            <Modal.Body>
+                <figure>
+                    <img
+                        src={props.imgUrl}
+                        alt="popup image"
+                        className="img-fluid"
+                    />
+                </figure>
+            </Modal.Body>
+        </Modal>
+    );
+};
 const Dashboard = () => {
+    const [showsPopup, setShowsPopup] = useState(false);
+    const [imgUrl, setImgUrl] = useState('');
+
     // here we can see teacher details //
     // details like school name ,district ,no of ideas , no of teams //
     const currentUser = getCurrentUser('current_user');
-    const presurveyStatus = useSelector(
-        (state) => state?.mentors.teacherPresurveyStatus
-    );
-    const history = useHistory();
-    useLayoutEffect(() => {
-        if (presurveyStatus !== 'COMPLETED')
-            history.push('/teacher/pre-survey');
+    // const presurveyStatus = useSelector(
+    //     (state) => state?.mentors.teacherPresurveyStatus
+    // );
+    // const history = useHistory();
+    // useLayoutEffect(() => {
+    //     if (presurveyStatus !== 'COMPLETED')
+    //         history.push('/teacher/pre-survey');
+    // }, []);
+    useEffect(() => {
+        var config = {
+            method: 'get',
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/1`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (res) {
+                if (res.status === 200 && res.data.data[0]?.on_off === '1') {
+                    setShowsPopup(true);
+                    setImgUrl(res?.data?.data[0]?.url);
+                }
+            })
+            .catch(function (error) {
+                setShowsPopup(false);
+                console.log(error);
+            });
     }, []);
-
     useEffect(() => {
         if (currentUser?.data[0]?.user_id) {
             mentorTeamsCount();
@@ -134,10 +184,17 @@ const Dashboard = () => {
                 console.log(error);
             });
     };
-
+    const handleClose = () => {
+        setShowsPopup(false);
+    };
     const hi = false;
     return (
         <Layout>
+            <GreetingModal
+                handleClose={handleClose}
+                show={showsPopup}
+                imgUrl={imgUrl}
+            ></GreetingModal>
             <Container>
                 <h2 className="mb-5 ">
                     <strong>Dashboard</strong>
