@@ -127,13 +127,23 @@ const CreateMultipleMembers = ({ id }) => {
                     err['full_name'] = 'Only alphanumeric are allowed';
                 }
             }
+
             if (!item.username.trim()) err['username'] = 'Email is Required';
-            if (item.username && item.username.match(emailRegex)) {
-                const { index } = item.username.match(emailRegex);
-                if (index) {
+            if (item.username) {
+                const start = item.username.lastIndexOf('@');
+                const main = item.username.substring(start);
+                const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
+                const text = checkarry.includes(main);
+                if (!text) {
                     err['username'] = 'Enter Valid Mail Id';
                 }
             }
+            // if (item.username && item.username.match(emailRegex)) {
+            //     const { index } = item.username.match(emailRegex);
+            //     if (index) {
+            //         err['username'] = 'Enter Valid Mail Id';
+            //     }
+            // }
             if (!item.Age) err['Age'] = 'Age is Required';
 
             if (!item.disability) err['disability'] = ' Status is Required';
@@ -642,7 +652,7 @@ const CreateTeamMember = (props) => {
                                 >
                                     <div className="create-ticket register-blockt">
                                         <Row>
-                                            <Col md={4}>
+                                            <Col md={6}>
                                                 <Label
                                                     className="name-req-create-member"
                                                     htmlFor="fullName"
@@ -679,7 +689,7 @@ const CreateTeamMember = (props) => {
                                                     </small>
                                                 ) : null}
                                             </Col>
-                                            <Col md={2} className="mb-0">
+                                            <Col md={3} className="mb-0">
                                                 <Label
                                                     className="name-req-create-member"
                                                     htmlFor="age"
@@ -729,63 +739,7 @@ const CreateTeamMember = (props) => {
                                                     </small>
                                                 ) : null}
                                             </Col>
-                                            <Col md={3}>
-                                                <Label
-                                                    className="name-req-create-member"
-                                                    htmlFor="grade"
-                                                >
-                                                    Class
-                                                    <span
-                                                        required
-                                                        className="p-1"
-                                                    >
-                                                        *
-                                                    </span>
-                                                </Label>
-                                                <div className="dropdown CalendarDropdownComp ">
-                                                    <select
-                                                        name="grade"
-                                                        className="form-control custom-dropdown"
-                                                        value={
-                                                            formik.values.grade
-                                                        }
-                                                        onChange={
-                                                            formik.handleChange
-                                                        }
-                                                    >
-                                                        <option value="">
-                                                            Select Class..
-                                                        </option>
-                                                        <option value="6">
-                                                            Class 6
-                                                        </option>
-                                                        <option value="7">
-                                                            Class 7
-                                                        </option>
-                                                        <option value="8">
-                                                            Class 8
-                                                        </option>
-                                                        <option value="9">
-                                                            Class 9
-                                                        </option>
-                                                        <option value="10">
-                                                            Class 10
-                                                        </option>
-                                                        <option value="11">
-                                                            Class 11
-                                                        </option>
-                                                        <option value="12">
-                                                            Class 12
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                {formik.touched.grade &&
-                                                formik.errors.grade ? (
-                                                    <small className="error-cls">
-                                                        {formik.errors.grade}
-                                                    </small>
-                                                ) : null}
-                                            </Col>
+
                                             <Col
                                                 md={3}
                                                 className="mb-5 mb-xl-0"
@@ -838,117 +792,192 @@ const CreateTeamMember = (props) => {
                                                     </small>
                                                 ) : null}
                                             </Col>
-                                            <Col
-                                                md={3}
-                                                className="mb-5 mb-xl-0"
-                                            >
-                                                <Label
-                                                    className="name-req-create-member"
-                                                    htmlFor="username"
+                                            <Row>
+                                                <Col
+                                                    md={6}
+                                                    className="mb-5 mb-xl-0"
                                                 >
-                                                    Email Address
-                                                    {/* {t(
+                                                    <Label
+                                                        className="name-req-create-member"
+                                                        htmlFor="username"
+                                                    >
+                                                        Email Address
+                                                        {/* {t(
                                                         'teacher_teams.student_name'
                                                     )} */}
-                                                    <span
-                                                        required
-                                                        className="p-1"
-                                                    >
-                                                        *
-                                                    </span>
-                                                </Label>
-                                                <InputBox
-                                                    className={'defaultInput'}
-                                                    placeholder="Enter Email Address"
-                                                    id="username"
-                                                    name="username"
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                    onBlur={formik.handleBlur}
-                                                    value={
-                                                        formik.values.username
-                                                    }
-                                                />
+                                                        <span
+                                                            required
+                                                            className="p-1"
+                                                        >
+                                                            *
+                                                        </span>
+                                                    </Label>
+                                                    <InputBox
+                                                        className={
+                                                            'defaultInput'
+                                                        }
+                                                        placeholder="Enter Email Address"
+                                                        id="username"
+                                                        name="username"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        onBlur={
+                                                            formik.handleBlur
+                                                        }
+                                                        value={
+                                                            formik.values
+                                                                .username
+                                                        }
+                                                    />
 
-                                                {formik.touched.username &&
-                                                formik.errors.username ? (
-                                                    <small className="error-cls">
-                                                        {formik.errors.username}
-                                                    </small>
-                                                ) : null}
-                                            </Col>
-                                            <Col
-                                                md={3}
-                                                className="mb-5 mb-xl-0"
-                                            >
-                                                <Label
-                                                    className="name-req-create-member"
-                                                    htmlFor="disability"
+                                                    {formik.touched.username &&
+                                                    formik.errors.username ? (
+                                                        <small className="error-cls">
+                                                            {
+                                                                formik.errors
+                                                                    .username
+                                                            }
+                                                        </small>
+                                                    ) : null}
+                                                </Col>
+                                                <Col
+                                                    md={3}
+                                                    className="mb-5 mb-xl-0"
                                                 >
-                                                    Disability
-                                                    {/* {t('teacher_teams.gender')} */}
-                                                    <span
-                                                        required
-                                                        className="p-1"
+                                                    <Label
+                                                        className="name-req-create-member"
+                                                        htmlFor="disability"
                                                     >
-                                                        *
-                                                    </span>
-                                                </Label>
+                                                        Disability
+                                                        {/* {t('teacher_teams.gender')} */}
+                                                        <span
+                                                            required
+                                                            className="p-1"
+                                                        >
+                                                            *
+                                                        </span>
+                                                    </Label>
 
-                                                <select
-                                                    name="disability"
-                                                    className="form-control custom-dropdown"
-                                                    value={
-                                                        formik.values.disability
-                                                    }
-                                                    onChange={
-                                                        formik.handleChange
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        Select Status
-                                                    </option>
-                                                    <option value="No">
-                                                        No
-                                                    </option>
-                                                    <option value="Physically Challenged">
-                                                        Physically Challenged
-                                                    </option>
-                                                    <option value="Visually Challenged">
-                                                        Visually Challenged
-                                                    </option>
-                                                    <option value="Locomotor Disability">
-                                                        Locomotor Disability
-                                                    </option>
-                                                    <option value="Intellectual Disability">
-                                                        Intellectual Disability
-                                                    </option>
-                                                    <option value="Learning Disability">
-                                                        Learning Disability
-                                                    </option>
-                                                    <option value="Hearing Impaired">
-                                                        Hearing Impaired
-                                                    </option>
-                                                    <option value="Autism/Cerebral Palsy/Other">
-                                                        Autism/Cerebral
-                                                        Palsy/Other
-                                                    </option>
-                                                    <option value="Others">
-                                                        Others
-                                                    </option>
-                                                </select>
-
-                                                {formik.touched.disability &&
-                                                formik.errors.disability ? (
-                                                    <small className="error-cls">
-                                                        {
-                                                            formik.errors
+                                                    <select
+                                                        name="disability"
+                                                        className="form-control custom-dropdown"
+                                                        value={
+                                                            formik.values
                                                                 .disability
                                                         }
-                                                    </small>
-                                                ) : null}
-                                            </Col>
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                    >
+                                                        <option value="">
+                                                            Select Status
+                                                        </option>
+                                                        <option value="No">
+                                                            No
+                                                        </option>
+                                                        <option value="Physically Challenged">
+                                                            Physically
+                                                            Challenged
+                                                        </option>
+                                                        <option value="Visually Challenged">
+                                                            Visually Challenged
+                                                        </option>
+                                                        <option value="Locomotor Disability">
+                                                            Locomotor Disability
+                                                        </option>
+                                                        <option value="Intellectual Disability">
+                                                            Intellectual
+                                                            Disability
+                                                        </option>
+                                                        <option value="Learning Disability">
+                                                            Learning Disability
+                                                        </option>
+                                                        <option value="Hearing Impaired">
+                                                            Hearing Impaired
+                                                        </option>
+                                                        <option value="Autism/Cerebral Palsy/Other">
+                                                            Autism/Cerebral
+                                                            Palsy/Other
+                                                        </option>
+                                                        <option value="Others">
+                                                            Others
+                                                        </option>
+                                                    </select>
+
+                                                    {formik.touched
+                                                        .disability &&
+                                                    formik.errors.disability ? (
+                                                        <small className="error-cls">
+                                                            {
+                                                                formik.errors
+                                                                    .disability
+                                                            }
+                                                        </small>
+                                                    ) : null}
+                                                </Col>
+                                                <Col md={3}>
+                                                    <Label
+                                                        className="name-req-create-member"
+                                                        htmlFor="grade"
+                                                    >
+                                                        Class
+                                                        <span
+                                                            required
+                                                            className="p-1"
+                                                        >
+                                                            *
+                                                        </span>
+                                                    </Label>
+                                                    <div className="dropdown CalendarDropdownComp ">
+                                                        <select
+                                                            name="grade"
+                                                            className="form-control custom-dropdown"
+                                                            value={
+                                                                formik.values
+                                                                    .grade
+                                                            }
+                                                            onChange={
+                                                                formik.handleChange
+                                                            }
+                                                        >
+                                                            <option value="">
+                                                                Select Class..
+                                                            </option>
+                                                            <option value="6">
+                                                                Class 6
+                                                            </option>
+                                                            <option value="7">
+                                                                Class 7
+                                                            </option>
+                                                            <option value="8">
+                                                                Class 8
+                                                            </option>
+                                                            <option value="9">
+                                                                Class 9
+                                                            </option>
+                                                            <option value="10">
+                                                                Class 10
+                                                            </option>
+                                                            <option value="11">
+                                                                Class 11
+                                                            </option>
+                                                            <option value="12">
+                                                                Class 12
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    {formik.touched.grade &&
+                                                    formik.errors.grade ? (
+                                                        <small className="error-cls">
+                                                            {
+                                                                formik.errors
+                                                                    .grade
+                                                            }
+                                                        </small>
+                                                    ) : null}
+                                                </Col>
+                                            </Row>
                                         </Row>
                                     </div>
 

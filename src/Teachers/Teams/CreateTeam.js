@@ -26,11 +26,11 @@ const CreateTeam = (props) => {
     };
     const formik = useFormik({
         initialValues: {
-            teamName: ''
-            // name: '',
-            // email: '',
-            // gender: '',
-            // mobile: ''
+            teamName: '',
+            name: '',
+            email: '',
+            gender: '',
+            mobile: ''
         },
 
         validationSchema: Yup.object({
@@ -64,14 +64,23 @@ const CreateTeam = (props) => {
         }),
 
         onSubmit: (values) => {
-            const body = JSON.stringify({
+            if (values.name !== '' && values.name !== null) {
+                body['moc_name'] = values.name;
+            }
+            if (values.gender !== '' && values.gender !== null) {
+                body['moc_gender'] = values.gender;
+            }
+            if (values.email !== '' && values.email !== null) {
+                body['moc_email'] = values.email;
+            }
+            if (values.mobile !== '' && values.mobile !== null) {
+                body['moc_phone'] = values.mobile;
+            }
+            const body = {
                 mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
                 team_name: values.teamName
-                // moc_name: values.name,
-                // moc_gender: values.gender,
-                // moc_email: values.email,
-                // moc_phone: values.mobile
-            });
+            };
+
             var config = {
                 method: 'post',
                 url: process.env.REACT_APP_API_BASE_URL + '/teams',
@@ -80,16 +89,18 @@ const CreateTeam = (props) => {
 
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`
                 },
-                data: body
+                data: JSON.stringify(body)
             };
             axios(config)
                 .then(function (response) {
                     if (response.status === 201) {
-                        openNotificationWithIcon(
-                            'success',
-                            'Team Create Successfully'
-                        );
-                        props.history.push('/teacher/teamlist');
+                        setTimeout(() => {
+                            openNotificationWithIcon(
+                                'success',
+                                'Team Create Successfully'
+                            );
+                            props.history.push('/teacher/teamlist');
+                        }, 1000);
                     } else {
                         openNotificationWithIcon(
                             'error',
@@ -155,9 +166,9 @@ const CreateTeam = (props) => {
                                             >
                                                 {/* {t('teacher_teams.team_name')} */}
                                                 Mentor Name
-                                                <span required className="p-1">
+                                                {/* <span required className="p-1">
                                                     *
-                                                </span>
+                                                </span> */}
                                             </Label>
 
                                             <InputBox

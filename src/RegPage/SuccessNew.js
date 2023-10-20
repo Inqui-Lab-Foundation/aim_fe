@@ -20,7 +20,7 @@ import axios from 'axios';
 import { getNormalHeaders, openNotificationWithIcon } from '../helpers/Utils';
 import { useHistory } from 'react-router-dom';
 
-const SuccessPage = () => {
+const SuccessNew = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const mentorDaTa = JSON.parse(localStorage.getItem('mentorData'));
@@ -160,10 +160,7 @@ const SuccessPage = () => {
                                         marginBottom: '1rem'
                                     }}
                                 >
-                                    UDISE Code:{' '}
-                                    {mentorDaTa.unique_code
-                                        ? mentorDaTa.unique_code
-                                        : '-'}
+                                    UDISE Code: {UniqueCode ? UniqueCode : '-'}
                                 </p>
                                 <p
                                     style={{
@@ -286,4 +283,4 @@ const SuccessPage = () => {
     );
 };
 
-export default SuccessPage;
+export default SuccessNew;

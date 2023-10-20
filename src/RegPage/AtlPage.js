@@ -301,13 +301,22 @@ function AtlPage() {
             },
             data: body
         };
-        axios(config).then(function (response) {
-            if (response.status === 202) {
-                setOtpRes(response?.data?.data);
-                openNotificationWithIcon('success', 'Otp send to Email Id');
-                setBtnOtp(true);
-            }
-        });
+        axios(config)
+            .then(function (response) {
+                if (response.status === 202) {
+                    setOtpRes(response?.data?.data);
+                    openNotificationWithIcon('success', 'Otp send to Email Id');
+                    setBtnOtp(true);
+                }
+            })
+            .catch(function (error) {
+                if (error?.response?.data?.status === 406) {
+                    openNotificationWithIcon(
+                        'error',
+                        'Email ID already exists'
+                    );
+                }
+            });
         e.preventDefault();
     };
     useEffect(() => {
@@ -574,34 +583,10 @@ function AtlPage() {
                                             >
                                                 <Col
                                                     className="form-group"
-                                                    // xs={
-                                                    //     formik.values.title
-                                                    //         ? 4
-                                                    //         : 5
-                                                    // }
-                                                    // sm={
-                                                    //     formik.values.title
-                                                    //         ? 4
-                                                    //         : 5
-                                                    // }
-                                                    // md={
-                                                    //     formik.values.title
-                                                    //         ? 4
-                                                    //         : 5
-                                                    // }
-                                                    // xl={
-                                                    //     formik.values.title
-                                                    //         ? 2
-                                                    //         : 3
-                                                    // }
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={6}
-                                                    // xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -669,26 +654,6 @@ function AtlPage() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    // xs={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // sm={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // md={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // xl={
-                                                    //     formik.values.title
-                                                    //         ? 7
-                                                    //         : 6
-                                                    // }
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
@@ -742,26 +707,6 @@ function AtlPage() {
                                             >
                                                 <Col
                                                     className="form-group"
-                                                    // xs={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // sm={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // md={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // xl={
-                                                    //     formik.values.title
-                                                    //         ? 7
-                                                    //         : 6
-                                                    // }
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
@@ -810,10 +755,6 @@ function AtlPage() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -925,10 +866,6 @@ function AtlPage() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={6}
-                                                    // sm={6}
-                                                    // md={5}
-                                                    // xl={4}
                                                 >
                                                     <div className="d-flex align-items-center justify-content-between">
                                                         <Label
