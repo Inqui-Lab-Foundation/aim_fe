@@ -186,8 +186,6 @@ function RegisterNew() {
             if (values.otp.length < 5) {
                 setErrorMsg(true);
             } else {
-                handleRegist();
-
                 const axiosConfig = getNormalHeaders(KEY.User_API_Key);
                 var pass = values.email.trim();
                 var myArray = pass.split('@');
@@ -203,9 +201,8 @@ function RegisterNew() {
                     padding: CryptoJS.pad.NoPadding
                 }).toString();
                 // values.password = encrypted;
-                const body = JSON.stringify({
+                const body = {
                     full_name: values.full_name.trim(),
-                    organization_code: atlCode,
                     mobile: values.mobile.trim(),
                     whatapp_mobile: values.whatapp_mobile.trim(),
                     username: values.email.trim(),
@@ -215,57 +212,8 @@ function RegisterNew() {
                     title: values.title,
                     reg_status: values.reg_status,
                     password: encrypted
-                });
-                var config = {
-                    method: 'post',
-                    url:
-                        process.env.REACT_APP_API_BASE_URL +
-                        '/mentors/register',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-
-                    data: body
                 };
-                console.log(body);
-
-                await axios(config)
-                    .then((mentorRegRes) => {
-                        if (mentorRegRes?.data?.status == 201) {
-                            setMentorData(mentorRegRes?.data?.data[0]);
-                            const successData = {
-                                full_name:
-                                    mentorRegRes?.data?.data[0].full_name,
-                                district: orgData?.district,
-                                school: orgData?.organization_name,
-                                organization_code:
-                                    mentorRegRes?.data?.data[0]
-                                        .organization_code,
-                                gender: mentorRegRes?.data?.data[0].gender,
-                                title: mentorRegRes?.data?.data[0].title,
-                                mobile: mentorRegRes?.data?.data[0].mobile,
-                                username: mentorRegRes?.data?.data[0].email,
-                                whatapp_mobile:
-                                    mentorRegRes?.data?.data[0].whatapp_mobile
-                            };
-                            // setBtn(true);
-                            history.push({
-                                pathname: '/successScreen',
-                                data: successData
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        openNotificationWithIcon(
-                            'error',
-                            err.response.data?.message
-                        );
-                        // setBtn(false);
-                        formik.setErrors({
-                            check: err.response && err?.response?.data?.message
-                        });
-                        return err.response;
-                    });
+                handleRegist(body);
             }
         }
     });
@@ -318,7 +266,58 @@ function RegisterNew() {
 
         e.preventDefault();
     };
-    const handleRegist = (e) => {
+
+    const handelMentorReg = async(body) =>{
+        var config = {
+            method: 'post',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                '/mentors/register',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            data: JSON.stringify(body)
+        };
+        await axios(config)
+            .then((mentorRegRes) => {
+                if (mentorRegRes?.data?.status == 201) {
+                    setMentorData(mentorRegRes?.data?.data[0]);
+                    const successData = {
+                        full_name:
+                            mentorRegRes?.data?.data[0].full_name,
+                        district: orgData?.district,
+                        school: orgData?.organization_name,
+                        organization_code:
+                            mentorRegRes?.data?.data[0]
+                                .organization_code,
+                        gender: mentorRegRes?.data?.data[0].gender,
+                        title: mentorRegRes?.data?.data[0].title,
+                        mobile: mentorRegRes?.data?.data[0].mobile,
+                        username: mentorRegRes?.data?.data[0].email,
+                        whatapp_mobile:
+                            mentorRegRes?.data?.data[0].whatapp_mobile
+                    };
+                    // setBtn(true);
+                    history.push({
+                        pathname: '/successScreen',
+                        data: successData
+                    });
+                }
+            })
+            .catch((err) => {
+                openNotificationWithIcon(
+                    'error',
+                    err.response.data?.message
+                );
+                // setBtn(false);
+                formik.setErrors({
+                    check: err.response && err?.response?.data?.message
+                });
+                return err.response;
+            });
+    };
+    const handleRegist = (mentorregdata) => {
         const body = JSON.stringify({
             state: stateData,
             district: district,
@@ -342,6 +341,8 @@ function RegisterNew() {
         axios(config)
             .then(function (response) {
                 if (response?.status == 201) {
+                    mentorregdata['organization_code']=response.data.data[0].organization_code;
+                    handelMentorReg(mentorregdata);
                 }
             })
 
