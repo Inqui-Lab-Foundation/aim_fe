@@ -67,8 +67,9 @@ const CreateMultipleMembers = ({ id }) => {
         }
     ]);
     let pattern = /[A-Za-z0-9]*$/;
-    const emailRegex = /[A-Za-z0-9.@]*$/;
-    // const re = new RegExp("/[A-Za-z0-9 ]*$/");
+    // const emailRegex = /[A-Za-z-@+.-]*$/;
+    const emailRegex = /^[\w.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    // const emailRegex = /^[A-Za-z-.]+@([A-za-z-]+\.)+[A-Za-z-]{2,4}$/;
     const handleChange = (e, i) => {
         let newItem = [...studentData];
         const dataKeys = Object.keys(studentBody);
@@ -209,35 +210,67 @@ const CreateMultipleMembers = ({ id }) => {
                         </div>
                         <hr />
                         <Row className="mb-3">
-                            <Col md={3}>
-                                <Label
-                                    className="name-req-create-member"
-                                    htmlFor="fullName"
-                                >
-                                    {t('teacher_teams.student_name')}
-                                    <span required className="p-1">
-                                        *
-                                    </span>
-                                </Label>
-                                <InputBox
-                                    className={'defaultInput'}
-                                    placeholder={t(
-                                        'teacher_teams.student_name_pl'
-                                    )}
-                                    id="full_name"
-                                    name="full_name"
-                                    onChange={(e) => {
-                                        handleChange(e, i);
-                                    }}
-                                    value={item.full_name}
-                                />
-                                {foundErrObject?.full_name ? (
-                                    <small className="error-cls">
-                                        {foundErrObject.full_name}
-                                    </small>
-                                ) : null}
-                            </Col>
-                            <Col md={2} className="mb-xl-0">
+                            <Row>
+                                <Col md={6}>
+                                    <Label
+                                        className="name-req-create-member"
+                                        htmlFor="fullName"
+                                    >
+                                        {t('teacher_teams.student_name')}
+                                        <span required className="p-1">
+                                            *
+                                        </span>
+                                    </Label>
+                                    <InputBox
+                                        className={'defaultInput'}
+                                        placeholder={t(
+                                            'teacher_teams.student_name_pl'
+                                        )}
+                                        id="full_name"
+                                        name="full_name"
+                                        onChange={(e) => {
+                                            handleChange(e, i);
+                                        }}
+                                        value={item.full_name}
+                                    />
+                                    {foundErrObject?.full_name ? (
+                                        <small className="error-cls">
+                                            {foundErrObject.full_name}
+                                        </small>
+                                    ) : null}
+                                </Col>
+                                <Col md={6} className="mb-xl-0">
+                                    <Label
+                                        className="name-req-create-member"
+                                        htmlFor="username"
+                                    >
+                                        {/* {t('teacher_teams.age')} */}
+                                        Email Address
+                                        <span required className="p-1">
+                                            *
+                                        </span>
+                                    </Label>
+                                    <InputBox
+                                        className={'defaultInput'}
+                                        placeholder="Enter Email Id"
+                                        // {t(
+                                        //     'teacher_teams.student_name_pl'
+                                        // )}
+                                        id="username"
+                                        name="username"
+                                        onChange={(e) => {
+                                            handleChange(e, i);
+                                        }}
+                                        value={item.username}
+                                    />
+                                    {foundErrObject?.username ? (
+                                        <small className="error-cls">
+                                            {foundErrObject.username}
+                                        </small>
+                                    ) : null}
+                                </Col>
+                            </Row>
+                            <Col md={3} className="mb-xl-0">
                                 <Label
                                     className="name-req-create-member"
                                     htmlFor="age"
@@ -268,7 +301,7 @@ const CreateMultipleMembers = ({ id }) => {
                                     </small>
                                 ) : null}
                             </Col>
-                            <Col md={2} className="mb-xl-0">
+                            <Col md={3} className="mb-xl-0">
                                 <Label
                                     className="name-req-create-member"
                                     htmlFor="disability"
@@ -316,37 +349,8 @@ const CreateMultipleMembers = ({ id }) => {
                                     </small>
                                 ) : null}
                             </Col>
-                            <Col md={2} className="mb-xl-0">
-                                <Label
-                                    className="name-req-create-member"
-                                    htmlFor="username"
-                                >
-                                    {/* {t('teacher_teams.age')} */}
-                                    Email Address
-                                    <span required className="p-1">
-                                        *
-                                    </span>
-                                </Label>
-                                <InputBox
-                                    className={'defaultInput'}
-                                    placeholder="Enter Email Id"
-                                    // {t(
-                                    //     'teacher_teams.student_name_pl'
-                                    // )}
-                                    id="username"
-                                    name="username"
-                                    onChange={(e) => {
-                                        handleChange(e, i);
-                                    }}
-                                    value={item.username}
-                                />
-                                {foundErrObject?.username ? (
-                                    <small className="error-cls">
-                                        {foundErrObject.username}
-                                    </small>
-                                ) : null}
-                            </Col>
-                            <Col md={2}>
+
+                            <Col md={3}>
                                 <Label
                                     className="name-req-create-member"
                                     htmlFor="grade"

@@ -26,11 +26,11 @@ const CreateTeam = (props) => {
     };
     const formik = useFormik({
         initialValues: {
-            teamName: '',
-            name: '',
-            email: '',
-            gender: '',
-            mobile: ''
+            teamName: ''
+            // name: '',
+            // email: '',
+            // gender: '',
+            // mobile: ''
         },
 
         validationSchema: Yup.object({
@@ -42,14 +42,14 @@ const CreateTeam = (props) => {
                 )
                 .trim(),
             name: Yup.string()
-                .required('Please enter Mentor Details')
+                // .required('Please enter Mentor Details')
                 .matches(
                     /^[A-Za-z0-9 ]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),
             mobile: Yup.string()
-                .required('required')
+                // .required('required')
                 .trim()
                 .matches(
                     /^\d+$/,
@@ -57,21 +57,20 @@ const CreateTeam = (props) => {
                 )
                 .max(10, 'Please enter only 10 digit valid number')
                 .min(10, 'Number is less than 10 digits'),
-            email: Yup.string()
-                .email('Must be a valid email')
-                .max(255)
-                .required(),
-            gender: Yup.string().required('Please select valid gender')
+            email: Yup.string().email('Must be a valid email').max(255),
+            // .required(),
+            gender: Yup.string()
+            // .required('Please select valid gender')
         }),
 
         onSubmit: (values) => {
             const body = JSON.stringify({
                 mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
-                team_name: values.teamName,
-                moc_name: values.name,
-                moc_gender: values.gender,
-                moc_email: values.email,
-                moc_phone: values.mobile
+                team_name: values.teamName
+                // moc_name: values.name,
+                // moc_gender: values.gender,
+                // moc_email: values.email,
+                // moc_phone: values.mobile
             });
             var config = {
                 method: 'post',

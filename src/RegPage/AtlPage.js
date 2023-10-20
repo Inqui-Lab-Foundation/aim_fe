@@ -263,7 +263,7 @@ function AtlPage() {
             })
             .catch(function (error) {
                 if (error?.response?.data?.status === 404) {
-                    setError('Entered Wrong UDISE Code');
+                    setError('Entered Wrong ATL Code');
                 }
             });
 
@@ -574,30 +574,34 @@ function AtlPage() {
                                             >
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 2
-                                                            : 3
-                                                    }
-                                                    // xs={6}
+                                                    // xs={
+                                                    //     formik.values.title
+                                                    //         ? 4
+                                                    //         : 5
+                                                    // }
+                                                    // sm={
+                                                    //     formik.values.title
+                                                    //         ? 4
+                                                    //         : 5
+                                                    // }
+                                                    // md={
+                                                    //     formik.values.title
+                                                    //         ? 4
+                                                    //         : 5
+                                                    // }
+                                                    // xl={
+                                                    //     formik.values.title
+                                                    //         ? 2
+                                                    //         : 3
+                                                    // }
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
+                                                    // xs={12}
                                                     // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    // md={6}
+                                                    // xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -665,30 +669,30 @@ function AtlPage() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 7
-                                                            : 6
-                                                    }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    // xs={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // sm={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // md={
+                                                    //     formik.values.title
+                                                    //         ? 8
+                                                    //         : 7
+                                                    // }
+                                                    // xl={
+                                                    //     formik.values.title
+                                                    //         ? 7
+                                                    //         : 6
+                                                    // }
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -727,6 +731,15 @@ function AtlPage() {
                                                         </small>
                                                     ) : null}
                                                 </Col>
+                                            </Row>
+
+                                            <Row
+                                                className="form-group"
+                                                xs={12}
+                                                sm={12}
+                                                md={12}
+                                                xl={12}
+                                            >
                                                 <Col
                                                     className="form-group"
                                                     // xs={
@@ -749,10 +762,10 @@ function AtlPage() {
                                                     //         ? 7
                                                     //         : 6
                                                     // }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -796,7 +809,7 @@ function AtlPage() {
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
-                                                    xl={3}
+                                                    xl={6}
                                                     // xs={12}
                                                     // sm={12}
                                                     // md={10}
@@ -869,10 +882,6 @@ function AtlPage() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
                                                 >
                                                     <Label
                                                         className="mb-2 mt-3"

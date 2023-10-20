@@ -25,11 +25,11 @@ const SuccessPage = () => {
     const { t } = useTranslation();
     const mentorDaTa = JSON.parse(localStorage.getItem('mentorData'));
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
-    // const user = mentorDaTa.username;
-    // const myArray = user.split('@');
-    // const word = myArray[0];
+    const user = mentorDaTa.username;
+    const myArray = user.split('@');
+    const word = myArray[0];
 
-    console.log(mentorDaTa, 'data');
+    console.log(orgDaTa, 'data');
 
     const successData = history && history.location && history.location.data;
     return (
@@ -148,10 +148,18 @@ const SuccessPage = () => {
                                         marginBottom: '1rem'
                                     }}
                                 >
-                                    UDICE Code:{' '}
+                                    ATL Code:{' '}
                                     {/* {successData &&
                                         successData.organization_code} */}
                                     {mentorDaTa.organization_code}
+                                </p>
+                                <p
+                                    style={{
+                                        color: 'gray',
+                                        marginBottom: '1rem'
+                                    }}
+                                >
+                                    UDISE Code: {mentorDaTa.organization_code}
                                 </p>
                                 <p
                                     style={{
@@ -165,7 +173,7 @@ const SuccessPage = () => {
                                 <p
                                     style={{
                                         color: 'gray',
-                                        marginBottom: '4rem'
+                                        marginBottom: '1rem'
                                     }}
                                 >
                                     District: {orgDaTa.district}
@@ -177,8 +185,26 @@ const SuccessPage = () => {
                                         marginBottom: '1rem'
                                     }}
                                 >
+                                    State: {orgDaTa.state}
+                                    {/* {mentorDaTa.organization_code} */}
+                                </p>
+                                <p
+                                    style={{
+                                        color: 'gray',
+                                        marginBottom: '1rem'
+                                    }}
+                                >
                                     Faculty Name: {mentorDaTa.title}.{' '}
                                     {mentorDaTa.full_name}
+                                </p>
+                                <p
+                                    style={{
+                                        color: 'gray',
+                                        marginBottom: '1rem'
+                                    }}
+                                >
+                                    Pin Code: {orgDaTa.pin_code}.{' '}
+                                    {mentorDaTa.pin_code}
                                 </p>
                                 <p
                                     style={{
@@ -204,22 +230,22 @@ const SuccessPage = () => {
                                 >
                                     Whatsapp Number: {mentorDaTa.whatapp_mobile}
                                 </p>
-                                {/* <p
+                                <p
                                     style={{
                                         color: 'gray',
                                         marginBottom: '1rem'
                                     }}
                                 >
                                     Password: {word}
-                                </p> */}
-                                {/* <p
+                                </p>
+                                <p
                                     style={{
                                         color: 'gray',
                                         marginBottom: '1rem'
                                     }}
                                 >
-                                    Password: {mentorDaTa.mobile}
-                                </p> */}
+                                    Mobile Number: {mentorDaTa.mobile}
+                                </p>
                                 <p
                                     style={{
                                         color: 'gray',
