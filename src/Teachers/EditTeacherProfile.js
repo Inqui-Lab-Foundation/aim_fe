@@ -72,12 +72,14 @@ const EditTeacherProfileDetails = (props) => {
             const title = values.title;
             const whatapp_mobile = values.whatapp_mobile;
             const gender = values.gender;
+            const mobile = values.phone;
             const body = JSON.stringify({
                 full_name: full_name,
                 // mobile: mobile,
                 title: title,
                 whatapp_mobile: whatapp_mobile,
                 gender: gender,
+                mobile: mobile,
                 username: mentorData.username
             });
             const url =
@@ -128,7 +130,7 @@ const EditTeacherProfileDetails = (props) => {
                             <Form onSubmit={formik.handleSubmit} isSubmitting>
                                 <div className="create-ticket register-block">
                                     <Row className="justify-content-center">
-                                        <Col md={6}>
+                                        <Col md={3}>
                                             <Label
                                                 className="name-req"
                                                 htmlFor="title"
@@ -176,30 +178,7 @@ const EditTeacherProfileDetails = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col>
-                                        <Col md={6}>
-                                            <Label
-                                                className="name-req"
-                                                htmlFor="name"
-                                            >
-                                                Full Name
-                                            </Label>
-                                            <InputBox
-                                                className={'defaultInput'}
-                                                id="name"
-                                                name="name"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.name}
-                                            />
-
-                                            {formik.touched.name &&
-                                            formik.errors.name ? (
-                                                <small className="error-cls">
-                                                    {formik.errors.name}
-                                                </small>
-                                            ) : null}
-                                        </Col>
-                                        <Col md={6}>
+                                        <Col md={3}>
                                             <Label
                                                 className="name-req"
                                                 htmlFor="gender"
@@ -237,7 +216,31 @@ const EditTeacherProfileDetails = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col>
-                                        {/* <Col md={6}>
+                                        <Col md={6}>
+                                            <Label
+                                                className="name-req"
+                                                htmlFor="name"
+                                            >
+                                                Full Name
+                                            </Label>
+                                            <InputBox
+                                                className={'defaultInput'}
+                                                id="name"
+                                                name="name"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.name}
+                                            />
+
+                                            {formik.touched.name &&
+                                            formik.errors.name ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.name}
+                                                </small>
+                                            ) : null}
+                                        </Col>
+
+                                        <Col md={6}>
                                             <Label
                                                 className="name-req"
                                                 htmlFor="phone"
@@ -259,7 +262,7 @@ const EditTeacherProfileDetails = (props) => {
                                                     {formik.errors.phone}
                                                 </small>
                                             ) : null}
-                                        </Col> */}
+                                        </Col>
                                         <Col md={6}>
                                             <Label
                                                 className=" name-req"

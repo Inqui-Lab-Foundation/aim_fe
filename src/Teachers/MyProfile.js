@@ -13,6 +13,7 @@ const MyProfile = () => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
     const { teacher } = useSelector((state) => state.teacher);
+    console.log(teacher, '1');
     const dispatch = useDispatch();
     // console.log(teacher);
     useLayoutEffect(() => {
@@ -170,7 +171,8 @@ const MyProfile = () => {
                                                                     className="my-auto profile-detail"
                                                                 >
                                                                     <b>
-                                                                        Mobile
+                                                                        Email
+                                                                        Address
                                                                     </b>
                                                                 </Col>
                                                                 <Col
@@ -230,19 +232,22 @@ const MyProfile = () => {
                                                                     </b>
                                                                 </Col>
                                                             </Row>
-                                                            {/* <Row className="pt-3 pb-3">
+                                                            <Row className="pt-3 pb-3">
                                                                 <Col
                                                                     md={5}
                                                                     className="my-auto profile-detail"
                                                                 >
                                                                     <b>
                                                                         Mobile
+                                                                        Number
                                                                     </b>
                                                                 </Col>
-                                                                <Col xs={1}
+                                                                <Col
+                                                                    xs={1}
                                                                     sm={1}
                                                                     md={1}
-                                                                    xl={1}>
+                                                                    xl={1}
+                                                                >
                                                                     :
                                                                 </Col>
                                                                 <Col
@@ -258,7 +263,7 @@ const MyProfile = () => {
                                                                             : '-'}
                                                                     </b>
                                                                 </Col>
-                                                            </Row> */}
+                                                            </Row>
                                                         </CardText>
                                                     </Col>
                                                 </Row>
@@ -290,7 +295,9 @@ const MyProfile = () => {
                                                                     xl={5}
                                                                     className="my-auto profile-detail"
                                                                 >
-                                                                    <b>UDISE</b>
+                                                                    <b>
+                                                                        ATL Code
+                                                                    </b>
                                                                 </Col>
                                                                 <Col
                                                                     xs={1}
@@ -310,6 +317,45 @@ const MyProfile = () => {
                                                                     <b>
                                                                         {teacher?.organization_code
                                                                             ? teacher?.organization_code
+                                                                            : '-'}
+                                                                    </b>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row className="pt-3 pb-3">
+                                                                <Col
+                                                                    xs={5}
+                                                                    sm={5}
+                                                                    md={5}
+                                                                    xl={5}
+                                                                    className="my-auto profile-detail"
+                                                                >
+                                                                    <b>
+                                                                        UDISE
+                                                                        Code
+                                                                    </b>
+                                                                </Col>
+                                                                <Col
+                                                                    xs={1}
+                                                                    sm={1}
+                                                                    md={1}
+                                                                    xl={1}
+                                                                >
+                                                                    :
+                                                                </Col>
+                                                                <Col
+                                                                    xs={6}
+                                                                    sm={6}
+                                                                    md={6}
+                                                                    xl={6}
+                                                                    className="my-auto profile-detail"
+                                                                >
+                                                                    <b>
+                                                                        {teacher
+                                                                            .organization
+                                                                            ?.unique_code
+                                                                            ? teacher
+                                                                                  .organization
+                                                                                  ?.unique_code
                                                                             : '-'}
                                                                     </b>
                                                                 </Col>
@@ -354,7 +400,7 @@ const MyProfile = () => {
                                                                 </Col>
                                                             </Row>
 
-                                                            <Row className="pt-3 pb-3">
+                                                            {/* {/* <Row className="pt-3 pb-3">
                                                                 <Col
                                                                     xs={5}
                                                                     sm={5}
@@ -392,7 +438,7 @@ const MyProfile = () => {
                                                                             : '-'}
                                                                     </b>
                                                                 </Col>
-                                                            </Row>
+                                                            </Row> */}
                                                             <Row className="pt-3 pb-3">
                                                                 <Col
                                                                     xs={5}
@@ -402,8 +448,7 @@ const MyProfile = () => {
                                                                     className="my-auto profile-detail"
                                                                 >
                                                                     <b>
-                                                                        Principal
-                                                                        Email
+                                                                        Pin Code
                                                                     </b>
                                                                 </Col>
                                                                 <Col
@@ -424,10 +469,10 @@ const MyProfile = () => {
                                                                     <b>
                                                                         {teacher
                                                                             .organization
-                                                                            ?.principal_email
+                                                                            ?.pin_code
                                                                             ? teacher
                                                                                   .organization
-                                                                                  ?.principal_email
+                                                                                  ?.pin_code
                                                                             : '-'}
                                                                     </b>
                                                                 </Col>
@@ -578,6 +623,44 @@ const MyProfile = () => {
                                                                             ? teacher
                                                                                   .organization
                                                                                   ?.state
+                                                                            : '-'}
+                                                                    </b>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row className="pt-3 pb-3">
+                                                                <Col
+                                                                    xs={5}
+                                                                    sm={5}
+                                                                    md={5}
+                                                                    xl={5}
+                                                                    className="my-auto profile-detail"
+                                                                >
+                                                                    <b>
+                                                                        Category
+                                                                    </b>
+                                                                </Col>
+                                                                <Col
+                                                                    xs={1}
+                                                                    sm={1}
+                                                                    md={1}
+                                                                    xl={1}
+                                                                >
+                                                                    :
+                                                                </Col>
+                                                                <Col
+                                                                    xs={6}
+                                                                    sm={6}
+                                                                    md={6}
+                                                                    xl={6}
+                                                                    className="my-auto profile-detail"
+                                                                >
+                                                                    <b>
+                                                                        {teacher
+                                                                            .organization
+                                                                            ?.category
+                                                                            ? teacher
+                                                                                  .organization
+                                                                                  ?.category
                                                                             : '-'}
                                                                     </b>
                                                                 </Col>

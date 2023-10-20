@@ -111,6 +111,7 @@ import FirstPage from './RegPage/FirstPage';
 
 import SuccessPage from './Register/SuccessPage';
 import SuccesScreen from './RegPage/SuccesScreen';
+import SuccessNew from './RegPage/SuccessNew';
 
 import LoginSchool from './School/LoginSchool';
 import DashboardSchool from './School/Dashboard';
@@ -207,7 +208,7 @@ const Routers = () => {
                     <Route
                         exact={true}
                         path="/success"
-                        render={() => <SuccessPage />}
+                        render={() => <SuccessNew />}
                     />
                     <Route
                         exact={true}

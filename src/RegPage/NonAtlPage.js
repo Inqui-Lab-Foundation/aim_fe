@@ -100,38 +100,47 @@ function RegisterNew() {
         setOrgData();
         setError('');
     };
+    let pattern = /[0-9]*$/;
     const handleRegister = (e) => {
-        const body = JSON.stringify({
-            unique_code: diesCode
-        });
-        var config = {
-            method: 'post',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/organizations/checkUniqueCode',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: body
-        };
-        axios(config)
-            .then(function (response) {
-                if (response?.status == 200) {
-                    setError(
-                        'Another Teacher is already registered in given School'
-                    );
-                    setDiceBtn(true);
-                    setBtn(false);
-                }
-            })
-            .catch(function (error) {
-                if (error?.response?.data?.status === 404) {
-                    setBtn(true);
-                    setDiceBtn(false);
-                }
+        const { index } = diesCode.match(pattern);
+        // console.log(index, '=====', diesCode);
+        if (index) {
+            setError('Only numeric are allowed');
+        } else if (diesCode.length < 11) {
+            setError('Udise Code must be 11 digits');
+        } else {
+            const body = JSON.stringify({
+                unique_code: diesCode
             });
+            var config = {
+                method: 'post',
+                url:
+                    process.env.REACT_APP_API_BASE_URL +
+                    '/organizations/checkUniqueCode',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: body
+            };
+            axios(config)
+                .then(function (response) {
+                    if (response?.status == 200) {
+                        setError(
+                            'Another Teacher is already registered in given School'
+                        );
+                        setDiceBtn(true);
+                        setBtn(false);
+                    }
+                })
+                .catch(function (error) {
+                    if (error?.response?.data?.status === 404) {
+                        setBtn(true);
+                        setDiceBtn(false);
+                    }
+                });
 
-        e.preventDefault();
+            e.preventDefault();
+        }
     };
     const formik = useFormik({
         initialValues: {
@@ -267,12 +276,10 @@ function RegisterNew() {
         e.preventDefault();
     };
 
-    const handelMentorReg = async(body) =>{
+    const handelMentorReg = async (body) => {
         var config = {
             method: 'post',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/mentors/register',
+            url: process.env.REACT_APP_API_BASE_URL + '/mentors/register',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -284,13 +291,11 @@ function RegisterNew() {
                 if (mentorRegRes?.data?.status == 201) {
                     setMentorData(mentorRegRes?.data?.data[0]);
                     const successData = {
-                        full_name:
-                            mentorRegRes?.data?.data[0].full_name,
+                        full_name: mentorRegRes?.data?.data[0].full_name,
                         district: orgData?.district,
                         school: orgData?.organization_name,
                         organization_code:
-                            mentorRegRes?.data?.data[0]
-                                .organization_code,
+                            mentorRegRes?.data?.data[0].organization_code,
                         gender: mentorRegRes?.data?.data[0].gender,
                         title: mentorRegRes?.data?.data[0].title,
                         mobile: mentorRegRes?.data?.data[0].mobile,
@@ -300,16 +305,13 @@ function RegisterNew() {
                     };
                     // setBtn(true);
                     history.push({
-                        pathname: '/successScreen',
+                        pathname: '/success',
                         data: successData
                     });
                 }
             })
             .catch((err) => {
-                openNotificationWithIcon(
-                    'error',
-                    err.response.data?.message
-                );
+                openNotificationWithIcon('error', err.response.data?.message);
                 // setBtn(false);
                 formik.setErrors({
                     check: err.response && err?.response?.data?.message
@@ -341,7 +343,8 @@ function RegisterNew() {
         axios(config)
             .then(function (response) {
                 if (response?.status == 201) {
-                    mentorregdata['organization_code']=response.data.data[0].organization_code;
+                    mentorregdata['organization_code'] =
+                        response.data.data[0].organization_code;
                     handelMentorReg(mentorregdata);
                 }
             })
@@ -350,6 +353,7 @@ function RegisterNew() {
                 console.log(error);
             });
     };
+    localStorage.setItem('diesCode', JSON.stringify(diesCode));
     useEffect(() => {
         const updatedData = [...fiterAtlCodeData];
         const index =
@@ -390,13 +394,22 @@ function RegisterNew() {
             },
             data: body
         };
-        axios(config).then(function (response) {
-            if (response.status === 202) {
-                setOtpRes(response?.data?.data);
-                openNotificationWithIcon('success', 'Otp send to Email Id');
-                setBtnOtp(true);
-            }
-        });
+        axios(config)
+            .then(function (response) {
+                if (response.status === 202) {
+                    setOtpRes(response?.data?.data);
+                    openNotificationWithIcon('success', 'Otp send to Email Id');
+                    setBtnOtp(true);
+                }
+            })
+            .catch(function (error) {
+                if (error?.response?.data?.status === 406) {
+                    openNotificationWithIcon(
+                        'error',
+                        'Email ID already exists'
+                    );
+                }
+            });
         e.preventDefault();
     };
     useEffect(() => {
@@ -447,6 +460,8 @@ function RegisterNew() {
         setCheckBox(false);
         formik.setFieldValue('whatapp_mobile', '');
     }, [formik.values.mobile.length == 0]);
+    const showButton =
+        stateData && district && pinCode && atlCode && schoolname && textData;
 
     return (
         <div className="container-fluid  SignUp Login">
@@ -526,7 +541,7 @@ function RegisterNew() {
                                     htmlFor="organization_code"
                                 >
                                     {/* {t('teacehr_red.UDISE')} */}
-                                    UDICE Code
+                                    UDISE Code
                                 </Label>
                                 <Input
                                     {...inputField}
@@ -536,7 +551,7 @@ function RegisterNew() {
                                     maxLength={11}
                                     minLength={11}
                                     name="organization_code"
-                                    placeholder="Enter UDICE Code"
+                                    placeholder="Enter UDISE Code"
                                     className="w-100 mb-3 mb-md-0"
                                     style={{
                                         borderRadius: '0px',
@@ -700,7 +715,12 @@ function RegisterNew() {
                                     <div className="d-flex justify-content-end mt-4">
                                         <Button
                                             label={'PROCEED'}
-                                            btnClass={'primary'}
+                                            btnClass={
+                                                showButton
+                                                    ? 'primary'
+                                                    : 'default'
+                                            }
+                                            disabled={!showButton}
                                             shape="btn-square"
                                             size="small"
                                             onClick={(e) => handleSubmit(e)}
@@ -777,30 +797,10 @@ function RegisterNew() {
                                             >
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 2
-                                                            : 3
-                                                    }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -868,30 +868,10 @@ function RegisterNew() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 7
-                                                            : 6
-                                                    }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -932,30 +912,10 @@ function RegisterNew() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    // xs={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // sm={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // md={
-                                                    //     formik.values.title
-                                                    //         ? 8
-                                                    //         : 7
-                                                    // }
-                                                    // xl={
-                                                    //     formik.values.title
-                                                    //         ? 7
-                                                    //         : 6
-                                                    // }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -998,11 +958,7 @@ function RegisterNew() {
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
-                                                    xl={3}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -1071,10 +1027,6 @@ function RegisterNew() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
                                                 >
                                                     <Label
                                                         className="mb-2 mt-3"
@@ -1118,10 +1070,6 @@ function RegisterNew() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={6}
-                                                    // sm={6}
-                                                    // md={5}
-                                                    // xl={4}
                                                 >
                                                     <div className="d-flex align-items-center justify-content-between">
                                                         <Label
