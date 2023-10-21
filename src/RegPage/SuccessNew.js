@@ -29,7 +29,49 @@ const SuccessNew = () => {
     const myArray = user.split('@');
     const word = myArray[0];
     const UniqueCode = JSON.parse(localStorage.getItem('diesCode'));
+    const [buttonData, setButtonData] = useState('');
+    const handleButton = () => {
+        alert('Hii');
+        apiCall();
+    };
+    async function apiCall() {
+        // Dice code list API //
+        // where list = diescode //
+        const body = JSON.stringify({
+            school_name: orgDaTa.organization_name,
+            udise_code: UniqueCode,
+            atl_code: mentorDaTa.organization_code,
+            district: orgDaTa.district,
+            state: orgDaTa.state,
+            pin_code: orgDaTa.pin_code,
+            email: mentorDaTa.username,
+            mobile: mentorDaTa.mobile
+        });
+        var config = {
+            method: 'post',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                '/mentors/triggerWelcomeEmail',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: body
+        };
 
+        await axios(config)
+            .then(async function (response) {
+                if (response.status == 200) {
+                    setButtonData(response?.data?.data[0]?.data);
+                    openNotificationWithIcon(
+                        'success',
+                        'Email sent successfully'
+                    );
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
     const successData = history && history.location && history.location.data;
     return (
         <React.Fragment>
@@ -247,6 +289,19 @@ const SuccessNew = () => {
                                 >
                                     Gender: {mentorDaTa.gender}
                                 </p>
+                                <>
+                                    <Button
+                                        label="Send To Mail"
+                                        btnClass="primary tex-center my-0 py-0 mx-3 px-3"
+                                        style={{
+                                            borderRadius: '0px',
+                                            padding: '1rem 1rem',
+                                            height: '35px'
+                                        }}
+                                        size="small"
+                                        onClick={handleButton}
+                                    />
+                                </>
                                 <p
                                     style={{
                                         color: 'gray',

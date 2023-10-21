@@ -129,6 +129,11 @@ function RegisterNew() {
                             </span>
                         </h4>
                     </Row>
+                    <Row className="article-header mb-4 mt-4 text-center">
+                        <h3 className="mb-4">
+                            <span className="color-blue">Register As ?</span>
+                        </h3>
+                    </Row>
 
                     <Row className="mt-5">
                         {/* <Col md={12} className="m-5"> */}
