@@ -138,12 +138,7 @@ const CreateMultipleMembers = ({ id }) => {
                     err['username'] = 'Enter Valid Mail Id';
                 }
             }
-            // if (item.username && item.username.match(emailRegex)) {
-            //     const { index } = item.username.match(emailRegex);
-            //     if (index) {
-            //         err['username'] = 'Enter Valid Mail Id';
-            //     }
-            // }
+
             if (!item.Age) err['Age'] = 'Age is Required';
 
             if (!item.disability) err['disability'] = ' Status is Required';
@@ -256,8 +251,13 @@ const CreateMultipleMembers = ({ id }) => {
                                     >
                                         {/* {t('teacher_teams.age')} */}
                                         Email Address
-                                        <span required className="p-1">
-                                            *
+                                        <span
+                                            required
+                                            className="p-1 "
+                                            style={{ color: 'red' }}
+                                        >
+                                            * Note : Gmail / Yahoo / Outlook
+                                            mails are accepted.
                                         </span>
                                     </Label>
                                     <InputBox
@@ -807,9 +807,14 @@ const CreateTeamMember = (props) => {
                                                     )} */}
                                                         <span
                                                             required
-                                                            className="p-1"
+                                                            className="p-1 "
+                                                            style={{
+                                                                color: 'red'
+                                                            }}
                                                         >
-                                                            *
+                                                            * Note : Gmail /
+                                                            Yahoo / Outlook
+                                                            mails are accepted.
                                                         </span>
                                                     </Label>
                                                     <InputBox

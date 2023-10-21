@@ -198,15 +198,6 @@ const SuccessPage = () => {
                                         marginBottom: '1rem'
                                     }}
                                 >
-                                    Faculty Name: {mentorDaTa.title}.{' '}
-                                    {mentorDaTa.full_name}
-                                </p>
-                                <p
-                                    style={{
-                                        color: 'gray',
-                                        marginBottom: '1rem'
-                                    }}
-                                >
                                     Pin Code: {orgDaTa.pin_code}.{' '}
                                     {mentorDaTa.pin_code}
                                 </p>
@@ -216,23 +207,17 @@ const SuccessPage = () => {
                                         marginBottom: '1rem'
                                     }}
                                 >
+                                    Faculty Name: {mentorDaTa.title}.{' '}
+                                    {mentorDaTa.full_name}
+                                </p>
+
+                                <p
+                                    style={{
+                                        color: 'gray',
+                                        marginBottom: '1rem'
+                                    }}
+                                >
                                     Login ID: {mentorDaTa.username}
-                                </p>
-                                <p
-                                    style={{
-                                        color: 'gray',
-                                        marginBottom: '1rem'
-                                    }}
-                                >
-                                    Mobile Number: {mentorDaTa.mobile}
-                                </p>
-                                <p
-                                    style={{
-                                        color: 'gray',
-                                        marginBottom: '1rem'
-                                    }}
-                                >
-                                    Whatsapp Number: {mentorDaTa.whatapp_mobile}
                                 </p>
                                 <p
                                     style={{
@@ -250,6 +235,15 @@ const SuccessPage = () => {
                                 >
                                     Mobile Number: {mentorDaTa.mobile}
                                 </p>
+                                <p
+                                    style={{
+                                        color: 'gray',
+                                        marginBottom: '1rem'
+                                    }}
+                                >
+                                    Whatsapp Number: {mentorDaTa.whatapp_mobile}
+                                </p>
+
                                 <p
                                     style={{
                                         color: 'gray',

@@ -145,7 +145,6 @@ export const getAtlCodeData = (item) => async (dispatch) => {
                 return err.response;
             });
         if (result && result.status === 200) {
-            console.log(result, 'data');
             const data = result.data.data.length > 0 ? result.data.data : [];
             const ATLlistObj = {};
             const ATLCodeslist = data.map((code) => {
@@ -181,7 +180,6 @@ export const getPinCodeData = (item) => async (dispatch) => {
             });
         if (result && result.status === 200) {
             const data = result.data.data.length > 0 ? result.data.data : [];
-            // console.log(data, '1');
             dispatch(getPinCodesSuccess(data));
         } else {
             dispatch(getPinCodesSuccess([]));
@@ -238,13 +236,11 @@ export const getStateData = () => async (dispatch) => {
             });
         if (result && result.status === 200) {
             const data = result.data.data.length > 0 ? result.data.data : [];
-            // console.log(data, '1');
             dispatch(getStatesSuccess(data));
         } else {
             dispatch(getStatesSuccess([]));
         }
     } catch (error) {
-        // console.log(error.result, 'data');
         dispatch(getStatesSuccess([]));
     }
 };

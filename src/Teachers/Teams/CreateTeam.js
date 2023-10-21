@@ -64,6 +64,10 @@ const CreateTeam = (props) => {
         }),
 
         onSubmit: (values) => {
+            const body = {
+                mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
+                team_name: values.teamName
+            };
             if (values.name !== '' && values.name !== null) {
                 body['moc_name'] = values.name;
             }
@@ -76,10 +80,6 @@ const CreateTeam = (props) => {
             if (values.mobile !== '' && values.mobile !== null) {
                 body['moc_phone'] = values.mobile;
             }
-            const body = {
-                mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
-                team_name: values.teamName
-            };
 
             var config = {
                 method: 'post',
