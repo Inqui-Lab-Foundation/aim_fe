@@ -31,7 +31,7 @@ const SuccessPage = () => {
     const [buttonData, setButtonData] = useState('');
 
     const handleButton = () => {
-        alert('hii');
+        // alert('hii');
         apiCall();
     };
     async function apiCall() {

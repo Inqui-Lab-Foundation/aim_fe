@@ -31,7 +31,7 @@ const SuccessNew = () => {
     const UniqueCode = JSON.parse(localStorage.getItem('diesCode'));
     const [buttonData, setButtonData] = useState('');
     const handleButton = () => {
-        alert('Hii');
+        // alert('Hii');
         apiCall();
     };
     async function apiCall() {
