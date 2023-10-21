@@ -284,12 +284,12 @@ function AtlPage() {
         } else {
             setSec(sec - 1);
         }
-        setTimeout(() => {
-            setChange('Resend OTP');
-            setDisable(true);
-            setHoldKey(false);
-            setTimer(0);
-        }, 60000);
+        // setTimeout(() => {
+        //     setChange('Resend OTP');
+        //     setDisable(true);
+        //     setHoldKey(false);
+        //     setTimer(0);
+        // }, 60000);
         const body = JSON.stringify({
             username: formik.values.email
         });
@@ -307,6 +307,12 @@ function AtlPage() {
                     setOtpRes(response?.data?.data);
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);
+                    setTimeout(() => {
+                        setChange('Resend OTP');
+                        setDisable(true);
+                        setHoldKey(false);
+                        setTimer(0);
+                    }, 60000);
                 }
             })
             .catch(function (error) {
@@ -315,6 +321,12 @@ function AtlPage() {
                         'error',
                         'Email ID already exists'
                     );
+                    setTimeout(() => {
+                        // setChange('Resend OTP');
+                        setDisable(true);
+                        setHoldKey(false);
+                        setTimer(0);
+                    }, 1000);
                 }
             });
         e.preventDefault();

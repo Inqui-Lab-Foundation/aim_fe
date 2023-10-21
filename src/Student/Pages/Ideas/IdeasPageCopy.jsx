@@ -341,9 +341,14 @@ const IdeasPageNew = () => {
     };
 
     const swalWrapper = (e, type) => {
-        const nonEmptySelectedOptions = responseData.filter(item => item.selected_option[0] !== "" || item.selected_option.length>1);
+        const nonEmptySelectedOptions = responseData.filter(
+            (item) =>
+                item.selected_option[0] !== '' ||
+                item.selected_option.length > 1
+        );
         let responseLength =
-        nonEmptySelectedOptions.length + (sdg === 'OTHERS' && others ? 1 : 0);
+            nonEmptySelectedOptions.length +
+            (sdg === 'OTHERS' && others ? 1 : 0);
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',

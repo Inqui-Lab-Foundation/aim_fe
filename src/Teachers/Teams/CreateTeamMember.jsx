@@ -130,7 +130,7 @@ const CreateMultipleMembers = ({ id }) => {
 
             if (!item.username.trim()) err['username'] = 'Email is Required';
             if (item.username) {
-                const start = item.username.lastIndexOf('@');
+                const start = item.username.indexOf('@');
                 const main = item.username.substring(start);
                 const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
                 const text = checkarry.includes(main);

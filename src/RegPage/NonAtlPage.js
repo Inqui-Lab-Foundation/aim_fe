@@ -91,10 +91,34 @@ function RegisterNew() {
     );
     useEffect(() => {
         dispatch(getStateData());
-        dispatch(getFetchDistData(stateData));
-        dispatch(getPinCodeData(district));
-        dispatch(getAtlCodeData(pinCode));
-    }, [stateData, district, pinCode]);
+    }, []);
+    useEffect(() => {
+        if (stateData !== '') {
+            dispatch(getFetchDistData(stateData));
+        }
+        setdistrict('');
+        setPinCode('');
+        setAtlCode('');
+    }, [stateData]);
+    useEffect(() => {
+        if (district !== '') {
+            dispatch(getPinCodeData(district));
+        }
+        setPinCode('');
+        setAtlCode('');
+    }, [district]);
+    useEffect(() => {
+        if (pinCode !== '') {
+            dispatch(getAtlCodeData(pinCode));
+        }
+        setAtlCode('');
+    }, [pinCode]);
+    // useEffect(() => {
+    //     dispatch(getStateData());
+    //     dispatch(getFetchDistData(stateData));
+    //     dispatch(getPinCodeData(district));
+    //     dispatch(getAtlCodeData(pinCode));
+    // }, [stateData, district, pinCode]);
     const handleOnChangeCode = (e) => {
         setDiesCode(e.target.value.trim());
         setOrgData();
@@ -366,7 +390,7 @@ function RegisterNew() {
     const handleSendOtp = async (e) => {
         setHoldKey(true);
         setDisable(false);
-        formik.setFieldValue('mobile', formik.values.mobile);
+        formik.setFieldValue('email', formik.values.email);
         setTimer(timer + 1);
         setSec(59);
         setCounter(59);
@@ -377,12 +401,7 @@ function RegisterNew() {
         } else {
             setSec(sec - 1);
         }
-        setTimeout(() => {
-            setChange('Resend OTP');
-            setDisable(true);
-            setHoldKey(false);
-            setTimer(0);
-        }, 60000);
+
         const body = JSON.stringify({
             username: formik.values.email
         });
@@ -400,6 +419,12 @@ function RegisterNew() {
                     setOtpRes(response?.data?.data);
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);
+                    setTimeout(() => {
+                        setChange('Resend OTP');
+                        setDisable(true);
+                        setHoldKey(false);
+                        setTimer(0);
+                    }, 60000);
                 }
             })
             .catch(function (error) {
@@ -408,6 +433,14 @@ function RegisterNew() {
                         'error',
                         'Email ID already exists'
                     );
+                    // setTimer(0);
+                    // setHoldKey(false);
+                    setTimeout(() => {
+                        // setChange('Resend OTP');
+                        setDisable(true);
+                        setHoldKey(false);
+                        setTimer(0);
+                    }, 1000);
                 }
             });
         e.preventDefault();
@@ -606,7 +639,11 @@ function RegisterNew() {
                         <Row className="mt-5">
                             <Col md={12}>
                                 <Row className="align-items-center">
-                                    <Col md={3}>
+                                    <Col md={6}>
+                                        <p>
+                                            {' '}
+                                            <b>Select State </b>
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fullStatesNames}
@@ -617,7 +654,10 @@ function RegisterNew() {
                                         </div>
                                     </Col>
 
-                                    <Col md={3}>
+                                    <Col md={6}>
+                                        <p>
+                                            <b> Select District</b>
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterDistData}
@@ -627,7 +667,16 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <Col md={3}>
+                                </Row>
+                                <Row className="align-items-center">
+                                    <Col md={6}>
+                                        <p>
+                                            {' '}
+                                            <b>
+                                                Select Pincode of near by ATL
+                                                School
+                                            </b>
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterPinCodeData}
@@ -637,7 +686,10 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <Col md={3}>
+                                    <Col md={6}>
+                                        <p>
+                                            <b> Select ATL School</b>{' '}
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterAtlCodeData}

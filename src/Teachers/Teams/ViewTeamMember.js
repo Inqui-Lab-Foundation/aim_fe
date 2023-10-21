@@ -88,7 +88,7 @@ const ViewTeamMember = (props) => {
                     const listofteams = response.data.data
                         .map((item) => {
                             if (
-                                item.StudentCount < 5 &&
+                                item.StudentCount < 3 &&
                                 item.ideaStatus === null
                             ) {
                                 teamlistobj[item.team_name] = item.team_id;
@@ -154,6 +154,7 @@ const ViewTeamMember = (props) => {
             .then(function (response) {
                 if (response.status === 200) {
                     setData(response?.data?.data[0]);
+                    setButton(response.data.data[0].moc_name);
                     if (response.data.data[0].moc_name !== null) {
                         setshowMentorCard(true);
                     }
@@ -330,12 +331,12 @@ const ViewTeamMember = (props) => {
             {
                 name: 'User Id',
                 selector: 'user.username',
-                width: '16rem'
+                width: '25rem'
             },
             {
-                name: 'Default Password',
+                name: 'Password',
                 selector: 'UUID',
-                width: '20rem'
+                width: '15rem'
             },
             {
                 name: t('teacher_teams.student_name'),
@@ -355,12 +356,12 @@ const ViewTeamMember = (props) => {
             {
                 name: 'Class',
                 selector: 'Grade',
-                width: '10rem'
+                width: '7rem'
             },
             {
                 name: t('teacher_teams.age'),
                 selector: 'Age',
-                width: '10rem'
+                width: '7rem'
             },
 
             {
@@ -527,10 +528,21 @@ const ViewTeamMember = (props) => {
                         </Col>
 
                         <Col className="ticket-btn col ml-auto ">
-                            {showMentorCard && (
+                            {button !== null ? (
                                 <div className="d-flex justify-content-end">
                                     <Button
                                         label="Edit"
+                                        btnClass="primary ml-2 m-5"
+                                        size="small"
+                                        shape="btn-square"
+                                        Icon={BsPlusLg}
+                                        onClick={handleEdit}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="d-flex justify-content-end">
+                                    <Button
+                                        label="Add"
                                         btnClass="primary ml-2 m-5"
                                         size="small"
                                         shape="btn-square"
