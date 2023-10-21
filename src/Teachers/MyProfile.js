@@ -13,9 +13,7 @@ const MyProfile = () => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
     const { teacher } = useSelector((state) => state.teacher);
-    console.log(teacher, '1');
     const dispatch = useDispatch();
-    // console.log(teacher);
     useLayoutEffect(() => {
         if (currentUser?.data[0]?.mentor_id) {
             dispatch(getTeacherByID(currentUser?.data[0]?.mentor_id));
@@ -400,45 +398,6 @@ const MyProfile = () => {
                                                                 </Col>
                                                             </Row>
 
-                                                            {/* {/* <Row className="pt-3 pb-3">
-                                                                <Col
-                                                                    xs={5}
-                                                                    sm={5}
-                                                                    md={5}
-                                                                    xl={5}
-                                                                    className="my-auto profile-detail"
-                                                                >
-                                                                    <b>
-                                                                        Principal
-                                                                        Name
-                                                                    </b>
-                                                                </Col>
-                                                                <Col
-                                                                    xs={1}
-                                                                    sm={1}
-                                                                    md={1}
-                                                                    xl={1}
-                                                                >
-                                                                    :
-                                                                </Col>
-                                                                <Col
-                                                                    xs={6}
-                                                                    sm={6}
-                                                                    md={6}
-                                                                    xl={6}
-                                                                    className="my-auto profile-detail"
-                                                                >
-                                                                    <b>
-                                                                        {teacher
-                                                                            .organization
-                                                                            ?.principal_name
-                                                                            ? teacher
-                                                                                  .organization
-                                                                                  ?.principal_name
-                                                                            : '-'}
-                                                                    </b>
-                                                                </Col>
-                                                            </Row> */}
                                                             <Row className="pt-3 pb-3">
                                                                 <Col
                                                                     xs={5}
@@ -478,80 +437,6 @@ const MyProfile = () => {
                                                                 </Col>
                                                             </Row>
 
-                                                            {/* <Row className="pt-3 pb-3">
-                                                                <Col
-                                                                    xs={5}
-                                                                    sm={5}
-                                                                    md={5}
-                                                                    xl={5}
-                                                                    className="my-auto profile-detail"
-                                                                >
-                                                                    <b>
-                                                                        Principal
-                                                                        Mobile
-                                                                    </b>
-                                                                </Col>
-                                                                <Col xs={1}
-                                                                    sm={1}
-                                                                    md={1}
-                                                                    xl={1}>
-                                                                    :
-                                                                </Col>
-                                                                <Col
-                                                                    xs={6}
-                                                                    sm={6}
-                                                                    md={6}
-                                                                    xl={6}
-                                                                    className="my-auto profile-detail"
-                                                                >
-                                                                    <b>
-                                                                        {teacher
-                                                                            .organization
-                                                                            ?.principal_mobile
-                                                                            ? teacher
-                                                                                  .organization
-                                                                                  ?.principal_mobile
-                                                                            : '-'}
-                                                                    </b>
-                                                                </Col>
-                                                            </Row> */}
-
-                                                            <Row className="pt-3 pb-3">
-                                                                <Col
-                                                                    xs={5}
-                                                                    sm={5}
-                                                                    md={5}
-                                                                    xl={5}
-                                                                    className="my-auto profile-detail"
-                                                                >
-                                                                    <b>City</b>
-                                                                </Col>
-                                                                <Col
-                                                                    xs={1}
-                                                                    sm={1}
-                                                                    md={1}
-                                                                    xl={1}
-                                                                >
-                                                                    :
-                                                                </Col>
-                                                                <Col
-                                                                    xs={6}
-                                                                    sm={6}
-                                                                    md={6}
-                                                                    xl={6}
-                                                                    className="my-auto profile-detail"
-                                                                >
-                                                                    <b>
-                                                                        {teacher
-                                                                            .organization
-                                                                            ?.city
-                                                                            ? teacher
-                                                                                  .organization
-                                                                                  ?.city
-                                                                            : '-'}
-                                                                    </b>
-                                                                </Col>
-                                                            </Row>
                                                             <Row className="pt-3 pb-3">
                                                                 <Col
                                                                     xs={5}
