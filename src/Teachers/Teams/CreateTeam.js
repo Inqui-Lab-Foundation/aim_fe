@@ -184,7 +184,7 @@ const CreateTeam = (props) => {
                                             {formik.touched.name &&
                                             formik.errors.name ? (
                                                 <small className="error-cls">
-                                                    {formik.errors.name}
+                                                    {/* {formik.errors.name} */}
                                                 </small>
                                             ) : null}
                                         </Col>
@@ -193,7 +193,7 @@ const CreateTeam = (props) => {
                                                 className="mb-2"
                                                 htmlFor="email"
                                             >
-                                                Email Address
+                                                Mentor Email Address
                                             </Label>
                                             <InputBox
                                                 {...inputEmail}
@@ -216,7 +216,8 @@ const CreateTeam = (props) => {
                                                 className="mb-2"
                                                 htmlFor="gender"
                                             >
-                                                {t('teacehr_red.gender')}
+                                                Mentor Gender
+                                                {/* {t('teacehr_red.gender')} */}
                                             </Label>
                                             <select
                                                 name="gender"
@@ -254,7 +255,7 @@ const CreateTeam = (props) => {
                                                 className="mb-2 mt-3"
                                                 htmlFor="mobile"
                                             >
-                                                Mobile Number
+                                                Mentor Mobile Number
                                             </Label>
                                             <InputBox
                                                 {...inputUsername}

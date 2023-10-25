@@ -508,6 +508,20 @@ const ViewTeamMember = (props) => {
             }
         });
     };
+    const handleAdd = () => {
+        // alert('hii');
+        history.push({
+            pathname: '/mentor/add',
+            item: {
+                // moc_name: data?.moc_name,
+                // moc_gender: data?.moc_gender,
+                // moc_email: data?.moc_email,
+                // moc_phone: data?.moc_phone,
+                team_name: data?.team_name,
+                team_id: data?.team_id
+            }
+        });
+    };
     return (
         <Layout>
             <Container className="ticket-page mt-5 mb-50 userlist">
@@ -531,7 +545,7 @@ const ViewTeamMember = (props) => {
                             {button !== null ? (
                                 <div className="d-flex justify-content-end">
                                     <Button
-                                        label="Edit"
+                                        label="Edit Mentor Details"
                                         btnClass="primary ml-2 m-5"
                                         size="small"
                                         shape="btn-square"
@@ -542,12 +556,16 @@ const ViewTeamMember = (props) => {
                             ) : (
                                 <div className="d-flex justify-content-end">
                                     <Button
-                                        label="Add"
+                                        label="Add  Mentor Details"
                                         btnClass="primary ml-2 m-5"
                                         size="small"
                                         shape="btn-square"
                                         Icon={BsPlusLg}
-                                        onClick={handleEdit}
+                                        onClick={
+                                            handleAdd
+                                            // () =>
+                                            // history.push('/mentor/add')
+                                        }
                                     />
                                 </div>
                             )}
