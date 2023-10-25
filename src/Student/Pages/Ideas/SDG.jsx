@@ -132,7 +132,7 @@ const SDG = ({setShowChallenges}) => {
                                                         <div className='selectbtn'>
                                                             <Button
                                                                 btnClass="secondary"
-                                                                onClick={()=>handleSelect(item?.goal_title)}
+                                                                onClick={()=>handleSelect(item?.goal_fullTitle)}
                                                                 size="small"
                                                                 label="Select"
                                                             />

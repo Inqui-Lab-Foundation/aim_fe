@@ -109,10 +109,8 @@ const IdeasPageNew = () => {
     const currentUser = getCurrentUser('current_user');
     const dispatch = useDispatch();
 
-    const screenOneQst = challengeQuestions.slice(0, 7);
-    const screenTwoQst = challengeQuestions.slice(7, 11);
-    const screenThreeQst = challengeQuestions.slice(11, 13);
-    const screenFourQst = challengeQuestions.slice(13, 17);
+    const screenOneQst = challengeQuestions.slice(0, 3);
+    const screenTwoQst = challengeQuestions.slice(3, 5);
     const [screenCount, setScreenCount] = useState(1);
     const [screenQst, setScreenQst] = useState(challengeQuestions.slice(0, 7));
     const [screenTitle, setScreenTitle] = useState('');
@@ -135,12 +133,6 @@ const IdeasPageNew = () => {
         } else if (screenCount === 2) {
             setScreenQst(screenTwoQst);
             setScreenTitle(t('idea_page.title2'));
-        } else if (screenCount === 3) {
-            setScreenQst(screenThreeQst);
-            setScreenTitle(t('idea_page.title3'));
-        } else if (screenCount === 4) {
-            setScreenQst(screenFourQst);
-            setScreenTitle(t('idea_page.title4'));
         }
     }, [screenCount, challengeQuestions, isDisabled]);
 
@@ -741,7 +733,7 @@ const IdeasPageNew = () => {
                                                             )}
                                                         </b>
                                                     </div>
-                                                    <div>
+                                                    {/* <div>
                                                         <p
                                                             className="text-muted ms-5"
                                                             style={{
@@ -753,7 +745,7 @@ const IdeasPageNew = () => {
                                                                 'student_course.sdg_desc'
                                                             )}
                                                         </p>
-                                                    </div>
+                                                    </div> */}
                                                     <div className=" answers row flex-column p-4">
                                                         <select
                                                             disabled={
@@ -773,15 +765,15 @@ const IdeasPageNew = () => {
                                                                     <option
                                                                         key={i}
                                                                         value={
-                                                                            item.goal_title
+                                                                            item.goal_fullTitle
                                                                         }
                                                                         selected={
-                                                                            item.goal_title ===
+                                                                            item.goal_fullTitle ===
                                                                             sdg
                                                                         }
                                                                     >
                                                                         {
-                                                                            item.goal_title
+                                                                            item.goal_fullTitle
                                                                         }
                                                                     </option>
                                                                 )
@@ -891,10 +883,13 @@ const IdeasPageNew = () => {
                                                                             fontSize:
                                                                                 '1.4rem'
                                                                         }}
+                                                                        dangerouslySetInnerHTML={{
+                                                                            __html: eachQuestion.description
+                                                                        }}
                                                                     >
-                                                                        {
+                                                                        {/* {
                                                                             eachQuestion.description
-                                                                        }
+                                                                        } */}
                                                                     </p>
                                                                 )}
                                                             </div>
@@ -1480,11 +1475,11 @@ const IdeasPageNew = () => {
                                     />
                                     <p>{screenCount}</p>
                                     <div>
-                                        {screenCount < 4 && (
+                                        {screenCount < 2 && (
                                             <Button
                                                 type="button"
                                                 btnClass={
-                                                    screenCount < 4
+                                                    screenCount < 2
                                                         ? 'primary'
                                                         : 'default'
                                                 }

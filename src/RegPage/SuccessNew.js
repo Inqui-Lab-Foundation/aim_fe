@@ -291,7 +291,7 @@ const SuccessNew = () => {
                                 </p>
                                 <>
                                     <Button
-                                        label="Send To Mail"
+                                        label="Send Login Details to mail"
                                         btnClass="primary tex-center my-0 py-0 mx-3 px-3"
                                         style={{
                                             borderRadius: '0px',
