@@ -18,7 +18,7 @@ import {
 } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
 
-const EditMentor = (props) => {
+const AddMentor = (props) => {
     // here we can edit the users details //
     const history = useHistory();
     const mentorData =
@@ -42,7 +42,7 @@ const EditMentor = (props) => {
             name: Yup.string()
                 // .matches(/^[A-Za-z]*$/, 'Invalid name ')
                 // .min(2, 'Enter a valid name')
-                // .required('Name is Required'),
+                .required('Name is Required')
                 .trim()
                 .min(2, 'Enter Name')
                 .matches(/^[aA-zZ\s]+$/, 'Special Characters are not allowed')
@@ -54,17 +54,17 @@ const EditMentor = (props) => {
         });
         return adminValidation;
     };
-    const getInitialValues = (mentorData) => {
+    const getInitialValues = () => {
         const commonInitialValues = {
-            name: mentorData?.moc_name,
-            mobile: mentorData?.moc_phone,
-            email: mentorData?.moc_email,
-            gender: mentorData?.moc_gender
+            name: '',
+            mobile: '',
+            email: '',
+            gender: ''
         };
         return commonInitialValues;
     };
     const formik = useFormik({
-        initialValues: getInitialValues(mentorData),
+        initialValues: getInitialValues(),
         validationSchema: getValidationSchema(),
         onSubmit: (values) => {
             const full_name = values.name;
@@ -291,4 +291,4 @@ const EditMentor = (props) => {
     );
 };
 
-export default EditMentor;
+export default AddMentor;

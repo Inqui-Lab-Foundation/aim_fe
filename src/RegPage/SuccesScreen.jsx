@@ -39,7 +39,7 @@ const SuccessPage = () => {
         // where list = diescode //
         const body = JSON.stringify({
             school_name: orgDaTa.organization_name,
-            udise_code: mentorDaTa.unique_code,
+            udise_code: orgDaTa.unique_code,
             atl_code: mentorDaTa.organization_code,
             district: orgDaTa.district,
             state: orgDaTa.state,
@@ -201,8 +201,8 @@ const SuccessPage = () => {
                                     }}
                                 >
                                     UDISE Code:{' '}
-                                    {mentorDaTa.unique_code
-                                        ? mentorDaTa.unique_code
+                                    {orgDaTa.unique_code
+                                        ? orgDaTa.unique_code
                                         : '-'}
                                 </p>
                                 <p
@@ -294,7 +294,7 @@ const SuccessPage = () => {
                                 </p>
                                 <>
                                     <Button
-                                        label="Send To Mail"
+                                        label="Send Login Details to mail"
                                         btnClass="primary tex-center my-0 py-0 mx-3 px-3"
                                         style={{
                                             borderRadius: '0px',

@@ -167,6 +167,7 @@ import EadminSelDistricts from './Evaluator/Admin/EvalProcess/SelectingDistricts
 import AtlPage from './RegPage/AtlPage';
 import NonAtlPage from './RegPage/NonAtlPage';
 import EditMentor from './Teachers/Teams/EditMentor';
+import AddMentor from './Teachers/Teams/AddMentorDetails';
 
 const Routers = () => {
     return (
@@ -797,6 +798,12 @@ const Routers = () => {
                         user="MENTOR"
                         path="/mentor/edit"
                         component={EditMentor}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="MENTOR"
+                        path="/mentor/add"
+                        component={AddMentor}
                     />
                     <ProtectedRoute
                         exact={true}
