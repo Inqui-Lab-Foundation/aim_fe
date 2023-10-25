@@ -111,6 +111,7 @@ import FirstPage from './RegPage/FirstPage';
 
 import SuccessPage from './Register/SuccessPage';
 import SuccesScreen from './RegPage/SuccesScreen';
+import SuccessNew from './RegPage/SuccessNew';
 
 import LoginSchool from './School/LoginSchool';
 import DashboardSchool from './School/Dashboard';
@@ -165,6 +166,7 @@ import EadminEditProfile from './Evaluator/Admin/Evaluator/EadminEditProfile';
 import EadminSelDistricts from './Evaluator/Admin/EvalProcess/SelectingDistricts';
 import AtlPage from './RegPage/AtlPage';
 import NonAtlPage from './RegPage/NonAtlPage';
+import EditMentor from './Teachers/Teams/EditMentor';
 
 const Routers = () => {
     return (
@@ -206,7 +208,7 @@ const Routers = () => {
                     <Route
                         exact={true}
                         path="/success"
-                        render={() => <SuccessPage />}
+                        render={() => <SuccessNew />}
                     />
                     <Route
                         exact={true}
@@ -789,6 +791,12 @@ const Routers = () => {
                         user="MENTOR"
                         path="/teacher/view-team-member"
                         component={TeacherViewTeamMember}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="MENTOR"
+                        path="/mentor/edit"
+                        component={EditMentor}
                     />
                     <ProtectedRoute
                         exact={true}

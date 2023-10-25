@@ -62,9 +62,15 @@ const EditTeamMember = (props) => {
                 Age: values.age,
                 Grade: values.grade,
                 disability: values.disability,
-                username: values.username,
+                // username: values.username,
                 Gender: values.gender
             };
+            if (
+                teamMemberData &&
+                teamMemberData.user.username !== values.username
+            ) {
+                body['username'] = values.username;
+            }
             var config = {
                 method: 'put',
                 url:

@@ -48,7 +48,7 @@ const TicketsPage = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    console.log(response, '1');
+                    // console.log(response, '1');
                     setTeamsList(response.data.data);
                 }
             })

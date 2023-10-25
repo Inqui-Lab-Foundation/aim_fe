@@ -42,14 +42,14 @@ const CreateTeam = (props) => {
                 )
                 .trim(),
             name: Yup.string()
-                .required('Please enter Mentor Details')
+                // .required('Please enter Mentor Details')
                 .matches(
                     /^[A-Za-z0-9 ]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),
             mobile: Yup.string()
-                .required('required')
+                // .required('required')
                 .trim()
                 .matches(
                     /^\d+$/,
@@ -57,22 +57,30 @@ const CreateTeam = (props) => {
                 )
                 .max(10, 'Please enter only 10 digit valid number')
                 .min(10, 'Number is less than 10 digits'),
-            email: Yup.string()
-                .email('Must be a valid email')
-                .max(255)
-                .required(),
-            gender: Yup.string().required('Please select valid gender')
+            email: Yup.string().email('Must be a valid email').max(255),
+            // .required(),
+            gender: Yup.string()
+            // .required('Please select valid gender')
         }),
 
         onSubmit: (values) => {
-            const body = JSON.stringify({
+            const body = {
                 mentor_id: JSON.stringify(currentUser?.data[0]?.mentor_id),
-                team_name: values.teamName,
-                moc_name: values.name,
-                moc_gender: values.gender,
-                moc_email: values.email,
-                moc_phone: values.mobile
-            });
+                team_name: values.teamName
+            };
+            if (values.name !== '' && values.name !== null) {
+                body['moc_name'] = values.name;
+            }
+            if (values.gender !== '' && values.gender !== null) {
+                body['moc_gender'] = values.gender;
+            }
+            if (values.email !== '' && values.email !== null) {
+                body['moc_email'] = values.email;
+            }
+            if (values.mobile !== '' && values.mobile !== null) {
+                body['moc_phone'] = values.mobile;
+            }
+
             var config = {
                 method: 'post',
                 url: process.env.REACT_APP_API_BASE_URL + '/teams',
@@ -81,16 +89,18 @@ const CreateTeam = (props) => {
 
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`
                 },
-                data: body
+                data: JSON.stringify(body)
             };
             axios(config)
                 .then(function (response) {
                     if (response.status === 201) {
-                        openNotificationWithIcon(
-                            'success',
-                            'Team Create Successfully'
-                        );
-                        props.history.push('/teacher/teamlist');
+                        setTimeout(() => {
+                            openNotificationWithIcon(
+                                'success',
+                                'Team Create Successfully'
+                            );
+                            props.history.push('/teacher/teamlist');
+                        }, 1000);
                     } else {
                         openNotificationWithIcon(
                             'error',
@@ -156,9 +166,9 @@ const CreateTeam = (props) => {
                                             >
                                                 {/* {t('teacher_teams.team_name')} */}
                                                 Mentor Name
-                                                <span required className="p-1">
+                                                {/* <span required className="p-1">
                                                     *
-                                                </span>
+                                                </span> */}
                                             </Label>
 
                                             <InputBox

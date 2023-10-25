@@ -129,6 +129,11 @@ function RegisterNew() {
                             </span>
                         </h4>
                     </Row>
+                    <Row className="article-header mb-4 mt-4 text-center">
+                        <h3 className="mb-4">
+                            <span className="color-blue">Register As ?</span>
+                        </h3>
+                    </Row>
 
                     <Row className="mt-5">
                         {/* <Col md={12} className="m-5"> */}
@@ -176,6 +181,22 @@ function RegisterNew() {
                                                     )
                                                 }
                                             />
+                                        </div>
+                                        <div className="form-row row mb-5 mt-5 text-center">
+                                            <p>
+                                                {' '}
+                                                Already a member ?
+                                                <Link
+                                                    to={'/teacher'}
+                                                    exact
+                                                    className=" m-3 text-center"
+                                                    style={{
+                                                        color: 'blue'
+                                                    }}
+                                                >
+                                                    Login Here
+                                                </Link>
+                                            </p>
                                         </div>
                                         {/* </Col> */}
                                         {/* <Col md={12} className="m-5"> */}

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import '../Student/Pages/SignUp.scss';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Form, Label, CarouselItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Carousel } from 'react-bootstrap';
@@ -20,7 +20,7 @@ import axios from 'axios';
 import { getNormalHeaders, openNotificationWithIcon } from '../helpers/Utils';
 import { useHistory } from 'react-router-dom';
 
-const SuccessPage = () => {
+const SuccessNew = () => {
     const history = useHistory();
     const { t } = useTranslation();
     const mentorDaTa = JSON.parse(localStorage.getItem('mentorData'));
@@ -28,10 +28,10 @@ const SuccessPage = () => {
     const user = mentorDaTa.username;
     const myArray = user.split('@');
     const word = myArray[0];
+    const UniqueCode = JSON.parse(localStorage.getItem('diesCode'));
     const [buttonData, setButtonData] = useState('');
-
     const handleButton = () => {
-        // alert('hii');
+        // alert('Hii');
         apiCall();
     };
     async function apiCall() {
@@ -39,7 +39,7 @@ const SuccessPage = () => {
         // where list = diescode //
         const body = JSON.stringify({
             school_name: orgDaTa.organization_name,
-            udise_code: mentorDaTa.unique_code,
+            udise_code: UniqueCode,
             atl_code: mentorDaTa.organization_code,
             district: orgDaTa.district,
             state: orgDaTa.state,
@@ -200,10 +200,7 @@ const SuccessPage = () => {
                                         marginBottom: '1rem'
                                     }}
                                 >
-                                    UDISE Code:{' '}
-                                    {mentorDaTa.unique_code
-                                        ? mentorDaTa.unique_code
-                                        : '-'}
+                                    UDISE Code: {UniqueCode ? UniqueCode : '-'}
                                 </p>
                                 <p
                                     style={{
@@ -333,4 +330,4 @@ const SuccessPage = () => {
     );
 };
 
-export default SuccessPage;
+export default SuccessNew;

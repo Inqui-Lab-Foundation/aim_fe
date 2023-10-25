@@ -50,15 +50,17 @@ function RegisterNew() {
     const [atlCode, setAtlCode] = useState('');
     const [orgNewData, setOrgNewData] = useState([]);
 
-    const [textData, setTextData] = useState('');
-    const [btn, setBtn] = useState(true);
-    const [error, setError] = useState('');
+    const [btn, setBtn] = useState(false);
     const [schoolBtn, setSchoolBtn] = useState(false);
+    const [diceBtn, setDiceBtn] = useState(true);
+
+    const [textData, setTextData] = useState('');
+    const [schoolname, setSchoolname] = useState('');
+    const [error, setError] = useState('');
     const [btnOtp, setBtnOtp] = useState(false);
     const [otpRes, setOtpRes] = useState('');
     const [errorMsg, setErrorMsg] = useState(false);
     const [mentorData, setMentorData] = useState({});
-    const [diceBtn, setDiceBtn] = useState(true);
     const [checkBox, setCheckBox] = useState(false);
     const [change, setChange] = useState('Send OTP');
     const [wtsNum, setWtsNum] = useState('');
@@ -71,10 +73,10 @@ function RegisterNew() {
     const [disable, setDisable] = useState(false);
     const [timer, setTimer] = useState(0);
     const [or, setOr] = useState('');
-    // const fullDistrictsNames = useSelector(
-    //     (state) => state?.studentRegistration?.dists
-    // );
-    // console.log(orgData.district, '1');
+    const [orgName, setOrgname] = useState('');
+    localStorage.setItem('mentorData', JSON.stringify(mentorData));
+    localStorage.setItem('orgData', JSON.stringify(orgData));
+
     const fullStatesNames = useSelector(
         (state) => state?.studentRegistration?.regstate
     );
@@ -87,17 +89,87 @@ function RegisterNew() {
     const fiterAtlCodeData = useSelector(
         (state) => state?.studentRegistration?.atlcode
     );
-    // console.log(fiterDistData, '1');
     useEffect(() => {
         dispatch(getStateData());
-        dispatch(getFetchDistData(stateData));
-        dispatch(getPinCodeData(district));
-        dispatch(getAtlCodeData(pinCode));
-    }, [stateData, district, pinCode]);
+    }, []);
+    useEffect(() => {
+        if (stateData !== '') {
+            dispatch(getFetchDistData(stateData));
+        }
+        setdistrict('');
+        setPinCode('');
+        setAtlCode('');
+    }, [stateData]);
+    useEffect(() => {
+        if (district !== '') {
+            dispatch(getPinCodeData(district));
+        }
+        setPinCode('');
+        setAtlCode('');
+    }, [district]);
+    useEffect(() => {
+        if (pinCode !== '') {
+            dispatch(getAtlCodeData(pinCode));
+        }
+        setAtlCode('');
+    }, [pinCode]);
+    // useEffect(() => {
+    //     dispatch(getStateData());
+    //     dispatch(getFetchDistData(stateData));
+    //     dispatch(getPinCodeData(district));
+    //     dispatch(getAtlCodeData(pinCode));
+    // }, [stateData, district, pinCode]);
+    const handleOnChangeCode = (e) => {
+        setDiesCode(e.target.value.trim());
+        setOrgData();
+        setError('');
+    };
+    let pattern = /[0-9]*$/;
+    const handleRegister = (e) => {
+        const { index } = diesCode.match(pattern);
+        // console.log(index, '=====', diesCode);
+        if (index) {
+            setError('Only numeric are allowed');
+        } else if (diesCode.length < 11) {
+            setError('Udise Code must be 11 digits');
+        } else {
+            const body = JSON.stringify({
+                unique_code: diesCode
+            });
+            var config = {
+                method: 'post',
+                url:
+                    process.env.REACT_APP_API_BASE_URL +
+                    '/organizations/checkUniqueCode',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: body
+            };
+            axios(config)
+                .then(function (response) {
+                    if (response?.status == 200) {
+                        setError(
+                            'Another Teacher is already registered in given School'
+                        );
+                        setDiceBtn(true);
+                        setBtn(false);
+                    }
+                })
+                .catch(function (error) {
+                    if (error?.response?.data?.status === 404) {
+                        setBtn(true);
+                        setDiceBtn(false);
+                    }
+                });
+
+            e.preventDefault();
+        }
+    };
     const formik = useFormik({
         initialValues: {
             full_name: '',
-            organization_code: diesCode,
+            organization_code: atlCode,
             // username: '',
             mobile: '',
             whatapp_mobile: '',
@@ -162,9 +234,8 @@ function RegisterNew() {
                     padding: CryptoJS.pad.NoPadding
                 }).toString();
                 // values.password = encrypted;
-                const body = JSON.stringify({
+                const body = {
                     full_name: values.full_name.trim(),
-                    organization_code: values.organization_code.trim(),
                     mobile: values.mobile.trim(),
                     whatapp_mobile: values.whatapp_mobile.trim(),
                     username: values.email.trim(),
@@ -174,59 +245,12 @@ function RegisterNew() {
                     title: values.title,
                     reg_status: values.reg_status,
                     password: encrypted
-                });
-                var config = {
-                    method: 'post',
-                    url:
-                        process.env.REACT_APP_API_BASE_URL +
-                        '/mentors/register',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-
-                    data: body
                 };
-                await axios(config)
-                    .then((mentorRegRes) => {
-                        if (mentorRegRes?.data?.status == 201) {
-                            // console.log(mentorRegRes, 'Data');
-                            setMentorData(mentorRegRes?.data?.data[0]);
-                            const successData = {
-                                full_name:
-                                    mentorRegRes?.data?.data[0].full_name,
-                                district: orgData?.district,
-                                school: orgData?.organization_name,
-                                organization_code:
-                                    mentorRegRes?.data?.data[0]
-                                        .organization_code,
-                                gender: mentorRegRes?.data?.data[0].gender,
-                                title: mentorRegRes?.data?.data[0].title,
-                                mobile: mentorRegRes?.data?.data[0].mobile,
-                                username: mentorRegRes?.data?.data[0].email,
-                                whatapp_mobile:
-                                    mentorRegRes?.data?.data[0].whatapp_mobile
-                            };
-                            // setBtn(true);
-                            history.push({
-                                pathname: '/successScreen',
-                                data: successData
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        openNotificationWithIcon(
-                            'error',
-                            err.response.data?.message
-                        );
-                        // setBtn(false);
-                        formik.setErrors({
-                            check: err.response && err?.response?.data?.message
-                        });
-                        return err.response;
-                    });
+                handleRegist(body);
             }
         }
     });
+
     const inputField = {
         type: 'text',
         className: 'defaultInput'
@@ -253,17 +277,81 @@ function RegisterNew() {
         className: 'defaultInput'
     };
     const handleOnChange = (e) => {
-        setTextData(e.target.value.trim());
+        setTextData(e.target.value);
+    };
+    const handleOnChangeSchool = (e) => {
+        setSchoolname(e.target.value);
+    };
+    const handleSubmit = (e) => {
+        const body = {
+            state: stateData,
+            district: district,
+            pin_code: pinCode,
+            category: 'Non ATL',
+            organization_code: atlCode,
+            organization_name: schoolname,
+
+            address: textData
+        };
+        setOrgData(body);
+        setBtn(false);
+        setSchoolBtn(true);
+
+        e.preventDefault();
     };
 
-    const handleSubmit = (e) => {
+    const handelMentorReg = async (body) => {
+        var config = {
+            method: 'post',
+            url: process.env.REACT_APP_API_BASE_URL + '/mentors/register',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            data: JSON.stringify(body)
+        };
+        await axios(config)
+            .then((mentorRegRes) => {
+                if (mentorRegRes?.data?.status == 201) {
+                    setMentorData(mentorRegRes?.data?.data[0]);
+                    const successData = {
+                        full_name: mentorRegRes?.data?.data[0].full_name,
+                        district: orgData?.district,
+                        school: orgData?.organization_name,
+                        organization_code:
+                            mentorRegRes?.data?.data[0].organization_code,
+                        gender: mentorRegRes?.data?.data[0].gender,
+                        title: mentorRegRes?.data?.data[0].title,
+                        mobile: mentorRegRes?.data?.data[0].mobile,
+                        username: mentorRegRes?.data?.data[0].email,
+                        whatapp_mobile:
+                            mentorRegRes?.data?.data[0].whatapp_mobile
+                    };
+                    // setBtn(true);
+                    history.push({
+                        pathname: '/success',
+                        data: successData
+                    });
+                }
+            })
+            .catch((err) => {
+                openNotificationWithIcon('error', err.response.data?.message);
+                // setBtn(false);
+                formik.setErrors({
+                    check: err.response && err?.response?.data?.message
+                });
+                return err.response;
+            });
+    };
+    const handleRegist = (mentorregdata) => {
         const body = JSON.stringify({
             state: stateData,
             district: district,
             pin_code: pinCode,
             category: 'Non ATL',
             organization_code: atlCode,
-            organization_name: orgNewData.organization_name,
+            organization_name: schoolname,
+            unique_code: diesCode,
             address: textData
         });
         var config = {
@@ -278,55 +366,31 @@ function RegisterNew() {
         };
         axios(config)
             .then(function (response) {
-                // console.log(response, 'data');
                 if (response?.status == 201) {
-                    if (
-                        response?.data?.data[0].mentor != null &&
-                        process.env.REACT_APP_USEDICECODE == 1
-                    ) {
-                        setError(
-                            'Another Teacher is already registered in given School'
-                        );
-                    } else {
-                        if (Object.keys(response?.data?.data[0]).length) {
-                            setOrgData(response?.data?.data[0]);
-                            formik.setFieldValue(
-                                'organization_code',
-                                response?.data?.data[0].organization_code
-                            );
-
-                            setBtn(false);
-                            setSchoolBtn(true);
-                        } else {
-                            setError('Oops..! UDISE Code seems incorrect');
-                        }
-                    }
+                    mentorregdata['organization_code'] =
+                        response.data.data[0].organization_code;
+                    handelMentorReg(mentorregdata);
                 }
-                // setOrgData(response?.data?.data);
-                // console.log(orgData.district);
             })
 
             .catch(function (error) {
                 console.log(error);
             });
-
-        e.preventDefault();
     };
-
+    localStorage.setItem('diesCode', JSON.stringify(diesCode));
     useEffect(() => {
         const updatedData = [...fiterAtlCodeData];
         const index =
             fiterAtlCodeData.length > 0 &&
             fiterAtlCodeData.findIndex((x) => x.organization_code == atlCode);
         if (index !== -1) {
-            // console.log('v', updatedData[index], index);
             setOrgNewData(fiterAtlCodeData[index]);
         }
     }, [atlCode]);
     const handleSendOtp = async (e) => {
         setHoldKey(true);
         setDisable(false);
-        formik.setFieldValue('mobile', formik.values.mobile);
+        formik.setFieldValue('email', formik.values.email);
         setTimer(timer + 1);
         setSec(59);
         setCounter(59);
@@ -337,12 +401,7 @@ function RegisterNew() {
         } else {
             setSec(sec - 1);
         }
-        setTimeout(() => {
-            setChange('Resend OTP');
-            setDisable(true);
-            setHoldKey(false);
-            setTimer(0);
-        }, 60000);
+
         const body = JSON.stringify({
             username: formik.values.email
         });
@@ -354,13 +413,36 @@ function RegisterNew() {
             },
             data: body
         };
-        axios(config).then(function (response) {
-            if (response.status === 202) {
-                setOtpRes(response?.data?.data);
-                openNotificationWithIcon('success', 'Otp send to Email Id');
-                setBtnOtp(true);
-            }
-        });
+        axios(config)
+            .then(function (response) {
+                if (response.status === 202) {
+                    setOtpRes(response?.data?.data);
+                    openNotificationWithIcon('success', 'Otp send to Email Id');
+                    setBtnOtp(true);
+                    setTimeout(() => {
+                        setChange('Resend OTP');
+                        setDisable(true);
+                        setHoldKey(false);
+                        setTimer(0);
+                    }, 60000);
+                }
+            })
+            .catch(function (error) {
+                if (error?.response?.data?.status === 406) {
+                    openNotificationWithIcon(
+                        'error',
+                        'Email ID already exists'
+                    );
+                    // setTimer(0);
+                    // setHoldKey(false);
+                    setTimeout(() => {
+                        // setChange('Resend OTP');
+                        setDisable(true);
+                        setHoldKey(false);
+                        setTimer(0);
+                    }, 1000);
+                }
+            });
         e.preventDefault();
     };
     useEffect(() => {
@@ -411,43 +493,13 @@ function RegisterNew() {
         setCheckBox(false);
         formik.setFieldValue('whatapp_mobile', '');
     }, [formik.values.mobile.length == 0]);
+    const showButton =
+        stateData && district && pinCode && atlCode && schoolname && textData;
 
     return (
         <div className="container-fluid  SignUp Login">
             <Row className="row-flex  ">
                 <div className="col-md-6 aside mobile-header">
-                    {/* <div className="row">
-                        <Link to={'/'} exact>
-                            <Col md={12} className=" mr-auto mobile_tab-hide">
-                                {' '}
-                                <h2 className="text-white">
-                                    <img
-                                        src={signuplogo}
-                                        alt="Signup logo"
-                                        className="img-fluid w-50"
-                                    />
-                                </h2>
-                            </Col>
-                        </Link>
-                    </div> */}
-
-                    {/* <h1 className="text-left pb-5 mobile_tab-hide">
-                        {t('login.Title')}
-                    </h1>
-                    <p className="mobile_tab-hide">{t('login.subtitle')}</p>
-                    <div className="mobile_tab-hide">
-                        <figure>
-                            <img
-                                src={image_1}
-                                alt="image_1"
-                                className="img-fluid img-1"
-                            />
-                        </figure>
-                    </div> */}
-                    {/* <h1 className="text-left pb-5 mobile_tab-hide">
-                        {t('login.Title')}
-                    </h1>
-                    <p className="mobile_tab-hide">{t('login.subtitle')}</p> */}
                     <Carousel>
                         <Carousel.Item>
                             <div className="mobile_tab-hide">
@@ -504,16 +556,94 @@ function RegisterNew() {
                     <Row className="article-header mb-4 mt-4 text-center">
                         <h4 className="mb-4">
                             <span className="color-black">
-                                TEACHER REGISTRATION
+                                Non ATL School Registration
                             </span>
                         </h4>
                     </Row>
+                    {diceBtn && (
+                        <div className="form-row row mb-5">
+                            <Col
+                                className="form-group"
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                xl={12}
+                            >
+                                <Label
+                                    className="mb-2"
+                                    htmlFor="organization_code"
+                                >
+                                    {/* {t('teacehr_red.UDISE')} */}
+                                    UDISE Code
+                                </Label>
+                                <Input
+                                    {...inputField}
+                                    id="organization_code"
+                                    onChange={(e) => handleOnChangeCode(e)}
+                                    value={diesCode}
+                                    maxLength={11}
+                                    minLength={11}
+                                    name="organization_code"
+                                    placeholder="Enter UDISE Code"
+                                    className="w-100 mb-3 mb-md-0"
+                                    style={{
+                                        borderRadius: '0px',
+                                        padding: '9px 11px'
+                                        // color: 'red'
+                                    }}
+                                />
+                                {error ? (
+                                    <p
+                                        style={{
+                                            color: 'red'
+                                        }}
+                                    >
+                                        {error}
+                                    </p>
+                                ) : null}
 
+                                {diceBtn && (
+                                    <div className="mt-4">
+                                        <Button
+                                            label={t('teacehr_red.continue')}
+                                            btnClass={
+                                                !diesCode.length
+                                                    ? 'default rounded-0'
+                                                    : 'primary rounded-0'
+                                            }
+                                            size="small"
+                                            onClick={(e) => handleRegister(e)}
+                                        />
+                                    </div>
+                                )}
+                                <div className="form-row row mb-5 mt-5">
+                                    <p>
+                                        {' '}
+                                        Already a member ?
+                                        <Link
+                                            to={'/teacher'}
+                                            exact
+                                            className=" m-3 text-center"
+                                            style={{
+                                                color: 'blue'
+                                            }}
+                                        >
+                                            Login Here
+                                        </Link>
+                                    </p>
+                                </div>
+                            </Col>
+                        </div>
+                    )}
                     {btn && (
                         <Row className="mt-5">
                             <Col md={12}>
                                 <Row className="align-items-center">
-                                    <Col md={4}>
+                                    <Col md={6}>
+                                        <p>
+                                            {' '}
+                                            <b>Select State </b>
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fullStatesNames}
@@ -524,7 +654,10 @@ function RegisterNew() {
                                         </div>
                                     </Col>
 
-                                    <Col md={4}>
+                                    <Col md={6}>
+                                        <p>
+                                            <b> Select District</b>
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterDistData}
@@ -534,7 +667,16 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <Col md={4}>
+                                </Row>
+                                <Row className="align-items-center">
+                                    <Col md={6}>
+                                        <p>
+                                            {' '}
+                                            <b>
+                                                Select Pincode of near by ATL
+                                                School
+                                            </b>
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterPinCodeData}
@@ -544,7 +686,10 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <Col md={4}>
+                                    <Col md={6}>
+                                        <p>
+                                            <b> Select ATL School</b>{' '}
+                                        </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
                                                 list={fiterAtlCodeData}
@@ -555,7 +700,39 @@ function RegisterNew() {
                                             />
                                         </div>
                                     </Col>
-                                    <div className="form-row row mb-5">
+                                    <div className="form-row row mb-3 mt-5">
+                                        <Col
+                                            className="form-group"
+                                            xs={12}
+                                            sm={12}
+                                            md={12}
+                                            xl={12}
+                                        >
+                                            <Label
+                                                className="mb-2"
+                                                htmlFor="organization_name"
+                                            >
+                                                Enter Your School Name
+                                            </Label>
+                                            <Input
+                                                {...inputField}
+                                                id="organization_name"
+                                                onChange={(e) =>
+                                                    handleOnChangeSchool(e)
+                                                }
+                                                value={schoolname}
+                                                name="organization_name"
+                                                placeholder="Enter Your School Name"
+                                                className="w-100 mb-3 mb-md-0"
+                                                style={{
+                                                    borderRadius: '0px',
+                                                    padding: '9px 11px'
+                                                    // color: 'red'
+                                                }}
+                                            />
+                                        </Col>
+                                    </div>
+                                    <div className="form-row row mb-3">
                                         <Col
                                             className="form-group"
                                             xs={12}
@@ -567,7 +744,7 @@ function RegisterNew() {
                                                 className="mb-2"
                                                 htmlFor="address"
                                             >
-                                                Address
+                                                Enter Your School Address
                                             </Label>
                                             <Input
                                                 {...inputField}
@@ -576,10 +753,8 @@ function RegisterNew() {
                                                     handleOnChange(e)
                                                 }
                                                 value={textData}
-                                                maxLength={11}
-                                                minLength={11}
                                                 name="address"
-                                                // placeholder="Enter UDISE Code"
+                                                placeholder="Enter Your School Address"
                                                 className="w-100 mb-3 mb-md-0"
                                                 style={{
                                                     borderRadius: '0px',
@@ -589,18 +764,34 @@ function RegisterNew() {
                                             />
                                         </Col>
                                     </div>
-                                    <Button
-                                        label={'Submit'}
-                                        btnClass={'primary'}
-                                        size="small w-50"
-                                        onClick={(e) => handleSubmit(e)}
-                                        // disabled={
-                                        //     !(
-                                        //         formik.values.otp.length > 5 &&
-                                        //         otpRes == formik.values.otp
-                                        //     )
-                                        // }
-                                    />
+                                    <div className="d-flex justify-content-end mt-4">
+                                        <Button
+                                            label={'PROCEED'}
+                                            btnClass={
+                                                showButton
+                                                    ? 'primary'
+                                                    : 'default'
+                                            }
+                                            disabled={!showButton}
+                                            shape="btn-square"
+                                            size="small"
+                                            onClick={(e) => handleSubmit(e)}
+                                        />
+                                    </div>
+                                    <div className="form-row row mb-5">
+                                        <p>
+                                            {' '}
+                                            Already a member ?
+                                            <Link
+                                                to={'/teacher'}
+                                                exact
+                                                className=" m-3 text-center"
+                                                style={{ color: 'blue' }}
+                                            >
+                                                Login Here
+                                            </Link>
+                                        </p>
+                                    </div>
                                 </Row>
                             </Col>
                         </Row>
@@ -623,11 +814,11 @@ function RegisterNew() {
                                         >
                                             {t('teacehr_red.school')}:{' '}
                                             {orgData?.organization_name} <br />
-                                            {t('teacehr_red.city')}:{' '}
+                                            {/* {t('teacehr_red.city')}:{' '}
                                             {orgData?.city
                                                 ? orgData?.city
                                                 : ' N/A'}{' '}
-                                            <br />
+                                            <br /> */}
                                             {t('teacehr_red.district')}:{' '}
                                             {orgData?.district
                                                 ? orgData?.district
@@ -658,30 +849,10 @@ function RegisterNew() {
                                             >
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 4
-                                                            : 5
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 2
-                                                            : 3
-                                                    }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -749,30 +920,10 @@ function RegisterNew() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 7
-                                                            : 6
-                                                    }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -813,30 +964,10 @@ function RegisterNew() {
                                                 </Col>
                                                 <Col
                                                     className="form-group"
-                                                    xs={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    sm={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    md={
-                                                        formik.values.title
-                                                            ? 8
-                                                            : 7
-                                                    }
-                                                    xl={
-                                                        formik.values.title
-                                                            ? 7
-                                                            : 6
-                                                    }
-                                                    // xs={6}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xs={12}
+                                                    sm={12}
+                                                    md={12}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -879,11 +1010,7 @@ function RegisterNew() {
                                                     xs={12}
                                                     sm={12}
                                                     md={12}
-                                                    xl={3}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
+                                                    xl={6}
                                                 >
                                                     <Label
                                                         className="mb-2"
@@ -952,10 +1079,6 @@ function RegisterNew() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={12}
-                                                    // sm={12}
-                                                    // md={10}
-                                                    // xl={7}
                                                 >
                                                     <Label
                                                         className="mb-2 mt-3"
@@ -999,10 +1122,6 @@ function RegisterNew() {
                                                     sm={12}
                                                     md={12}
                                                     xl={6}
-                                                    // xs={6}
-                                                    // sm={6}
-                                                    // md={5}
-                                                    // xl={4}
                                                 >
                                                     <div className="d-flex align-items-center justify-content-between">
                                                         <Label
@@ -1099,54 +1218,6 @@ function RegisterNew() {
                                                         </small>
                                                     ) : null}
                                                 </Col>
-                                                {/* <Row
-                                                    className="form-group mt-3"
-                                                    xs={12}
-                                                    sm={12}
-                                                    md={10}
-                                                    xl={7}
-                                                >
-                                                    <Col
-                                                        xs={10}
-                                                        sm={10}
-                                                        md={8}
-                                                        xl={6}
-                                                    >
-                                                        <p>
-                                                            {' '}
-                                                            Mobile Number Same
-                                                            as WhatsApp Number
-                                                            Click Here !
-                                                        </p>
-                                                    </Col>
-                                                    <Col
-                                                        className="form-group "
-                                                        // xs={12}
-                                                        // sm={12}
-                                                        // md={10}
-                                                        // xl={7}
-                                                        xs={2}
-                                                        sm={2}
-                                                        md={2}
-                                                        xl={1}
-                                                    >
-                                                        <div className="my-10 checkbox-right">
-                                                            <Input
-                                                                type="checkbox"
-                                                                className="mt-3 mb-8 my-10 pb-4 pt-3 "
-                                                                name="click"
-                                                                id="click"
-                                                                onClick={(e) =>
-                                                                    handleCheckbox(
-                                                                        e,
-                                                                        !checkBox
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                    </Col>
-                                                    
-                                                </Row> */}
                                             </Row>
                                             <div className="mt-5 d-flex align-items-center">
                                                 <Button

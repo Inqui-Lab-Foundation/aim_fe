@@ -22,7 +22,7 @@ const ForgotPasswordNew = () => {
     const [errorMsg, seterrorMsg] = useState('');
     const inputMobile = {
         type: 'mobile',
-        placeholder: 'Enter your registered Mobile Number'
+        placeholder: 'Enter your registered Email Address'
     };
 
     const logInBtn = {
@@ -32,16 +32,14 @@ const ForgotPasswordNew = () => {
     };
     const formik = useFormik({
         initialValues: {
-            mobile: ''
+            email: ''
         },
 
         validationSchema: Yup.object({
-            mobile: Yup.string()
-                .required('required')
-                .trim()
-                .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
-                .min(10, 'Please enter valid number')
-                .max(10, 'Please enter valid number')
+            email: Yup.string().email('Must be a valid email').max(255).trim()
+            // .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
+            // .min(10, 'Please enter valid number')
+            // .max(10, 'Please enter valid number')
         }),
 
         onSubmit: async (values) => {
@@ -139,7 +137,7 @@ const ForgotPasswordNew = () => {
                                 <h4>Did you forgot your password?</h4>
                                 <span className=" sub mt-2 w-100">
                                     Don’t worry! Resetting your password is
-                                    easy, just type in the mobile number you
+                                    easy, just type in the email address you
                                     registered to this program
                                 </span>
                                 <Form onSubmit={formik.handleSubmit}>
@@ -147,23 +145,23 @@ const ForgotPasswordNew = () => {
                                         <Col className="form-group">
                                             <Label
                                                 className="mb-2"
-                                                htmlFor="mobile"
+                                                htmlFor="email"
                                             >
-                                                Enter Mobile Number
+                                                Enter Email Address
                                             </Label>
                                             <InputBox
                                                 {...inputMobile}
-                                                id="mobile"
-                                                name="mobile"
+                                                id="email"
+                                                name="email"
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                value={formik.values.mobile}
+                                                value={formik.values.email}
                                             />
 
-                                            {formik.touched.mobile &&
-                                            formik.errors.mobile ? (
+                                            {formik.touched.email &&
+                                            formik.errors.email ? (
                                                 <small className="error-cls">
-                                                    {formik.errors.mobile}
+                                                    {formik.errors.email}
                                                 </small>
                                             ) : null}
                                         </Col>
@@ -172,8 +170,8 @@ const ForgotPasswordNew = () => {
 
                                     {errorMsg === 'User not found' && (
                                         <b className="text-danger m-3">
-                                            Please enter registered Mobile
-                                            Number
+                                            Please enter registered Email
+                                            Address
                                         </b>
                                     )}
                                     <div className="mt-3">
