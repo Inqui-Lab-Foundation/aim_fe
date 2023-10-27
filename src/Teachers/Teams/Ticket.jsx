@@ -116,7 +116,8 @@ const TicketsPage = () => {
                             {process.env.REACT_APP_TEAM_LENGTH >
                                 params.StudentCount && (
                                 <div className="btn btn-success  mr-5 mx-2">
-                                    {t('teacher_teams.create')}
+                                    Add Team Members
+                                    {/* {t('teacher_teams.create')} */}
                                 </div>
                             )}
                         </div>,
@@ -247,7 +248,7 @@ const TicketsPage = () => {
                             </li>
                             <li>
                                 Each team should have a minimum of 2 and maximum
-                                of 5 students.
+                                of 3 students.
                             </li>
                             <li>
                                 Team name cannot be edited whereas student

@@ -23,7 +23,7 @@ const SDG = ({ setShowChallenges }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { t } = useTranslation();
-    const [showPage, setShowPage] = useState(true);
+    const [showPage, setShowPage] = useState(false);
     const comingSoonText = t('dummytext.student_idea_sub');
     const dashboardStatus = useSelector(
         (state) => state?.studentRegistration?.dashboardStatus
@@ -62,7 +62,7 @@ const SDG = ({ setShowChallenges }) => {
     };
     return (
         <Layout>
-            {!showPage ? (
+            {showPage ? (
                 <CommonPage text={comingSoonText} />
             ) : (
                 <Container className="mb-50 mt-5 ">
