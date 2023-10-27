@@ -14,7 +14,10 @@ import {
     initiateIdea
 } from '../../../redux/studentRegistration/actions';
 import { useHistory } from 'react-router-dom';
+<<<<<<< HEAD
 import sdg18 from '../../../assets/media/SDG_icons/sdg-18.png';
+=======
+>>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 const SDG = ({ setShowChallenges }) => {
@@ -30,9 +33,15 @@ const SDG = ({ setShowChallenges }) => {
     const dashboardStatus = useSelector(
         (state) => state?.studentRegistration?.dashboardStatus
     );
+<<<<<<< HEAD
     // let { all_topics_count, topics_completed_count } = dashboardStatus
     //     ? dashboardStatus
     //     : { all_topics_count: null, topics_completed_count: null };
+=======
+    let { all_topics_count, topics_completed_count } = dashboardStatus
+        ? dashboardStatus
+        : { all_topics_count: null, topics_completed_count: null };
+>>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
     useLayoutEffect(() => {
         if (!dashboardStatus)
             dispatch(
@@ -42,10 +51,17 @@ const SDG = ({ setShowChallenges }) => {
                 )
             );
     }, [language]);
+<<<<<<< HEAD
     // useEffect(() => {
     //     if (all_topics_count && all_topics_count !== topics_completed_count)
     //         setShowPage(false);
     // }, [all_topics_count, topics_completed_count]);
+=======
+    useEffect(() => {
+        if (all_topics_count && all_topics_count !== topics_completed_count)
+            setShowPage(false);
+    }, [all_topics_count, topics_completed_count]);
+>>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
 
     const handleSelect = (data) => {
         const initialSizeData = {
@@ -94,6 +110,7 @@ const SDG = ({ setShowChallenges }) => {
                                                             height: '36rem'
                                                         }}
                                                     ></img>
+<<<<<<< HEAD
                                                     {item?.goal_logo === '' &&
                                                     item?.goal_number ===
                                                         '18' ? (
@@ -136,6 +153,8 @@ const SDG = ({ setShowChallenges }) => {
                                                             }}
                                                         ></img>
                                                     )}
+=======
+>>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
                                                 </div>
                                                 <div
                                                     className="flip-card-back px-2 py-3"
@@ -147,14 +166,18 @@ const SDG = ({ setShowChallenges }) => {
                                                     <h2 className="text-white m-md-5">
                                                         {item?.goal_title}
                                                     </h2>
-                                                    <p>{item?.goal_text}</p>
+                                                    {/* <p>{item?.goal_text}</p> */}
                                                     <div className="choose_btn_box fixed-bottom mb-md-2 mb-3  d-flex justify-content-between">
                                                         <div className="selectbtn">
                                                             <Button
                                                                 btnClass="secondary"
                                                                 onClick={() =>
                                                                     handleSelect(
+<<<<<<< HEAD
                                                                         item?.goal_fullTitle
+=======
+                                                                        item?.goal_title
+>>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
                                                                     )
                                                                 }
                                                                 size="small"
