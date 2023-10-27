@@ -13,7 +13,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import logo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import image_1 from '../assets/media/unisolve_slider1.png';
-import image_2 from '../assets/media/unisolve_slider2.png';
+import image_2 from '../assets/media/Card New 1.png';
 import { adminLoginUser } from '../redux/actions';
 // import { useTranslation } from 'react-i18next';
 import CryptoJS from 'crypto-js';

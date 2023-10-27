@@ -15,7 +15,7 @@ import logo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import studentIcon from '../assets/media/student_login_icon.png';
 import teacherIcon from '../assets/media/teacher_login_icon.png';
 import image_5 from '../assets/media/unisolve_slider1.png';
-import image_6 from '../assets/media/unisolve_slider2.png';
+import image_6 from '../assets/media/Card New 1.png';
 import { teacherLoginUser } from '../redux/actions';
 import CryptoJS from 'crypto-js';
 // import ForgotPassword from './ForgotPassword';

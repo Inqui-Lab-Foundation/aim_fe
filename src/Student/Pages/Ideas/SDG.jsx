@@ -66,7 +66,7 @@ const SDG = ({ setShowChallenges }) => {
                 <CommonPage text={comingSoonText} />
             ) : (
                 <Container className="mb-50 mt-5 ">
-                    <h2>Sustainable Development Goals</h2>
+                    <h2>Themes</h2>
                     <hr />
                     <Row>
                         {cardData &&

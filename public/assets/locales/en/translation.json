@@ -186,16 +186,15 @@
     "student_get_started": {
         "heading": "Welcome Students!",
         "desc": "<p>We are glad that you are part of this program and have joined us in this exciting journey of learning, skilling and innovation. There are many exciting things awaiting you in this journey.</p><p>You will learn through this platform, work with your team and be supported by your teachers as well.</p><p style='color:green'><b>Your journey as a participant will involve the following key steps:</b></p><ul><li><p><b>Step 1:</b> Take Pre-Survey</p></li><li><p><b>Step 2:</b> Start the course by watching the video.</p></li><li><p><b>Step 3:</b> Complete each module and attempt the Quiz.</p></li><li><p><b>Step 4:</b> Work with your team on the worksheets in each module to complete your own problem solving journey.</p></li><li><p><b>Step 5:</b> Submit your team’s final idea.</p></li><li><p><b>Step 6:</b> Complete the post survey.</p></li></ul><p>We hope you and your teams will have a great learning experience and wish you all the best for this program!</p>",
-        "btn": "START JOURNEY",
-        "pre": "Thank you for completing the Pre-Survey. Your responses are important for us to get to know you."
+        "btn": "START JOURNEY"
     },
     "student_presurvey": {
         "submmit": "Submit"
     },
     "student": {
         "profile": "My Profile",
-        "worksheet": "<p><b>Dear Student,</b></p><p>The workbook is a set of activity sheets that will help you do the course, understand and practice your problem solving journey better. They are based on the concepts you learnt in the videos and are expected to do it as a team. Every team will have a workbook.</p><p><b>Step-1:</b> While it is good to have a printed workbook, it is not compulsory to take a print out. In case you do not have a printed workbook, you can refer to the workbook on a digital device and write down the page number and question number and then answer the questions in notebooks / papers.</p><p><b>Step-2:</b>After watching the videos, discuss the concepts you learnt and the related module workbook pages with your team before you start to do the workbook. (Remember that Workbook is a Team Activity, not individual task)</p><p><b>Step-3:</b>Keep these pages safely Or Suggest to hand it over to your guide teacher after the completion of your course as you will need it during the idea submission</p><p>Hope you and your team learn new things and enjoy completing this workbook.</p>",
-        "download_worksheet": "Download Worksheet",
+        "worksheet": "<p><b>Dear Student,</b></p><p>The workbook is a set of activity sheets that will help you do the course, understand and practice your problem solving journey better. They are based on the concepts you learnt in the videos and are expected to do it as a team. Every team will have a workbook.</p><p><b>Step-1:</b> While it is good to have a printed workbook, it is not compulsory to take a print out. In case you do not have a printed workbook, you can refer to the workbook on a digital device and write down the page number and question number and then answer the questions in notebooks / papers.</p><p><b>Step-2:</b>After watching the videos, discuss the concepts you learnt and the related module workbook pages with your team before you start to do the workbook. (Remember that Workbook is a Team Activity, not individual task)</p><p>Hope you and your team learn new things and enjoy completing this workbook.</p>",
+        "download_worksheet": "Download WorkBook",
         "continue": "Continue",
         "w_sheet": "Student Team Workbook",
         "quiz_heading": "Ready for a quick test?",
@@ -361,7 +360,7 @@
     "dummytext": {
         "student_idea_sub": "Dear Student, idea submission will be active once you and your team members complete the learning journey. Your guide teacher will support you with this.",
         "student_my_cer": "<p>Your certificate will be available once you complete the course, submit ideas and complete the post survey.If you have completed these, your certificate will be ready shortly.</p>",
-        "student_post_survey": "Dear Students, Post-Survey will be active once you complete the course and your team submits the idea. Hope you and your team are learning a lot of new things. :)",
+        "student_post_survey": "Dear Students, Post-Survey will be active once your team submits the idea. Hope you and your team are learning a lot of new things. :)",
         "student_course": "Dear Student, your learning journey will begin soon. Please discuss with your School Guide Teacher and prepare yourself for this journey.",
         "certificate_msg": "<p>Your certificate will be printed with the above details.  If your Initial / Full Name is missing or incorrect, request your guide teacher to update the name in the Teams Page of Teacher login.<p>",
         "name": "Name : ",
@@ -387,7 +386,7 @@
         "course_completed_succ": "Congratulations for successful completion of all the lessons!",
         "continue_to_idea": "Click on continue to proceed to Idea Submission.",
         "sdg": "Which theme are you targeting with your solution ?",
-        "subCategory":"Which problem statement are you targeting with your solution ?",
+        "subCategory": "Which problem statement are you targeting with your solution ?",
         "sdg_desc": "",
         "others": "If you picked the option ‘others’ in the above question, Describe your theme",
         "chars": "Characters Remaining",
