@@ -261,7 +261,7 @@ const TicketsPage = () => {
                             </li>
                             <li>
                                 Student delete button will be active only if the
-                                team has min of students.
+                                team has min of 3 students.
                             </li>
                             <li>
                                 Change team option can be used only before
