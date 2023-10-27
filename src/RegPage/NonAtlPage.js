@@ -688,7 +688,7 @@ function RegisterNew() {
                                     </Col>
                                     <Col md={6}>
                                         <p>
-                                            <b> Select ATL School</b>{' '}
+                                            <b> Select near by ATL School</b>{' '}
                                         </p>
                                         <div className="my-3 d-md-block d-flex justify-content-center">
                                             <Select
