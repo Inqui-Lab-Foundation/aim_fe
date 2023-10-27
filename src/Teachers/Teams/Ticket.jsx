@@ -234,11 +234,12 @@ const TicketsPage = () => {
                             Adding student teams is the first and most important
                             step as part of the project. Please ensure you are
                             ready with the list of students and their details
-                            (Team Name, Full Name, Class, Age, Gender) before
-                            you start creating teams. Please ensure you are
-                            selecting students who are interested and will
-                            benefit out of this program irrespective of their
-                            communication skills or academic performance.
+                            (Team Name,Student Full Name,Student Class,Student
+                            Age,Student Gender,Student Email,Student Disability
+                            Status) before you start creating teams. Please
+                            ensure you are selecting students who are interested
+                            and will benefit out of this program irrespective of
+                            their communication skills or academic performance.
                         </p>
                         <List>
                             <li>
@@ -261,7 +262,7 @@ const TicketsPage = () => {
                             </li>
                             <li>
                                 Student delete button will be active only if the
-                                team has min of 3 students.
+                                team has 3 students.
                             </li>
                             <li>
                                 Change team option can be used only before

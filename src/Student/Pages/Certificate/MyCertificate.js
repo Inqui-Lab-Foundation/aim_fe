@@ -31,6 +31,8 @@ const Certificate = ({
     const dispatch = useDispatch();
     const handleCertificateDownload = () => {
         // here we can download the certificates //
+        console.log(postSurveyStatus, 'data');
+
         const content = type ? partRef.current : pdfRef.current;
         const badge = 'the_finisher';
         const size = [298, 220];
@@ -149,7 +151,7 @@ const Certificate = ({
 };
 
 const MyCertificate = () => {
-    const showDummypage = false;
+    const showDummypage = true;
     const { t } = useTranslation();
     const language = useSelector(
         (state) => state?.studentRegistration?.studentLanguage
