@@ -974,6 +974,20 @@ function AtlPage() {
                                                         </small>
                                                     ) : null}
                                                 </Col>
+                                                <div className="mt-3">
+                                                    <span
+                                                        required
+                                                        className="p-1 "
+                                                        style={{ color: 'red' }}
+                                                    >
+                                                        * Note : PWD is set
+                                                        default with Characters
+                                                        in mail (till before @)
+                                                        ex : ID-
+                                                        abcd.98@gmail.com ,
+                                                        Password : “abcd.98”
+                                                    </span>
+                                                </div>
                                             </Row>
                                             <div className="mt-5 d-flex align-items-center">
                                                 <Button
