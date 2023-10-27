@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 /* eslint-disable no-unused-vars */
 import './style.scss';
 import Layout from '../../Layout.jsx';
@@ -14,10 +13,6 @@ import {
     initiateIdea
 } from '../../../redux/studentRegistration/actions';
 import { useHistory } from 'react-router-dom';
-<<<<<<< HEAD
-import sdg18 from '../../../assets/media/SDG_icons/sdg-18.png';
-=======
->>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 const SDG = ({ setShowChallenges }) => {
@@ -33,15 +28,9 @@ const SDG = ({ setShowChallenges }) => {
     const dashboardStatus = useSelector(
         (state) => state?.studentRegistration?.dashboardStatus
     );
-<<<<<<< HEAD
-    // let { all_topics_count, topics_completed_count } = dashboardStatus
-    //     ? dashboardStatus
-    //     : { all_topics_count: null, topics_completed_count: null };
-=======
     let { all_topics_count, topics_completed_count } = dashboardStatus
         ? dashboardStatus
         : { all_topics_count: null, topics_completed_count: null };
->>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
     useLayoutEffect(() => {
         if (!dashboardStatus)
             dispatch(
@@ -51,17 +40,10 @@ const SDG = ({ setShowChallenges }) => {
                 )
             );
     }, [language]);
-<<<<<<< HEAD
-    // useEffect(() => {
-    //     if (all_topics_count && all_topics_count !== topics_completed_count)
-    //         setShowPage(false);
-    // }, [all_topics_count, topics_completed_count]);
-=======
     useEffect(() => {
         if (all_topics_count && all_topics_count !== topics_completed_count)
             setShowPage(false);
     }, [all_topics_count, topics_completed_count]);
->>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
 
     const handleSelect = (data) => {
         const initialSizeData = {
@@ -110,51 +92,6 @@ const SDG = ({ setShowChallenges }) => {
                                                             height: '36rem'
                                                         }}
                                                     ></img>
-<<<<<<< HEAD
-                                                    {item?.goal_logo === '' &&
-                                                    item?.goal_number ===
-                                                        '18' ? (
-                                                        <div
-                                                            className="fixed-bottom"
-                                                            style={{
-                                                                width: '150px',
-                                                                height: '150px'
-                                                            }}
-                                                        >
-                                                            <h1 className="text-white m-0">
-                                                                {
-                                                                    item?.goal_number
-                                                                }
-                                                                <span className="fs-5">
-                                                                    {' '}
-                                                                    OTHERS
-                                                                </span>
-                                                            </h1>
-                                                            <img
-                                                                src={sdg18}
-                                                                className="text-center"
-                                                                alt="..."
-                                                                style={{
-                                                                    width: '100px',
-                                                                    height: '100px'
-                                                                }}
-                                                            ></img>
-                                                        </div>
-                                                    ) : (
-                                                        <img
-                                                            src={
-                                                                item?.goal_logo
-                                                            }
-                                                            className="fixed-bottom ms-2 mb-2"
-                                                            alt="..."
-                                                            style={{
-                                                                width: '150px',
-                                                                height: '150px'
-                                                            }}
-                                                        ></img>
-                                                    )}
-=======
->>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
                                                 </div>
                                                 <div
                                                     className="flip-card-back px-2 py-3"
@@ -173,11 +110,7 @@ const SDG = ({ setShowChallenges }) => {
                                                                 btnClass="secondary"
                                                                 onClick={() =>
                                                                     handleSelect(
-<<<<<<< HEAD
-                                                                        item?.goal_fullTitle
-=======
                                                                         item?.goal_title
->>>>>>> 78741fe91ce68dbd20fa5abf4422bcd6e370ba87
                                                                     )
                                                                 }
                                                                 size="small"
