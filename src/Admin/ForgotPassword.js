@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 // import signuplogo from "../assets/media/logo-rect.svg";
 import iname_3 from '../assets/media/unisolve_slider1.png';
-import image_4 from '../assets/media/Card New 1.png';
+import image_4 from '../assets/media/aim_Slider.png';
 
 const ForgotPassword = () => {
     // const { t } = useTranslation();
