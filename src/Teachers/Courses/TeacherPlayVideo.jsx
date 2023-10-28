@@ -898,7 +898,16 @@ const TeacherPlayVideo = (props) => {
                                                 </p>
 
                                                 <p>
-                                                    <b>
+                                                    Student can go through the
+                                                    Themes and Problem
+                                                    statements document, select
+                                                    one problem among them and
+                                                    submit idea for it. Students
+                                                    will also be able to
+                                                    download & access document
+                                                    in the course/resource
+                                                    section in their profile.
+                                                    {/* <b>
                                                         The resource section
                                                         will have the Teacher
                                                         Handbook and the Student
@@ -907,7 +916,7 @@ const TeacherPlayVideo = (props) => {
                                                     The students will also be
                                                     able to access the Student
                                                     workbook in their own
-                                                    profiles.
+                                                    profiles. */}
                                                 </p>
 
                                                 <p>

@@ -12,7 +12,7 @@ import Select from '../Evaluator/Helper/Select';
 import successIcon from '../assets/media/img/rocket.gif';
 import signuplogo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import image_1 from '../assets/media/unisolve_slider1.png';
-import image_2 from '../assets/media/Card New 1.png';
+import image_2 from '../assets/media/aim_Slider.png';
 import { useFormik } from 'formik';
 import { Carousel } from 'react-bootstrap';
 import { InputBox } from '../stories/InputBox/InputBox';

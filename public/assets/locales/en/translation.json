@@ -193,7 +193,7 @@
     },
     "student": {
         "profile": "My Profile",
-        "worksheet": "<p><b>Dear Student,</b></p><p>The workbook is a set of activity sheets that will help you do the course, understand and practice your problem solving journey better. They are based on the concepts you learnt in the videos and are expected to do it as a team. Every team will have a workbook.</p><p><b>Step-1:</b> While it is good to have a printed workbook, it is not compulsory to take a print out. In case you do not have a printed workbook, you can refer to the workbook on a digital device and write down the page number and question number and then answer the questions in notebooks / papers.</p><p><b>Step-2:</b>After watching the videos, discuss the concepts you learnt and the related module workbook pages with your team before you start to do the workbook. (Remember that Workbook is a Team Activity, not individual task)</p><p>Hope you and your team learn new things and enjoy completing this workbook.</p>",
+        "worksheet": "<p><b>Dear Student,</b></p><p>The workbook is a set of activity sheets that will help you do the course, understand and practice your problem solving journey better. They are based on the concepts you learnt in the videos and are expected to do it as a team. Every team will have a workbook.</p><p><b>Step-1:</b> While it is good to have a printed workbook, it is not compulsory to take a print out. In case you do not have a printed workbook, you can refer to the workbook on a digital device and write down the page number and question number and then answer the questions in notebooks / papers.</p><p><b>Step-2:</b>After watching the videos, discuss the concepts you learnt and the related module workbook pages with your team before you start to do the workbook. (Remember that Workbook is a Team Activity, not individual task)</p><p>Hope you and your team learn new things and enjoy completing this workbook.</p><h2>Themes & Problem Statements</h2><p> Go through themes and problems statements document and choose one problem among  all. Keep working on the chosen problem using the problem solving the techniques you learn as part of this course to submit your idea for it during idea submission process. </p>",
         "download_worksheet": "Download WorkBook",
         "continue": "Continue",
         "w_sheet": "Student Team Workbook",
@@ -210,7 +210,7 @@
         "idea_draft": "Your idea has been saved as draft",
         "attempt_all_questions": "Please Attempt All Questions..!!",
         "idea_init_succ": "Idea initiated successfully",
-        "please_com_postsurvey_for_certificate": "Please complete the following post survey to get Idea Submission certificate.",
+        "please_com_postsurvey_for_certificate": "Please complete the following post survey to get your certificate.",
         "view_idea": "View Idea",
         "postsurver_scc_sub": "Post Survey has been submitted successfully",
         "presurver_scc_sub": "Pre Survey has been submitted successfully..!!",
