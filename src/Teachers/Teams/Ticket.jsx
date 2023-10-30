@@ -247,6 +247,11 @@ const TicketsPage = () => {
                                 available in the resource section before
                                 creating teams.
                             </li>
+                            <li>Email id has to be unique for each student.</li>
+                            <li>
+                                Teacher email cannot be used for mentor &
+                                student.
+                            </li>
                             <li>
                                 Each team should have a minimum of 2 and maximum
                                 of 3 students.
@@ -264,6 +269,7 @@ const TicketsPage = () => {
                                 Student delete button will be active only if the
                                 team has 3 students.
                             </li>
+
                             <li>
                                 Change team option can be used only before
                                 initiating an idea.

@@ -66,7 +66,7 @@ const CreateMultipleMembers = ({ id }) => {
             disability: ''
         }
     ]);
-    let pattern = /[A-Za-z0-9]*$/;
+    let pattern = /[A-Za-z0-9\s]*$/;
     // const emailRegex = /[A-Za-z-@+.-]*$/;
     const emailRegex = /^[\w.]+@([\w-]+\.)+[\w-]{2,4}$/;
     // const emailRegex = /^[A-Za-z-.]+@([A-za-z-]+\.)+[A-Za-z-]{2,4}$/;
@@ -551,7 +551,7 @@ const CreateTeamMember = (props) => {
                 .max(40)
                 .required()
                 .matches(
-                    /^[A-Za-z0-9 ]*$/,
+                    /^[A-Za-z0-9\s]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),

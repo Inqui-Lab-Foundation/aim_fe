@@ -5,7 +5,7 @@ import { Button } from '../../stories/Button';
 import Layout from '../Layout';
 import jsPDF from 'jspdf';
 import { getCurrentUser, getNormalHeaders } from '../../helpers/Utils';
-import TeacherCertificate from '../../assets/media/img/certificates/TN-SIDP-Certificates-signed-1-1.png';
+import TeacherCertificate from '../../assets/media/img/certificates/teacher.jpg';
 import { useTranslation } from 'react-i18next';
 import { KEY, URL } from '../../constants/defaultValues';
 import Congo from '../../assets/media/survey-success.jpg';
@@ -16,8 +16,8 @@ const MyCertificate = () => {
     const pdfRef = useRef(null);
     const currentUser = getCurrentUser('current_user');
     const [postSurveyStatus, setPostSurveyStatus] = useState('');
-    // let tempVar = postSurveyStatus === 'COMPLETED';
-    let tempVar = true;
+    let tempVar = postSurveyStatus === 'COMPLETED';
+    // let tempVar = true;
     const handleCertificateDownload = () => {
         // here we can download the certificates //
         const content = pdfRef.current;
@@ -88,7 +88,7 @@ const MyCertificate = () => {
                                         style={{
                                             position: 'absolute',
                                             top: '7.2rem',
-                                            left: '10rem',
+                                            left: '12rem',
                                             fontSize: '1rem',
                                             fontFamily: 'Times New Roman'
                                         }}
