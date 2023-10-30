@@ -22,18 +22,18 @@ class Schoolpdf extends React.Component {
                 dataIndex: 'full_name',
                 width: '15rem'
             },
-            {
-                title: 'Pre Survey',
-                dataIndex: 'pre_survey_status',
-                align: 'center',
-                width: '15rem',
-                render: (_, record) =>
-                    record?.pre_survey_status ? (
-                        <FaCheckCircle size={20} color="green" />
-                    ) : (
-                        <FaTimesCircle size={20} color="red" />
-                    )
-            },
+            // {
+            //     title: 'Pre Survey',
+            //     dataIndex: 'pre_survey_status',
+            //     align: 'center',
+            //     width: '15rem',
+            //     render: (_, record) =>
+            //         record?.pre_survey_status ? (
+            //             <FaCheckCircle size={20} color="green" />
+            //         ) : (
+            //             <FaTimesCircle size={20} color="red" />
+            //         )
+            // },
             {
                 title: 'Lesson Progress',
                 dataIndex: 'address',
@@ -371,7 +371,9 @@ class Schoolpdf extends React.Component {
                                                         padding: '1rem'
                                                     }}
                                                 >
-                                                    {idea?.ideaStatus}
+                                                    {idea?.ideaStatus
+                                                        ? idea?.ideaStatus
+                                                        : 'NOT INITIATED'}
                                                 </td>
                                                 <td
                                                     style={{

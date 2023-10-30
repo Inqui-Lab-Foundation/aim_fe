@@ -13,7 +13,6 @@ class detailToDownload extends React.Component {
         this.state = {};
     }
     render() {
-      
         return (
             <div className="container-fluid bg-white">
                 <div className="row">
@@ -124,7 +123,7 @@ class detailToDownload extends React.Component {
                                 fontWeight: 'bold'
                             }}
                         >
-                           {'Idea Title :'}
+                            {'Idea Title :'}
                         </span>
                         <span
                             style={{
@@ -137,7 +136,10 @@ class detailToDownload extends React.Component {
                                 width: '65%'
                             }}
                         >
-                            {this.props?.teamResponse && this.props?.teamResponse[7] ? this.props?.teamResponse[7].selected_option[0]:'-' }
+                            {this.props?.teamResponse &&
+                            this.props?.teamResponse[0]
+                                ? this.props?.teamResponse[0].selected_option[0]
+                                : '-'}
                         </span>
                         <span
                             style={{
@@ -149,7 +151,7 @@ class detailToDownload extends React.Component {
                                 fontWeight: 'bold'
                             }}
                         >
-                           {'Student Name :  '}
+                            {'Student Name :  '}
                         </span>
                         <span
                             style={{
@@ -165,7 +167,7 @@ class detailToDownload extends React.Component {
                             {this.props?.ideaDetails?.team_members &&
                                 this.props?.ideaDetails?.team_members.toString()}
                         </span>
-                        
+
                         <img
                             src={IdeaPage1}
                             alt="IdeaPage1"
@@ -225,9 +227,9 @@ class detailToDownload extends React.Component {
                             >
                                 Submitted on :
                             </span>{' '}
-                            {moment(this.props?.ideaDetails?.submitted_at).format(
-                                'DD-MM-YYYY'
-                            )}
+                            {moment(
+                                this.props?.ideaDetails?.submitted_at
+                            ).format('DD-MM-YYYY')}
                         </span>
                     </div>
 

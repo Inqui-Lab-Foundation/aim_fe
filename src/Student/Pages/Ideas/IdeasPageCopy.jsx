@@ -878,7 +878,10 @@ const IdeasPageNew = () => {
                                                                         '1.6rem'
                                                                 }}
                                                             >
-                                                                {sdg === 'OTHERS' ? `3. ` : `2. `}
+                                                                {sdg ===
+                                                                'OTHERS'
+                                                                    ? `3. `
+                                                                    : `2. `}
                                                                 {t(
                                                                     'student_course.subCategory'
                                                                 )}
