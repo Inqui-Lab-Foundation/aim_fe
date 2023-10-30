@@ -313,14 +313,6 @@ const MyProfile = () => {
                             </Col>
                             <Col md={12}>
                                 <Card className="w-100  mb-5 p-4">
-                                    <Row>
-                                        {' '}
-                                        <b>
-                                            <p style={{ fontSize: '20px' }}>
-                                                My School Details:
-                                            </p>
-                                        </b>
-                                    </Row>
                                     <CardBody>
                                         <Row>
                                             <Col
@@ -333,6 +325,26 @@ const MyProfile = () => {
                                                         className="my-auto profile-detail w-100"
                                                     >
                                                         <CardText>
+                                                            <Row className="pt-3 pb-3">
+                                                                <Col
+                                                                    xs={12}
+                                                                    sm={12}
+                                                                    md={12}
+                                                                    xl={12}
+                                                                    className="my-auto profile-detail"
+                                                                >
+                                                                    <b
+                                                                        style={{
+                                                                            fontSize:
+                                                                                '20px'
+                                                                        }}
+                                                                    >
+                                                                        My
+                                                                        School
+                                                                        Details
+                                                                    </b>
+                                                                </Col>
+                                                            </Row>
                                                             <Row className="pt-3 pb-3">
                                                                 <Col
                                                                     xs={5}
@@ -609,18 +621,6 @@ const MyProfile = () => {
                             {data && (
                                 <Col md={12}>
                                     <Card className="w-100  mb-5 p-4">
-                                        <Row>
-                                            {' '}
-                                            <b>
-                                                <p
-                                                    style={{
-                                                        fontSize: '20px'
-                                                    }}
-                                                >
-                                                    ATL School Details:
-                                                </p>
-                                            </b>
-                                        </Row>
                                         <CardBody>
                                             <Row>
                                                 <Col
@@ -633,6 +633,26 @@ const MyProfile = () => {
                                                             className="my-auto profile-detail w-100"
                                                         >
                                                             <CardText>
+                                                                <Row className="pt-3 pb-3">
+                                                                    <Col
+                                                                        xs={12}
+                                                                        sm={12}
+                                                                        md={12}
+                                                                        xl={12}
+                                                                        className="my-auto profile-detail"
+                                                                    >
+                                                                        <b
+                                                                            style={{
+                                                                                fontSize:
+                                                                                    '20px'
+                                                                            }}
+                                                                        >
+                                                                            ATL
+                                                                            School
+                                                                            Details
+                                                                        </b>
+                                                                    </Col>
+                                                                </Row>
                                                                 <Row className="pt-3 pb-3">
                                                                     <Col
                                                                         xs={5}
