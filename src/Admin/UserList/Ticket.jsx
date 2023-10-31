@@ -447,7 +447,7 @@ const TicketsPage = (props) => {
             {
                 name: 'No',
                 selector: 'id',
-                width: '9rem'
+                width: '6rem'
             },
             {
                 name: 'UDISE',
@@ -467,7 +467,7 @@ const TicketsPage = (props) => {
                 // selector: 'organization_name',
                 selector: (row) => row.organization.organization_name,
                 cellExport: (row) => row.organization.organization_name,
-                width: '15rem'
+                width: '17rem'
             },
 
             {
@@ -483,7 +483,7 @@ const TicketsPage = (props) => {
                 selector: 'username',
                 cellExport: (row) => row.username,
 
-                width: '15rem'
+                width: '33rem'
             },
 
             {
@@ -569,7 +569,7 @@ const TicketsPage = (props) => {
             {
                 name: 'No',
                 selector: 'id',
-                width: '9rem'
+                width: '6rem'
             },
             {
                 name: 'UDISE',
@@ -589,7 +589,7 @@ const TicketsPage = (props) => {
                 selector: 'team.mentor.organization.organization_name',
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_name,
-                width: '13rem'
+                width: '15rem'
             },
             {
                 name: 'Team Name',
