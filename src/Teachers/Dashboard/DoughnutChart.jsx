@@ -147,7 +147,8 @@ export default function DoughnutChart({ user }) {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+                JSON.stringify(id) +
+                `?nameChange=true`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -210,18 +211,18 @@ export default function DoughnutChart({ user }) {
             dataIndex: 'full_name',
             width: '15rem'
         },
-        {
-            title: 'Pre Survey',
-            dataIndex: 'pre_survey_status',
-            align: 'center',
-            width: '15rem',
-            render: (_, record) =>
-                record?.pre_survey_status ? (
-                    <FaCheckCircle size={20} color="green" />
-                ) : (
-                    <FaTimesCircle size={20} color="red" />
-                )
-        },
+        // {
+        //     title: 'Pre Survey',
+        //     dataIndex: 'pre_survey_status',
+        //     align: 'center',
+        //     width: '15rem',
+        //     render: (_, record) =>
+        //         record?.pre_survey_status ? (
+        //             <FaCheckCircle size={20} color="green" />
+        //         ) : (
+        //             <FaTimesCircle size={20} color="red" />
+        //         )
+        // },
         {
             title: 'Lesson Progress',
             dataIndex: 'address',
@@ -440,7 +441,9 @@ export default function DoughnutChart({ user }) {
                 'Congratulations,Idea is selected for grand finale'
             );
         } else if (challengesSubmittedResponse[0].final_result === '0') {
-            setIdeaStatusEval('L2_Promoted - Shortlisted for final round of evaluation');
+            setIdeaStatusEval(
+                'L2_Promoted - Shortlisted for final round of evaluation'
+            );
             if (isEvlCom) {
                 setIdeaStatusEval('Runner - “Better luck next time”');
             }
@@ -450,7 +453,8 @@ export default function DoughnutChart({ user }) {
         ) {
             setIdeaStatusEval('L1_Rejected - “Better luck next time”');
         } else if (
-            challengesSubmittedResponse[0].evaluation_status === 'SELECTEDROUND1'
+            challengesSubmittedResponse[0].evaluation_status ===
+            'SELECTEDROUND1'
         ) {
             setIdeaStatusEval(
                 'L1_Accepted - “Promoted to Level 2 round of evaluation”'

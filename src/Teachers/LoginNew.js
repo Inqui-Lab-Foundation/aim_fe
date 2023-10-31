@@ -15,7 +15,7 @@ import logo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import studentIcon from '../assets/media/student_login_icon.png';
 import teacherIcon from '../assets/media/teacher_login_icon.png';
 import image_5 from '../assets/media/unisolve_slider1.png';
-import image_6 from '../assets/media/unisolve_slider2.png';
+import image_6 from '../assets/media/aim_Slider.png';
 import { teacherLoginUser } from '../redux/actions';
 import CryptoJS from 'crypto-js';
 // import ForgotPassword from './ForgotPassword';
@@ -56,16 +56,17 @@ const LoginNew = (props) => {
         },
 
         validationSchema: Yup.object({
-            phone: Yup.string()
-                .required('required')
-                // .trim()
-                .matches(
-                    /^[0-9\s/^ *$/]+$/,
-                    'Enter Valid Phone No (Enter only digits) '
-                )
-                // .matches(/^$|^[1-9]\d*$/, 'Mobile number is not valid')
-                .max(10, 'Please enter only 10 digit valid number')
-                .min(10, 'Number is less than 10 digits'),
+            // phone: Yup.string()
+            //     .required('required')
+            //     // .trim()
+            //     .matches(
+            //         /^[0-9\s/^ *$/]+$/,
+            //         'Enter Valid Phone No (Enter only digits) '
+            //     )
+            //     // .matches(/^$|^[1-9]\d*$/, 'Mobile number is not valid')
+            //     .max(10, 'Please enter only 10 digit valid number')
+            //     .min(10, 'Number is less than 10 digits'),
+            phone: Yup.string().email('Must be a valid email').max(255).trim(),
             password: Yup.string().required('Required password').trim()
         }),
         // TEACHER ROLE
@@ -107,7 +108,7 @@ const LoginNew = (props) => {
 
     const inputUserId = {
         type: 'mobile',
-        placeholder: 'Enter your Mobile number'
+        placeholder: 'Enter your Email Address'
     };
 
     const inputPassword = {
@@ -228,14 +229,14 @@ const LoginNew = (props) => {
                                                 className="mb-2"
                                                 htmlFor="phone"
                                             >
-                                                Mobile Number
+                                                Email Address
                                             </Label>
                                             <InputBox
                                                 {...inputUserId}
                                                 id="phone"
                                                 name="phone"
-                                                maxLength={10}
-                                                minLength={10}
+                                                // maxLength={10}
+                                                // minLength={10}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.phone}
@@ -342,7 +343,7 @@ const LoginNew = (props) => {
                                     </div>
                                     <div className="form-row row mb-5">
                                         <Link
-                                            to={'/register'}
+                                            to={'/registration'}
                                             exact
                                             className="w-100 d-block text-center"
                                         >

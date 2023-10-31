@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../Layout.jsx';
 import { useHistory } from 'react-router-dom';
 import { getCurrentUser } from '../../../helpers/Utils.js';
 import { useSelector } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
+import axios from 'axios';
+
 // import AvatarImg from '../../../assets/media/img/Avatar.png';
 // import topCard1 from '../../../assets/media/img/admin-card-1.png';
 // import topCard2 from '../../../assets/media/img/admin-card-2.png';
@@ -28,8 +31,33 @@ import {
 import LanguageSelectorComp from '../../../components/LanguageSelectorComp/index.js';
 // import LatestNews from './LatestNews.js';
 import LatestScrollNew from './LatestScrollNew.jsx';
+import { Modal } from 'react-bootstrap';
 
 import { Card } from 'react-bootstrap';
+const GreetingModal = (props) => {
+    return (
+        <Modal
+            show={props.show}
+            size="lg"
+            centered
+            className="modal-popup text-center"
+            onHide={props.handleClose}
+            backdrop={true}
+        >
+            <Modal.Header closeButton></Modal.Header>
+
+            <Modal.Body>
+                <figure>
+                    <img
+                        src={props.imgUrl}
+                        alt="popup image"
+                        className="img-fluid"
+                    />
+                </figure>
+            </Modal.Body>
+        </Modal>
+    );
+};
 
 const Dashboard = () => {
     // here we can see all the details of student //
@@ -41,6 +69,32 @@ const Dashboard = () => {
     const dashboardStatus = useSelector(
         (state) => state?.studentRegistration.dashboardStatus
     );
+    const [showPopup, setShowPopup] = useState(false);
+    const [imgUrl, setImgUrl] = useState('');
+
+    useEffect(() => {
+        var config = {
+            method: 'get',
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/1`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (res) {
+                if (res.status === 200 && res.data.data[0]?.on_off === '1') {
+                    setShowPopup(true);
+                    setImgUrl(res?.data?.data[0]?.url);
+                }
+            })
+            .catch(function (error) {
+                setShowPopup(false);
+                console.log(error);
+            });
+    }, []);
+
     // const dashboardChallengesStatus = useSelector(
     //     (state) => state?.studentRegistration.dashboardChallengesStatus
     // );
@@ -51,9 +105,10 @@ const Dashboard = () => {
     //     (state) => state?.studentRegistration.teamMember
     // );
 
-    const presuveyStatusGl = useSelector(
-        (state) => state?.studentRegistration.presuveyStatusGl
-    );
+    // const presuveyStatusGl = useSelector(
+    //     (state) => state?.studentRegistration.presuveyStatusGl
+    // );
+
     const history = useHistory();
     useEffect(() => {
         if (currentUser) {
@@ -81,10 +136,10 @@ const Dashboard = () => {
             dispatch(getStudentByIdData(currentUser?.data[0]?.student_id));
     }, [dispatch, currentUser?.data[0]?.student_id]);
 
-    useLayoutEffect(() => {
-        if (presuveyStatusGl !== 'COMPLETED')
-            history.push('/student/pre-survey');
-    }, [presuveyStatusGl]);
+    // useLayoutEffect(() => {
+    //     if (presuveyStatusGl !== 'COMPLETED')
+    //         history.push('/student/pre-survey');
+    // }, [presuveyStatusGl]);
 
     // const cardData = {
     //     idea: {
@@ -122,6 +177,9 @@ const Dashboard = () => {
     //         }
     //     }
     // };
+    const handleClose = () => {
+        setShowPopup(false);
+    };
 
     const percentageBWNumbers = (a, b) => {
         // here a = all_topics_count ; b= topics_completed_count //
@@ -139,18 +197,18 @@ const Dashboard = () => {
                     record.full_name
                 )
         },
-        {
-            title: 'Pre Survey',
-            dataIndex: 'pre_survey_status',
-            align: 'center',
-            width: '10%',
-            render: (_, record) =>
-                record?.pre_survey_status ? (
-                    <FaCheckCircle size={20} color="green" />
-                ) : (
-                    <FaTimesCircle size={20} color="red" />
-                )
-        },
+        // {
+        //     title: 'Pre Survey',
+        //     dataIndex: 'pre_survey_status',
+        //     align: 'center',
+        //     width: '10%',
+        //     render: (_, record) =>
+        //         record?.pre_survey_status ? (
+        //             <FaCheckCircle size={20} color="green" />
+        //         ) : (
+        //             <FaTimesCircle size={20} color="red" />
+        //         )
+        // },
         {
             title: 'Lesson Progress',
             dataIndex: 'address',
@@ -372,6 +430,11 @@ const Dashboard = () => {
     //export default Dashboard;
     return (
         <Layout>
+            <GreetingModal
+                handleClose={handleClose}
+                show={showPopup}
+                imgUrl={imgUrl}
+            ></GreetingModal>
             <Container>
                 <div
                     className="d-flex justify-content-between align-items-center"

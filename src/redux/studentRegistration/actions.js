@@ -17,7 +17,11 @@ import {
     SET_PRESURVEY_STATUS,
     SET_POSTSURVEY_STATUS,
     SET_FILE_SUCCESS,
-    GET_DISTRICTS
+    GET_DISTRICTS,
+    GET_STATES,
+    GET_FETCHDIST,
+    GET_PINCODES,
+    GET_ATLCODES
 } from '../actions';
 import { URL, KEY } from '../../constants/defaultValues';
 import {
@@ -120,6 +124,124 @@ export const getDistrictData = () => async (dispatch) => {
         }
     } catch (error) {
         dispatch(getDistrictsSuccess([]));
+    }
+};
+export const getAtlCodesSuccess = (data) => async (dispatch) => {
+    // where data = all districts //
+    dispatch({
+        type: GET_ATLCODES,
+        payload: data
+    });
+};
+export const getAtlCodeData = (item) => async (dispatch) => {
+    // here we can see  district wise data //
+    try {
+        const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        let result;
+        result = await axios
+            .get(`${URL.getAtlCodesOnly}${item}`, axiosConfig)
+            .then((data) => data)
+            .catch((err) => {
+                return err.response;
+            });
+        if (result && result.status === 200) {
+            const data = result.data.data.length > 0 ? result.data.data : [];
+            const ATLlistObj = {};
+            const ATLCodeslist = data.map((code) => {
+                ATLlistObj[code.organization_code] = code.organization_name;
+                return code.organization_code;
+            });
+            console.log(ATLCodeslist, '1');
+            dispatch(getAtlCodesSuccess(data));
+        } else {
+            dispatch(getAtlCodesSuccess([]));
+        }
+    } catch (error) {
+        dispatch(getAtlCodesSuccess([]));
+    }
+};
+export const getPinCodesSuccess = (data) => async (dispatch) => {
+    // where data = all districts //
+    dispatch({
+        type: GET_PINCODES,
+        payload: data
+    });
+};
+export const getPinCodeData = (item) => async (dispatch) => {
+    // here we can see  district wise data //
+    try {
+        const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        let result;
+        result = await axios
+            .get(`${URL.getPinCodesOnly}${item}`, axiosConfig)
+            .then((data) => data)
+            .catch((err) => {
+                return err.response;
+            });
+        if (result && result.status === 200) {
+            const data = result.data.data.length > 0 ? result.data.data : [];
+            dispatch(getPinCodesSuccess(data));
+        } else {
+            dispatch(getPinCodesSuccess([]));
+        }
+    } catch (error) {
+        dispatch(getPinCodesSuccess([]));
+    }
+};
+export const getFetchDistsSuccess = (data) => async (dispatch) => {
+    // where data = all districts //
+    dispatch({
+        type: GET_FETCHDIST,
+        payload: data
+    });
+};
+export const getFetchDistData = (item) => async (dispatch) => {
+    // here we can see  district wise data //
+    try {
+        const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        let result;
+        result = await axios
+            .get(`${URL.getFetchDistsOnly}${item}`, axiosConfig)
+            .then((data) => data)
+            .catch((err) => {
+                return err.response;
+            });
+        if (result && result.status === 200) {
+            const data = result.data.data.length > 0 ? result.data.data : [];
+            dispatch(getFetchDistsSuccess(data));
+        } else {
+            dispatch(getFetchDistsSuccess([]));
+        }
+    } catch (error) {
+        dispatch(getFetchDistsSuccess([]));
+    }
+};
+export const getStatesSuccess = (data) => async (dispatch) => {
+    // where data = all districts //
+    dispatch({
+        type: GET_STATES,
+        payload: data
+    });
+};
+export const getStateData = () => async (dispatch) => {
+    // here we can see  district wise data //
+    try {
+        const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        let result;
+        result = await axios
+            .get(`${URL.getStatesOnly}`, axiosConfig)
+            .then((data) => data)
+            .catch((err) => {
+                return err.response;
+            });
+        if (result && result.status === 200) {
+            const data = result.data.data.length > 0 ? result.data.data : [];
+            dispatch(getStatesSuccess(data));
+        } else {
+            dispatch(getStatesSuccess([]));
+        }
+    } catch (error) {
+        dispatch(getStatesSuccess([]));
     }
 };
 export const getStudentByIdData = (id) => async (dispatch) => {

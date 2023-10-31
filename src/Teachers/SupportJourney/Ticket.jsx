@@ -93,11 +93,16 @@ const TicketsPage = (props) => {
                         <Col className="col-auto">
                             <h2>Support</h2>
                         </Col>
-
+                        <Row>
+                            <p>
+                                You can rise your queries and will be resolved
+                                by program administrator
+                            </p>
+                        </Row>
                         <Col className="ticket-btn col ml-auto ">
                             <div className="d-flex justify-content-end">
                                 <Button
-                                    label="Add New"
+                                    label="Ask your Query"
                                     btnClass="primary"
                                     size="small"
                                     shape="btn-square"

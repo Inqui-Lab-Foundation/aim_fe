@@ -107,7 +107,12 @@ import StudentsProgressReport from './Admin/Reports/Helpers/StudentsProgressRepo
 import ChallengesReport from './Admin/Reports/Helpers/ChallengesReport';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import RegisterNew from './Register/RegisterNew';
+import FirstPage from './RegPage/FirstPage';
+
 import SuccessPage from './Register/SuccessPage';
+import SuccesScreen from './RegPage/SuccesScreen';
+import SuccessNew from './RegPage/SuccessNew';
+
 import LoginSchool from './School/LoginSchool';
 import DashboardSchool from './School/Dashboard';
 import MySchoolProfile from './School/MySchoolProfile';
@@ -159,6 +164,10 @@ import EAdminSelectedlist from './Evaluator/Admin/Evaluation/ViewSelectedIdea/Vi
 import EAdminSelectedfinallist from './Evaluator/Admin/Evaluation/FinalResults/ViewFinalSelectedideas';
 import EadminEditProfile from './Evaluator/Admin/Evaluator/EadminEditProfile';
 import EadminSelDistricts from './Evaluator/Admin/EvalProcess/SelectingDistricts';
+import AtlPage from './RegPage/AtlPage';
+import NonAtlPage from './RegPage/NonAtlPage';
+import EditMentor from './Teachers/Teams/EditMentor';
+import AddMentor from './Teachers/Teams/AddMentorDetails';
 
 const Routers = () => {
     return (
@@ -179,8 +188,28 @@ const Routers = () => {
                     />
                     <Route
                         exact={true}
+                        path="/registration"
+                        render={() => <FirstPage />}
+                    />
+                    <Route
+                        exact={true}
+                        path="/register/atl"
+                        render={() => <AtlPage />}
+                    />
+                    <Route
+                        exact={true}
+                        path="/register/non-atl"
+                        render={() => <NonAtlPage />}
+                    />
+                    <Route
+                        exact={true}
+                        path="/successScreen"
+                        render={() => <SuccesScreen />}
+                    />
+                    <Route
+                        exact={true}
                         path="/success"
-                        render={() => <SuccessPage />}
+                        render={() => <SuccessNew />}
                     />
                     <Route
                         exact={true}
@@ -745,12 +774,12 @@ const Routers = () => {
                         path="/teacher/create-team"
                         component={TeacherCreateTeam}
                     />
-                    <ProtectedRoute
+                    {/* <ProtectedRoute
                         exact={true}
                         user="MENTOR"
                         path="/teacher/pre-survey"
                         component={TeacherPreservey}
-                    />
+                    /> */}
                     <ProtectedRoute
                         exact={true}
                         user="MENTOR"
@@ -763,6 +792,18 @@ const Routers = () => {
                         user="MENTOR"
                         path="/teacher/view-team-member"
                         component={TeacherViewTeamMember}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="MENTOR"
+                        path="/mentor/edit"
+                        component={EditMentor}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="MENTOR"
+                        path="/mentor/add"
+                        component={AddMentor}
                     />
                     <ProtectedRoute
                         exact={true}

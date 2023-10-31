@@ -28,11 +28,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UncontrolledAlert } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import PostSurveyStatic from './PostSurveyStatic';
+import { useHistory } from 'react-router-dom';
 
 const PostSurvey = () => {
     // here we can attempt all the questions then we are able to download the certificate //
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const [postSurveyList, setPostSurveyList] = useState([]);
     const currentUser = getCurrentUser('current_user');
     const [quizSurveyId, setQuizSurveyId] = useState(0);
@@ -153,7 +156,9 @@ const PostSurvey = () => {
         let submitData = {
             responses: answerResponses
         };
-        const nonEmptySelectedOptions = submitData.responses.filter(item => item.selected_option.length > 0);
+        const nonEmptySelectedOptions = submitData.responses.filter(
+            (item) => item.selected_option.length > 0
+        );
         if (postSurveyList.length != nonEmptySelectedOptions.length) {
             openNotificationWithIcon(
                 'warning',
@@ -174,6 +179,7 @@ const PostSurvey = () => {
                             'Post Survey is been submitted successfully..!!',
                             ''
                         );
+
                         setCount(count + 1);
                         // formik.resetForm();
                     }
@@ -413,10 +419,13 @@ const PostSurvey = () => {
                                                                                             <Label
                                                                                                 check
                                                                                                 style={{
-                                                                                                    fontSize: '1.4rem',
-                                                                                                    display: 'flex', 
-                                                                                                    alignItems: 'center', 
-                                                                                                  }}
+                                                                                                    fontSize:
+                                                                                                        '1.4rem',
+                                                                                                    display:
+                                                                                                        'flex',
+                                                                                                    alignItems:
+                                                                                                        'center'
+                                                                                                }}
                                                                                             >
                                                                                                 <Input
                                                                                                     type="radio"
@@ -460,10 +469,13 @@ const PostSurvey = () => {
                                                                                             <Label
                                                                                                 check
                                                                                                 style={{
-                                                                                                    fontSize: '1.4rem',
-                                                                                                    display: 'flex', 
-                                                                                                    alignItems: 'center', 
-                                                                                                  }}
+                                                                                                    fontSize:
+                                                                                                        '1.4rem',
+                                                                                                    display:
+                                                                                                        'flex',
+                                                                                                    alignItems:
+                                                                                                        'center'
+                                                                                                }}
                                                                                             >
                                                                                                 <Input
                                                                                                     type="radio"
@@ -507,10 +519,13 @@ const PostSurvey = () => {
                                                                                             <Label
                                                                                                 check
                                                                                                 style={{
-                                                                                                    fontSize: '1.4rem',
-                                                                                                    display: 'flex', 
-                                                                                                    alignItems: 'center', 
-                                                                                                  }}
+                                                                                                    fontSize:
+                                                                                                        '1.4rem',
+                                                                                                    display:
+                                                                                                        'flex',
+                                                                                                    alignItems:
+                                                                                                        'center'
+                                                                                                }}
                                                                                             >
                                                                                                 <Input
                                                                                                     type="radio"
@@ -545,10 +560,13 @@ const PostSurvey = () => {
                                                                                             <Label
                                                                                                 check
                                                                                                 style={{
-                                                                                                    fontSize: '1.4rem',
-                                                                                                    display: 'flex', 
-                                                                                                    alignItems: 'center', 
-                                                                                                  }}
+                                                                                                    fontSize:
+                                                                                                        '1.4rem',
+                                                                                                    display:
+                                                                                                        'flex',
+                                                                                                    alignItems:
+                                                                                                        'center'
+                                                                                                }}
                                                                                             >
                                                                                                 <Input
                                                                                                     type="radio"
@@ -584,10 +602,13 @@ const PostSurvey = () => {
                                                                                     <Label
                                                                                         check
                                                                                         style={{
-                                                                                            fontSize: '1.4rem',
-                                                                                            display: 'flex', 
-                                                                                            alignItems: 'center', 
-                                                                                          }}
+                                                                                            fontSize:
+                                                                                                '1.4rem',
+                                                                                            display:
+                                                                                                'flex',
+                                                                                            alignItems:
+                                                                                                'center'
+                                                                                        }}
                                                                                     >
                                                                                         <Input
                                                                                             type="checkbox"
@@ -629,10 +650,13 @@ const PostSurvey = () => {
                                                                                     <Label
                                                                                         check
                                                                                         style={{
-                                                                                            fontSize: '1.4rem',
-                                                                                            display: 'flex', 
-                                                                                            alignItems: 'center', 
-                                                                                          }}
+                                                                                            fontSize:
+                                                                                                '1.4rem',
+                                                                                            display:
+                                                                                                'flex',
+                                                                                            alignItems:
+                                                                                                'center'
+                                                                                        }}
                                                                                     >
                                                                                         <Input
                                                                                             type="checkbox"
@@ -674,10 +698,13 @@ const PostSurvey = () => {
                                                                                     <Label
                                                                                         check
                                                                                         style={{
-                                                                                            fontSize: '1.4rem',
-                                                                                            display: 'flex', 
-                                                                                            alignItems: 'center', 
-                                                                                          }}
+                                                                                            fontSize:
+                                                                                                '1.4rem',
+                                                                                            display:
+                                                                                                'flex',
+                                                                                            alignItems:
+                                                                                                'center'
+                                                                                        }}
                                                                                     >
                                                                                         <Input
                                                                                             type="checkbox"
@@ -722,10 +749,13 @@ const PostSurvey = () => {
                                                                                         <Label
                                                                                             check
                                                                                             style={{
-                                                                                                fontSize: '1.4rem',
-                                                                                                display: 'flex', 
-                                                                                                alignItems: 'center', 
-                                                                                              }}
+                                                                                                fontSize:
+                                                                                                    '1.4rem',
+                                                                                                display:
+                                                                                                    'flex',
+                                                                                                alignItems:
+                                                                                                    'center'
+                                                                                            }}
                                                                                         >
                                                                                             <Input
                                                                                                 type="checkbox"

@@ -44,15 +44,14 @@ const EditProfile = (props) => {
                 .matches(/^[aA-zZ\s]+$/, 'Invalid name ')
                 .min(2, 'Enter a valid name')
                 .required('Name is Required'),
-            email: Yup.string()
-                .required('required')
-                .trim()
-                .matches(
-                    /^\d+$/,
-                    'Mobile number is not valid (Enter only digits)'
-                )
-                .max(10, 'Please enter only 10 digit valid number')
-                .min(10, 'Number is less than 10 digits')
+            email: Yup.string().email().required('required')
+            // .trim()
+            // .matches(
+            //     /^\d+$/,
+            //     'Mobile number is not valid (Enter only digits)'
+            // )
+            // .max(10, 'Please enter only 10 digit valid number')
+            // .min(10, 'Number is less than 10 digits')
         });
         if (data?.mentor_id)
             if (data?.evaluator_id)
@@ -100,8 +99,8 @@ const EditProfile = (props) => {
                   })
                 : JSON.stringify({
                       full_name: full_name,
-                      username: email,
-                      mobile: email
+                      username: email
+                      //   mobile: email
                   });
             const url = mentorData?.evaluator_id
                 ? process.env.REACT_APP_API_BASE_URL +
@@ -202,7 +201,7 @@ const EditProfile = (props) => {
                                                 className="name-req mt-5"
                                                 htmlFor="email"
                                             >
-                                                Mobile No
+                                                Email Address
                                             </Label>
                                             <InputBox
                                                 className={'defaultInput'}

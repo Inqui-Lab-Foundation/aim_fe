@@ -16,7 +16,7 @@ const Select = ({ list, setValue, placeHolder, value }) => {
                     </option>
                 ))
             ) : (
-                <option>No Data found</option>
+                <option disabled>No Data found</option>
             )}
         </select>
     );

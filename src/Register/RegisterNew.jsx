@@ -193,7 +193,7 @@ function RegisterNew() {
                                 whatapp_mobile:
                                     mentorRegRes?.data?.data[0].whatapp_mobile
                             };
-                            setBtn(true);
+                            // setBtn(true);
                             history.push({
                                 pathname: '/success',
                                 data: successData
@@ -205,7 +205,7 @@ function RegisterNew() {
                             'error',
                             err.response.data?.message
                         );
-                        setBtn(false);
+                        // setBtn(false);
                         formik.setErrors({
                             check: err.response && err?.response?.data?.message
                         });

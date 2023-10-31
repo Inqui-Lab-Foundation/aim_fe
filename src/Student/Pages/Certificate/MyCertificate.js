@@ -4,8 +4,8 @@ import { Button } from '../../../stories/Button';
 import Layout from '../../Layout';
 import jsPDF from 'jspdf';
 import { getCurrentUser } from '../../../helpers/Utils';
-import courseCompletionCertificate from '../../../assets/media/img/certificates/TN-SIDP-Certificates-signed-2-1.png';
-import ideaSubmissionCertificate from '../../../assets/media/img/certificates/TN-SIDP-Certificates-signed-3-1.png';
+import courseCompletionCertificate from '../../../assets/media/img/certificates/student_participation.jpg';
+import ideaSubmissionCertificate from '../../../assets/media/img/certificates/student_idea.jpg';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -31,6 +31,7 @@ const Certificate = ({
     const dispatch = useDispatch();
     const handleCertificateDownload = () => {
         // here we can download the certificates //
+
         const content = type ? partRef.current : pdfRef.current;
         const badge = 'the_finisher';
         const size = [298, 220];
@@ -89,8 +90,8 @@ const Certificate = ({
                             className="text-capitalize"
                             style={{
                                 position: 'absolute',
-                                top: `${type ? '8.1rem' : '7.4rem'}`,
-                                left: `${type ? '10.3rem' : '10rem'}`,
+                                top: `${type ? '8.1rem' : '8.4rem'}`,
+                                left: `${type ? '10.3rem' : '10.7rem'}`,
                                 fontSize: '0.8rem',
                                 fontFamily: 'Times New Roman'
                             }}
@@ -101,8 +102,9 @@ const Certificate = ({
                             className="text-capitalize"
                             style={{
                                 position: 'absolute',
-                                top: `${type ? '9.5rem' : '8.8rem'}`,
-                                left: `${type ? '5rem' : '5.1rem'}`,
+
+                                top: `${type ? '9.5rem' : '9.8rem'}`,
+                                left: `${type ? '5rem' : '6rem'}`,
                                 fontSize: '0.8rem',
                                 fontFamily: 'Times New Roman'
                             }}

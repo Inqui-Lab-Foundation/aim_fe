@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, List, Label, Card } from 'reactstrap';
-import { Tabs} from 'antd';
+import { Tabs } from 'antd';
 import Layout from '../Layout';
 import { BsPlusLg } from 'react-icons/bs';
 import { Button } from '../../stories/Button';
@@ -48,6 +48,7 @@ const TicketsPage = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
+                    // console.log(response, '1');
                     setTeamsList(response.data.data);
                 }
             })
@@ -66,26 +67,46 @@ const TicketsPage = () => {
         setTeamsArray(teamsArrays);
         setLoading(false);
     }, [teamsList]);
-
+    // console.log(teamsArray, '1');
     const adminTeamsList = {
         data: teamsArray,
         columns: [
             {
                 name: t('teacher_teams.s_no'),
                 selector: 'key',
-                width: '12rem'
+                width: '6rem'
             },
             {
                 name: t('teacher_teams.team_name'),
                 selector: 'team_name',
                 sortable: true,
                 // maxlength: '5',
-                width: '43rem'
+                width: '20rem'
             },
+            // {
+            //     name: 'MentorName',
+            //     selector: 'moc_name',
+            //     width: '20rem'
+            // },
+            // {
+            //     name: 'Gender',
+            //     selector: 'moc_gender',
+            //     width: '10rem'
+            // },
+            // {
+            //     name: 'Mobile No',
+            //     selector: 'moc_phone',
+            //     width: '20rem'
+            // },
+            // {
+            //     name: 'Email Id',
+            //     selector: 'moc_email',
+            //     width: '20rem'
+            // },
             {
-                name: t('teacher_teams.team_members_count'),
+                name: 'Team Count',
                 selector: 'StudentCount',
-                width: '23rem'
+                width: '15rem'
             },
             {
                 name: t('teacher_teams.actions'),
@@ -95,12 +116,13 @@ const TicketsPage = () => {
                             {process.env.REACT_APP_TEAM_LENGTH >
                                 params.StudentCount && (
                                 <div className="btn btn-success  mr-5 mx-2">
-                                    {t('teacher_teams.create')}
+                                    Add Team Members
+                                    {/* {t('teacher_teams.create')} */}
                                 </div>
                             )}
                         </div>,
                         <div key={params} onClick={() => handleView(params)}>
-                            {!params.StudentCount < 1 && (
+                            {!params.StudentCount < 4 && (
                                 <div className="btn btn-primary  mr-5">
                                     {t('teacher_teams.view')}
                                 </div>
@@ -134,11 +156,11 @@ const TicketsPage = () => {
     };
     const handleView = (item) => {
         // here item = team member details  //
-        item['mentorid']=currentUser?.data[0]?.mentor_id;
+        item['mentorid'] = currentUser?.data[0]?.mentor_id;
         history.push({
             pathname: '/teacher/view-team-member',
             item: item,
-            mentorid :currentUser?.data[0]?.mentor_id
+            mentorid: currentUser?.data[0]?.mentor_id
         });
         localStorage.setItem('teamId', JSON.stringify(item));
     };
@@ -212,11 +234,12 @@ const TicketsPage = () => {
                             Adding student teams is the first and most important
                             step as part of the project. Please ensure you are
                             ready with the list of students and their details
-                            (Team Name, Full Name, Class, Age, Gender) before
-                            you start creating teams. Please ensure you are
-                            selecting students who are interested and will
-                            benefit out of this program irrespective of their
-                            communication skills or academic performance.
+                            (Team Name,Student Full Name,Student Class,Student
+                            Age,Student Gender,Student Email,Student Disability
+                            Status) before you start creating teams. Please
+                            ensure you are selecting students who are interested
+                            and will benefit out of this program irrespective of
+                            their communication skills or academic performance.
                         </p>
                         <List>
                             <li>
@@ -224,9 +247,14 @@ const TicketsPage = () => {
                                 available in the resource section before
                                 creating teams.
                             </li>
+                            <li>Email id has to be unique for each student.</li>
+                            <li>
+                                Teacher email cannot be used for mentor &
+                                student.
+                            </li>
                             <li>
                                 Each team should have a minimum of 2 and maximum
-                                of 5 students.
+                                of 3 students.
                             </li>
                             <li>
                                 Team name cannot be edited whereas student
@@ -239,8 +267,9 @@ const TicketsPage = () => {
                             </li>
                             <li>
                                 Student delete button will be active only if the
-                                team has min of 3 students.
+                                team has 3 students.
                             </li>
+
                             <li>
                                 Change team option can be used only before
                                 initiating an idea.
