@@ -197,18 +197,18 @@ const Dashboard = () => {
                     record.full_name
                 )
         },
-        {
-            title: 'Pre Survey',
-            dataIndex: 'pre_survey_status',
-            align: 'center',
-            width: '10%',
-            render: (_, record) =>
-                record?.pre_survey_status ? (
-                    <FaCheckCircle size={20} color="green" />
-                ) : (
-                    <FaTimesCircle size={20} color="red" />
-                )
-        },
+        // {
+        //     title: 'Pre Survey',
+        //     dataIndex: 'pre_survey_status',
+        //     align: 'center',
+        //     width: '10%',
+        //     render: (_, record) =>
+        //         record?.pre_survey_status ? (
+        //             <FaCheckCircle size={20} color="green" />
+        //         ) : (
+        //             <FaTimesCircle size={20} color="red" />
+        //         )
+        // },
         {
             title: 'Lesson Progress',
             dataIndex: 'address',

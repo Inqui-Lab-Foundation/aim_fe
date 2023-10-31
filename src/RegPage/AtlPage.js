@@ -10,7 +10,7 @@ import { Input, Radio } from 'antd';
 import successIcon from '../assets/media/img/rocket.gif';
 import signuplogo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import image_1 from '../assets/media/unisolve_slider1.png';
-import image_2 from '../assets/media/unisolve_slider2.png';
+import image_2 from '../assets/media/aim_Slider.png';
 import { useFormik } from 'formik';
 import { Carousel } from 'react-bootstrap';
 import { InputBox } from '../stories/InputBox/InputBox';
@@ -974,6 +974,20 @@ function AtlPage() {
                                                         </small>
                                                     ) : null}
                                                 </Col>
+                                                <div className="mt-3">
+                                                    <span
+                                                        required
+                                                        className="p-1 "
+                                                        style={{ color: 'red' }}
+                                                    >
+                                                        * Note : PWD is set
+                                                        default with Characters
+                                                        in mail (till before @)
+                                                        ex : ID-
+                                                        abcd.98@gmail.com ,
+                                                        Password : “abcd.98”
+                                                    </span>
+                                                </div>
                                             </Row>
                                             <div className="mt-5 d-flex align-items-center">
                                                 <Button

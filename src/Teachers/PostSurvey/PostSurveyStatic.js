@@ -10,12 +10,12 @@ const PostSurveyStatic = () => {
                 </div>
                 <div>
                     <h2 className="common-flex">
-                        Please ensure all the student teams complete the course
-                        and submit the ideas to fill the post survey.
+                        Please ensure all the student teams submit the ideas to
+                        fill the post survey.
                     </h2>
                     <h2 className="common-flex">
-                        Certificate will be generated once you complete
-                        the post survey.
+                        Certificate will be generated once you complete the post
+                        survey.
                     </h2>
                 </div>
             </div>
