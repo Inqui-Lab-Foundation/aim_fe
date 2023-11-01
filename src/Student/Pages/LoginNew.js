@@ -22,7 +22,7 @@ import { openNotificationWithIcon } from '../../helpers/Utils';
 
 const LoginNew = (props) => {
     const { t } = useTranslation();
-    const hide = true;
+    const hide = false;
     const history = useHistory();
     useLayoutEffect(() => {
         const moduleName = localStorage.getItem('module');

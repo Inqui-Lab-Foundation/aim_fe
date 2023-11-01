@@ -331,7 +331,7 @@ const ViewTeamMember = (props) => {
             {
                 name: 'User Id',
                 selector: 'user.username',
-                width: '25rem'
+                width: '35rem'
             },
             {
                 name: 'Password',
