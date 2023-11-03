@@ -16,6 +16,7 @@ const ViewMore = () => {
 
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
     const [course, setCourse] = useState([]);
+    console.log(orgDaTa, '1');
     // where orgDaTa = orgnization details //
     // we can see all orgnization , mentor details //
     const headingDetails = {
@@ -23,7 +24,10 @@ const ViewMore = () => {
         options: []
     };
     var teamId = [];
-    teamId.push({ mentor_id: orgDaTa.mentor.mentor_id ,user_id:orgDaTa.mentor.user_id});
+    teamId.push({
+        mentor_id: orgDaTa.mentor.mentor_id,
+        user_id: orgDaTa.mentor.user_id
+    });
     const handleBack = () => {
         history.push({
             pathname: '/admin/dashboard'
@@ -79,7 +83,7 @@ const ViewMore = () => {
                         <CardBody>
                             <h2 className="mb-4">Organization Details</h2>
 
-                            <CardText>
+                            {/* <CardText>
                                 <span className="mx-3">
                                     <b>principal Name :</b>
                                 </span>
@@ -90,18 +94,24 @@ const ViewMore = () => {
                                     <b>principal Email :</b>
                                 </span>
                                 <b>{orgDaTa.principal_email}</b>
-                            </CardText>
+                            </CardText> */}
                             <CardText>
                                 <span className="mx-3">
-                                    <b>organization Name :</b>
+                                    <b>Organization Name :</b>
                                 </span>
                                 <b>{orgDaTa.organization_name}</b>
                             </CardText>
                             <CardText>
                                 <span className="mx-3">
-                                    <b>organization Code :</b>
+                                    <b>Organization Code :</b>
                                 </span>
                                 <b>{orgDaTa.organization_code}</b>
+                            </CardText>
+                            <CardText>
+                                <span className="mx-3">
+                                    <b>UDISE Code :</b>
+                                </span>
+                                <b>{orgDaTa.unique_code}</b>
                             </CardText>
                             <CardText>
                                 <span className="mx-3">
@@ -111,9 +121,9 @@ const ViewMore = () => {
                             </CardText>
                             <CardText>
                                 <span className="mx-3">
-                                    <b>City :</b>
+                                    <b>State:</b>
                                 </span>
-                                <b>{orgDaTa.city}</b>
+                                <b>{orgDaTa.state}</b>
                             </CardText>
 
                             <CardText>
@@ -124,16 +134,16 @@ const ViewMore = () => {
                             </CardText>
                             <CardText>
                                 <span className="mx-3">
-                                    <b>state :</b>
+                                    <b>Pincode :</b>
                                 </span>
-                                <b>{orgDaTa.state}</b>
+                                <b>{orgDaTa.pin_code}</b>
                             </CardText>
-                            <CardText>
+                            {/* <CardText>
                                 <span className="mx-3">
                                     <b>Country :</b>
                                 </span>
                                 <b>{orgDaTa.country}</b>
-                            </CardText>
+                            </CardText> */}
                         </CardBody>
                     </Card>
                     <Row className="py-5">
@@ -167,9 +177,15 @@ const ViewMore = () => {
                                 </CardText>
                                 <CardText>
                                     <span className="mx-3">
-                                        <b>Mobile No :</b>
+                                        <b>Email Id :</b>
                                     </span>
                                     <b>{orgDaTa.mentor.user.username}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Mobile No :</b>
+                                    </span>
+                                    <b>{orgDaTa.mentor.mobile}</b>
                                 </CardText>
                                 <CardText>
                                     <span className="mx-3">

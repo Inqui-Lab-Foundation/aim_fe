@@ -69,7 +69,6 @@ const CreateMultipleMembers = ({ id }) => {
     let pattern = /[A-Za-z0-9\s]*$/;
     // const emailRegex = /[A-Za-z-@+.-]*$/;
     const emailRegex = /^[\w.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    // const emailRegex = /^[A-Za-z-.]+@([A-za-z-]+\.)+[A-Za-z-]{2,4}$/;
     const handleChange = (e, i) => {
         let newItem = [...studentData];
         const dataKeys = Object.keys(studentBody);

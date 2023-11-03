@@ -48,7 +48,7 @@ const Dashboard = () => {
     const [mentorTeam, setMentorTeam] = useState([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState('');
-
+    console.log(orgData, 'data');
     const [isideadisable, setIsideadisable] = useState(false);
     const handleOnChange = (e) => {
         // we can give diescode as input //
@@ -1682,7 +1682,7 @@ const Dashboard = () => {
                                                             xl={5}
                                                             className="my-auto profile-detail"
                                                         >
-                                                            <p>City</p>
+                                                            <p>State</p>
                                                         </Col>
                                                         <Col
                                                             xs={1}
@@ -1700,10 +1700,11 @@ const Dashboard = () => {
                                                             className="my-auto profile-detail"
                                                         >
                                                             <p>
-                                                                {orgData.city}
+                                                                {orgData.state}
                                                             </p>
                                                         </Col>
                                                     </Row>
+
                                                     <Row className="pt-3 pb-3">
                                                         <Col
                                                             xs={5}
@@ -1732,6 +1733,38 @@ const Dashboard = () => {
                                                             <p>
                                                                 {
                                                                     orgData.district
+                                                                }
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>Pincode</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    orgData.pin_code
                                                                 }
                                                             </p>
                                                         </Col>
@@ -1779,7 +1812,7 @@ const Dashboard = () => {
                                                             className="my-auto profile-detail"
                                                         >
                                                             <p>
-                                                                Mentor Mobile No
+                                                                Mentor Email Id
                                                             </p>
                                                         </Col>
                                                         <Col
@@ -1803,6 +1836,40 @@ const Dashboard = () => {
                                                                         .mentor
                                                                         ?.user
                                                                         ?.username
+                                                                }
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>Mobile No</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    orgData
+                                                                        ?.mentor
+                                                                        ?.mobile
                                                                 }
                                                             </p>
                                                         </Col>

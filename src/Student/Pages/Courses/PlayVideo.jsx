@@ -500,7 +500,9 @@ const PlayVideoCourses = (props) => {
         if (event.reflective_quiz_status !== 'INCOMPLETE') {
             if (
                 topicObj.topic_type_id !==
-                setTopicArrays[setTopicArrays?.length - 1]?.topic_type_id || topicObj.topic_type!= setTopicArrays[setTopicArrays?.length - 1]?.topic_type 
+                    setTopicArrays[setTopicArrays?.length - 1]?.topic_type_id ||
+                topicObj.topic_type !=
+                    setTopicArrays[setTopicArrays?.length - 1]?.topic_type
             ) {
                 setTopic(setTopicArrays[topixIndex]);
                 modulesListUpdateApi(topicObj.course_topic_id);
@@ -833,6 +835,8 @@ const PlayVideoCourses = (props) => {
         );
     };
     const comingSoonText = t('dummytext.student_course');
+    const pdfFileURL =
+        'https://s3.ap-south-1.amazonaws.com/aim1.0-bkt-cba6e2a/Themes_English.pdf';
     return (
         <Layout>
             {!showPage ? (
@@ -1300,33 +1304,50 @@ const PlayVideoCourses = (props) => {
                                                                     <div className="text-right">
                                                                         {worksheetResponce.response ===
                                                                         null ? (
-                                                                            <a
-                                                                                // href={
-                                                                                //     process
-                                                                                //         .env
-                                                                                //         .REACT_APP_API_IMAGE_BASE_URL +
-                                                                                //     worksheetResponce?.attachments
-                                                                                // }
-                                                                                href={
-                                                                                    worksheetResponce?.attachments
-                                                                                }
-                                                                                target="_blank"
-                                                                                rel="noreferrer"
-                                                                                className="primary"
-                                                                            >
-                                                                                <Button
-                                                                                    button="submit"
-                                                                                    label={t(
-                                                                                        'student.download_worksheet'
-                                                                                    )}
-                                                                                    btnClass="primary mt-4 mb-2"
-                                                                                    size="small"
-                                                                                    style={{
-                                                                                        marginRight:
-                                                                                            '2rem'
-                                                                                    }}
-                                                                                />
-                                                                            </a>
+                                                                            <>
+                                                                                <a
+                                                                                    href={
+                                                                                        pdfFileURL
+                                                                                    }
+                                                                                    target="_blank"
+                                                                                    rel="noreferrer"
+                                                                                    className="primary"
+                                                                                >
+                                                                                    <Button
+                                                                                        // button="submit"
+                                                                                        label=" Download Themes"
+                                                                                        btnClass="primary mt-4 mx-4 "
+                                                                                        size="small"
+                                                                                    />
+                                                                                </a>
+                                                                                <a
+                                                                                    // href={
+                                                                                    //     process
+                                                                                    //         .env
+                                                                                    //         .REACT_APP_API_IMAGE_BASE_URL +
+                                                                                    //     worksheetResponce?.attachments
+                                                                                    // }
+                                                                                    href={
+                                                                                        worksheetResponce?.attachments
+                                                                                    }
+                                                                                    target="_blank"
+                                                                                    rel="noreferrer"
+                                                                                    className="primary"
+                                                                                >
+                                                                                    <Button
+                                                                                        button="submit"
+                                                                                        label={t(
+                                                                                            'student.download_worksheet'
+                                                                                        )}
+                                                                                        btnClass="primary mt-4 mb-2"
+                                                                                        size="small"
+                                                                                        style={{
+                                                                                            marginRight:
+                                                                                                '2rem'
+                                                                                        }}
+                                                                                    />
+                                                                                </a>
+                                                                            </>
                                                                         ) : (
                                                                             <a
                                                                                 // href={
