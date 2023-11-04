@@ -751,7 +751,10 @@ const ViewTeamMember = (props) => {
                             </Col>
                         )}
                     </Row>
-                    <div className="ticket-data">
+                    <div
+                        className="ticket-data"
+                        style={{ whiteSpace: 'pre-wrap' }}
+                    >
                         <Tabs defaultActiveKey="1">
                             {props.teamsMembersList &&
                             !props.teamsMembersList.length > 0 ? (
