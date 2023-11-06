@@ -578,8 +578,8 @@ const IdeasPageNew = () => {
         scroll();
     };
     const comingSoonText = t('dummytext.student_idea_sub');
-    const acceptedParamfileTypes =
-        'Accepting only png,jpg,jpeg,pdf,mp4,doc,docx Only, file size should be below 10MB';
+    // const acceptedParamfileTypes =
+    //     'Accepting only png,jpg,jpeg,pdf,mp4,doc,docx Only, file size should be below 10MB';
     return (
         <Layout>
             {showPage ? (
@@ -967,9 +967,18 @@ const IdeasPageNew = () => {
                                                                                     subCategory
                                                                                 }
                                                                             >
-                                                                                {
-                                                                                    item
-                                                                                }
+                                                                                <div
+                                                                                    style={{
+                                                                                        whiteSpace:
+                                                                                            'pre-wrap',
+                                                                                        wordWrap:
+                                                                                            'break-word'
+                                                                                    }}
+                                                                                >
+                                                                                    {
+                                                                                        item
+                                                                                    }
+                                                                                </div>
                                                                             </option>
                                                                         )
                                                                     )}
@@ -1099,9 +1108,9 @@ const IdeasPageNew = () => {
                                                                         {eachQuestion.type ===
                                                                             'DRAW' && (
                                                                             <>
-                                                                                {
+                                                                                {/* {
                                                                                     acceptedParamfileTypes
-                                                                                }
+                                                                                } */}
                                                                                 {initiatedBy &&
                                                                                     initiatedBy ===
                                                                                         currentUser
