@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import './style.scss';
@@ -21,25 +22,26 @@ const LanguageSelectorComp = ({ module }) => {
         (state) => state?.studentRegistration?.studentLanguage
     );
     const globalLang = useSelector((state) => state?.home.globalLanguage);
-    const [language, setLanguage] = useState(module === 'student' ? studentLanguage.name :
-        selectedLanguage && selectedLanguage?.name
+    const [language, setLanguage] = useState(
+        module === 'student'
+            ? studentLanguage.name
+            : selectedLanguage && selectedLanguage?.name
             ? selectedLanguage?.name
             : globalLang?.name
     );
-    const localLang = JSON.parse(localStorage.getItem("s_language"));
+    const localLang = JSON.parse(localStorage.getItem('s_language'));
     useEffect(() => {
-        if(localLang){
+        if (localLang) {
             i18next.changeLanguage(localLang.code);
             dispatch(getStudentGlobalLanguage(localLang));
         }
     }, []);
-    
     const handleSelector = (item) => {
         let forMentor;
-        if (item && item.code !== "en") {
+        if (item && item.code !== 'en') {
             forMentor = { ...item };
-            forMentor.code = "en";
-            forMentor.name = "English";
+            forMentor.code = 'en';
+            forMentor.name = 'English';
         }
         setLanguage(item.name);
         i18next.changeLanguage(item.code);
@@ -53,8 +55,8 @@ const LanguageSelectorComp = ({ module }) => {
             dispatch(getMentorGlobalLanguage(forMentor));
         } else {
             dispatch(getStudentGlobalLanguage(item));
-            if(module==='student'){
-                localStorage.setItem("s_language", JSON.stringify(item));
+            if (module === 'student') {
+                localStorage.setItem('s_language', JSON.stringify(item));
             }
         }
     };
@@ -63,7 +65,7 @@ const LanguageSelectorComp = ({ module }) => {
             id="language-selector-btn"
             title={
                 <span>
-                    <FaGlobeAsia /> { (localLang && localLang.name) || language}
+                    <FaGlobeAsia /> {(localLang && localLang.name) || language}
                 </span>
             }
         >

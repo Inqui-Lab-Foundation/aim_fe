@@ -967,18 +967,18 @@ const IdeasPageNew = () => {
                                                                                     subCategory
                                                                                 }
                                                                             >
-                                                                                {/* <div
+                                                                                <div
                                                                                     style={{
                                                                                         whiteSpace:
                                                                                             'pre-wrap',
                                                                                         wordWrap:
                                                                                             'break-word'
                                                                                     }}
-                                                                                > */}
-                                                                                {
-                                                                                    item
-                                                                                }
-                                                                                {/* </div> */}
+                                                                                >
+                                                                                    {
+                                                                                        item
+                                                                                    }
+                                                                                </div>
                                                                             </option>
                                                                         )
                                                                     )}
