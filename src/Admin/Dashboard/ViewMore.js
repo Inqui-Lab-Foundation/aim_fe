@@ -16,7 +16,7 @@ const ViewMore = () => {
 
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
     const [course, setCourse] = useState([]);
-    console.log(orgDaTa, '1');
+    // console.log(orgDaTa, '1');
     // where orgDaTa = orgnization details //
     // we can see all orgnization , mentor details //
     const headingDetails = {
@@ -61,7 +61,10 @@ const ViewMore = () => {
                 console.log(error);
             });
     }, []);
-    // console.log(course);
+    const atlData = orgDaTa.organization_code;
+    const altRes = atlData.split('-');
+    const atlNew = altRes[0];
+    // console.log(atlNew, 'atlNew');
     const percentageBWNumbers = (a, b) => {
         // here a = all_topics_count ; b= topics_completed_count //
         return (((a - b) / a) * 100).toFixed(2);
@@ -146,6 +149,45 @@ const ViewMore = () => {
                             </CardText> */}
                         </CardBody>
                     </Card>
+                    {orgDaTa.category === 'Non ATL' && (
+                        <Card className="py-5">
+                            <CardBody>
+                                <h2 className="mb-4">ATL School Details</h2>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>ATL Code :</b>
+                                    </span>
+                                    <b>{atlNew}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Organization Name :</b>
+                                    </span>
+                                    <b>{orgDaTa.organization_name}</b>
+                                </CardText>
+
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>State:</b>
+                                    </span>
+                                    <b>{orgDaTa.state}</b>
+                                </CardText>
+
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>District :</b>
+                                    </span>
+                                    <b>{orgDaTa.district}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Pincode :</b>
+                                    </span>
+                                    <b>{orgDaTa.pin_code}</b>
+                                </CardText>
+                            </CardBody>
+                        </Card>
+                    )}
                     <Row className="py-5">
                         <Card className="py-5">
                             <CardBody>
@@ -196,6 +238,7 @@ const ViewMore = () => {
                             </CardBody>
                         </Card>
                     </Row>
+
                     <Row className="teacher-statistics bg-white p-5">
                         <Row className="">
                             <Col>

@@ -33,9 +33,9 @@ export const languageOptions = [
 ];
 
 export const getLanguage = (lang) => {
-    if (lang?.code == 'en' || lang?.code == '' || lang?.code == undefined)
+    if (lang?.code == 'en' || lang?.code == '' || lang?.code == undefined) {
         return `locale=en`;
-    else if (lang?.code == 'hi') {
+    } else if (lang?.code == 'hi') {
         return `locale=hi`;
     } else if (lang?.code == 'te') {
         return `locale=te`;
