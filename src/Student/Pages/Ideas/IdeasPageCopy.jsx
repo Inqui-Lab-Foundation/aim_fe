@@ -437,6 +437,11 @@ const IdeasPageNew = () => {
             );
             return;
         }
+        const allowedTypes = ['image/jpeg', 'image/png','application/msword','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+        if(choosenFiles.filter((item) => allowedTypes.includes(item.type) === false).length > 0){
+            openNotificationWithIcon('error', t('Accepting only png,jpg,jpeg,pdf,doc,docx Only'));
+            return;
+        }
         if (choosenFiles.filter((item) => item.size > maxFileSize).length > 0) {
             openNotificationWithIcon('error', t('student.less_10MB'));
             return;
@@ -1014,7 +1019,7 @@ const IdeasPageNew = () => {
                                                                                     subCategory
                                                                                 }
                                                                             >
-                                                                                {/* <div
+                                                                                <div
                                                                                     style={{
                                                                                         whiteSpace:
                                                                                             'pre-wrap',
@@ -1189,7 +1194,7 @@ const IdeasPageNew = () => {
                                                                                                     disabled={
                                                                                                         isDisabled
                                                                                                     }
-                                                                                                    accept=".png, .jpg, .jpeg,.pdf,video/mp4,video/x-m4v,.doc,.docx"
+                                                                                                    accept="image/jpeg,image/png,application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation"
                                                                                                     multiple
                                                                                                     onChange={(
                                                                                                         e
