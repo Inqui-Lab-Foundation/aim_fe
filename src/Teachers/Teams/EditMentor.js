@@ -103,9 +103,9 @@ const EditMentor = (props) => {
                         );
                         currentUser.data[0].moc_name = values.name;
                         setCurrentUser(currentUser);
-                        setTimeout(() => {
-                            props.history.push('/teacher/view-team-member');
-                        }, 200);
+                        // setTimeout(() => {
+                        //     props.history.push('/teacher/view-team-member');
+                        // }, 2000);
                     }
                 })
                 .catch(function (error) {

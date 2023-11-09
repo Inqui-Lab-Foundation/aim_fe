@@ -49,7 +49,7 @@ const EditTeamMember = (props) => {
             username: Yup.string()
                 .email('Must be a valid email')
                 .max(255)
-                .matches(/\.com$/, 'Email must end with .com'),
+                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com'),
             disability: Yup.string().required('Please select disability'),
             grade: Yup.string()
                 .matches('', 'Please enter valid class')

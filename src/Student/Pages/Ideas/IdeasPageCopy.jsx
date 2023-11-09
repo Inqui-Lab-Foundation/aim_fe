@@ -117,6 +117,11 @@ const IdeasPageNew = () => {
     const [screenCount, setScreenCount] = useState(1);
     const [screenQst, setScreenQst] = useState(challengeQuestions.slice(0, 7));
     const [screenTitle, setScreenTitle] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleOptionChange = (newOption) => {
+        setSelectedOption(newOption);
+    };
 
     const handleBack = () => {
         setScreenCount(screenCount - 1);
@@ -585,6 +590,7 @@ const IdeasPageNew = () => {
     const comingSoonText = t('dummytext.student_idea_sub');
     // const acceptedParamfileTypes =
     //     'Accepting only png,jpg,jpeg,pdf,mp4,doc,docx Only, file size should be below 10MB';
+
     return (
         <Layout>
             {showPage ? (
@@ -928,7 +934,47 @@ const IdeasPageNew = () => {
                                                             </div>
                                                         ) : (
                                                             <div className=" answers row flex-column p-4">
-                                                                <select
+                                                                <div>
+                                                                    {subCategoryMenu.map(
+                                                                        (
+                                                                            item,
+                                                                            i
+                                                                        ) => (
+                                                                            <label
+                                                                                key={
+                                                                                    i
+                                                                                }
+                                                                            >
+                                                                                <input
+                                                                                    disabled={
+                                                                                        isDisabled
+                                                                                    }
+                                                                                    type="radio"
+                                                                                    value={
+                                                                                        item
+                                                                                    }
+                                                                                    checked={
+                                                                                        item ===
+                                                                                        subCategory
+                                                                                    }
+                                                                                    onChange={(
+                                                                                        e
+                                                                                    ) =>
+                                                                                        setSubCategory(
+                                                                                            e
+                                                                                                .target
+                                                                                                .value
+                                                                                        )
+                                                                                    }
+                                                                                />
+                                                                                {
+                                                                                    item
+                                                                                }
+                                                                            </label>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                                {/* <select
                                                                     disabled={
                                                                         isDisabled
                                                                     }
@@ -946,6 +992,7 @@ const IdeasPageNew = () => {
                                                                 >
                                                                     <option
                                                                         disabled
+                                                                        // className="dropdown-item"
                                                                         selected={
                                                                             subCategory ===
                                                                             ''
@@ -972,22 +1019,20 @@ const IdeasPageNew = () => {
                                                                                     subCategory
                                                                                 }
                                                                             >
-                                                                                  <div
+                                                                                <div
                                                                                     style={{
                                                                                         whiteSpace:
                                                                                             'pre-wrap',
                                                                                         wordWrap:
                                                                                             'break-word'
                                                                                     }}
-                                                                                >
-                                                                                    {
-                                                                                        item
-                                                                                    }
-                                                                                </div>
-                                                                            </option>
-                                                                        )
-                                                                    )}
-                                                                </select>
+                                                                                > */}
+                                                                {/* {item} */}
+                                                                {/* </div> */}
+                                                                {/* </option> */}
+                                                                {/* ) */}
+                                                                {/* )} */}
+                                                                {/* </select> */}{' '}
                                                             </div>
                                                         )}
                                                     </Row>
