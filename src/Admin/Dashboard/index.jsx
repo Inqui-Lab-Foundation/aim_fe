@@ -48,7 +48,8 @@ const Dashboard = () => {
     const [mentorTeam, setMentorTeam] = useState([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState('');
-    console.log(orgData, 'data');
+    const teacherId = mentorTeam[0]?.team_id;
+    console.log(teacherId, 'data');
     const [isideadisable, setIsideadisable] = useState(false);
     const handleOnChange = (e) => {
         // we can give diescode as input //
@@ -216,7 +217,8 @@ const Dashboard = () => {
                 if (result.isConfirmed) {
                     dispatch(
                         teacherResetPassword({
-                            organization_code: data.organization_code,
+                            // organization_code: data.organization_code,
+                            username: orgData.mentor?.user?.username,
                             mentor_id: data.mentor_id,
                             otp: false
                         })
@@ -250,6 +252,7 @@ const Dashboard = () => {
             data: orgData
         });
         localStorage.setItem('orgData', JSON.stringify(orgData));
+        localStorage.setItem('teacherId', JSON.stringify(teacherId));
     };
     useEffect(() => {
         var config = {
@@ -1933,8 +1936,11 @@ const Dashboard = () => {
                                                         mentor_id:
                                                             orgData.mentor
                                                                 .mentor_id,
-                                                        organization_code:
-                                                            orgData.organization_code
+                                                        username:
+                                                            orgData.mentor.user
+                                                                .username
+                                                        // organization_code:
+                                                        //     orgData.organization_code
                                                     })
                                                 }
                                                 className="btn btn-info rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"
