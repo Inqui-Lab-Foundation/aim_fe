@@ -296,10 +296,9 @@ const IdeasPageNew = () => {
         setAnswerResponses(newItems);
     };
     let lengthCheck =
-        challengeQuestions.filter((item) => item.type !== 'DRAW').length +
+        challengeQuestions.length +
         (sdg === 'OTHERS' ? 1 : 0);
     const responseData = answerResponses.map((eachValues) => {
-        lengthCheck += eachValues.type === 'DRAW' ? 1 : 0;
         return {
             challenge_question_id: eachValues.challenge_question_id,
             selected_option: eachValues.selected_option
@@ -944,6 +943,11 @@ const IdeasPageNew = () => {
                                                                                 key={
                                                                                     i
                                                                                 }
+                                                                                style={{
+                                                                                    margin: '1rem',
+                                                                                    fontSize:
+                                                                                        '1.6rem'
+                                                                                }}
                                                                             >
                                                                                 <input
                                                                                     disabled={
@@ -967,6 +971,7 @@ const IdeasPageNew = () => {
                                                                                         )
                                                                                     }
                                                                                 />
+                                                                                {' '}
                                                                                 {
                                                                                     item
                                                                                 }
