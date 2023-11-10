@@ -29,33 +29,10 @@ const MyProfile = () => {
         dispatch(getStudentByIdData(currentUser?.data[0]?.student_id));
     }, [dispatch, currentUser?.data[0]?.student_id]);
     useEffect(() => {
-        if (teamMember && teamMember?.team?.team_id) mentorsData();
+        if (teamMember && teamMember?.team?.moc_name !== null) {
+            setshowMentorCard(true);
+        }
     }, [teamMember]);
-    const mentorsData = () => {
-        var config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${teamMember?.team?.team_id}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${currentUser.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    setData(response?.data?.data[0]);
-                    if (response.data.data[0].moc_name !== null) {
-                        setshowMentorCard(true);
-                    }
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
     return (
         <Layout>
             <Container className="MyProfile pt-3 pt-xl-5 mb-50">
@@ -245,8 +222,8 @@ const MyProfile = () => {
                                                             className="my-auto profile-detail"
                                                         >
                                                             <b>
-                                                                {teamMember?.username
-                                                                    ? teamMember?.username
+                                                                {teamMember?.username_email
+                                                                    ? teamMember?.username_email
                                                                     : '-'}
                                                             </b>
                                                         </Col>
@@ -738,9 +715,13 @@ const MyProfile = () => {
                                                                 className="my-auto profile-detail"
                                                             >
                                                                 <b>
-                                                                    {
-                                                                        data?.moc_name
-                                                                    }
+                                                                    {teamMember
+                                                                        .team
+                                                                        ?.moc_name
+                                                                        ? teamMember
+                                                                              .team
+                                                                              ?.moc_name
+                                                                        : '-'}
                                                                 </b>
                                                             </Col>
                                                         </Row>
@@ -774,9 +755,13 @@ const MyProfile = () => {
                                                                 className="my-auto profile-detail"
                                                             >
                                                                 <b>
-                                                                    {
-                                                                        data?.moc_email
-                                                                    }
+                                                                    {teamMember
+                                                                        .team
+                                                                        ?.moc_email
+                                                                        ? teamMember
+                                                                              .team
+                                                                              ?.moc_email
+                                                                        : '-'}
                                                                 </b>
                                                             </Col>
                                                         </Row>
@@ -810,9 +795,13 @@ const MyProfile = () => {
                                                                 className="my-auto profile-detail"
                                                             >
                                                                 <b>
-                                                                    {
-                                                                        data?.moc_phone
-                                                                    }
+                                                                    {teamMember
+                                                                        .team
+                                                                        ?.moc_phone
+                                                                        ? teamMember
+                                                                              .team
+                                                                              ?.moc_phone
+                                                                        : '-'}
                                                                 </b>
                                                             </Col>
                                                         </Row>
@@ -846,9 +835,13 @@ const MyProfile = () => {
                                                                 className="my-auto profile-detail"
                                                             >
                                                                 <b>
-                                                                    {
-                                                                        data?.moc_gender
-                                                                    }
+                                                                    {teamMember
+                                                                        .team
+                                                                        ?.moc_gender
+                                                                        ? teamMember
+                                                                              .team
+                                                                              ?.moc_gender
+                                                                        : '-'}
                                                                 </b>
                                                             </Col>
                                                         </Row>
