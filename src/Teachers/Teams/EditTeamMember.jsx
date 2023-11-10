@@ -46,7 +46,10 @@ const EditTeamMember = (props) => {
                 .max(18, 'Max age is 18')
                 .required('required'),
             gender: Yup.string().required('Please select valid gender'),
-            username: Yup.string().email('Must be a valid email').max(255),
+            username: Yup.string()
+                .email('Must be a valid email')
+                .max(255)
+                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com'),
             disability: Yup.string().required('Please select disability'),
             grade: Yup.string()
                 .matches('', 'Please enter valid class')
