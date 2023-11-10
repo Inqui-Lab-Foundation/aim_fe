@@ -47,7 +47,7 @@ const EditProfile = (props) => {
             email: Yup.string()
                 .email()
                 .required('required')
-                .matches(/\.com$/, 'Email must end with .com')
+                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com')
             // .trim()
             // .matches(
             //     /^\d+$/,
@@ -174,53 +174,60 @@ const EditProfile = (props) => {
                             <Form onSubmit={formik.handleSubmit} isSubmitting>
                                 <div className="create-ticket register-block">
                                     <Row className="justify-content-center">
-                                        <Col md={6} className="mb-5 mb-xl-0">
-                                            <Label
-                                                className="name-req"
-                                                htmlFor="name"
-                                            >
-                                                Name
-                                            </Label>
+                                        <Row>
+                                            <Col md={6}>
+                                                <Label
+                                                    className="name-req"
+                                                    htmlFor="name"
+                                                >
+                                                    Name
+                                                </Label>
 
-                                            <InputBox
-                                                className={'defaultInput'}
-                                                id="name"
-                                                name="name"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.name}
-                                            />
+                                                <InputBox
+                                                    className={'defaultInput'}
+                                                    id="name"
+                                                    name="name"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.name}
+                                                />
 
-                                            {formik.touched.name &&
-                                            formik.errors.name ? (
-                                                <small className="error-cls">
-                                                    {formik.errors.name}
-                                                </small>
-                                            ) : null}
-                                        </Col>
-                                        <div className="w-100" />
-                                        <Col md={6}>
-                                            <Label
-                                                className="name-req mt-5"
-                                                htmlFor="email"
-                                            >
-                                                Email Address
-                                            </Label>
-                                            <InputBox
-                                                className={'defaultInput'}
-                                                id="email"
-                                                name="email"
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.email}
-                                            />
-                                            {formik.touched.email &&
-                                            formik.errors.email ? (
-                                                <small className="error-cls">
-                                                    {formik.errors.email}
-                                                </small>
-                                            ) : null}
-                                        </Col>
+                                                {formik.touched.name &&
+                                                formik.errors.name ? (
+                                                    <small className="error-cls">
+                                                        {formik.errors.name}
+                                                    </small>
+                                                ) : null}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col md={6}>
+                                                <Label
+                                                    className="name-req "
+                                                    htmlFor="email"
+                                                >
+                                                    Email Address
+                                                </Label>
+                                                <InputBox
+                                                    className={'defaultInput'}
+                                                    id="email"
+                                                    name="email"
+                                                    onChange={
+                                                        formik.handleChange
+                                                    }
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.email}
+                                                />
+                                                {formik.touched.email &&
+                                                formik.errors.email ? (
+                                                    <small className="error-cls">
+                                                        {formik.errors.email}
+                                                    </small>
+                                                ) : null}
+                                            </Col>
+                                        </Row>
                                         <div className="w-100" />
                                         {!mentorData?.admin_id && (
                                             <>
