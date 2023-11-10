@@ -180,19 +180,32 @@ const TicketsPage = () => {
             },
 
             {
-                name: 'UDISE Code',
+                name: 'ATL Code',
                 selector: (row) => row.organization_code,
                 cellExport: (row) => row.organization_code,
                 sortable: true,
                 width: '20rem'
             },
-
+            {
+                name: 'State',
+                selector: (row) => row.state,
+                cellExport: (row) => row.state,
+                sortable: true,
+                width: '20rem'
+            },
+            {
+                name: 'Query Type',
+                selector: (row) => row.query_category,
+                cellExport: (row) => row.query_category,
+                sortable: true,
+                width: '20rem'
+            },
             {
                 name: ' Query Details',
                 selector: (row) => row.query_details,
                 cellExport: (row) => row.query_details,
 
-                width: '45rem',
+                width: '30rem',
                 // center: true,
                 cell: (params) => [
                     <Link
@@ -210,7 +223,7 @@ const TicketsPage = () => {
                 selector: (row) => row.status,
                 cellExport: (row) => row.status,
 
-                width: '20rem',
+                width: '15rem',
                 cell: (params) => [
                     params.status === 'OPEN' ? (
                         <span className="py-2 px-4 rounded-pill bg-danger bg-opacity-25 text-danger fw-bold">

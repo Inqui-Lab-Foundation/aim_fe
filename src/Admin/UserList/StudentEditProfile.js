@@ -29,7 +29,9 @@ const EditTeamMember = (props) => {
             fullName: mentorData && mentorData.full_name,
             age: JSON.stringify(mentorData && mentorData.Age),
             grade: mentorData && mentorData.Grade,
-            gender: mentorData && mentorData.Gender
+            gender: mentorData && mentorData.Gender,
+            disability: mentorData && mentorData.disability,
+            username: mentorData && mentorData.username
         },
 
         validationSchema: Yup.object({
@@ -47,6 +49,11 @@ const EditTeamMember = (props) => {
                 .max(18, 'Max age is 18')
                 .required('required'),
             gender: Yup.string().required('Please select valid gender'),
+            username: Yup.string()
+                .email('Must be a valid email')
+                .max(255)
+                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com'),
+            disability: Yup.string().required('Please select disability'),
             grade: Yup.string()
                 .matches('', 'Please enter valid class')
                 .max(40)
@@ -60,9 +67,14 @@ const EditTeamMember = (props) => {
                 role: 'STUDENT',
                 full_name: values.fullName,
                 Age: values.age,
+                disability: values.disability,
                 Grade: values.grade,
+
                 Gender: values.gender
             };
+            if (mentorData && mentorData.username !== values.username) {
+                body['username'] = values.username;
+            }
             var config = {
                 method: 'put',
                 url:
@@ -111,7 +123,7 @@ const EditTeamMember = (props) => {
                             <Form onSubmit={formik.handleSubmit} isSubmitting>
                                 <div className="create-ticket register-blockt">
                                     <Row>
-                                        <Col md={6}>
+                                        <Col md={4}>
                                             <Label
                                                 className="name-req"
                                                 htmlFor="fullName"
@@ -138,7 +150,7 @@ const EditTeamMember = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col>
-                                        <Col md={6} className="mb-5 mb-xl-0">
+                                        <Col md={4} className="mb-5 mb-xl-0">
                                             <Label
                                                 className="name-req"
                                                 htmlFor="age"
@@ -178,10 +190,37 @@ const EditTeamMember = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col>
+                                        <Col md={4} className="mb-5 mb-xl-0">
+                                            <Label
+                                                className="name-req"
+                                                htmlFor="username"
+                                            >
+                                                Email Address
+                                                {/* {t(
+                                                        'teacher_teams.student_name'
+                                                    )} */}
+                                            </Label>
+                                            <InputBox
+                                                className={'defaultInput'}
+                                                placeholder="Enter Email Address"
+                                                id="username"
+                                                name="username"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.username}
+                                            />
+
+                                            {formik.touched.username &&
+                                            formik.errors.username ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.username}
+                                                </small>
+                                            ) : null}
+                                        </Col>
                                     </Row>
 
                                     <Row>
-                                        <Col md={6}>
+                                        <Col md={4} className="mb-5 mb-xl-0">
                                             <Label
                                                 className="name-req"
                                                 htmlFor="grade"
@@ -230,7 +269,59 @@ const EditTeamMember = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col>
-                                        <Col md={6} className="mb-5 mb-xl-0">
+                                        <Col md={4} className="mb-5 mb-xl-0">
+                                            <Label
+                                                className="name-req"
+                                                htmlFor="disability"
+                                            >
+                                                Disability
+                                                {/* {t('teacher_teams.gender')} */}
+                                            </Label>
+
+                                            <select
+                                                name="disability"
+                                                className="form-control custom-dropdown"
+                                                value={formik.values.disability}
+                                                onChange={formik.handleChange}
+                                            >
+                                                <option value="">
+                                                    Select Status
+                                                </option>
+                                                <option value="No">No</option>
+                                                <option value="Physically Challenged">
+                                                    Physically Challenged
+                                                </option>
+                                                <option value="Visually Challenged">
+                                                    Visually Challenged
+                                                </option>
+                                                <option value="Locomotor Disability">
+                                                    Locomotor Disability
+                                                </option>
+                                                <option value="Intellectual Disability">
+                                                    Intellectual Disability
+                                                </option>
+                                                <option value="Learning Disability">
+                                                    Learning Disability
+                                                </option>
+                                                <option value="Hearing Impaired">
+                                                    Hearing Impaired
+                                                </option>
+                                                <option value="Autism/Cerebral Palsy/Other">
+                                                    Autism/Cerebral Palsy/Other
+                                                </option>
+                                                <option value="Others">
+                                                    Others
+                                                </option>
+                                            </select>
+
+                                            {formik.touched.disability &&
+                                            formik.errors.disability ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.disability}
+                                                </small>
+                                            ) : null}
+                                        </Col>
+                                        <Col md={4} className="mb-5 mb-xl-0">
                                             <Label
                                                 className="name-req"
                                                 htmlFor="gender"

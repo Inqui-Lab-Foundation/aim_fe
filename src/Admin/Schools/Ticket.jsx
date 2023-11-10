@@ -289,19 +289,19 @@ const TicketsPage = (props) => {
                 name: 'State',
                 selector: 'state',
                 cellExport: (row) => row.state,
-                width: '25rem'
+                width: '17rem'
             },
             {
                 name: 'Institution Name',
                 selector: 'organization_name',
                 cellExport: (row) => row.organization_name,
-                width: '24rem'
+                width: '20rem'
             },
             {
                 name: 'District',
                 selector: 'district',
                 cellExport: (row) => row.district,
-                width: '13rem'
+                width: '18rem'
             },
             {
                 name: 'Category',
@@ -392,13 +392,13 @@ const TicketsPage = (props) => {
                 name: 'State',
                 selector: 'state',
                 cellExport: (row) => row.state,
-                width: '25rem'
+                width: '20rem'
             },
             {
                 name: 'Institution Name',
                 selector: 'organization_name',
                 cellExport: (row) => row.organization_name,
-                width: '24rem'
+                width: '20rem'
             },
             {
                 name: 'District',
@@ -485,7 +485,7 @@ const TicketsPage = (props) => {
                 name: 'State',
                 selector: 'state',
                 cellExport: (row) => row.state,
-                width: '25rem'
+                width: '17rem'
             },
             {
                 name: 'Institution Name',
