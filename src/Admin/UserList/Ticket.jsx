@@ -104,6 +104,9 @@ const TicketsPage = (props) => {
     const [newDist, setNewDists] = useState('');
     const [registerModalShow, setRegisterModalShow] = useState(false);
     const [fetchData, setFetchData] = useState(false);
+    let State = localStorage.getItem('state');
+    console.log(State, '1');
+
     useEffect(() => {
         if (tab === 3) {
             props.getEvaluatorListAction();
@@ -456,6 +459,12 @@ const TicketsPage = (props) => {
                 width: '13rem'
             },
             {
+                name: 'State',
+                selector: 'state',
+                cellExport: (row) => row.state,
+                width: '13rem'
+            },
+            {
                 name: 'Category',
                 // selector: 'organization_name',
                 selector: (row) => row.organization.category,
@@ -572,10 +581,16 @@ const TicketsPage = (props) => {
                 width: '6rem'
             },
             {
-                name: 'UDISE',
+                name: 'ATL Code',
                 selector: 'team.mentor.organization.organization_code',
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_code,
+                width: '13rem'
+            },
+            {
+                name: 'State',
+                selector: 'state',
+                cellExport: (row) => row.state,
                 width: '13rem'
             },
             {

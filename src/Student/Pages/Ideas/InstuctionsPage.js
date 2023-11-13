@@ -68,7 +68,9 @@ const InstructionsPage = (props) => {
                                             >
                                                 <Button
                                                     // button="submit"
-                                                    label=" Download Themes"
+                                                    label={t(
+                                                        'student.download_theme'
+                                                    )}
                                                     btnClass="primary mt-4 mx-4 "
                                                     size="small"
                                                 />
