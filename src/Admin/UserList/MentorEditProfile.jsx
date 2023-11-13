@@ -52,13 +52,13 @@ const EditProfile = (props) => {
                 .trim()
                 .min(2, 'Enter Name')
                 .matches(/^[aA-zZ\s]+$/, 'Special Characters are not allowed')
-                .required('Required')
-            // phone: Yup.string()
-            //     .trim()
-            //     .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
-            //     .min(10, 'Enter a valid mobile number')
-            //     .max(10, 'Mobile number must be 10 Digit')
-            //     .required('Mobile Number is Required')
+                .required('Required'),
+            mobile: Yup.string()
+                .trim()
+                .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
+                .min(10, 'Enter a valid mobile number')
+                .max(10, 'Mobile number must be 10 Digit')
+                .required('Mobile Number is Required')
         });
         return adminValidation;
     };
@@ -67,7 +67,8 @@ const EditProfile = (props) => {
             name: mentorData?.full_name,
             title: mentorData.title,
             whatapp_mobile: mentorData.whatapp_mobile,
-            gender: mentorData.gender
+            gender: mentorData.gender,
+            mobile: mentorData.mobile
         };
         return commonInitialValues;
     };
@@ -79,11 +80,13 @@ const EditProfile = (props) => {
             const title = values.title;
             const whatapp_mobile = values.whatapp_mobile;
             const gender = values.gender;
+            const mobile = values.phone;
             const body = JSON.stringify({
                 full_name: full_name,
                 title: title,
                 whatapp_mobile: whatapp_mobile,
                 gender: gender,
+                mobile: mentorData.mobile,
                 username: mentorData.username
             });
             const url =
@@ -206,7 +209,7 @@ const EditProfile = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col>
-                                        <Col md={6}>
+                                        <Col md={4}>
                                             <Label
                                                 className="name-req"
                                                 htmlFor="gender"
@@ -267,7 +270,7 @@ const EditProfile = (props) => {
                                                 </small>
                                             ) : null}
                                         </Col> */}
-                                        <Col md={6}>
+                                        <Col md={4}>
                                             <Label
                                                 className=" name-req"
                                                 htmlFor="whatapp_mobile"
@@ -294,6 +297,29 @@ const EditProfile = (props) => {
                                                         formik.errors
                                                             .whatapp_mobile
                                                     }
+                                                </small>
+                                            ) : null}
+                                        </Col>
+                                        <Col md={4}>
+                                            <Label
+                                                className=" name-req"
+                                                htmlFor="mobile"
+                                            >
+                                                Mobile No
+                                            </Label>
+                                            <InputBox
+                                                className={'defaultInput'}
+                                                id="mobile"
+                                                name="mobile"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.mobile}
+                                            />
+
+                                            {formik.touched.mobile &&
+                                            formik.errors.whatapp_mobile ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.mobile}
                                                 </small>
                                             ) : null}
                                         </Col>
