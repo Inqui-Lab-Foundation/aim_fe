@@ -267,7 +267,6 @@ const TicketsPage = (props) => {
             setarray([...dataarray]);
         }
     }, [props.schoolsRegistrationList]);
-    console.log(array, 'array,');
     const SchoolsData = {
         data: array,
         columns: [

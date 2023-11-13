@@ -453,15 +453,15 @@ const TicketsPage = (props) => {
                 width: '6rem'
             },
             {
-                name: 'UDISE',
+                name: 'ATL Code',
                 selector: 'organization_code',
                 cellExport: (row) => row.organization_code,
                 width: '13rem'
             },
             {
                 name: 'State',
-                selector: 'state',
-                cellExport: (row) => row.state,
+                selector: (row) => row.organization.state,
+                cellExport: (row) => row.organization.state,
                 width: '13rem'
             },
             {
@@ -488,7 +488,7 @@ const TicketsPage = (props) => {
             },
 
             {
-                name: 'Mobile No',
+                name: 'Email Id',
                 selector: 'username',
                 cellExport: (row) => row.username,
 
@@ -589,8 +589,10 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'State',
-                selector: 'state',
-                cellExport: (row) => row.state,
+                selector: 'team.mentor.organization.state',
+                cellExport: (row) => row.team.mentor.organization.state,
+                // selector: 'state',
+                // cellExport: (row) => row.state,
                 width: '13rem'
             },
             {

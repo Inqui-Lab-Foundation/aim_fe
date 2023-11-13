@@ -168,6 +168,10 @@ import AtlPage from './RegPage/AtlPage';
 import NonAtlPage from './RegPage/NonAtlPage';
 import EditMentor from './Teachers/Teams/EditMentor';
 import AddMentor from './Teachers/Teams/AddMentorDetails';
+import AtlReg from './Admin/UserList/AtlReg';
+import NonAtlReg from './Admin/UserList/NonAtlReg';
+import SuccessNonAtl from './Admin/UserList/SuccessNonAtl';
+import SucsessAtl from './Admin/UserList/SucsessAtl';
 
 const Routers = () => {
     return (
@@ -483,6 +487,31 @@ const Routers = () => {
                         path="/admin/teacher/register"
                         component={TeacherRegister}
                     />
+                    <ProtectedRoute
+                        exact={true}
+                        user="ADMIN"
+                        path="/admin/register/atl"
+                        component={AtlReg}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="ADMIN"
+                        path="/admin/register/non-atl"
+                        component={NonAtlReg}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="ADMIN"
+                        path="/successNonAtl"
+                        component={SuccessNonAtl}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="ADMIN"
+                        path="/successAtl"
+                        component={SucsessAtl}
+                    />
+
                     <ProtectedRoute
                         exact={true}
                         user="ADMIN"
