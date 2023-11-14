@@ -172,6 +172,13 @@ const TicketsPage = () => {
                 width: '10rem'
             },
             {
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                cellExport: (row) => row.organization_code,
+                sortable: true,
+                width: '20rem'
+            },
+            {
                 name: 'District',
                 selector: (row) => row.district,
                 cellExport: (row) => row.district,
@@ -179,13 +186,7 @@ const TicketsPage = () => {
                 width: '20rem'
             },
 
-            {
-                name: 'ATL Code',
-                selector: (row) => row.organization_code,
-                cellExport: (row) => row.organization_code,
-                sortable: true,
-                width: '20rem'
-            },
+          
             {
                 name: 'State',
                 selector: (row) => row.state,
