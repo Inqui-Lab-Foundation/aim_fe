@@ -75,8 +75,8 @@ const TeacherDetailed = () => {
     );
     const tableHeaders = [
         {
-            label: 'District Name',
-            key: 'district'
+            label: 'State Name',
+            key: 'state'
         },
         {
             label: 'Total Registered Teachers',
@@ -271,7 +271,7 @@ const TeacherDetailed = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -293,7 +293,7 @@ const TeacherDetailed = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -394,18 +394,18 @@ const TeacherDetailed = () => {
                         response.data.data[0].courseINcompleted;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const teamCountItem = teamCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseINcompletedItem = courseINcompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted =
                             summaryItem.totalReg -
@@ -417,7 +417,7 @@ const TeacherDetailed = () => {
                                     : 0));
 
                         return {
-                            district,
+                            state,
                             totalReg: summaryItem.totalReg,
                             totalTeams: teamCountItem
                                 ? teamCountItem.totalTeams
@@ -478,7 +478,7 @@ const TeacherDetailed = () => {
                     };
 
                     const barData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No.of Students Enrolled',
@@ -498,7 +498,7 @@ const TeacherDetailed = () => {
                     };
 
                     const stackedBarChartData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No. of Teachers not started course',
@@ -660,8 +660,7 @@ const TeacherDetailed = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total
@@ -724,7 +723,7 @@ const TeacherDetailed = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>

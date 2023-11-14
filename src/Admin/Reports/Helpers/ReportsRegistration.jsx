@@ -63,27 +63,31 @@ const ReportsRegistration = () => {
     const [downloadTableData, setDownloadTableData] = useState(null);
     const summaryHeaders = [
         {
-            label: 'District Name',
-            key: 'district'
+            label: 'State Name',
+            key: 'state'
         },
         {
-            label: 'Total Eligible Schools',
-            key: 'organization_count'
+            label: 'Total Eligible ATL Schools',
+            key: 'ATL_Count'
         },
         {
-            label: 'Total Registered Teachers',
-            key: 'total_registered_teachers'
+            label: 'Total Not Registered ATL Schools',
+            key: 'total_not_Reg_ATL'
         },
         {
             label: 'Total Not Registered Teachers',
             key: 'total_not_registered_teachers'
         },
         {
-            label: 'Registered Male Teachers',
+            label: 'Total Registered Teachers (ATL+Non-ATL)',
+            key: 'total_registered_teachers'
+        },
+        {
+            label: ' Registered Male Teachers',
             key: 'male_mentor_count'
         },
         {
-            label: 'Registered Female Teachers',
+            label: ' Registered Female Teachers',
             key: 'female_mentor_count'
         }
     ];
@@ -526,23 +530,28 @@ const ReportsRegistration = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total
-                                                                    Eligible
+                                                                    Eligible ATL
                                                                     Schools
-                                                                </th>
-                                                                <th>
-                                                                    Total
-                                                                    Registered
-                                                                    Teachers
                                                                 </th>
                                                                 <th>
                                                                     Total Not
                                                                     Registered
+                                                                    ATL Schools
+                                                                </th>
+                                                                <th>
+                                                                    Total
+                                                                    Registered
+                                                                    ATL Schools
+                                                                </th>
+                                                                <th>
+                                                                    Total
+                                                                    Registered
                                                                     Teachers
+                                                                    (ATL+Non-ATL)
                                                                 </th>
                                                                 <th>
                                                                     Registered
@@ -573,22 +582,28 @@ const ReportsRegistration = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.organization_count
+                                                                                item.ATL_Count
+                                                                            }
+                                                                        </td>
+
+                                                                        <td>
+                                                                            {
+                                                                                item.total_not_Reg_ATL
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item.ATL_Reg_Count
                                                                             }
                                                                         </td>
                                                                         <td>
                                                                             {
                                                                                 item.total_registered_teachers
-                                                                            }
-                                                                        </td>
-                                                                        <td>
-                                                                            {
-                                                                                item.total_not_registered_teachers
                                                                             }
                                                                         </td>
                                                                         <td>
@@ -614,8 +629,8 @@ const ReportsRegistration = () => {
                                                         <p>
                                                             <b>
                                                                 Overall
-                                                                Registered and
-                                                                Not Registered
+                                                                Registered ATL
+                                                                vs Non ATL
                                                                 Schools As of{' '}
                                                                 {newFormat}
                                                             </b>
