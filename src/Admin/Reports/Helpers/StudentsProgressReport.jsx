@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 /* eslint-disable indent */
 import React, { useState, useEffect, useRef } from 'react';
@@ -11,7 +12,11 @@ import {
 } from '../../../helpers/Utils';
 import { Bar } from 'react-chartjs-2';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../../redux/studentRegistration/actions';
+import {
+    getDistrictData,
+    getStateData,
+    getFetchDistData
+} from '../../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from '../Helpers/Select';
 import axios from 'axios';
@@ -32,7 +37,7 @@ const ReportsRegistration = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -69,7 +74,7 @@ const ReportsRegistration = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -95,10 +100,13 @@ const ReportsRegistration = () => {
             }
         }
     };
+    const [RegTeachersState, setRegTeachersState] = React.useState('');
+
     const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
     const [category, setCategory] = useState('');
-    const categoryData =
-        categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
+    const categoryData = ['ATL', 'Non ATL'];
+    // const categoryData =
+    //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
     const [downloadData, setDownloadData] = useState(null);
     const csvLinkRef = useRef();
@@ -122,10 +130,25 @@ const ReportsRegistration = () => {
         labels: [],
         datasets: []
     });
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
+    );
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
-
+    useEffect(() => {
+        dispatch(getStateData());
+    }, []);
+    useEffect(() => {
+        if (RegTeachersState !== '') {
+            dispatch(getFetchDistData(RegTeachersState));
+        }
+        setRegTeachersdistrict('');
+        fetchChartTableData();
+    }, [RegTeachersState]);
     const studentTableHeaders = [
         {
             label: 'District Name',
@@ -263,10 +286,10 @@ const ReportsRegistration = () => {
             key: 'Post Survey Status'
         }
     ];
-    useEffect(() => {
-        dispatch(getDistrictData());
-        fetchChartTableData();
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getDistrictData());
+    //     fetchChartTableData();
+    // }, []);
 
     const chartOption = {
         maintainAspectRatio: false,
@@ -322,7 +345,7 @@ const ReportsRegistration = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?district=${RegTeachersdistrict}&category=${category}`;
+        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${RegTeachersdistrict}&category=${category}`;
 
         const config = {
             method: 'get',
@@ -372,10 +395,10 @@ const ReportsRegistration = () => {
     };
 
     const handleDownload = () => {
-        if (!RegTeachersdistrict || !category) {
+        if (!RegTeachersState || !RegTeachersdistrict || !category) {
             notification.warning({
                 message:
-                    'Please select a district and category type before Downloading Reports.'
+                    'Please select a state ,district and category type before Downloading Reports.'
             });
             return;
         }
@@ -387,6 +410,7 @@ const ReportsRegistration = () => {
         if (downloadComplete) {
             setDownloadComplete(false);
             setRegTeachersdistrict('');
+            setRegTeachersState('');
         }
         const newDate = new Date();
         const formattedDate = `${newDate.getUTCDate()}/${
@@ -421,16 +445,16 @@ const ReportsRegistration = () => {
                     const draftCount = response.data.data[0].draftCount;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const totalTeams = summaryItem.totalTeams;
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseInProgressItem = courseINprogesss.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted = studentCountItem
                             ? studentCountItem.totalstudent -
@@ -443,10 +467,10 @@ const ReportsRegistration = () => {
                             : 0;
 
                         const submittedCountItem = submittedCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const draftCountItem = draftCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const ideaNotStarted =
                             summaryItem.totalTeams -
@@ -480,7 +504,7 @@ const ReportsRegistration = () => {
                                 : 0;
 
                         return {
-                            district,
+                            state,
                             totalTeams,
                             totalStudents: studentCountItem
                                 ? studentCountItem.totalstudent
@@ -584,7 +608,7 @@ const ReportsRegistration = () => {
                     };
 
                     const stackedBarChart1Data = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No of Students Completed Course',
@@ -611,7 +635,7 @@ const ReportsRegistration = () => {
                     };
 
                     const stackedBarChart2Data = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No of Teams Submitted Ideas',
@@ -673,7 +697,17 @@ const ReportsRegistration = () => {
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
-                                            list={fullDistrictsNames}
+                                            list={fullStatesNames}
+                                            setValue={setRegTeachersState}
+                                            placeHolder={'Select State'}
+                                            value={RegTeachersState}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        <Select
+                                            list={fiterDistData}
                                             setValue={setRegTeachersdistrict}
                                             placeHolder={'Select District'}
                                             value={RegTeachersdistrict}
@@ -759,8 +793,7 @@ const ReportsRegistration = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total No.Of
@@ -835,7 +868,7 @@ const ReportsRegistration = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>
@@ -1067,8 +1100,8 @@ const ReportsRegistration = () => {
                                                         <p>
                                                             <b>
                                                                 Idea Submission
-                                                                Status Status As
-                                                                of {newFormat}
+                                                                Status As of{' '}
+                                                                {newFormat}
                                                             </b>
                                                         </p>
                                                     </div>

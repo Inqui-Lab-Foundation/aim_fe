@@ -104,6 +104,9 @@ const TicketsPage = (props) => {
     const [newDist, setNewDists] = useState('');
     const [registerModalShow, setRegisterModalShow] = useState(false);
     const [fetchData, setFetchData] = useState(false);
+    let State = localStorage.getItem('state');
+    console.log(State, '1');
+
     useEffect(() => {
         if (tab === 3) {
             props.getEvaluatorListAction();
@@ -450,9 +453,15 @@ const TicketsPage = (props) => {
                 width: '6rem'
             },
             {
-                name: 'UDISE',
+                name: 'ATL Code',
                 selector: 'organization_code',
                 cellExport: (row) => row.organization_code,
+                width: '13rem'
+            },
+            {
+                name: 'State',
+                selector: (row) => row.organization.state,
+                cellExport: (row) => row.organization.state,
                 width: '13rem'
             },
             {
@@ -479,7 +488,7 @@ const TicketsPage = (props) => {
             },
 
             {
-                name: 'Mobile No',
+                name: 'Email Id',
                 selector: 'username',
                 cellExport: (row) => row.username,
 
@@ -521,7 +530,7 @@ const TicketsPage = (props) => {
                         style={{ marginRight: '10px' }}
                     >
                         <div className="btn btn-primary ">VIEW</div>
-                    </div>,
+                    </div>
                     // <div
                     //
                     //     key={record.id}
@@ -530,28 +539,28 @@ const TicketsPage = (props) => {
                     // >
                     //     <div className="btn btn-warning btn-lg">EDIT</div>
                     // </div>,
-                    <div
-                        key={record.id}
-                        className="mr-5"
-                        onClick={() => {
-                            let status =
-                                record?.status === 'ACTIVE'
-                                    ? 'INACTIVE'
-                                    : 'ACTIVE';
-                            handleStatus(
-                                status,
-                                record?.mentor_id,
-                                undefined,
-                                record
-                            );
-                        }}
-                    >
-                        {record?.status === 'ACTIVE' ? (
-                            <div className="btn btn-danger">INACTIVE</div>
-                        ) : (
-                            <div className="btn btn-success">ACTIVE</div>
-                        )}
-                    </div>
+                    // <div
+                    //     key={record.id}
+                    //     className="mr-5"
+                    //     onClick={() => {
+                    //         let status =
+                    //             record?.status === 'ACTIVE'
+                    //                 ? 'INACTIVE'
+                    //                 : 'ACTIVE';
+                    //         handleStatus(
+                    //             status,
+                    //             record?.mentor_id,
+                    //             undefined,
+                    //             record
+                    //         );
+                    //     }}
+                    // >
+                    //     {record?.status === 'ACTIVE' ? (
+                    //         <div className="btn btn-danger">INACTIVE</div>
+                    //     ) : (
+                    //         <div className="btn btn-success">ACTIVE</div>
+                    //     )}
+                    // </div>
                     // <div
                     //     key={record.id}
                     //     onClick={() => handleAdd(record)}
@@ -572,10 +581,18 @@ const TicketsPage = (props) => {
                 width: '6rem'
             },
             {
-                name: 'UDISE',
+                name: 'ATL Code',
                 selector: 'team.mentor.organization.organization_code',
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_code,
+                width: '13rem'
+            },
+            {
+                name: 'State',
+                selector: 'team.mentor.organization.state',
+                cellExport: (row) => row.team.mentor.organization.state,
+                // selector: 'state',
+                // cellExport: (row) => row.state,
                 width: '13rem'
             },
             {
@@ -645,24 +662,24 @@ const TicketsPage = (props) => {
                         style={{ marginRight: '10px' }}
                     >
                         <div className="btn btn-primary  mr-5">VIEW</div>
-                    </div>,
-                    <div
-                        key={record.id}
-                        style={{ marginRight: '10px' }}
-                        onClick={() => {
-                            let status =
-                                record?.status === 'ACTIVE'
-                                    ? 'INACTIVE'
-                                    : 'ACTIVE';
-                            handleStatus(status, record?.student_id, 'student');
-                        }}
-                    >
-                        {record?.status === 'ACTIVE' ? (
-                            <div className="btn btn-danger ">INACTIVE</div>
-                        ) : (
-                            <div className="btn btn-warning ">ACTIVE</div>
-                        )}
                     </div>
+                    // <div
+                    //     key={record.id}
+                    //     style={{ marginRight: '10px' }}
+                    //     onClick={() => {
+                    //         let status =
+                    //             record?.status === 'ACTIVE'
+                    //                 ? 'INACTIVE'
+                    //                 : 'ACTIVE';
+                    //         handleStatus(status, record?.student_id, 'student');
+                    //     }}
+                    // >
+                    //     {record?.status === 'ACTIVE' ? (
+                    //         <div className="btn btn-danger ">INACTIVE</div>
+                    //     ) : (
+                    //         <div className="btn btn-warning ">ACTIVE</div>
+                    //     )}
+                    // </div>
                 ]
             }
         ]

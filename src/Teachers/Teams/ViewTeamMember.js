@@ -331,17 +331,47 @@ const ViewTeamMember = (props) => {
             {
                 name: 'User Id',
                 selector: 'user.username',
-                width: '35rem'
+                // width: '35rem',
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.user.username}
+                    </div>
+                )
             },
             {
                 name: 'Password',
                 selector: 'UUID',
-                width: '15rem'
+                // width: '15rem'
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.UUID}
+                    </div>
+                )
             },
             {
                 name: t('teacher_teams.student_name'),
                 selector: 'full_name',
-                width: '16rem'
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.full_name}
+                    </div>
+                )
+                // width: '16rem'
             },
             // {
             //     name: 'Email Id',
@@ -751,7 +781,10 @@ const ViewTeamMember = (props) => {
                             </Col>
                         )}
                     </Row>
-                    <div className="ticket-data">
+                    <div
+                        className="ticket-data"
+                        style={{ whiteSpace: 'pre-wrap' }}
+                    >
                         <Tabs defaultActiveKey="1">
                             {props.teamsMembersList &&
                             !props.teamsMembersList.length > 0 ? (

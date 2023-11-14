@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../Admin/Layout';
 import { useHistory, withRouter } from 'react-router-dom';
-import { Container, Row, Card, CardBody, CardText } from 'reactstrap';
+import { Container, Row, Card, CardBody, CardText, Col } from 'reactstrap';
 // import { BreadcrumbTwo } from '../../stories/BreadcrumbTwo/BreadcrumbTwo';
 import { Button } from '../../stories/Button';
 import { useDispatch } from 'react-redux';
@@ -27,10 +27,9 @@ import { studentResetPassword } from '../../redux/actions';
 const CommonUserProfile = (props) => {
     const history = useHistory();
     const { t } = useTranslation();
-
+    const [button, setButton] = useState('');
+    const [data, setData] = useState('');
     const currentUser = getCurrentUser('current_user');
-
-    // const studentId = localStorage.getItem('studentId');
 
     const StudentsDaTa = JSON.parse(localStorage.getItem('studentData'));
     const [course, setCourse] = useState([]);
@@ -85,6 +84,7 @@ const CommonUserProfile = (props) => {
         localStorage.setItem('dist', props.location.dist);
         localStorage.setItem('num', props.location.num);
     };
+    console.log(StudentsDaTa?.team?.mentor?.organization.state, '1');
     const handleReset = () => {
         // here we can reset password as  user_id //
         // here data = student_id //
@@ -124,7 +124,36 @@ const CommonUserProfile = (props) => {
             })
             .catch((err) => console.log(err.response));
     };
-
+    useEffect(() => {
+        mentorsData();
+    }, []);
+    const mentorsData = () => {
+        var config = {
+            method: 'get',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                `/teams/teamMentor?team_id=${StudentsDaTa.team.team_id}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (response) {
+                if (response.status === 200) {
+                    // console.log(response, 'res');
+                    setData(response?.data?.data[0]);
+                    setButton(response.data.data[0].moc_name);
+                    // if (response.data.data[0].moc_name !== null) {
+                    //     setshowMentorCard(true);
+                    // }
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     // const handleReset = () => {
     //     // where we can reset the password  as diesCode //
 
@@ -181,7 +210,9 @@ const CommonUserProfile = (props) => {
                 Grade: StudentsDaTa.Grade,
                 student_id: StudentsDaTa.student_id,
                 team_id: StudentsDaTa?.team.team_id,
-                full_name: StudentsDaTa.full_name
+                full_name: StudentsDaTa.full_name,
+                disability: StudentsDaTa.disability,
+                username: StudentsDaTa.username_email
             }
         });
     };
@@ -284,10 +315,22 @@ const CommonUserProfile = (props) => {
                                 </span>
                                 <b>{StudentsDaTa.Age}</b>
                             </CardText>
+                            <CardText>
+                                <span className="mx-3">
+                                    <b>Disability :</b>
+                                </span>
+                                <b>{StudentsDaTa?.disability}</b>
+                            </CardText>
+                            <CardText>
+                                <span className="mx-3">
+                                    <b>Email Id:</b>
+                                </span>
+                                <b>{StudentsDaTa?.username_email}</b>
+                            </CardText>
 
                             <CardText>
                                 <span className="mx-3">
-                                    <b>Mentor Name :</b>
+                                    <b>Teacher Name :</b>
                                 </span>
                                 <b>{StudentsDaTa.team?.mentor.full_name}</b>
                             </CardText>
@@ -342,6 +385,17 @@ const CommonUserProfile = (props) => {
                             </CardText>
                             <CardText>
                                 <span className="mx-3">
+                                    <b>State :</b>
+                                </span>
+                                <b>
+                                    {
+                                        StudentsDaTa?.team?.mentor?.organization
+                                            .state
+                                    }
+                                </b>
+                            </CardText>
+                            <CardText>
+                                <span className="mx-3">
                                     <b>Category :</b>
                                 </span>
                                 <b>
@@ -362,10 +416,32 @@ const CommonUserProfile = (props) => {
                                         : '-'} */}
                                 </b>
                             </CardText>
+                            <CardText>
+                                <span className="mx-3">
+                                    <b>Pincode :</b>
+                                </span>
+                                <b>
+                                    {
+                                        StudentsDaTa?.team?.mentor?.organization
+                                            .pin_code
+                                    }
+                                </b>
+                            </CardText>
+                            <CardText>
+                                <span className="mx-3">
+                                    <b>Address :</b>
+                                </span>
+                                <b>
+                                    {
+                                        StudentsDaTa?.team?.mentor?.organization
+                                            .address
+                                    }
+                                </b>
+                            </CardText>
                         </CardBody>
                     </Card>
                 </Row>
-                <Row>
+                <Row className="my-5">
                     <Card className="py-5">
                         <CardBody>
                             <h2 className="mb-4">Course Details</h2>
@@ -423,6 +499,178 @@ const CommonUserProfile = (props) => {
                             </CardText>
                         </CardBody>
                     </Card>
+                </Row>
+                <Row className="my-5">
+                    {button ? (
+                        <Col md={12}>
+                            <Card className="w-100  mb-5 p-4">
+                                <CardBody>
+                                    <h2 className="mb-4">Mentor Details</h2>
+                                    <Row>
+                                        <Col
+                                            md={8}
+                                            className="border-right my-auto "
+                                        >
+                                            <Row>
+                                                <Col
+                                                    md={7}
+                                                    className="my-auto profile-detail w-100"
+                                                >
+                                                    <CardText>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    Mentor Name
+                                                                </b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_name
+                                                                        ? data?.moc_name
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    Email
+                                                                    Address
+                                                                </b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_email
+                                                                        ? data?.moc_email
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>Gender</b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_gender
+                                                                        ? data?.moc_gender
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className="pt-3 pb-3">
+                                                            <Col
+                                                                xs={5}
+                                                                sm={5}
+                                                                md={5}
+                                                                xl={5}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>Mobile</b>
+                                                            </Col>
+                                                            <Col
+                                                                xs={1}
+                                                                sm={1}
+                                                                md={1}
+                                                                xl={1}
+                                                            >
+                                                                :
+                                                            </Col>
+                                                            <Col
+                                                                xs={6}
+                                                                sm={6}
+                                                                md={6}
+                                                                xl={6}
+                                                                className="my-auto profile-detail"
+                                                            >
+                                                                <b>
+                                                                    {data?.moc_phone
+                                                                        ? data?.moc_phone
+                                                                        : '-'}
+                                                                </b>
+                                                            </Col>
+                                                        </Row>
+                                                    </CardText>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    ) : (
+                        <div>
+                            <Row className="py-5">
+                                <Card className="py-5">
+                                    <CardBody>
+                                        <h2 className="mb-4 ">
+                                            No Mentor assigned yet
+                                        </h2>
+                                    </CardBody>
+                                </Card>
+                            </Row>
+                        </div>
+                    )}
                 </Row>
                 <Row>
                     <Card className="py-5">

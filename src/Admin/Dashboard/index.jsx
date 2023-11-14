@@ -48,7 +48,7 @@ const Dashboard = () => {
     const [mentorTeam, setMentorTeam] = useState([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState('');
-
+    const teacherId = mentorTeam[0]?.team_id;
     const [isideadisable, setIsideadisable] = useState(false);
     const handleOnChange = (e) => {
         // we can give diescode as input //
@@ -216,7 +216,8 @@ const Dashboard = () => {
                 if (result.isConfirmed) {
                     dispatch(
                         teacherResetPassword({
-                            organization_code: data.organization_code,
+                            // organization_code: data.organization_code,
+                            username: orgData.mentor?.user?.username,
                             mentor_id: data.mentor_id,
                             otp: false
                         })
@@ -250,6 +251,7 @@ const Dashboard = () => {
             data: orgData
         });
         localStorage.setItem('orgData', JSON.stringify(orgData));
+        localStorage.setItem('teacherId', JSON.stringify(teacherId));
     };
     useEffect(() => {
         var config = {
@@ -413,6 +415,7 @@ const Dashboard = () => {
         adminSchoolCount();
         adminmentorCourseCount();
         adminStudentCourseCount();
+        nonAtlCount();
     }, []);
 
     const [totalteamsCount, setTotalteamsCount] = useState('-');
@@ -425,6 +428,8 @@ const Dashboard = () => {
     const [totalStudentMaleCount, setTotalStudentMaleCount] = useState('-');
     const [totalStudentFemaleCount, setTotalStudentFemaleCount] = useState('-');
     const [totalSchoolCount, setTotalSchoolCount] = useState('-');
+    const [nonAtl, setNonAtl] = useState('-');
+    const [atl, setAtl] = useState('-');
     const [mentorCoursesCompletedCount, setMentorCoursesCompletedCount] =
         useState('-');
     const [studentCoursesCompletedCount, setStudentCoursesCompletedCount] =
@@ -432,6 +437,30 @@ const Dashboard = () => {
     const [totalstudentCoursesCount, setTotalstudentCoursesCount] =
         useState('-');
 
+    const nonAtlCount = () => {
+        var config = {
+            method: 'get',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                `/dashboard/ATLNonATLRegCount`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (response) {
+                if (response.status === 200) {
+                    setAtl(response.data.data[0].ATLCount);
+                    setNonAtl(response.data.data[0].NONATLCount);
+                    // console.log(response, 'response');
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     const adminTeamsCount = () => {
         var config = {
             method: 'get',
@@ -1447,6 +1476,76 @@ const Dashboard = () => {
                                     </Card>
                                 </Row>
                             </Col>
+                            <Row>
+                                <Row>
+                                    <Col>
+                                        <Card
+                                            bg="light"
+                                            text="dark"
+                                            className="mb-4"
+                                            style={{
+                                                height: '150px'
+                                            }}
+                                        >
+                                            <Card.Body>
+                                                <label
+                                                    htmlFor="teams"
+                                                    className=""
+                                                >
+                                                    Total Non ATL Count
+                                                </label>
+
+                                                <Card.Text
+                                                    className="left-aligned"
+                                                    style={{
+                                                        fontSize: '30px',
+                                                        fontWeight: 'bold',
+                                                        marginTop: '10px',
+                                                        marginBottom: '20px'
+                                                    }}
+                                                >
+                                                    {nonAtl}
+                                                    {/* {totalMentorMaleCount} */}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                    {/* </Row> */}
+                                    {/* <Row> */}
+                                    <Col>
+                                        <Card
+                                            bg="light"
+                                            text="dark"
+                                            className="mb-4"
+                                            style={{
+                                                height: '150px'
+                                            }}
+                                        >
+                                            <Card.Body>
+                                                <label
+                                                    htmlFor="teams"
+                                                    className=""
+                                                >
+                                                    Total Atl Count
+                                                </label>
+
+                                                <Card.Text
+                                                    className="left-aligned"
+                                                    style={{
+                                                        fontSize: '30px',
+                                                        fontWeight: 'bold',
+                                                        marginTop: '10px',
+                                                        marginBottom: '20px'
+                                                    }}
+                                                >
+                                                    {atl}
+                                                    {/* {totalMentorMaleCount} */}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                            </Row>
                             {/* <div>
                                 <Card bg="light" text="dark" className="mb-4">
                                     <Card.Body>
@@ -1682,7 +1781,7 @@ const Dashboard = () => {
                                                             xl={5}
                                                             className="my-auto profile-detail"
                                                         >
-                                                            <p>City</p>
+                                                            <p>State</p>
                                                         </Col>
                                                         <Col
                                                             xs={1}
@@ -1700,10 +1799,11 @@ const Dashboard = () => {
                                                             className="my-auto profile-detail"
                                                         >
                                                             <p>
-                                                                {orgData.city}
+                                                                {orgData.state}
                                                             </p>
                                                         </Col>
                                                     </Row>
+
                                                     <Row className="pt-3 pb-3">
                                                         <Col
                                                             xs={5}
@@ -1744,7 +1844,39 @@ const Dashboard = () => {
                                                             xl={5}
                                                             className="my-auto profile-detail"
                                                         >
-                                                            <p>Mentor Name</p>
+                                                            <p>Pincode</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    orgData.pin_code
+                                                                }
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>Teacher Name</p>
                                                         </Col>
                                                         <Col
                                                             xs={1}
@@ -1779,7 +1911,7 @@ const Dashboard = () => {
                                                             className="my-auto profile-detail"
                                                         >
                                                             <p>
-                                                                Mentor Mobile No
+                                                                Teacher Email Id
                                                             </p>
                                                         </Col>
                                                         <Col
@@ -1803,6 +1935,40 @@ const Dashboard = () => {
                                                                         .mentor
                                                                         ?.user
                                                                         ?.username
+                                                                }
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>Mobile No</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    orgData
+                                                                        ?.mentor
+                                                                        ?.mobile
                                                                 }
                                                             </p>
                                                         </Col>
@@ -1866,8 +2032,11 @@ const Dashboard = () => {
                                                         mentor_id:
                                                             orgData.mentor
                                                                 .mentor_id,
-                                                        organization_code:
-                                                            orgData.organization_code
+                                                        username:
+                                                            orgData.mentor.user
+                                                                .username
+                                                        // organization_code:
+                                                        //     orgData.organization_code
                                                     })
                                                 }
                                                 className="btn btn-info rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"

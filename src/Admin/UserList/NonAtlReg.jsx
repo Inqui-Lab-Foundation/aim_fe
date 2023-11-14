@@ -7,21 +7,24 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Form, Label, UncontrolledAlert } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Input, Radio } from 'antd';
-import Select from '../Evaluator/Helper/Select';
+import Select from '../../Evaluator/Helper/Select';
 
-import successIcon from '../assets/media/img/rocket.gif';
-import signuplogo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
-import image_1 from '../assets/media/unisolve_slider1.png';
-import image_2 from '../assets/media/aim_Slider.png';
+import successIcon from '../../assets/media/img/rocket.gif';
+import signuplogo from '../../assets/media/tn-brands/UPSHIFT_BLACK.png';
+import image_1 from '../../assets/media/unisolve_slider1.png';
+import image_2 from '../../assets/media/aim_Slider.png';
 import { useFormik } from 'formik';
 import { Carousel } from 'react-bootstrap';
-import { InputBox } from '../stories/InputBox/InputBox';
+import { InputBox } from '../../stories/InputBox/InputBox';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import { Button } from '../stories/Button';
-import { URL, KEY } from '../constants/defaultValues';
+import { Button } from '../../stories/Button';
+import { URL, KEY } from '../../constants/defaultValues';
 import { Modal } from 'react-bootstrap';
-import { getNormalHeaders, openNotificationWithIcon } from '../helpers/Utils';
+import {
+    getNormalHeaders,
+    openNotificationWithIcon
+} from '../../helpers/Utils';
 
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
@@ -34,7 +37,7 @@ import {
     getFetchDistData,
     getAtlCodeData,
     getPinCodeData
-} from '../redux/studentRegistration/actions';
+} from '../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 function RegisterNew() {
@@ -216,38 +219,35 @@ function RegisterNew() {
 
         onSubmit: async (values) => {
             // alert('hi');
-            if (values.otp.length < 5) {
-                setErrorMsg(true);
-            } else {
-                const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-                var pass = values.email.trim();
-                var myArray = pass.split('@');
-                let word = myArray[0];
-                const key = CryptoJS.enc.Hex.parse(
-                    '253D3FB468A0E24677C28A624BE0F939'
-                );
-                const iv = CryptoJS.enc.Hex.parse(
-                    '00000000000000000000000000000000'
-                );
-                const encrypted = CryptoJS.AES.encrypt(word, key, {
-                    iv: iv,
-                    padding: CryptoJS.pad.NoPadding
-                }).toString();
-                // values.password = encrypted;
-                const body = {
-                    full_name: values.full_name.trim(),
-                    mobile: values.mobile.trim(),
-                    whatapp_mobile: values.whatapp_mobile.trim(),
-                    username: values.email.trim(),
-                    qualification: values.qualification.trim(),
-                    role: values.role.trim(),
-                    gender: values.gender,
-                    title: values.title,
-                    reg_status: values.reg_status,
-                    password: encrypted
-                };
-                handleRegist(body);
-            }
+
+            const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            var pass = values.email.trim();
+            var myArray = pass.split('@');
+            let word = myArray[0];
+            const key = CryptoJS.enc.Hex.parse(
+                '253D3FB468A0E24677C28A624BE0F939'
+            );
+            const iv = CryptoJS.enc.Hex.parse(
+                '00000000000000000000000000000000'
+            );
+            const encrypted = CryptoJS.AES.encrypt(word, key, {
+                iv: iv,
+                padding: CryptoJS.pad.NoPadding
+            }).toString();
+            // values.password = encrypted;
+            const body = {
+                full_name: values.full_name.trim(),
+                mobile: values.mobile.trim(),
+                whatapp_mobile: values.whatapp_mobile.trim(),
+                username: values.email.trim(),
+                qualification: values.qualification.trim(),
+                role: values.role.trim(),
+                gender: values.gender,
+                title: values.title,
+                reg_status: values.reg_status,
+                password: encrypted
+            };
+            handleRegist(body);
         }
     });
 
@@ -329,7 +329,7 @@ function RegisterNew() {
                     };
                     // setBtn(true);
                     history.push({
-                        pathname: '/success',
+                        pathname: '/SuccessNonAtl',
                         data: successData
                     });
                 }
@@ -1242,7 +1242,7 @@ function RegisterNew() {
                                                     </span>
                                                 </div>
                                             </Row>
-                                            <div className="mt-5 d-flex align-items-center">
+                                            {/* <div className="mt-5 d-flex align-items-center">
                                                 <Button
                                                     label={change}
                                                     btnClass={
@@ -1260,8 +1260,8 @@ function RegisterNew() {
                                                             : true) || !disable
                                                     }
                                                 />
-                                            </div>
-                                            {btnOtp && (
+                                            </div> */}
+                                            {/* {btnOtp && (
                                                 <div>
                                                     <h3>
                                                         {time}:
@@ -1334,8 +1334,8 @@ function RegisterNew() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            )}
-                                            {formik.values.otp.length > 5 &&
+                                            )} */}
+                                            {/* {formik.values.otp.length > 5 &&
                                                 otpRes != formik.values.otp && (
                                                     <div
                                                         className="form-row row mb-5 text-center"
@@ -1350,39 +1350,22 @@ function RegisterNew() {
                                                             Invalid OTP
                                                         </span>
                                                     </div>
-                                                )}
-                                            {btnOtp && (
-                                                <div className="mt-5">
-                                                    <Button
-                                                        label={
-                                                            'VERIFY & REGISTER'
-                                                        }
-                                                        btnClass={
-                                                            formik.values.otp
-                                                                .length > 5 &&
-                                                            otpRes ==
-                                                                formik.values
-                                                                    .otp
-                                                                ? 'primary rounded-0'
-                                                                : 'default rounded-0'
-                                                        }
-                                                        size="small w-50"
-                                                        type="submit"
-                                                        disabled={
-                                                            !(
-                                                                formik.values
-                                                                    .otp
-                                                                    .length >
-                                                                    5 &&
-                                                                otpRes ==
-                                                                    formik
-                                                                        .values
-                                                                        .otp
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            )}
+                                                )} */}
+                                            <div className="mt-5">
+                                                <Button
+                                                    label={'VERIFY & REGISTER'}
+                                                    btnClass={
+                                                        !(
+                                                            formik.dirty &&
+                                                            formik.isValid
+                                                        )
+                                                            ? 'default'
+                                                            : 'primary'
+                                                    }
+                                                    size="small"
+                                                    type="submit"
+                                                />
+                                            </div>
                                         </Form>
                                     </Col>
                                 </Row>

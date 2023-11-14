@@ -20,6 +20,9 @@ const InstructionsPage = (props) => {
         // alert('hii');
         history.push('/challenges');
     };
+
+    const pdfFileURL =
+        'https://s3.ap-south-1.amazonaws.com/aim1.0-bkt-cba6e2a/Themes_English.pdf';
     return (
         <Layout>
             <div className="courses-page">
@@ -35,7 +38,16 @@ const InstructionsPage = (props) => {
                             <Fragment>
                                 <Card className="course-sec-basic p-5">
                                     <CardTitle className="text-left" tag="h2">
-                                        <p style={{color:'blue',fontSize:'2.5rem',fontWeight:'bold'}}> {t('idea_page.main')} </p>
+                                        <p
+                                            style={{
+                                                color: 'blue',
+                                                fontSize: '2.5rem',
+                                                fontWeight: 'bold'
+                                            }}
+                                        >
+                                            {' '}
+                                            {t('idea_page.main')}{' '}
+                                        </p>
                                     </CardTitle>
                                     <CardBody>
                                         <div
@@ -47,12 +59,31 @@ const InstructionsPage = (props) => {
                                         ></div>
 
                                         <div className="text-right">
+                                            {/* <div className="m-5"> */}
+                                            <a
+                                                href={pdfFileURL}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="primary"
+                                            >
+                                                <Button
+                                                    // button="submit"
+                                                    label={t(
+                                                        'student.download_theme'
+                                                    )}
+                                                    btnClass="primary mt-4 mx-4 "
+                                                    size="small"
+                                                />
+                                            </a>
+                                            {/* </div> */}
+                                            {/* <div className="mx-5"> */}
                                             <Button
                                                 label={t('idea_page.next')}
                                                 btnClass="primary mt-4 mx-4"
                                                 size="small"
                                                 onClick={handleNext}
                                             />
+                                            {/* </div> */}
                                         </div>
                                     </CardBody>
                                 </Card>

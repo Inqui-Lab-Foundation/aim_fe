@@ -69,13 +69,15 @@ const AddNewFaq = (props) => {
         initialValues: {
             faq_category_id: faqData?.faq_category_id,
             question: faqData?.question,
-            answer: faqData?.answer
+            answer: faqData?.answer,
+            to_locale: ''
         },
 
         validationSchema: Yup.object({
             faq_category_id: Yup.string().required('required'),
             question: Yup.string().required('required'),
-            answer: Yup.string().required('required')
+            answer: Yup.string().required('required'),
+            to_locale: Yup.string().required('required')
         }),
 
         onSubmit: async (values) => {
@@ -354,6 +356,48 @@ const AddNewFaq = (props) => {
                                                     </small>
                                                 ) : null}
                                             </Col>
+                                        </Col>
+                                        <Col
+                                            className="form-group mb-5  mb-md-0"
+                                            md={12}
+                                        >
+                                            <Label
+                                                className="name-req"
+                                                htmlFor="to_locale"
+                                            >
+                                                Select Language
+                                            </Label>
+                                            <select
+                                                name="to_locale"
+                                                // id="gender"
+                                                className=" col-8 SelectBox form-control custom-registerdropdown "
+                                                value={formik.values.to_locale}
+                                                onBlur={formik.handleBlur}
+                                                onChange={formik.handleChange}
+                                            >
+                                                <option value="">
+                                                    Select Language
+                                                    {/* {t('teacehr_red.teacher_gender')} */}
+                                                </option>
+                                                <option value="hi">
+                                                    Hindi
+                                                </option>
+                                                <option value="te">
+                                                    Telugu
+                                                </option>
+                                                <option value="ka">
+                                                    Kannada
+                                                </option>
+                                                <option value="tn">
+                                                    Tamil
+                                                </option>
+                                            </select>
+                                            {formik.touched.to_locale &&
+                                            formik.errors.to_locale ? (
+                                                <small className="error-cls">
+                                                    {formik.errors.to_locale}
+                                                </small>
+                                            ) : null}
                                         </Col>
                                     </>
                                 </Card>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../../Layout';
 import { Container, Row, Col, Table } from 'reactstrap';
@@ -5,7 +6,11 @@ import { Button } from '../../../stories/Button';
 import { CSVLink } from 'react-csv';
 import { getCurrentUser } from '../../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../../redux/studentRegistration/actions';
+import {
+    getDistrictData,
+    getStateData,
+    getFetchDistData
+} from '../../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from '../Helpers/Select';
 import axios from 'axios';
@@ -17,10 +22,12 @@ import { notification } from 'antd';
 
 const TeacherDetailed = () => {
     const [district, setdistrict] = React.useState('');
+    const [state, setState] = useState('');
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
-    const categoryData =
-        categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
+    const categoryData = ['ATL', 'Non ATL'];
+    // const categoryData =
+    //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
         []
     );
@@ -41,14 +48,35 @@ const TeacherDetailed = () => {
         labels: [],
         datasets: []
     });
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
+    );
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
+    useEffect(() => {
+        dispatch(getStateData());
+    }, []);
+    useEffect(() => {
+        if (state !== '') {
+            dispatch(getFetchDistData(state));
+        }
+        setdistrict('');
+        fetchChartTableData();
+        const newDate = new Date();
+        const formattedDate = `${newDate.getUTCDate()}/${
+            1 + newDate.getMonth()
+        }/${newDate.getFullYear()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
+        setNewFormat(formattedDate);
+    }, [state]);
     const [totalCount, setTotalCount] = useState([]);
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
     const tableHeaders = [
         {
-            label: 'District Name',
-            key: 'district'
+            label: 'State Name',
+            key: 'state'
         },
         {
             label: 'Total Registered Teachers',
@@ -182,15 +210,15 @@ const TeacherDetailed = () => {
         }
     ];
 
-    useEffect(() => {
-        dispatch(getDistrictData());
-        fetchChartTableData();
-        const newDate = new Date();
-        const formattedDate = `${newDate.getUTCDate()}/${
-            1 + newDate.getMonth()
-        }/${newDate.getFullYear()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
-        setNewFormat(formattedDate);
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getDistrictData());
+    //     fetchChartTableData();
+    //     const newDate = new Date();
+    //     const formattedDate = `${newDate.getUTCDate()}/${
+    //         1 + newDate.getMonth()
+    //     }/${newDate.getFullYear()} ${newDate.getHours()}:${newDate.getMinutes()}:${newDate.getSeconds()}`;
+    //     setNewFormat(formattedDate);
+    // }, []);
 
     const chartOption = {
         maintainAspectRatio: false,
@@ -243,7 +271,7 @@ const TeacherDetailed = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -265,7 +293,7 @@ const TeacherDetailed = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -293,10 +321,10 @@ const TeacherDetailed = () => {
     };
 
     const handleDownload = () => {
-        if (!district || !category) {
+        if (!state || !district || !category) {
             notification.warning({
                 message:
-                    'Please select a district and category type before Downloading Reports.'
+                    'Please select a state,district and category type before Downloading Reports.'
             });
             return;
         }
@@ -308,7 +336,7 @@ const TeacherDetailed = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?district=${district}&category=${category}`,
+                `/reports/mentordetailsreport?state=${state}&district=${district}&category=${category}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -366,18 +394,18 @@ const TeacherDetailed = () => {
                         response.data.data[0].courseINcompleted;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const teamCountItem = teamCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseINcompletedItem = courseINcompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted =
                             summaryItem.totalReg -
@@ -389,7 +417,7 @@ const TeacherDetailed = () => {
                                     : 0));
 
                         return {
-                            district,
+                            state,
                             totalReg: summaryItem.totalReg,
                             totalTeams: teamCountItem
                                 ? teamCountItem.totalTeams
@@ -450,7 +478,7 @@ const TeacherDetailed = () => {
                     };
 
                     const barData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No.of Students Enrolled',
@@ -470,7 +498,7 @@ const TeacherDetailed = () => {
                     };
 
                     const stackedBarChartData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No. of Teachers not started course',
@@ -531,7 +559,17 @@ const TeacherDetailed = () => {
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
-                                            list={fullDistrictsNames}
+                                            list={fullStatesNames}
+                                            setValue={setState}
+                                            placeHolder={'Select State'}
+                                            value={state}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        <Select
+                                            list={fiterDistData}
                                             setValue={setdistrict}
                                             placeHolder={'Select District'}
                                             value={district}
@@ -622,8 +660,7 @@ const TeacherDetailed = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total
@@ -686,7 +723,7 @@ const TeacherDetailed = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>

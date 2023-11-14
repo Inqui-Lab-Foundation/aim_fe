@@ -117,6 +117,11 @@ const IdeasPageNew = () => {
     const [screenCount, setScreenCount] = useState(1);
     const [screenQst, setScreenQst] = useState(challengeQuestions.slice(0, 7));
     const [screenTitle, setScreenTitle] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleOptionChange = (newOption) => {
+        setSelectedOption(newOption);
+    };
 
     const handleBack = () => {
         setScreenCount(screenCount - 1);
@@ -291,10 +296,9 @@ const IdeasPageNew = () => {
         setAnswerResponses(newItems);
     };
     let lengthCheck =
-        challengeQuestions.filter((item) => item.type !== 'DRAW').length +
+        challengeQuestions.length +
         (sdg === 'OTHERS' ? 1 : 0);
     const responseData = answerResponses.map((eachValues) => {
-        lengthCheck += eachValues.type === 'DRAW' ? 1 : 0;
         return {
             challenge_question_id: eachValues.challenge_question_id,
             selected_option: eachValues.selected_option
@@ -430,6 +434,11 @@ const IdeasPageNew = () => {
                 'error',
                 "Only alphanumeric and '_' are allowed "
             );
+            return;
+        }
+        const allowedTypes = ['image/jpeg', 'image/png','application/msword','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+        if(choosenFiles.filter((item) => allowedTypes.includes(item.type) === false).length > 0){
+            openNotificationWithIcon('error', t('Accepting only png,jpg,jpeg,pdf,doc,docx Only'));
             return;
         }
         if (choosenFiles.filter((item) => item.size > maxFileSize).length > 0) {
@@ -578,8 +587,9 @@ const IdeasPageNew = () => {
         scroll();
     };
     const comingSoonText = t('dummytext.student_idea_sub');
-    const acceptedParamfileTypes =
-        'Accepting only png,jpg,jpeg,pdf,mp4,doc,docx Only, file size should be below 10MB';
+    // const acceptedParamfileTypes =
+    //     'Accepting only png,jpg,jpeg,pdf,mp4,doc,docx Only, file size should be below 10MB';
+
     return (
         <Layout>
             {showPage ? (
@@ -923,7 +933,53 @@ const IdeasPageNew = () => {
                                                             </div>
                                                         ) : (
                                                             <div className=" answers row flex-column p-4">
-                                                                <select
+                                                                <div>
+                                                                    {subCategoryMenu.map(
+                                                                        (
+                                                                            item,
+                                                                            i
+                                                                        ) => (
+                                                                            <label
+                                                                                key={
+                                                                                    i
+                                                                                }
+                                                                                style={{
+                                                                                    margin: '1rem',
+                                                                                    fontSize:
+                                                                                        '1.6rem'
+                                                                                }}
+                                                                            >
+                                                                                <input
+                                                                                    disabled={
+                                                                                        isDisabled
+                                                                                    }
+                                                                                    type="radio"
+                                                                                    value={
+                                                                                        item
+                                                                                    }
+                                                                                    checked={
+                                                                                        item ===
+                                                                                        subCategory
+                                                                                    }
+                                                                                    onChange={(
+                                                                                        e
+                                                                                    ) =>
+                                                                                        setSubCategory(
+                                                                                            e
+                                                                                                .target
+                                                                                                .value
+                                                                                        )
+                                                                                    }
+                                                                                />
+                                                                                {' '}
+                                                                                {
+                                                                                    item
+                                                                                }
+                                                                            </label>
+                                                                        )
+                                                                    )}
+                                                                </div>
+                                                                {/* <select
                                                                     disabled={
                                                                         isDisabled
                                                                     }
@@ -941,6 +997,7 @@ const IdeasPageNew = () => {
                                                                 >
                                                                     <option
                                                                         disabled
+                                                                        // className="dropdown-item"
                                                                         selected={
                                                                             subCategory ===
                                                                             ''
@@ -967,13 +1024,20 @@ const IdeasPageNew = () => {
                                                                                     subCategory
                                                                                 }
                                                                             >
-                                                                                {
-                                                                                    item
-                                                                                }
-                                                                            </option>
-                                                                        )
-                                                                    )}
-                                                                </select>
+                                                                                <div
+                                                                                    style={{
+                                                                                        whiteSpace:
+                                                                                            'pre-wrap',
+                                                                                        wordWrap:
+                                                                                            'break-word'
+                                                                                    }}
+                                                                                > */}
+                                                                {/* {item} */}
+                                                                {/* </div> */}
+                                                                {/* </option> */}
+                                                                {/* ) */}
+                                                                {/* )} */}
+                                                                {/* </select> */}{' '}
                                                             </div>
                                                         )}
                                                     </Row>
@@ -1099,9 +1163,9 @@ const IdeasPageNew = () => {
                                                                         {eachQuestion.type ===
                                                                             'DRAW' && (
                                                                             <>
-                                                                                {
+                                                                                {/* {
                                                                                     acceptedParamfileTypes
-                                                                                }
+                                                                                } */}
                                                                                 {initiatedBy &&
                                                                                     initiatedBy ===
                                                                                         currentUser
@@ -1135,7 +1199,7 @@ const IdeasPageNew = () => {
                                                                                                     disabled={
                                                                                                         isDisabled
                                                                                                     }
-                                                                                                    accept=".png, .jpg, .jpeg,.pdf,video/mp4,video/x-m4v,.doc,.docx"
+                                                                                                    accept="image/jpeg,image/png,application/msword,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation"
                                                                                                     multiple
                                                                                                     onChange={(
                                                                                                         e

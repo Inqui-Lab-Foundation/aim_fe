@@ -170,8 +170,9 @@ const PostSurvey = () => {
                             dispatch(studentPostSurveyCertificate(language));
                             openNotificationWithIcon(
                                 'success',
-                                'Post Survey is been submitted successfully..!!',
+                                t('student.postsurver_scc_sub'),
                                 ''
+                                // 'Post Survey is been submitted successfully..!!',
                             );
                             setCounts(counts + 1);
                             // formik.resetForm();
