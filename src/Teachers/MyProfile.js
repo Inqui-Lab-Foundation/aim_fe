@@ -20,14 +20,14 @@ const MyProfile = () => {
     const { teacher } = useSelector((state) => state.teacher);
     const [data, setData] = useState('');
     const [code, setCode] = useState('');
-    const key = 'PMBXDE9N53V89K65';
-    const stringotp = String(currentUser?.data[0]?.mentor_id);
-    const hashedPassword = CryptoJS.AES.encrypt(stringotp, key).toString();
-    var modifiedCiphertext = hashedPassword.replace(/\//g, '+');
     const dispatch = useDispatch();
     useLayoutEffect(() => {
         if (currentUser?.data[0]?.mentor_id) {
-            dispatch(getTeacherByID(modifiedCiphertext));
+            const key = 'PMBXDE9N53V89K65';
+            const stringotp = String(currentUser?.data[0]?.mentor_id);
+            const hashedPassword = CryptoJS.AES.encrypt(stringotp, key).toString();
+            const encoded = btoa(hashedPassword);
+            dispatch(getTeacherByID(encoded));
         }
     }, [currentUser?.data[0]?.mentor_id]);
     const handleEdit = () => {
