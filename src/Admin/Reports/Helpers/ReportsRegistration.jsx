@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../../Layout';
@@ -9,23 +10,30 @@ import {
     getCurrentUser
 } from '../../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../../redux/studentRegistration/actions';
+import {
+    getDistrictData,
+    getStateData,
+    getFetchDistData
+} from '../../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from '../Helpers/Select';
 import axios from 'axios';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
-import { categoryValue } from '../../Schools/constentText';
+// import { categoryValue } from '../../Schools/constentText';
 
 const ReportsRegistration = () => {
     const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
+    const [RegTeachersState, setRegTeachersState] = React.useState('');
+
     const [filterType, setFilterType] = useState('');
     const [category, setCategory] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const filterOptions = ['Registered', 'Not Registered'];
-    const categoryData =
-        categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
+    const categoryData = ['ATL', 'Non ATL'];
+    // const categoryData =
+    //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
     const [downloadData, setDownloadData] = useState(null);
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
@@ -43,6 +51,12 @@ const ReportsRegistration = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const [downloadComplete, setDownloadComplete] = useState(false);
     const [newFormat, setNewFormat] = useState('');
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
+    );
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
@@ -165,11 +179,21 @@ const ReportsRegistration = () => {
             key: 'principal_email'
         }
     ];
-
     useEffect(() => {
-        dispatch(getDistrictData());
-        fetchChartTableData();
+        dispatch(getStateData());
     }, []);
+    useEffect(() => {
+        if (RegTeachersState !== '') {
+            dispatch(getFetchDistData(RegTeachersState));
+        }
+        setRegTeachersdistrict('');
+        fetchChartTableData();
+    }, [RegTeachersState]);
+
+    // useEffect(() => {
+    //     // dispatch(getDistrictData());
+    //     fetchChartTableData();
+    // }, []);
 
     const chartOption = {
         maintainAspectRatio: false,
@@ -227,9 +251,9 @@ const ReportsRegistration = () => {
     const fetchData = (item) => {
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&district=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${RegTeachersdistrict}&category=${category}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?district=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/notRegistered?state=${RegTeachersState}&district=${RegTeachersdistrict}&category=${category}`
                 : '';
 
         const config = {
@@ -269,10 +293,15 @@ const ReportsRegistration = () => {
     };
 
     const handleDownload = () => {
-        if (!RegTeachersdistrict || !filterType || !category) {
+        if (
+            !RegTeachersState ||
+            !RegTeachersdistrict ||
+            !filterType ||
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a district,category and filter type before Downloading Reports.'
+                    'Please select a state,district,category and filter type before Downloading Reports.'
             });
             return;
         }
@@ -289,7 +318,10 @@ const ReportsRegistration = () => {
     useEffect(() => {
         if (downloadComplete) {
             setDownloadComplete(false);
+            setRegTeachersState('');
+
             setRegTeachersdistrict('');
+
             setFilterType('');
         }
         const newDate = new Date();
@@ -370,17 +402,27 @@ const ReportsRegistration = () => {
                         </Col>
                         <div className="reports-data p-5 mt-4 mb-5 bg-white">
                             <Row className="align-items-center">
-                                <Col md={3}>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
-                                            list={fullDistrictsNames}
+                                            list={fullStatesNames}
+                                            setValue={setRegTeachersState}
+                                            placeHolder={'Select State'}
+                                            value={RegTeachersState}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={2}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        <Select
+                                            list={fiterDistData}
                                             setValue={setRegTeachersdistrict}
                                             placeHolder={'Select District'}
                                             value={RegTeachersdistrict}
                                         />
                                     </div>
                                 </Col>
-                                <Col md={3}>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
                                             list={filterOptions}
@@ -390,7 +432,7 @@ const ReportsRegistration = () => {
                                         />
                                     </div>
                                 </Col>
-                                <Col md={3}>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
                                             list={categoryData}
@@ -402,7 +444,7 @@ const ReportsRegistration = () => {
                                 </Col>
 
                                 <Col
-                                    md={3}
+                                    md={2}
                                     className="d-flex align-items-center justify-content-center"
                                 >
                                     {/* <Button
@@ -420,23 +462,28 @@ const ReportsRegistration = () => {
                                         onClick={handleDownload}
                                         //label={'Download Report'}
                                         label={
-                                            downloadComplete
-                                                ? 'Download Complete'
-                                                : isDownloading
-                                                ? 'Downloading...'
+                                            isDownloading
+                                                ? 'Downloading'
                                                 : 'Download Report'
                                         }
+                                        // label={
+                                        //     downloadComplete
+                                        //         ? 'Download Complete'
+                                        //         : isDownloading
+                                        //         ? 'Downloading...'
+                                        //         : 'Download Report'
+                                        // }
                                         btnClass="primary mx-3"
                                         size="small"
                                         shape="btn-square"
                                         type="submit"
-                                        style={{
-                                            width: '160px',
-                                            whiteSpace: 'nowrap',
-                                            pointerEvents: isDownloading
-                                                ? 'none'
-                                                : 'auto'
-                                        }}
+                                        // style={{
+                                        //     width: '160px',
+                                        //     whiteSpace: 'nowrap',
+                                        //     pointerEvents: isDownloading
+                                        //         ? 'none'
+                                        //         : 'auto'
+                                        // }}
                                         disabled={isDownloading}
                                     />
                                 </Col>
@@ -454,7 +501,7 @@ const ReportsRegistration = () => {
                                                 shape="btn-square"
                                                 onClick={() => {
                                                     if (downloadTableData) {
-                                                        setIsDownloading(true);
+                                                        // setIsDownloading(true);
                                                         setDownloadTableData(
                                                             null
                                                         );
@@ -627,10 +674,10 @@ const ReportsRegistration = () => {
                                         filename={`MentorSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
-                                        onDownloaded={() => {
-                                            setIsDownloading(false);
-                                            setDownloadComplete(true);
-                                        }}
+                                        // onDownloaded={() => {
+                                        //     setIsDownloading(false);
+                                        //     setDownloadComplete(true);
+                                        // }}
                                     >
                                         Download Table CSV
                                     </CSVLink>
@@ -642,10 +689,10 @@ const ReportsRegistration = () => {
                                         filename={`Teacher_${filterType}Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
-                                        onDownloaded={() => {
-                                            setIsDownloading(false);
-                                            setDownloadComplete(true);
-                                        }}
+                                        // onDownloaded={() => {
+                                        //     setIsDownloading(false);
+                                        //     setDownloadComplete(true);
+                                        // }}
                                     >
                                         Download CSV
                                     </CSVLink>
@@ -657,10 +704,10 @@ const ReportsRegistration = () => {
                                         filename={`Teacher_${filterType}Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefNotRegistered}
-                                        onDownloaded={() => {
-                                            setIsDownloading(false);
-                                            setDownloadComplete(true);
-                                        }}
+                                        // onDownloaded={() => {
+                                        //     setIsDownloading(false);
+                                        //     setDownloadComplete(true);
+                                        // }}
                                     >
                                         Download Not Registered CSV
                                     </CSVLink>

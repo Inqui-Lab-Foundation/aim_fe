@@ -49,7 +49,6 @@ const Dashboard = () => {
     const [count, setCount] = useState(0);
     const [error, setError] = useState('');
     const teacherId = mentorTeam[0]?.team_id;
-    console.log(teacherId, 'data');
     const [isideadisable, setIsideadisable] = useState(false);
     const handleOnChange = (e) => {
         // we can give diescode as input //
@@ -416,6 +415,7 @@ const Dashboard = () => {
         adminSchoolCount();
         adminmentorCourseCount();
         adminStudentCourseCount();
+        nonAtlCount();
     }, []);
 
     const [totalteamsCount, setTotalteamsCount] = useState('-');
@@ -428,6 +428,8 @@ const Dashboard = () => {
     const [totalStudentMaleCount, setTotalStudentMaleCount] = useState('-');
     const [totalStudentFemaleCount, setTotalStudentFemaleCount] = useState('-');
     const [totalSchoolCount, setTotalSchoolCount] = useState('-');
+    const [nonAtl, setNonAtl] = useState('-');
+    const [atl, setAtl] = useState('-');
     const [mentorCoursesCompletedCount, setMentorCoursesCompletedCount] =
         useState('-');
     const [studentCoursesCompletedCount, setStudentCoursesCompletedCount] =
@@ -435,6 +437,30 @@ const Dashboard = () => {
     const [totalstudentCoursesCount, setTotalstudentCoursesCount] =
         useState('-');
 
+    const nonAtlCount = () => {
+        var config = {
+            method: 'get',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                `/dashboard/ATLNonATLRegCount`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (response) {
+                if (response.status === 200) {
+                    setAtl(response.data.data[0].ATLCount);
+                    setNonAtl(response.data.data[0].NONATLCount);
+                    // console.log(response, 'response');
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     const adminTeamsCount = () => {
         var config = {
             method: 'get',
@@ -1450,6 +1476,76 @@ const Dashboard = () => {
                                     </Card>
                                 </Row>
                             </Col>
+                            <Row>
+                                <Row>
+                                    <Col>
+                                        <Card
+                                            bg="light"
+                                            text="dark"
+                                            className="mb-4"
+                                            style={{
+                                                height: '150px'
+                                            }}
+                                        >
+                                            <Card.Body>
+                                                <label
+                                                    htmlFor="teams"
+                                                    className=""
+                                                >
+                                                    Total Non ATL Count
+                                                </label>
+
+                                                <Card.Text
+                                                    className="left-aligned"
+                                                    style={{
+                                                        fontSize: '30px',
+                                                        fontWeight: 'bold',
+                                                        marginTop: '10px',
+                                                        marginBottom: '20px'
+                                                    }}
+                                                >
+                                                    {nonAtl}
+                                                    {/* {totalMentorMaleCount} */}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                    {/* </Row> */}
+                                    {/* <Row> */}
+                                    <Col>
+                                        <Card
+                                            bg="light"
+                                            text="dark"
+                                            className="mb-4"
+                                            style={{
+                                                height: '150px'
+                                            }}
+                                        >
+                                            <Card.Body>
+                                                <label
+                                                    htmlFor="teams"
+                                                    className=""
+                                                >
+                                                    Total Atl Count
+                                                </label>
+
+                                                <Card.Text
+                                                    className="left-aligned"
+                                                    style={{
+                                                        fontSize: '30px',
+                                                        fontWeight: 'bold',
+                                                        marginTop: '10px',
+                                                        marginBottom: '20px'
+                                                    }}
+                                                >
+                                                    {atl}
+                                                    {/* {totalMentorMaleCount} */}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                            </Row>
                             {/* <div>
                                 <Card bg="light" text="dark" className="mb-4">
                                     <Card.Body>

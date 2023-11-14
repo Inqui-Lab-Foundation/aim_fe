@@ -15,10 +15,10 @@ const ViewMore = () => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
     const [button, setButton] = useState('');
+    const [data, setData] = useState('');
 
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
     const tecDaTa = JSON.parse(localStorage.getItem('teacherId'));
-    const [data, setData] = useState('');
     const [showMentorCard, setshowMentorCard] = useState(false);
     // console.log(tecDaTa, '1');
     const [course, setCourse] = useState([]);

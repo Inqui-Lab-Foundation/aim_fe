@@ -182,7 +182,7 @@ const Dashboard = () => {
             pathname: '/admin/mentor/edit-user-profile',
             data: {
                 full_name: orgData.mentor?.full_name,
-                // mobile: orgData.mentor?.mobile,
+                mobile: orgData.mentor?.mobile,
                 username: orgData.mentor?.user?.username,
                 mentor_id: orgData.mentor?.mentor_id,
                 where: 'Dashbord',
@@ -219,7 +219,7 @@ const Dashboard = () => {
                 if (result.isConfirmed) {
                     dispatch(
                         teacherResetPassword({
-                            organization_code: data.organization_code,
+                            username: orgData.mentor?.user?.username,
                             mentor_id: data.mentor_id,
                             otp: false
                         })
@@ -572,36 +572,7 @@ const Dashboard = () => {
                                                             </p>
                                                         </Col>
                                                     </Row>
-                                                    <Row className="pt-3 pb-3">
-                                                        <Col
-                                                            xs={5}
-                                                            sm={5}
-                                                            md={5}
-                                                            xl={5}
-                                                            className="my-auto profile-detail"
-                                                        >
-                                                            <p>City</p>
-                                                        </Col>
-                                                        <Col
-                                                            xs={1}
-                                                            sm={1}
-                                                            md={1}
-                                                            xl={1}
-                                                        >
-                                                            :
-                                                        </Col>
-                                                        <Col
-                                                            xs={6}
-                                                            sm={6}
-                                                            md={6}
-                                                            xl={6}
-                                                            className="my-auto profile-detail"
-                                                        >
-                                                            <p>
-                                                                {orgData.city}
-                                                            </p>
-                                                        </Col>
-                                                    </Row>
+
                                                     <Row className="pt-3 pb-3">
                                                         <Col
                                                             xs={5}
@@ -642,7 +613,39 @@ const Dashboard = () => {
                                                             xl={5}
                                                             className="my-auto profile-detail"
                                                         >
-                                                            <p>Mentor Name</p>
+                                                            <p>Pincode</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    orgData.pin_code
+                                                                }
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>Teacher Name</p>
                                                         </Col>
                                                         <Col
                                                             xs={1}
@@ -676,9 +679,7 @@ const Dashboard = () => {
                                                             xl={5}
                                                             className="my-auto profile-detail"
                                                         >
-                                                            <p>
-                                                                Mentor Mobile No
-                                                            </p>
+                                                            <p>Email Id</p>
                                                         </Col>
                                                         <Col
                                                             xs={1}
@@ -701,6 +702,40 @@ const Dashboard = () => {
                                                                         .mentor
                                                                         ?.user
                                                                         ?.username
+                                                                }
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>Mobile No</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {
+                                                                    orgData
+                                                                        ?.mentor
+                                                                        ?.mobile
                                                                 }
                                                             </p>
                                                         </Col>
@@ -764,8 +799,9 @@ const Dashboard = () => {
                                                         mentor_id:
                                                             orgData.mentor
                                                                 .mentor_id,
-                                                        organization_code:
-                                                            orgData.organization_code
+                                                        username:
+                                                            orgData.mentor.user
+                                                                .username
                                                     })
                                                 }
                                                 className="btn btn-info rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"
