@@ -40,6 +40,9 @@ const AddNewSchool = (props) => {
     const fiterDistData = useSelector(
         (state) => state?.studentRegistration?.fetchdist
     );
+    useEffect(() => {
+        dispatch(getStateData());
+    }, []);
     // const fullDistrictsNames = useSelector(
     //     (state) => state?.studentRegistration?.dists
     // );
@@ -50,14 +53,6 @@ const AddNewSchool = (props) => {
 
     const stateData = stateValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
-    useEffect(() => {
-        dispatch(getStateData());
-    }, []);
-    useEffect(() => {
-        if (formik.values.state) {
-            dispatch(getFetchDistData());
-        }
-    }, [formik.values.state]);
     const formik = useFormik({
         initialValues: {
             principal_name: '',
@@ -138,6 +133,12 @@ const AddNewSchool = (props) => {
                 });
         }
     });
+
+    useEffect(() => {
+        if (formik.values.state) {
+            dispatch(getFetchDistData(formik.values.state));
+        }
+    }, [formik.values.state]);
     // console.log('formik.values.district', formik.values.district);
 
     return (
