@@ -48,8 +48,7 @@ const EditTeamMember = (props) => {
             gender: Yup.string().required('Please select valid gender'),
             username: Yup.string()
                 .email('Must be a valid email')
-                .max(255)
-                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com'),
+                .max(255),
             disability: Yup.string().required('Please select disability'),
             grade: Yup.string()
                 .matches('', 'Please enter valid class')
@@ -58,6 +57,19 @@ const EditTeamMember = (props) => {
         }),
 
         onSubmit: (values) => {
+            if (values.username) {
+                const start = values.username.indexOf('@');
+                const main = values.username.substring(start);
+                const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
+                const text = checkarry.includes(main);
+                if (!text) {
+                    openNotificationWithIcon(
+                        'error',
+                        'Email id should end with any of these "@gmail.com,@outlook.com,@yahoo.com"'
+                    );
+                    return; 
+                }
+            }
             const body = {
                 team_id: teamMemberData.team_id,
                 role: 'STUDENT',
