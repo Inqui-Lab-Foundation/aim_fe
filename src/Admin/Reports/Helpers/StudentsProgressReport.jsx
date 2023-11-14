@@ -37,7 +37,7 @@ const ReportsRegistration = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -74,7 +74,7 @@ const ReportsRegistration = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -445,16 +445,16 @@ const ReportsRegistration = () => {
                     const draftCount = response.data.data[0].draftCount;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const totalTeams = summaryItem.totalTeams;
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseInProgressItem = courseINprogesss.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted = studentCountItem
                             ? studentCountItem.totalstudent -
@@ -467,10 +467,10 @@ const ReportsRegistration = () => {
                             : 0;
 
                         const submittedCountItem = submittedCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const draftCountItem = draftCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const ideaNotStarted =
                             summaryItem.totalTeams -
@@ -504,7 +504,7 @@ const ReportsRegistration = () => {
                                 : 0;
 
                         return {
-                            district,
+                            state,
                             totalTeams,
                             totalStudents: studentCountItem
                                 ? studentCountItem.totalstudent
@@ -608,7 +608,7 @@ const ReportsRegistration = () => {
                     };
 
                     const stackedBarChart1Data = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No of Students Completed Course',
@@ -635,7 +635,7 @@ const ReportsRegistration = () => {
                     };
 
                     const stackedBarChart2Data = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No of Teams Submitted Ideas',
@@ -793,8 +793,7 @@ const ReportsRegistration = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total No.Of
@@ -869,7 +868,7 @@ const ReportsRegistration = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>
@@ -1101,8 +1100,8 @@ const ReportsRegistration = () => {
                                                         <p>
                                                             <b>
                                                                 Idea Submission
-                                                                Status Status As
-                                                                of {newFormat}
+                                                                Status As of{' '}
+                                                                {newFormat}
                                                             </b>
                                                         </p>
                                                     </div>
