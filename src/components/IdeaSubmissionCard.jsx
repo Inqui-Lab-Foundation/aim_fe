@@ -98,6 +98,7 @@ const IdeaSubmissionCard = ({ handleClose, show, response, props }) => {
                         className="w-100 d-block text-center"
                     >
                         {response[0].sdg}
+                        <p>{response[0].sub_category}</p>
                     </Modal.Title>
                 </Modal.Header>
 

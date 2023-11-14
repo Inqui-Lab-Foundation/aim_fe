@@ -49,6 +49,7 @@ const EditSchool = (props) => {
         type: 'text',
         className: 'defaultInput'
     };
+    // console.log(listID, '1');
     const filterCategory = ['ATL', 'Non ATL'];
 
     const fullStatesNames = useSelector(
@@ -138,11 +139,13 @@ const EditSchool = (props) => {
                 pin_code: values.pin_code,
                 address: values.address,
                 unique_code: values.unique_code,
-                organization_name: values.organization_name
+                district: values.district,
+                organization_name: values.organization_name,
+                status: values.status
             };
-            if (listId && listId.district !== values.district) {
-                body['district'] = values.district;
-            }
+            // if (listId && listId.district !== values.district) {
+            //     body['district'] = values.district;
+            // }
             var config = {
                 method: 'put',
                 url:
@@ -172,13 +175,14 @@ const EditSchool = (props) => {
     });
     useEffect(() => {
         dispatch(getStateData());
+        dispatch(getFetchDistData());
     }, []);
-    useEffect(() => {
-        if (formik.values.state) {
-            dispatch(getFetchDistData());
-        }
-    }, [formik.values.state]);
-    // console.log('formik.values.district', formik.values.district);
+    // useEffect(() => {
+    //     if (formik.values.state) {
+    //         dispatch(getFetchDistData());
+    //     }
+    // }, [formik.values.state]);
+    console.log(listId && listId.district, formik.values.district);
 
     return (
         <Layout>
@@ -210,7 +214,7 @@ const EditSchool = (props) => {
                                                 <InputBox
                                                     {...inputDICE}
                                                     id="organization_code"
-                                                    // isDisabled={true}
+                                                    isDisabled={true}
                                                     name="organization_code"
                                                     placeholder="Please enter Unique Code"
                                                     onChange={
@@ -247,6 +251,7 @@ const EditSchool = (props) => {
                                                     {...inputDICE}
                                                     id="unique_code"
                                                     name="unique_code"
+                                                    isDisabled={true}
                                                     placeholder="Please enter Unique Code"
                                                     onChange={
                                                         formik.handleChange
@@ -256,7 +261,6 @@ const EditSchool = (props) => {
                                                         formik.values
                                                             .unique_code
                                                     }
-                                                    // isDisabled={holdKey ? true : false}
                                                 />
                                                 {formik.touched.unique_code &&
                                                 formik.errors.unique_code ? (
@@ -309,6 +313,7 @@ const EditSchool = (props) => {
                                                     {...inputDICE}
                                                     id="pin_code"
                                                     name="pin_code"
+                                                    isDisabled={true}
                                                     placeholder="Please enter PinCode"
                                                     onChange={
                                                         formik.handleChange
@@ -403,9 +408,27 @@ const EditSchool = (props) => {
                                                 {/* <Col md={3}> */}
                                                 <div className=" d-md-block d-flex justify-content-center">
                                                     {' '}
-                                                    <Select
+                                                    <InputBox
+                                                        {...inputDICE}
+                                                        id="category"
+                                                        isDisabled={true}
+                                                        name="category"
+                                                        placeholder="Please enter state"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        onBlur={
+                                                            formik.handleBlur
+                                                        }
+                                                        value={
+                                                            formik.values
+                                                                .category
+                                                        }
+                                                    />
+                                                    {/* <Select
                                                         className="form-control custom-registerdropdown "
                                                         list={filterCategory}
+                                                        disabled={true}
                                                         setValue={(value) =>
                                                             formik.setFieldValue(
                                                                 'category',
@@ -419,7 +442,7 @@ const EditSchool = (props) => {
                                                             formik.values
                                                                 .category
                                                         }
-                                                    />
+                                                    /> */}
                                                 </div>
 
                                                 {formik.touched.category &&
@@ -437,8 +460,25 @@ const EditSchool = (props) => {
                                                     State
                                                 </Label>
                                                 <div className=" d-md-block d-flex justify-content-center">
-                                                    <Select
+                                                    <InputBox
+                                                        {...inputDICE}
+                                                        id="state"
+                                                        isDisabled={true}
+                                                        name="state"
+                                                        placeholder="Please enter state"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        onBlur={
+                                                            formik.handleBlur
+                                                        }
+                                                        value={
+                                                            formik.values.state
+                                                        }
+                                                    />
+                                                    {/* <Select
                                                         list={fullStatesNames}
+                                                        disabled={true}
                                                         setValue={(value) =>
                                                             formik.setFieldValue(
                                                                 'state',
@@ -451,7 +491,7 @@ const EditSchool = (props) => {
                                                         value={
                                                             formik.values.state
                                                         }
-                                                    />
+                                                    /> */}
                                                 </div>
 
                                                 {formik.touched.state &&
@@ -471,8 +511,26 @@ const EditSchool = (props) => {
                                                 </Label>
                                                 {/* <Col md={3}> */}
                                                 <div className=" d-md-block d-flex justify-content-center">
-                                                    <Select
+                                                    <InputBox
+                                                        {...inputDICE}
+                                                        id="district"
+                                                        isDisabled={true}
+                                                        name="district"
+                                                        placeholder="Please enter district"
+                                                        onChange={
+                                                            formik.handleChange
+                                                        }
+                                                        onBlur={
+                                                            formik.handleBlur
+                                                        }
+                                                        value={
+                                                            formik.values
+                                                                .district
+                                                        }
+                                                    />
+                                                    {/* <Select
                                                         list={fiterDistData}
+                                                        disabled={true}
                                                         setValue={(value) =>
                                                             formik.setFieldValue(
                                                                 'district',
@@ -486,7 +544,7 @@ const EditSchool = (props) => {
                                                             formik.values
                                                                 .district
                                                         }
-                                                    />
+                                                    /> */}
                                                 </div>
 
                                                 {formik.touched.district &&
