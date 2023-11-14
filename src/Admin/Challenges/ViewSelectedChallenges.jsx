@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React, { useEffect, useRef, useState } from 'react';
 import './ViewSelectedChallenges.scss';
@@ -13,6 +14,11 @@ import { Col, Container, Row } from 'reactstrap';
 import { cardData } from '../../Student/Pages/Ideas/SDGData.js';
 import { useSelector } from 'react-redux';
 import { getDistrictData } from '../../redux/studentRegistration/actions';
+import {
+    getStateData,
+    getFetchDistData
+} from '../../redux/studentRegistration/actions';
+
 import { useDispatch } from 'react-redux';
 import { getNormalHeaders } from '../../helpers/Utils';
 import Spinner from 'react-bootstrap/Spinner';
@@ -28,6 +34,7 @@ const ViewSelectedIdea = () => {
     const [ideaDetails, setIdeaDetails] = React.useState({});
     const [tableData, settableData] = React.useState([]);
     const [district, setdistrict] = React.useState('');
+    const [state, setState] = useState('');
     const [sdg, setsdg] = React.useState('');
     //---for handle next idea---
     const [currentRow, setCurrentRow] = React.useState(1);
@@ -39,19 +46,36 @@ const ViewSelectedIdea = () => {
         return i.goal_title;
     });
     SDGDate.unshift('ALL SDGs');
-    const fullDistrictsNames = useSelector(
-        (state) => state?.studentRegistration?.dists
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
     );
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
+    // const fullDistrictsNames = useSelector(
+    //     (state) => state?.studentRegistration?.dists
+    // );
     const { search } = useLocation();
     const status = new URLSearchParams(search).get('status');
     const filterParams =
+        (state && state !== 'All States' ? '&state=' + state : '') +
         (district && district !== 'All Districts'
             ? '&district=' + district
-            : '') + (sdg && sdg !== 'ALL SDGs' ? '&sdg=' + sdg : '');
+            : '') +
+        (sdg && sdg !== 'ALL SDGs' ? '&sdg=' + sdg : '');
 
+    // useEffect(() => {
+    //     dispatch(getDistrictData());
+    // }, []);
     useEffect(() => {
-        dispatch(getDistrictData());
+        dispatch(getStateData());
     }, []);
+    useEffect(() => {
+        if (state !== '') {
+            dispatch(getFetchDistData(state));
+        }
+        setdistrict('');
+    }, [state]);
 
     const handleclickcall = async () => {
         // where we can select district and sdg //
@@ -101,7 +125,7 @@ const ViewSelectedIdea = () => {
                 sortable: true,
                 width: '10rem'
             },
-             {
+            {
                 name: 'Idea Name',
                 selector: (row) => row?.response[8]?.selected_option || '',
                 // sortable: true,
@@ -182,7 +206,7 @@ const ViewSelectedIdea = () => {
         ]
     };
 
-    const showbutton = district && sdg;
+    const showbutton = state && district && sdg;
 
     const handleNext = () => {
         // here we can go for next page //
@@ -250,9 +274,19 @@ const ViewSelectedIdea = () => {
                                             <Col md={3}>
                                                 <div className="my-3 d-md-block d-flex justify-content-center">
                                                     <Select
-                                                        list={
-                                                            fullDistrictsNames
+                                                        list={fullStatesNames}
+                                                        setValue={setState}
+                                                        placeHolder={
+                                                            'Select State'
                                                         }
+                                                        value={state}
+                                                    />
+                                                </div>
+                                            </Col>
+                                            <Col md={3}>
+                                                <div className="my-3 d-md-block d-flex justify-content-center">
+                                                    <Select
+                                                        list={fiterDistData}
                                                         setValue={setdistrict}
                                                         placeHolder={
                                                             'Select District'
@@ -267,7 +301,7 @@ const ViewSelectedIdea = () => {
                                                         list={SDGDate}
                                                         setValue={setsdg}
                                                         placeHolder={
-                                                            'Select SDG'
+                                                            'Select Themes'
                                                         }
                                                         value={sdg}
                                                     />
