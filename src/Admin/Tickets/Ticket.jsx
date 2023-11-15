@@ -179,6 +179,13 @@ const TicketsPage = () => {
                 width: '20rem'
             },
             {
+                name: 'State',
+                selector: (row) => row.state,
+                cellExport: (row) => row.state,
+                sortable: true,
+                width: '20rem'
+            },
+            {
                 name: 'District',
                 selector: (row) => row.district,
                 cellExport: (row) => row.district,
@@ -186,14 +193,6 @@ const TicketsPage = () => {
                 width: '20rem'
             },
 
-          
-            {
-                name: 'State',
-                selector: (row) => row.state,
-                cellExport: (row) => row.state,
-                sortable: true,
-                width: '20rem'
-            },
             {
                 name: 'Query Type',
                 selector: (row) => row.query_category,
