@@ -15,7 +15,7 @@ const ViewMore = () => {
     const currentUser = getCurrentUser('current_user');
 
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
-    const tecDaTa = JSON.parse(localStorage.getItem('teacherId'));
+    // const tecDaTa = JSON.parse(localStorage.getItem('teacherId'));
 
     const [course, setCourse] = useState([]);
     const [button, setButton] = useState('');
@@ -64,36 +64,36 @@ const ViewMore = () => {
                 console.log(error);
             });
     }, []);
-    useEffect(() => {
-        mentorsData();
-    }, []);
-    const mentorsData = () => {
-        var config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${tecDaTa}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${currentUser.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    // console.log(response, 'res');
-                    setData(response?.data?.data[0]);
-                    setButton(response.data.data[0].moc_name);
-                    // if (response.data.data[0].moc_name !== null) {
-                    //     setshowMentorCard(true);
-                    // }
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
+    // useEffect(() => {
+    //     mentorsData();
+    // }, []);
+    // const mentorsData = () => {
+    //     var config = {
+    //         method: 'get',
+    //         url:
+    //             process.env.REACT_APP_API_BASE_URL +
+    //             `/teams/teamMentor?team_id=${tecDaTa}`,
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             Accept: 'application/json',
+    //             Authorization: `Bearer ${currentUser.data[0]?.token}`
+    //         }
+    //     };
+    //     axios(config)
+    //         .then(function (response) {
+    //             if (response.status === 200) {
+    //                 // console.log(response, 'res');
+    //                 setData(response?.data?.data[0]);
+    //                 setButton(response.data.data[0].moc_name);
+    //                 // if (response.data.data[0].moc_name !== null) {
+    //                 //     setshowMentorCard(true);
+    //                 // }
+    //             }
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    // };
     const atlData = orgDaTa.organization_code;
     const altRes = atlData.split('-');
     const atlNew = altRes[0];
@@ -293,7 +293,7 @@ const ViewMore = () => {
                             </CardBody>
                         </Card>
                     </Row>
-                    <Row>
+                    {/* <Row>
                         {button ? (
                             <Col md={12}>
                                 <Card className="w-100  mb-5 p-4">
@@ -469,7 +469,7 @@ const ViewMore = () => {
                                 </Row>
                             </div>
                         )}
-                    </Row>
+                    </Row> */}
                 </Row>
             </Container>
         </Layout>
