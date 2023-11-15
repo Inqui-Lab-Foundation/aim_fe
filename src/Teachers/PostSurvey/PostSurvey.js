@@ -276,8 +276,7 @@ const PostSurvey = () => {
                                             className="mb-5"
                                         >
                                             Please complete the following post
-                                            survey to get course completion
-                                            certificate.
+                                            survey to get your certificate.
                                         </UncontrolledAlert>
                                         <Form
                                             className="form-row"

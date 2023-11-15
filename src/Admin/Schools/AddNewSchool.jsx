@@ -77,12 +77,14 @@ const AddNewSchool = (props) => {
                     'Please enter only alphanumeric characters'
                 )
                 .trim()
-                .required('UDISE  Code is Required'),
+                .required('ATL Code is Required'),
             organization_name: Yup.string().required(
                 'Organization  Name is Required'
             ),
             unique_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
+                .max(11, 'Please enter only 11 digit valid Udise code')
+                .min(11, 'Udise code is less than 11 digits')
                 .required('UDISE Code is Required'),
             address: Yup.string().required('Address is required'),
             pin_code: Yup.string()
@@ -203,6 +205,7 @@ const AddNewSchool = (props) => {
                                                     {...inputDICE}
                                                     id="unique_code"
                                                     name="unique_code"
+                                                    maxLength={11}
                                                     placeholder="Please enter Unique Code"
                                                     onChange={
                                                         formik.handleChange

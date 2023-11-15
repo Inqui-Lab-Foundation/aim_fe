@@ -31,7 +31,7 @@ const ReportsRegistration = () => {
     const [category, setCategory] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const filterOptions = ['Registered', 'Not Registered'];
-    const categoryData = ['ATL', 'Non ATL'];
+    const categoryData = ['ALL Categories', 'ATL', 'Non ATL'];
     // const categoryData =
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
@@ -299,13 +299,13 @@ const ReportsRegistration = () => {
     const handleDownload = () => {
         if (
             !RegTeachersState ||
-            !RegTeachersdistrict ||
+            // !RegTeachersdistrict ||
             !filterType ||
             !category
         ) {
             notification.warning({
                 message:
-                    'Please select a state,district,category and filter type before Downloading Reports.'
+                    'Please select a state,category and filter type before Downloading Reports.'
             });
             return;
         }
