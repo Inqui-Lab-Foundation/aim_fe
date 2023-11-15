@@ -115,7 +115,7 @@ const ViewSelectedIdea = () => {
                 setshowspin(false);
             });
     }
-
+    console.log(tableData, '2');
     const evaluatedIdeaforsub = {
         data: tableData && tableData.length > 0 ? tableData : [],
         columns: [
@@ -206,7 +206,7 @@ const ViewSelectedIdea = () => {
         ]
     };
 
-    const showbutton = state && district && sdg;
+    const showbutton = state && sdg;
 
     const handleNext = () => {
         // here we can go for next page //

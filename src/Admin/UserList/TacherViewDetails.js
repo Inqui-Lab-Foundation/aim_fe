@@ -121,7 +121,7 @@ const ViewMore = () => {
 
                                 <CardText>
                                     <span className="mx-3">
-                                        <b>organization Name :</b>
+                                        <b>Organization Name :</b>
                                     </span>
                                     <b>{orgDaTa.organization_name}</b>
                                 </CardText>
@@ -231,9 +231,15 @@ const ViewMore = () => {
                                 </CardText>
                                 <CardText>
                                     <span className="mx-3">
-                                        <b>Mobile No :</b>
+                                        <b>Email Id :</b>
                                     </span>
                                     <b>{orgDaTa.mentor.user.username}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Mobile No :</b>
+                                    </span>
+                                    <b>{orgDaTa.mentor.mobile}</b>
                                 </CardText>
                                 <CardText>
                                     <span className="mx-3">

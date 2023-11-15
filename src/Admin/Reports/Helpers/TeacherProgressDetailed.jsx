@@ -25,7 +25,7 @@ const TeacherDetailed = () => {
     const [state, setState] = useState('');
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
-    const categoryData = ['ATL', 'Non ATL'];
+    const categoryData = ['ALL Categories', 'ATL', 'Non ATL'];
     // const categoryData =
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
@@ -321,10 +321,14 @@ const TeacherDetailed = () => {
     };
 
     const handleDownload = () => {
-        if (!state || !district || !category) {
+        if (
+            !state ||
+            //  || !district
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a state,district and category type before Downloading Reports.'
+                    'Please select a state and category type before Downloading Reports.'
             });
             return;
         }

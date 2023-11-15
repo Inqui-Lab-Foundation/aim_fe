@@ -572,7 +572,36 @@ const Dashboard = () => {
                                                             </p>
                                                         </Col>
                                                     </Row>
-
+                                                    <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>State</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {orgData.state}
+                                                            </p>
+                                                        </Col>
+                                                    </Row>
                                                     <Row className="pt-3 pb-3">
                                                         <Col
                                                             xs={5}

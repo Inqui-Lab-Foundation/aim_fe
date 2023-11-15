@@ -105,7 +105,6 @@ const TicketsPage = (props) => {
     const [registerModalShow, setRegisterModalShow] = useState(false);
     const [fetchData, setFetchData] = useState(false);
     let State = localStorage.getItem('state');
-    console.log(State, '1');
 
     useEffect(() => {
         if (tab === 3) {
