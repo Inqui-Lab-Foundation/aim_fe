@@ -278,8 +278,8 @@ const ReportsRegistration = () => {
             key: 'Grade'
         },
         {
-            label: 'Pre-Survey Status',
-            key: 'Pre Survey Status'
+            label: 'Disability status',
+            key: 'Disability status'
         },
         {
             label: 'Course Completion%',
