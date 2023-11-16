@@ -104,7 +104,7 @@ const ReportsRegistration = () => {
 
     const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
     const [category, setCategory] = useState('');
-    const categoryData = ['ATL', 'Non ATL'];
+    const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
     // const categoryData =
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
@@ -198,6 +198,10 @@ const ReportsRegistration = () => {
 
     const studentDetailsHeaders = [
         {
+            label: 'ATL CODE',
+            key: 'ATL code'
+        },
+        {
             label: 'UDISE CODE',
             key: 'UDISE code'
         },
@@ -208,6 +212,10 @@ const ReportsRegistration = () => {
         {
             label: 'School Type/Category',
             key: 'category'
+        },
+        {
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'District',
@@ -228,6 +236,10 @@ const ReportsRegistration = () => {
         {
             label: 'Teacher Name',
             key: 'Teacher Name'
+        },
+        {
+            label: 'Teacher Email',
+            key: 'Teacher Email'
         },
         {
             label: 'Teacher Gender',
@@ -266,8 +278,8 @@ const ReportsRegistration = () => {
             key: 'Grade'
         },
         {
-            label: 'Pre-Survey Status',
-            key: 'Pre Survey Status'
+            label: 'Disability status',
+            key: 'Disability status'
         },
         {
             label: 'Course Completion%',
@@ -345,7 +357,7 @@ const ReportsRegistration = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${RegTeachersdistrict}&category=${category}`;
+        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`;
 
         const config = {
             method: 'get',
@@ -395,10 +407,14 @@ const ReportsRegistration = () => {
     };
 
     const handleDownload = () => {
-        if (!RegTeachersState || !RegTeachersdistrict || !category) {
+        if (
+            !RegTeachersState ||
+            // || !RegTeachersdistrict
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a state ,district and category type before Downloading Reports.'
+                    'Please select a state and category type before Downloading Reports.'
             });
             return;
         }

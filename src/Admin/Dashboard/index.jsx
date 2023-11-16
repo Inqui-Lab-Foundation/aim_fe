@@ -48,7 +48,7 @@ const Dashboard = () => {
     const [mentorTeam, setMentorTeam] = useState([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState('');
-    const teacherId = mentorTeam[0]?.team_id;
+    // const teacherId = mentorTeam[0]?.team_id;
     const [isideadisable, setIsideadisable] = useState(false);
     const handleOnChange = (e) => {
         // we can give diescode as input //
@@ -251,7 +251,7 @@ const Dashboard = () => {
             data: orgData
         });
         localStorage.setItem('orgData', JSON.stringify(orgData));
-        localStorage.setItem('teacherId', JSON.stringify(teacherId));
+        // localStorage.setItem('teacherId', JSON.stringify(teacherId));
     };
     useEffect(() => {
         var config = {

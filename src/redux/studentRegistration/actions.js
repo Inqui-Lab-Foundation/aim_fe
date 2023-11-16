@@ -75,7 +75,7 @@ export const getStudentRegistationData = (studentType) => async (dispatch) => {
         } else {
             result = await axios
                 .get(
-                    `${URL.getStudents}?status=ALL&district=${studentType}`,
+                    `${URL.getStudents}?status=ALL&state=${studentType}`,
                     axiosConfig
                 )
                 .then((user) => user)

@@ -197,12 +197,12 @@ const EditSchool = (props) => {
                                 <div className="create-ticket register-block">
                                     <FormGroup className="form-group">
                                         <Row className="justify-content-center">
-                                            {/* <p style={{ color: 'red' }}>
+                                            <p style={{ color: 'red' }}>
                                                 Note : Here Editable Fields are
                                                 Institute/School
-                                                Name,City,Principal
+                                                Name,City,Address,Principal
                                                 Name,Principal Email.
-                                            </p> */}
+                                            </p>
                                             <Col md={4}>
                                                 <Label
                                                     className="mb-2"

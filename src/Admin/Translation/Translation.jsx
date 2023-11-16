@@ -89,6 +89,10 @@ const Translation = (props) => {
                 width: '50rem'
             },
             {
+                name:'language',
+                selector: 'to_locale',
+            },
+            {
                 name: 'Translation',
                 selector: 'value',
                 width: '50rem'

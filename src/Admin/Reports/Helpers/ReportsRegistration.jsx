@@ -31,7 +31,7 @@ const ReportsRegistration = () => {
     const [category, setCategory] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const filterOptions = ['Registered', 'Not Registered'];
-    const categoryData = ['ATL', 'Non ATL'];
+    const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
     // const categoryData =
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
@@ -75,8 +75,12 @@ const ReportsRegistration = () => {
             key: 'total_not_Reg_ATL'
         },
         {
-            label: 'Total Not Registered Teachers',
-            key: 'total_not_registered_teachers'
+            label: 'Total Registered ATL Schools',
+            key: 'ATL_Reg_Count'
+        },
+        {
+            label: 'Total Registered NON-ATL Schools',
+            key: 'NONATL_Reg_Count'
         },
         {
             label: 'Total Registered Teachers (ATL+Non-ATL)',
@@ -93,8 +97,12 @@ const ReportsRegistration = () => {
     ];
     const RegHeaders = [
         {
-            label: 'UDISE CODE',
+            label: 'ATL CODE',
             key: 'organization.organization_code'
+        },
+        {
+            label: 'UDISE CODE',
+            key: 'organization.unique_code'
         },
         {
             label: 'School Name',
@@ -105,12 +113,24 @@ const ReportsRegistration = () => {
             key: 'organization.category'
         },
         {
+            label: 'State',
+            key: 'organization.state'
+        },
+        {
             label: 'District',
             key: 'organization.district'
         },
         {
             label: 'City',
             key: 'organization.city'
+        },
+        {
+            label: 'Pin code',
+            key: 'organization.pin_code'
+        },
+        {
+            label: 'Address',
+            key: 'organization.address'
         },
         {
             label: 'HM Name',
@@ -123,6 +143,10 @@ const ReportsRegistration = () => {
         {
             label: 'Teacher Name',
             key: 'full_name'
+        },
+        {
+            label: 'Email ID',
+            key: 'user.username'
         },
         {
             label: 'Teacher Gender',
@@ -139,12 +163,12 @@ const ReportsRegistration = () => {
     ];
     const notRegHeaders = [
         {
-            label: 'Organization_Id',
-            key: 'organization_id'
+            label: 'ATL CODE',
+            key: 'organization_code'
         },
         {
             label: 'UDISE CODE',
-            key: 'organization_code'
+            key: 'unique_code'
         },
         {
             label: 'School Name',
@@ -155,6 +179,10 @@ const ReportsRegistration = () => {
             key: 'category'
         },
         {
+            label: 'State',
+            key: 'state'
+        },
+        {
             label: 'District',
             key: 'district'
         },
@@ -163,8 +191,12 @@ const ReportsRegistration = () => {
             key: 'city'
         },
         {
-            label: 'State',
-            key: 'state'
+            label: 'Pin code',
+            key: 'pin_code'
+        },
+        {
+            label: 'Address',
+            key: 'address'
         },
         {
             label: 'Country',
@@ -255,9 +287,9 @@ const ReportsRegistration = () => {
     const fetchData = (item) => {
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?state=${RegTeachersState}&district=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/notRegistered?state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`
                 : '';
 
         const config = {
@@ -299,13 +331,13 @@ const ReportsRegistration = () => {
     const handleDownload = () => {
         if (
             !RegTeachersState ||
-            !RegTeachersdistrict ||
+            // !RegTeachersdistrict ||
             !filterType ||
             !category
         ) {
             notification.warning({
                 message:
-                    'Please select a state,district,category and filter type before Downloading Reports.'
+                    'Please select a state,category and filter type before Downloading Reports.'
             });
             return;
         }
@@ -355,9 +387,9 @@ const ReportsRegistration = () => {
                     const lastRow = chartTableData[chartTableData.length - 1];
                     const maleCount = lastRow?.male_mentor_count || 0;
                     const femaleCount = lastRow?.female_mentor_count || 0;
-                    const regCount = lastRow?.total_registered_teachers || 0;
-                    const regNotCount =
-                        lastRow?.total_not_registered_teachers || 0;
+                    const ATLregCount = lastRow?.ATL_Reg_Count || 0;
+                    const NONATLregNotCount =
+                        lastRow?.NONATL_Reg_Count || 0;
 
                     setRegisteredGenderChartData({
                         labels: ['Male', 'Female'],
@@ -371,10 +403,10 @@ const ReportsRegistration = () => {
                     });
 
                     setRegisteredChartData({
-                        labels: ['Registered', 'Not Registered'],
+                        labels: ['ATL Registered', 'NON ATL Registered'],
                         datasets: [
                             {
-                                data: [regCount, regNotCount],
+                                data: [ATLregCount, NONATLregNotCount],
                                 backgroundColor: ['#36A2EB', '#FF6384'],
                                 hoverBackgroundColor: ['#36A2EB', '#FF6384']
                             }
@@ -543,9 +575,10 @@ const ReportsRegistration = () => {
                                                                     ATL Schools
                                                                 </th>
                                                                 <th>
-                                                                    Total
-                                                                    Registered
-                                                                    ATL Schools
+                                                                Total Registered ATL Schools
+                                                                </th>
+                                                                <th>
+                                                                Total Registered NON-ATL Schools
                                                                 </th>
                                                                 <th>
                                                                     Total
@@ -599,6 +632,11 @@ const ReportsRegistration = () => {
                                                                         <td>
                                                                             {
                                                                                 item.ATL_Reg_Count
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item.NONATL_Reg_Count
                                                                             }
                                                                         </td>
                                                                         <td>

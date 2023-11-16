@@ -29,6 +29,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import {
     getDistrictData,
+    getStateData,
     getStudentListSuccess,
     getStudentRegistationData,
     updateStudentStatus
@@ -46,6 +47,7 @@ const { TabPane } = Tabs;
 
 const SelectDists = ({
     getDistrictsListAction,
+    getStateDataListAction,
     dists,
     tab,
     setDist,
@@ -54,7 +56,7 @@ const SelectDists = ({
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (tab && (tab == 1 || tab == 2)) getDistrictsListAction();
+        if (tab && (tab == 1 || tab == 2)) getStateDataListAction();
     }, [tab]);
 
     const handleDists = (e) => {
@@ -75,7 +77,7 @@ const SelectDists = ({
             value={newDist}
             className="text-capitalize"
         >
-            <option value="">Select District</option>
+            <option value="">Select State</option>
 
             {dists && dists.length > 0 ? (
                 dists.map((item, i) => (
@@ -84,7 +86,7 @@ const SelectDists = ({
                     </option>
                 ))
             ) : (
-                <option value="">There are no Districts</option>
+                <option value="">There are no States</option>
             )}
         </select>
     );
@@ -105,7 +107,6 @@ const TicketsPage = (props) => {
     const [registerModalShow, setRegisterModalShow] = useState(false);
     const [fetchData, setFetchData] = useState(false);
     let State = localStorage.getItem('state');
-    console.log(State, '1');
 
     useEffect(() => {
         if (tab === 3) {
@@ -902,12 +903,12 @@ const TicketsPage = (props) => {
                                 {tab && tab == 1 && (
                                     <>
                                         <SelectDists
-                                            getDistrictsListAction={
-                                                props.getDistrictsListAction
+                                            getStateDataListAction={
+                                                props.getStateDataListAction
                                             }
                                             setDist={setstudentDist}
                                             newDist={studentDist}
-                                            dists={props.dists}
+                                            dists={props.regstate}
                                             tab={tab}
                                         />
                                         {studentDist && (
@@ -921,12 +922,12 @@ const TicketsPage = (props) => {
                                 {tab && tab == 2 && (
                                     <>
                                         <SelectDists
-                                            getDistrictsListAction={
-                                                props.getDistrictsListAction
+                                            getStateDataListAction={
+                                                props.getStateDataListAction
                                             }
                                             setDist={setmentorDist}
                                             newDist={mentorDist}
-                                            dists={props.dists}
+                                            dists={props.regstate}
                                             tab={tab}
                                         />
                                         {mentorDist && (
@@ -1156,20 +1157,22 @@ const mapStateToProps = ({
     const { evalutorsList } = adminEvalutors;
     const { adminData } = admin;
     const { mentorsList, totalItems } = adminMentors;
-    const { studentList, dists } = studentRegistration;
+    const { studentList, dists ,regstate } = studentRegistration;
     return {
         evalutorsList,
         adminData,
         mentorsList,
         totalItems,
         studentList,
-        dists
+        dists,
+        regstate
     };
 };
 export default connect(mapStateToProps, {
     getAdminMentorsListAction: getAdminMentorsList,
     getStudentListAction: getStudentRegistationData,
     getDistrictsListAction: getDistrictData,
+    getStateDataListAction: getStateData,
     getEvaluatorListAction: getAdminEvalutorsList,
     getAdminListAction: getAdmin,
     mentorStatusUpdate: updateMentorStatus,
