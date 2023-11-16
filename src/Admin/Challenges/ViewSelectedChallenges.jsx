@@ -45,7 +45,7 @@ const ViewSelectedIdea = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL SDGs');
+    SDGDate.unshift('ALL Themes');
     const fullStatesNames = useSelector(
         (state) => state?.studentRegistration?.regstate
     );
@@ -62,7 +62,7 @@ const ViewSelectedIdea = () => {
         (district && district !== 'All Districts'
             ? '&district=' + district
             : '') +
-        (sdg && sdg !== 'ALL SDGs' ? '&sdg=' + sdg : '');
+        (sdg && sdg !== 'ALL Themes' ? '&sdg=' + sdg : '');
 
     // useEffect(() => {
     //     dispatch(getDistrictData());
@@ -115,7 +115,7 @@ const ViewSelectedIdea = () => {
                 setshowspin(false);
             });
     }
-
+    console.log(tableData, '2');
     const evaluatedIdeaforsub = {
         data: tableData && tableData.length > 0 ? tableData : [],
         columns: [
@@ -206,7 +206,7 @@ const ViewSelectedIdea = () => {
         ]
     };
 
-    const showbutton = state && district && sdg;
+    const showbutton = state && sdg;
 
     const handleNext = () => {
         // here we can go for next page //

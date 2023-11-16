@@ -293,7 +293,7 @@
         "delete_success": "Team Member Delete Successfully",
         "ok": "Ok",
         "sure": "Are You Sure?",
-        "submit": "Submit",
+        "submit": "सब्मिट",
         "discard": "Discard",
         "view_team_member_details": " Team Members details",
         "view_team_member": "View Team Members",
@@ -306,9 +306,9 @@
         "male": "Male",
         "female": "Female",
         "others": "Others",
-        "edit_idea": "Edit Idea Submission",
-        "draft": "Save as Draft",
-        "loading": "Loading"
+        "edit_idea": "आइडिया सबमिशन संपादित करें",
+        "draft": "ड्राफ्ट के रूप में सेव करें",
+        "loading": "लोड हो रहा है"
     },
     "general_req": {
         "attempt_logout": "आप लॉगआउट करने का प्रयास कर रहे हैं",

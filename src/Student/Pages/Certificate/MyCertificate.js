@@ -91,6 +91,7 @@ const Certificate = ({
                             style={{
                                 position: 'absolute',
                                 top: `${type ? '8.5rem' : '8.9rem'}`,
+                                color: `${type ? 'black' : 'white'}`,
                                 left: `${type ? '11rem' : '11.5rem'}`,
                                 fontSize: '0.8rem',
                                 fontFamily: 'Times New Roman'
@@ -102,7 +103,7 @@ const Certificate = ({
                             className="text-capitalize"
                             style={{
                                 position: 'absolute',
-
+                                color: `${type ? 'black' : 'white'}`,
                                 top: `${type ? '9.8rem' : '10rem'}`,
                                 left: `${type ? '5rem' : '6rem'}`,
                                 fontSize: '0.8rem',

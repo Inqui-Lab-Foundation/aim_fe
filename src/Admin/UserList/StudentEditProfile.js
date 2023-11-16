@@ -49,10 +49,7 @@ const EditTeamMember = (props) => {
                 .max(18, 'Max age is 18')
                 .required('required'),
             gender: Yup.string().required('Please select valid gender'),
-            username: Yup.string()
-                .email('Must be a valid email')
-                .max(255)
-                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com'),
+            username: Yup.string().email('Must be a valid email').max(255),
             disability: Yup.string().required('Please select disability'),
             grade: Yup.string()
                 .matches('', 'Please enter valid class')
@@ -61,6 +58,20 @@ const EditTeamMember = (props) => {
         }),
 
         onSubmit: (values) => {
+            if (values.username) {
+                const start = values.username.indexOf('@');
+                const main = values.username.substring(start);
+                // console.log(main);
+                const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
+                const text = checkarry.includes(main);
+                if (!text) {
+                    openNotificationWithIcon(
+                        'error',
+                        'Email id should end with any of these "@gmail.com,@outlook.com,@yahoo.com"'
+                    );
+                    return;
+                }
+            }
             const body = {
                 // team_id: mentorData.team_id,
                 team_id: JSON.stringify(mentorData && mentorData.team_id),

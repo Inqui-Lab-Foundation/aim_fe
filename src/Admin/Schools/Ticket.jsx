@@ -277,6 +277,12 @@ const TicketsPage = (props) => {
                 width: '9rem'
             },
             {
+                name: 'State',
+                selector: 'state',
+                cellExport: (row) => row.state,
+                width: '17rem'
+            },
+            {
                 name: 'ATL Code ',
                 selector: 'organization_code',
                 cellExport: (row) => row.organization_code,
@@ -285,23 +291,19 @@ const TicketsPage = (props) => {
                 width: '15rem'
             },
             {
-                name: 'State',
-                selector: 'state',
-                cellExport: (row) => row.state,
-                width: '17rem'
+                name: 'District',
+                selector: 'district',
+                cellExport: (row) => row.district,
+                width: '18rem'
             },
+
             {
                 name: 'Institution Name',
                 selector: 'organization_name',
                 cellExport: (row) => row.organization_name,
                 width: '20rem'
             },
-            {
-                name: 'District',
-                selector: 'district',
-                cellExport: (row) => row.district,
-                width: '18rem'
-            },
+
             {
                 name: 'Category',
                 selector: 'category',
