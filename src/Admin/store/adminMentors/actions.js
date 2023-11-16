@@ -44,7 +44,7 @@ export const getAdminMentorsList = (status, district) => async (dispatch) => {
                 : URL.getMentors +
                   '?status=' +
                   mentorStatus +
-                  '&district=' +
+                  '&state=' +
                   district
         }`;
         const result = await axios

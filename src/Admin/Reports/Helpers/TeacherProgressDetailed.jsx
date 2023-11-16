@@ -25,7 +25,7 @@ const TeacherDetailed = () => {
     const [state, setState] = useState('');
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
-    const categoryData = ['ALL Categories', 'ATL', 'Non ATL'];
+    const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
     // const categoryData =
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
@@ -113,6 +113,10 @@ const TeacherDetailed = () => {
     ];
     const teacherDetailsHeaders = [
         {
+            label: 'ATL CODE',
+            key: 'ATL code'
+        },
+        {
             label: 'UDISE CODE',
             key: 'UDISE code'
         },
@@ -123,6 +127,10 @@ const TeacherDetailed = () => {
         {
             label: 'School Type/Category',
             key: 'category'
+        },
+        {
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'District',
@@ -145,6 +153,10 @@ const TeacherDetailed = () => {
             key: 'Teacher Name'
         },
         {
+            label: 'Teacher Email',
+            key: 'Teacher Email'
+        },
+        {
             label: 'Teacher Gender',
             key: 'Teacher Gender'
         },
@@ -155,10 +167,6 @@ const TeacherDetailed = () => {
         {
             label: 'Teacher WhatsApp Contact',
             key: 'Teacher WhatsApp Contact'
-        },
-        {
-            label: 'Pre Survey Status',
-            key: 'Pre Survey Status'
         },
         {
             label: 'Course Status',
@@ -175,14 +183,6 @@ const TeacherDetailed = () => {
         {
             label: 'No.of Students Enrollrd',
             key: 'student_count'
-        },
-        {
-            label: 'No.of Students Presurvey Completed',
-            key: 'preSur_cmp'
-        },
-        {
-            label: 'No.of Students Presurvey Not Started',
-            key: 'presurveyNotStarted'
         },
         {
             label: 'No.of Students Course Completed',
@@ -340,7 +340,7 @@ const TeacherDetailed = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?state=${state}&district=${district}&category=${category}`,
+                `/reports/mentordetailsreport?state=${state}&district=${district===''?'All Districts':district}&category=${category}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
