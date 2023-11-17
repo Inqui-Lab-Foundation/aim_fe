@@ -51,12 +51,13 @@ const EditProfile = (props) => {
             email: Yup.string()
                 .required('required')
                 .trim()
-                .matches(
-                    /^\d+$/,
-                    'Mobile number is not valid (Enter only digits)'
-                )
-                .max(10, 'Please enter only 10 digit valid number')
-                .min(10, 'Number is less than 10 digits')
+                .email('Please Enter Valid Email Id')
+            // .matches(
+            //     /^\d+$/,
+            //     'Mobile number is not valid (Enter only digits)'
+            // )
+            // .max(10, 'Please enter only 10 digit valid number')
+            // .min(10, 'Number is less than 10 digits')
         });
         if (data?.mentor_id)
             if (data?.evaluator_id)
@@ -198,7 +199,7 @@ const EditProfile = (props) => {
                                                 className="name-req mt-5"
                                                 htmlFor="email"
                                             >
-                                                Mobile No
+                                                Email Id
                                             </Label>
                                             <InputBox
                                                 className={'defaultInput'}
