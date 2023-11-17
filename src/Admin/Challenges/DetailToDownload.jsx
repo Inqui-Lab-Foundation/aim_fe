@@ -69,6 +69,18 @@ class detailToDownload extends React.Component {
                             className="text-capitalize"
                             style={{
                                 position: 'absolute',
+                                top: '46.5rem',
+                                left: '12.8rem',
+                                fontSize: '1.8rem',
+                                fontFamily: 'Poppins'
+                            }}
+                        >
+                            State : {this.props?.ideaDetails?.state}
+                        </span>
+                        <span
+                            className="text-capitalize"
+                            style={{
+                                position: 'absolute',
                                 top: '55rem',
                                 left: '28rem',
                                 fontSize: '1.8rem',
@@ -237,6 +249,8 @@ class detailToDownload extends React.Component {
                     {/* -------------questions answers---- */}
                     <div className="col-12">
                         <div style={{ borderStyle: 'solid', margin: '0 2rem' }}>
+                            <p className="mb-4 my-3  px-5 py-3 me-md-3"><b>Theme : </b> {this.props?.ideaDetails?.sdg}</p>
+                            <p className="mb-4 my-3  px-5 py-3 me-md-3"><b>Problem Statement : </b>{this.props?.ideaDetails?.sub_category}</p>
                             {this.props?.teamResponse &&
                                 this.props?.teamResponse.length > 0 &&
                                 this.props?.teamResponse.map((item, index) => {
