@@ -11,70 +11,70 @@ import axios from 'axios';
 import { URL, KEY } from '../../../constants/defaultValues';
 import Check from './Pages/Check';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDistrictData } from '../../../redux/studentRegistration/actions';
+import { getStateData } from '../../../redux/studentRegistration/actions';
 
 const EditEvalProcess = (props) => {
     const evalID = JSON.parse(localStorage.getItem('eavlId'));
     //  where evalID= evaluation_process_id //
     const dispatch = useDispatch();
     const [clickedValue, setclickedValue] = useState({});
-    const [selectedDistricts, setselectedDistricts] = useState([]);
+    const [selectedStates, setselectedStates] = useState([]);
 
     useEffect(() => {
-        dispatch(getDistrictData());
+        dispatch(getStateData());
     }, []);
 
-    const fullDistrictsNames = useSelector(
-        (state) => state?.studentRegistration?.dists
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
     );
 
     useEffect(() => {
-        // evalID && evalID.district
-        //     ? evalID.district.split(',').length ===
-        //           fullDistrictsNames.length - 1 &&
-        //       !evalID.district.includes('All Districts')
-        //         ? setselectedDistricts(fullDistrictsNames)
-        //         : setselectedDistricts(evalID.district.split(','))
+        // evalID && evalID.state
+        //     ? evalID.state.split(',').length ===
+        //           fullStatesNames.length - 1 &&
+        //       !evalID.state.includes('All States')
+        //         ? setselectedStates(fullStatesNames)
+        //         : setselectedStates(evalID.state.split(','))
         //     : '';
-        if (evalID && evalID.district) {
+        if (evalID && evalID.state) {
             if (
-                evalID.district.split(',').length ===
-                    fullDistrictsNames.length - 1 &&
-                !evalID.district.includes('All Districts')
+                evalID.state.split(',').length ===
+                    fullStatesNames.length - 1 &&
+                !evalID.state.includes('All States')
             ) {
-                setselectedDistricts(fullDistrictsNames);
+                setselectedStates(fullStatesNames);
             } else {
-                setselectedDistricts(evalID.district.split(','));
+                setselectedStates(evalID.state.split(','));
             }
         }
     }, []);
 
     useEffect(() => {
-        if (clickedValue.name === 'All Districts') {
-            if (selectedDistricts.includes('All Districts')) {
-                setselectedDistricts(fullDistrictsNames);
+        if (clickedValue.name === 'All States') {
+            if (selectedStates.includes('All States')) {
+                setselectedStates(fullStatesNames);
             } else {
-                setselectedDistricts([]);
+                setselectedStates([]);
             }
         } else if (
             clickedValue.name &&
-            clickedValue.name !== 'All Districts' &&
-            selectedDistricts.length === fullDistrictsNames.length - 1 &&
-            !selectedDistricts.includes('All Districts')
+            clickedValue.name !== 'All States' &&
+            selectedStates.length === fullStatesNames.length - 1 &&
+            !selectedStates.includes('All States')
         ) {
-            setselectedDistricts(fullDistrictsNames);
-        } else if (clickedValue.name && clickedValue.name !== 'All Districts') {
-            setselectedDistricts(
-                selectedDistricts?.filter((item) => item !== 'All Districts')
+            setselectedStates(fullStatesNames);
+        } else if (clickedValue.name && clickedValue.name !== 'All States') {
+            setselectedStates(
+                selectedStates?.filter((item) => item !== 'All States')
             );
         }
     }, [clickedValue]);
 
-    async function handledistricts(value) {
-        //  handledistricts Api where value = district //
-        // where we can update the district //
-        if(value.district===''){
-            value.district = '-';
+    async function handleStates(value) {
+        //  handleStates Api where value = state //
+        // where we can update the state //
+        if(value.state===''){
+            value.state = '-';
         }
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         await axios
@@ -87,7 +87,7 @@ const EditEvalProcess = (props) => {
                 if (response.status == 200) {
                     openNotificationWithIcon(
                         'success',
-                        'Districts Update Successfully'
+                        'States Update Successfully'
                     );
                     props.history.push('/eadmin/evaluationProcess');
                 }
@@ -98,14 +98,14 @@ const EditEvalProcess = (props) => {
     }
 
     const handleclick = async () => {
-        // where we can select  the districts //
-        const value = { district: '' };
-        selectedDistricts.includes('All Districts')
-            ? (value.district = selectedDistricts
-                  ?.filter((item) => item !== 'All Districts')
+        // where we can select  the States //
+        const value = { state: '' };
+        selectedStates.includes('All States')
+            ? (value.state = selectedStates
+                  ?.filter((item) => item !== 'All States')
                   .toString())
-            : (value.district = selectedDistricts.toString());
-        await handledistricts(value);
+            : (value.state = selectedStates.toString());
+        await handleStates(value);
     };
 
     return (
@@ -139,11 +139,11 @@ const EditEvalProcess = (props) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Label className="mb-2">Districts:</Label>
+                        <Label className="mb-2">States:</Label>
                         <Check
-                            list={fullDistrictsNames}
-                            value={selectedDistricts}
-                            setValue={setselectedDistricts}
+                            list={fullStatesNames}
+                            value={selectedStates}
+                            setValue={setselectedStates}
                             selValue={setclickedValue}
                         />
                     </Row>
