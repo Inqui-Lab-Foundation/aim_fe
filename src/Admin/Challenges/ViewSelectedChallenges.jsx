@@ -126,26 +126,76 @@ const ViewSelectedIdea = () => {
                 width: '10rem'
             },
             {
+                name: 'State',
+                selector: (row) => row.state,
+                width: '10rem'
+            },
+            {
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
                 name: 'Idea Name',
-                selector: (row) => row?.response[8]?.selected_option || '',
+                selector: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                width: '40rem'
+                // cell: (row) => (
+                //     <div
+                //         style={{
+                //             whiteSpace: 'pre-wrap',
+                //             wordWrap: 'break-word'
+                //         }}
+                //     >
+                //         {row.user.username}
+                //     </div>
+                // )
+                width: '25rem'
             },
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
+
                 width: '10rem'
+            },
+            {
+                name: 'Theme',
+                // selector: (row) => row.sdg,
+                selector: 'sdg',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sdg}
+                    </div>
+                ),
+                width: '15rem'
+            },
+            {
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
             },
             // {
-            //     name: 'SDG',
-            //     selector: (row) => row.sdg,
-            //     width: '15%'
+            //     name: 'District',
+            //     selector: (row) => row.district,
+            //     width: '10rem'
             // },
-            {
-                name: 'District',
-                selector: (row) => row.district,
-                width: '10rem'
-            },
             // {
             //     name: 'Team Name',
             //     selector: (row) => row.team_name || '',

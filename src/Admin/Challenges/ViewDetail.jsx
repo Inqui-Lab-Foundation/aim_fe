@@ -191,7 +191,7 @@ const ViewDetail = (props) => {
                                     <Row>
                                         <Col>
                                             <h2 className="mb-md-4 mb-3">
-                                                SDG :
+                                                Theme :
                                                 <span className="text-capitalize fs-3">
                                                     {props?.ideaDetails?.sdg?.toLowerCase() ||
                                                         ''}
@@ -208,6 +208,17 @@ const ViewDetail = (props) => {
                                                 </span>
                                             </h2>
                                         </Col>
+                                    </Row>
+                                    <Row className="col-md-12">
+                                        <h2>
+                                            <span style={{ color: 'blue' }}>
+                                                Problem Statement :{' '}
+                                            </span>
+                                            <span className="text-capitalize fs-3">
+                                                {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                    ''}
+                                            </span>
+                                        </h2>
                                     </Row>
                                 </div>
                                 <div className="col-lg-6 d-flex justify-content-end">

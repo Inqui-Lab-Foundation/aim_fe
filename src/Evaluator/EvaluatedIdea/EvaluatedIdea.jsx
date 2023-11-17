@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EvaluatedIdea.scss';
 import Layout from '../Layout';
 import DataTable, { Alignment } from 'react-data-table-component';
@@ -11,7 +12,10 @@ import { getL1EvaluatedIdea } from '../store/evaluator/action';
 import EvaluatedIdeaDetail from './EvaluatedIdeaDetail';
 import { Container, Row, Col } from 'reactstrap';
 import Select from '../Helper/Select';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
+import {
+    getDistrictData,
+    getStateData
+} from '../../redux/studentRegistration/actions';
 import {
     ReasonsOptions,
     reasondata2
@@ -29,13 +33,18 @@ const EvaluatedIdea = () => {
     const [district, setdistrict] = React.useState('');
     const [sdg, setsdg] = React.useState('');
     const [status, setstatus] = React.useState('');
+    const [state, setState] = useState('');
+
     const evaluatedIdeaList = useSelector(
         (state) => state?.evaluator.evaluatedIdeaL1
     );
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL SDGs');
+    SDGDate.unshift('ALL Themes');
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
+    );
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
@@ -51,10 +60,11 @@ const EvaluatedIdea = () => {
     const [tabledate, settabledate] = React.useState([]);
 
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getStateData());
     }, []);
     useEffect(() => {
-        if (district === '') {
+        if (state === '') {
             settabledate([]);
         } else {
             settabledate(evaluatedIdeaList);
@@ -73,8 +83,8 @@ const EvaluatedIdea = () => {
               (status === 'Accepted' ? 'SELECTEDROUND1' : 'REJECTEDROUND1')
             : '';
     const districtparam =
-        district && district !== 'All Districts' ? '&district=' + district : '';
-    const sdgparam = sdg && sdg !== 'ALL SDGs' ? '&sdg=' + sdg : '';
+        state && state !== 'All States' ? '&state=' + state : '';
+    const sdgparam = sdg && sdg !== 'ALL Themes' ? '&sdg=' + sdg : '';
     const filterParams =
         levelparam +
         statusparam +
@@ -109,7 +119,7 @@ const EvaluatedIdea = () => {
                 width: '15%'
             },
             {
-                name: 'SDG',
+                name: 'Theme',
                 selector: (row) => row.sdg,
                 width: '20%'
             },
@@ -221,12 +231,10 @@ const EvaluatedIdea = () => {
                                         <Col md={2}>
                                             <div className="my-3 d-md-block d-flex justify-content-center">
                                                 <Select
-                                                    list={fullDistrictsNames}
-                                                    setValue={setdistrict}
-                                                    placeHolder={
-                                                        'Select District'
-                                                    }
-                                                    value={district}
+                                                    list={fullStatesNames}
+                                                    setValue={setState}
+                                                    placeHolder={'Select State'}
+                                                    value={state}
                                                 />
                                             </div>
                                         </Col>
@@ -235,7 +243,9 @@ const EvaluatedIdea = () => {
                                                 <Select
                                                     list={SDGDate}
                                                     setValue={setsdg}
-                                                    placeHolder={'Select SDG'}
+                                                    placeHolder={
+                                                        'Select Themes'
+                                                    }
                                                     value={sdg}
                                                 />
                                             </div>
@@ -272,9 +282,7 @@ const EvaluatedIdea = () => {
                                             <div className="text-center">
                                                 <Button
                                                     btnClass={
-                                                        status &&
-                                                        district &&
-                                                        sdg
+                                                        status && state && sdg
                                                             ? 'primary'
                                                             : 'default'
                                                     }
@@ -283,7 +291,7 @@ const EvaluatedIdea = () => {
                                                     disabled={
                                                         !(
                                                             status &&
-                                                            district &&
+                                                            state &&
                                                             sdg
                                                         )
                                                     }
