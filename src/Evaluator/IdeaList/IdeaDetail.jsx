@@ -32,9 +32,9 @@ const IdeaDetail = (props) => {
         'Not filled - Inaccurate data (form is not filled properly)'
     ];
     const reasondata2 = [
-        'Lot of project effort visible (all of the 1, 2, 3,10, 14, 16 steps in the Idea Submission Format are clearly explained and are valid)',
-        'Some project effort visible (at least the steps 2,3,10 inthe Idea Submission Format are clearly explained and are valid)',
-        'Zero project effort visible (the steps 2,3 and 10 are not clear/relevant)'
+        'Lot of project effort visible ',
+        'Some project effort visible ',
+        'Zero project effort visible '
     ];
 
     const [levelName, setLevelName] = React.useState('');
@@ -147,7 +147,7 @@ const IdeaDetail = (props) => {
                                     <Row>
                                         <Col>
                                             <h2 className="mb-md-4 mb-3">
-                                                SDG :
+                                                Theme :
                                                 <span className="text-capitalize fs-3">
                                                     {props?.ideaDetails?.sdg?.toLowerCase() ||
                                                         ''}
@@ -193,6 +193,23 @@ const IdeaDetail = (props) => {
                                             onClick={() => props?.handleSkip()}
                                         />
                                     </div>
+                                </div>
+                                <div className="col-lg-12 mt-3">
+                                    <Row className="col-lg-12">
+                                        <h2>
+                                            <span
+                                                style={{
+                                                    color: 'blue'
+                                                }}
+                                            >
+                                                Problem Statement :{' '}
+                                            </span>
+                                            <span className="text-capitalize fs-3">
+                                                {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                    ''}
+                                            </span>
+                                        </h2>
+                                    </Row>
                                 </div>
                             </div>
                         </div>
@@ -355,17 +372,16 @@ const IdeaDetail = (props) => {
                                 <Select
                                     list={selectData}
                                     setValue={setReason}
-                                    placeHolder={
-                                        'Please Select Reject Reason'
-                                    }
+                                    placeHolder={'Please Select Reject Reason'}
                                     value={reason}
                                 />
                             </Col>
                             <Col className="m-5">
                                 <p className="text-left">
                                     <b>
-                                        2. Does the submission show any evidence of
-                                        efforts put in to complete the project?
+                                        2. Does the submission show any evidence
+                                        of efforts put in to complete the
+                                        project?
                                     </b>
                                 </p>
                                 <Select

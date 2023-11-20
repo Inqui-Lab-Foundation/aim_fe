@@ -209,13 +209,22 @@ const ViewSelectedIdea = () => {
                         {row.state}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[1]?.selected_option || '',
-                sortable: true,
-                width: '25rem'
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
+            },
+            {
+                name: 'CID',
+                selector: (row) => row.challenge_response_id,
+                width: '10rem'
             },
             {
                 name: 'Theme',
@@ -235,10 +244,41 @@ const ViewSelectedIdea = () => {
                 width: '25rem'
             },
             {
-                name: 'CID',
-                selector: (row) => row.challenge_response_id,
-                width: '10rem'
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
             },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                // sortable: true,
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
+            },
+
             // {
             //     name: 'District',
             //     selector: (row) => row.district,
@@ -354,13 +394,23 @@ const ViewSelectedIdea = () => {
                         {row.state}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[1]?.selected_option || '',
-                sortable: true,
-                width: '25rem'
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
+            },
+
+            {
+                name: 'CID',
+                selector: (row) => row.challenge_response_id,
+                width: '10rem'
             },
             {
                 name: 'Theme',
@@ -380,10 +430,41 @@ const ViewSelectedIdea = () => {
                 width: '25rem'
             },
             {
-                name: 'CID',
-                selector: (row) => row.challenge_response_id,
-                width: '10rem'
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
             },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                // sortable: true,
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
+            },
+
             // {
             //     name: 'District',
             //     selector: (row) => row.district,
@@ -501,19 +582,24 @@ const ViewSelectedIdea = () => {
                         {row.state}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[1]?.selected_option || '',
-                sortable: true,
-                width: '25rem'
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
             },
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
                 width: '7rem'
             },
+
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
@@ -527,6 +613,41 @@ const ViewSelectedIdea = () => {
                         }}
                     >
                         {row.sdg}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                // sortable: true,
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
                     </div>
                 ),
                 width: '25rem'
@@ -738,14 +859,19 @@ const ViewSelectedIdea = () => {
                         {row.state}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[1]?.selected_option || '',
-                // sortable: true,
-                width: '25rem'
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
             },
+            {
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
+            },
+
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
@@ -767,6 +893,41 @@ const ViewSelectedIdea = () => {
                     </div>
                 ),
                 width: '15rem'
+            },
+            {
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                // sortable: true,
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
             },
             // {
             //     name: 'District',

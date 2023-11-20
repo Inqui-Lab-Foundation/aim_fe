@@ -136,20 +136,9 @@ const ViewSelectedIdea = () => {
                 width: '15rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[1]?.selected_option || '',
-                // sortable: true,
-                // cell: (row) => (
-                //     <div
-                //         style={{
-                //             whiteSpace: 'pre-wrap',
-                //             wordWrap: 'break-word'
-                //         }}
-                //     >
-                //         {row.user.username}
-                //     </div>
-                // )
-                width: '25rem'
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
             },
             {
                 name: 'CID',
@@ -174,6 +163,7 @@ const ViewSelectedIdea = () => {
                 ),
                 width: '15rem'
             },
+
             {
                 name: 'Problem Statement',
                 // selector: (row) => row.sub_category,
@@ -187,6 +177,23 @@ const ViewSelectedIdea = () => {
                         }}
                     >
                         {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
                     </div>
                 ),
                 width: '25rem'

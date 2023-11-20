@@ -129,15 +129,37 @@ const ViewSelectedIdea = () => {
                 width: '10rem'
             },
             {
+                name: 'State',
+                selector: 'state',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.state}
+                    </div>
+                ),
+                width: '15rem'
+            },
+            {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
                 width: '15rem'
             },
             {
-                name: 'State',
-                selector: (row) => row.state,
+                name: 'Team Name',
+                selector: (row) => row.team_name,
                 width: '15rem'
             },
+            {
+                name: 'CID',
+                selector: (row) => row.challenge_response_id,
+                width: '10rem'
+            },
+
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
@@ -156,16 +178,41 @@ const ViewSelectedIdea = () => {
                 width: '15rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[1]?.selected_option || '',
-                // sortable: true,
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
                 width: '25rem'
             },
             {
-                name: 'CID',
-                selector: (row) => row.challenge_response_id,
-                width: '10rem'
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                // sortable: true,
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
             },
+
             // {
             //     name: 'SDG',
             //     selector: (row) => row.sdg,
