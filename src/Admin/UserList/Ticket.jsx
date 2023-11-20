@@ -699,14 +699,14 @@ const TicketsPage = (props) => {
                 selector: 'user.full_name',
                 width: '20rem'
             },
-            // {
-            //     name: 'Email',
-            //     selector: 'user.username',
-            //     width: '25rem'
-            // },
             {
-                name: 'Mobile',
+                name: 'Email',
                 selector: 'user.username',
+                width: '25rem'
+            },
+            {
+                name: 'Mobile No',
+                selector: 'mobile',
                 width: '20rem'
             },
             // {
@@ -1157,7 +1157,7 @@ const mapStateToProps = ({
     const { evalutorsList } = adminEvalutors;
     const { adminData } = admin;
     const { mentorsList, totalItems } = adminMentors;
-    const { studentList, dists ,regstate } = studentRegistration;
+    const { studentList, dists, regstate } = studentRegistration;
     return {
         evalutorsList,
         adminData,

@@ -204,7 +204,7 @@ const ViewDetail = (props) => {
                                     <Row>
                                         <Col>
                                             <h2 className="mb-md-4 mb-3">
-                                                SDG :
+                                                Theme :
                                                 <span className="text-capitalize fs-3">
                                                     {props?.ideaDetails?.sdg?.toLowerCase() ||
                                                         ''}
@@ -307,6 +307,23 @@ const ViewDetail = (props) => {
                                             content={() => componentRef.current}
                                         />
                                     </div> */}
+                                </div>
+                                <div className="col-lg-12 mt-3">
+                                    <Row className="col-lg-12">
+                                        <h2>
+                                            <span
+                                                style={{
+                                                    color: 'blue'
+                                                }}
+                                            >
+                                                Problem Statement :{' '}
+                                            </span>
+                                            <span className="text-capitalize fs-3">
+                                                {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                    ''}
+                                            </span>
+                                        </h2>
+                                    </Row>
                                 </div>
                             </div>
                         </div>
@@ -501,6 +518,7 @@ const ViewDetail = (props) => {
                             </div>
                         )}
                     </div>
+
                     <div>
                         <Button
                             btnClass="primary"

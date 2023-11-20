@@ -13,7 +13,7 @@ class detailToDownload extends React.Component {
         this.state = {};
     }
     render() {
-      
+        
         return (
             <div className="container-fluid bg-white">
                 <div className="row">
@@ -65,6 +65,18 @@ class detailToDownload extends React.Component {
                             }}
                         >
                             {this.props?.ideaDetails?.category}
+                        </span>
+                        <span
+                            className="text-capitalize"
+                            style={{
+                                position: 'absolute',
+                                top: '46.5rem',
+                                left: '12.8rem',
+                                fontSize: '1.8rem',
+                                fontFamily: 'Poppins'
+                            }}
+                        >
+                            State : {this.props?.ideaDetails?.state}
                         </span>
                         <span
                             className="text-capitalize"
@@ -124,7 +136,7 @@ class detailToDownload extends React.Component {
                                 fontWeight: 'bold'
                             }}
                         >
-                           {'Idea Title :'}
+                            {'Idea Title :'}
                         </span>
                         <span
                             style={{
@@ -137,7 +149,10 @@ class detailToDownload extends React.Component {
                                 width: '65%'
                             }}
                         >
-                            {this.props?.teamResponse && this.props?.teamResponse[7] ? this.props?.teamResponse[7].selected_option[0]:'-' }
+                            {this.props?.teamResponse &&
+                            this.props?.teamResponse[0]
+                                ? this.props?.teamResponse[0].selected_option[0]
+                                : '-'}
                         </span>
                         <span
                             style={{
@@ -149,7 +164,7 @@ class detailToDownload extends React.Component {
                                 fontWeight: 'bold'
                             }}
                         >
-                           {'Student Name :  '}
+                            {'Student Name :  '}
                         </span>
                         <span
                             style={{
@@ -165,7 +180,7 @@ class detailToDownload extends React.Component {
                             {this.props?.ideaDetails?.team_members &&
                                 this.props?.ideaDetails?.team_members.toString()}
                         </span>
-                        
+
                         <img
                             src={IdeaPage1}
                             alt="IdeaPage1"
@@ -225,9 +240,9 @@ class detailToDownload extends React.Component {
                             >
                                 Submitted on :
                             </span>{' '}
-                            {moment(this.props?.ideaDetails?.submitted_at).format(
-                                'DD-MM-YYYY'
-                            )}
+                            {moment(
+                                this.props?.ideaDetails?.submitted_at
+                            ).format('DD-MM-YYYY')}
                         </span>
                     </div>
 
@@ -235,6 +250,8 @@ class detailToDownload extends React.Component {
                     {/* -------------questions answers---- */}
                     <div className="col-12">
                         <div style={{ borderStyle: 'solid', margin: '0 2rem' }}>
+                            <p className="mb-4 my-3  px-5 py-3 me-md-3"><b>Theme : </b> {this.props?.ideaDetails?.sdg}</p>
+                            <p className="mb-4 my-3  px-5 py-3 me-md-3"><b>Problem Statement : </b>{this.props?.ideaDetails?.sub_category}</p>
                             {this.props?.teamResponse &&
                                 this.props?.teamResponse.length > 0 &&
                                 this.props?.teamResponse.map((item, index) => {

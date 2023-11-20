@@ -163,20 +163,20 @@ const ViewDetail = (props) => {
     };
 
     const componentRef = useRef();
-const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: `${
-        props?.ideaDetails?.team_name
-            ? props?.ideaDetails?.team_name
-            : 'temp'
-    }_IdeaSubmission`
-});
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: `${
+            props?.ideaDetails?.team_name
+                ? props?.ideaDetails?.team_name
+                : 'temp'
+        }_IdeaSubmission`
+    });
 
     return (
         <div>
             {teamResponse && teamResponse?.length > 0 ? (
                 <>
-                <div style={{ display: 'none' }}>
+                    <div style={{ display: 'none' }}>
                         <DetailToDownload
                             ref={componentRef}
                             ideaDetails={props?.ideaDetails}
@@ -198,7 +198,7 @@ const handlePrint = useReactToPrint({
                                     <Row>
                                         <Col>
                                             <h2 className="mb-md-4 mb-3">
-                                                SDG :
+                                                Theme :
                                                 <span className="text-capitalize fs-3">
                                                     {props?.ideaDetails?.sdg?.toLowerCase() ||
                                                         ''}
@@ -274,6 +274,23 @@ const handlePrint = useReactToPrint({
                                             onClick={handlePrint}
                                         />
                                     </div>
+                                </div>
+                                <div className="col-lg-12 mt-3">
+                                    <Row className="col-lg-12">
+                                        <h2>
+                                            <span
+                                                style={{
+                                                    color: 'blue'
+                                                }}
+                                            >
+                                                Problem Statement :{' '}
+                                            </span>
+                                            <span className="text-capitalize fs-3">
+                                                {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                    ''}
+                                            </span>
+                                        </h2>
+                                    </Row>
                                 </div>
                             </div>
                         </div>
@@ -385,7 +402,7 @@ const handlePrint = useReactToPrint({
 
                                 {props?.ideaDetails?.evaluation_status ==
                                     'REJECTEDROUND1' && (
-                                        <>
+                                    <>
                                         <p className="text-center">
                                             <span className="text-bold">
                                                 Rejected Reason 1:{' '}

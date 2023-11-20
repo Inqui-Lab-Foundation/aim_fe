@@ -191,7 +191,7 @@ const ViewDetail = (props) => {
                                     <Row>
                                         <Col>
                                             <h2 className="mb-md-4 mb-3">
-                                                SDG :
+                                                Theme :
                                                 <span className="text-capitalize fs-3">
                                                     {props?.ideaDetails?.sdg?.toLowerCase() ||
                                                         ''}
@@ -209,7 +209,25 @@ const ViewDetail = (props) => {
                                             </h2>
                                         </Col>
                                     </Row>
+                                    {/* <div className="col-lg-12">
+                                        <Row className="col-lg-12">
+                                            <h2>
+                                                <span
+                                                    style={{
+                                                        color: 'blue'
+                                                    }}
+                                                >
+                                                    Problem Statement :{' '}
+                                                </span>
+                                                <span className="text-capitalize fs-3">
+                                                    {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                        ''}
+                                                </span>
+                                            </h2>
+                                        </Row>
+                                    </div> */}
                                 </div>
+
                                 <div className="col-lg-6 d-flex justify-content-end">
                                     <div className="ms-auto me-sm-3 p-0">
                                         <Button
@@ -256,6 +274,7 @@ const ViewDetail = (props) => {
                                             size={22}
                                             onClick={handlePrint}
                                         />
+
                                         {/* <Button
                                             onClick={handlePrint}
                                             label={'Download'}
@@ -285,6 +304,23 @@ const ViewDetail = (props) => {
                                             content={() => componentRef.current}
                                         />
                                     </div> */}
+                                </div>
+                                <div className="col-lg-12 mt-3">
+                                    <Row className="col-lg-12">
+                                        <h2>
+                                            <span
+                                                style={{
+                                                    color: 'blue'
+                                                }}
+                                            >
+                                                Problem Statement :{' '}
+                                            </span>
+                                            <span className="text-capitalize fs-3">
+                                                {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                    ''}
+                                            </span>
+                                        </h2>
+                                    </Row>
                                 </div>
                             </div>
                         </div>
