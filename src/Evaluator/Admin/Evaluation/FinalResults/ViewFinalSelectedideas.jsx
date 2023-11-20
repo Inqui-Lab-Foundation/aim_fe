@@ -139,15 +139,87 @@ const ViewSelectedIdea = () => {
                 width: '8rem'
             },
             {
+                name: 'State',
+                selector: 'state',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.state}
+                    </div>
+                ),
+                width: '15rem'
+            },
+            {
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
+            },
+            {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
                 width: '6rem'
             },
             {
+                name: 'Theme',
+                // selector: (row) => row.sdg,
+                selector: 'sdg',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sdg}
+                    </div>
+                ),
+                width: '15rem'
+            },
+            {
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
                 name: 'Idea Name',
-                selector: (row) => row?.response[8]?.selected_option || '',
+                // selector: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                width: '27rem'
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
             },
             // {
             //     name: 'District',
@@ -484,7 +556,7 @@ const ViewSelectedIdea = () => {
                                                         list={SDGDate}
                                                         setValue={setsdg}
                                                         placeHolder={
-                                                            'Select SDG'
+                                                            'Select Themes'
                                                         }
                                                         value={sdg}
                                                     />

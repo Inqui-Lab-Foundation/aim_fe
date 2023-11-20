@@ -179,7 +179,7 @@ const detailToDownload = (props) => {
                         </p>
                         <div className="row my-2">
                             <div className="col-12 fw-bold fs-4">
-                                SDG{' '}
+                                Theme{' '}
                                 <span className="col-10 text-capitalize fs-4">
                                     {' '}
                                     : {props?.ideaDetails?.sdg}
