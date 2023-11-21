@@ -12,7 +12,7 @@ import {
     teacherResetPassword
 } from '../../Admin/store/admin/actions';
 import { Col, Container, Row, CardBody, CardText } from 'reactstrap';
-import './dashboard.scss';
+// import './dashboard.scss';
 import { useHistory } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import DataTable, { Alignment } from 'react-data-table-component';
@@ -30,8 +30,7 @@ import {
     openNotificationWithIcon
 } from '../../helpers/Utils';
 import { Card } from 'react-bootstrap';
-import TeacherLatestNewsScroll from './TeacherLatestNewsScroll';
-import StudentLatestNewsScroll from './StudentLatestNewsScroll';
+
 const Dashboard = () => {
     // here we can see the registration details //
     const history = useHistory();
@@ -49,23 +48,18 @@ const Dashboard = () => {
     const [mentorTeam, setMentorTeam] = useState([]);
     const [count, setCount] = useState(0);
     const [error, setError] = useState('');
-    const [wrong, setWrong] = useState('');
     const [isideadisable, setIsideadisable] = useState(false);
-    const [isSameDistrict, setIsSameDistrict] = useState(false);
-    const handleOnChange = (e) => {
-        setWrong('');
+    // const Mentor = JSON.parse(localStorage.getItem('mentor'));
 
+    const handleOnChange = (e) => {
         // we can give diescode as input //
         //where organization_code = diescode //
         localStorage.removeItem('organization_code');
-        // setIsSameDistrict(true);
         setCount(0);
         setDiesCode(e.target.value);
         setOrgData({});
         setError('');
     };
-
-    // console.log(stuData, 'reg');
     useEffect(async () => {
         // where list = diescode //
         //where organization_code = diescode //
@@ -90,15 +84,11 @@ const Dashboard = () => {
 
         await axios(config)
             .then(async function (response) {
-                setWrong('');
-
                 if (response.status == 200) {
                     setOrgData(response?.data?.data[0]);
-                    // console.log(orgData);
                     setCount(count + 1);
                     setMentorId(response?.data?.data[0]?.mentor.mentor_id);
                     setError('');
-                    setWrong('');
 
                     if (response?.data?.data[0]?.mentor.mentor_id) {
                         await getMentorIdApi(
@@ -120,7 +110,7 @@ const Dashboard = () => {
         // we can see Registration Details & Mentor Details //
 
         const body = JSON.stringify({
-            organization_code: diesCode.trim()
+            organization_code: diesCode
         });
         var config = {
             method: 'post',
@@ -133,28 +123,14 @@ const Dashboard = () => {
 
         axios(config)
             .then(async function (response) {
-                setWrong('');
                 if (response.status == 200) {
-                    if (
-                        response?.data?.data[0].state ===
-                        currentUser?.data[0]?.state_name
-                    ) {
-                        // setIsSameDistrict(false);
-
-                        setOrgData(response?.data?.data[0]);
-                        setCount(count + 1);
-                        setMentorId(response?.data?.data[0]?.mentor.mentor_id);
-                        setError('');
-                        setWrong('');
-                        if (response?.data?.data[0]?.mentor.mentor_id) {
-                            await getMentorIdApi(
-                                response?.data?.data[0]?.mentor.mentor_id
-                            );
-                        }
-                    } else {
-                        // setIsSameDistrict(true);
-                        setWrong(
-                            'You are not authorised to look at other state data'
+                    setOrgData(response?.data?.data[0]);
+                    setCount(count + 1);
+                    setMentorId(response?.data?.data[0]?.mentor.mentor_id);
+                    setError('');
+                    if (response?.data?.data[0]?.mentor.mentor_id) {
+                        await getMentorIdApi(
+                            response?.data?.data[0]?.mentor.mentor_id
                         );
                     }
                 }
@@ -181,8 +157,6 @@ const Dashboard = () => {
             .get(`${URL.getTeamMembersList}`, axiosConfig)
             .then((res) => {
                 if (res?.status == 200) {
-                    // setIsSameDistrict(true);
-
                     var mentorTeamArray = [];
                     res &&
                         res.data &&
@@ -201,21 +175,24 @@ const Dashboard = () => {
             });
     }
 
-    // const handleEdit = () => {
-    //     //  here  We can edit the Registration details //
-    //     // Where data = orgData //
-    //     history.push({
-    //         pathname: '/admin/edit-user-profile',
-    //         data: {
-    //             full_name: orgData.mentor?.full_name,
-    //             // mobile: orgData.mentor?.mobile,
-    //             username: orgData.mentor?.user?.username,
-    //             mentor_id: orgData.mentor?.mentor_id,
-    //             where: 'Dashbord',
-    //             organization_code: orgData.organization_code
-    //         }
-    //     });
-    // };
+    const handleEdit = () => {
+        //  here  We can edit the Registration details //
+        // Where data = orgData //
+        history.push({
+            pathname: '/coordinator/mentor/edit-user-profile',
+            data: {
+                full_name: orgData.mentor?.full_name,
+                mobile: orgData.mentor?.mobile,
+                username: orgData.mentor?.user?.username,
+                mentor_id: orgData.mentor?.mentor_id,
+                where: 'Dashbord',
+                organization_code: orgData.organization_code,
+                title: orgData.mentor?.title,
+                gender: orgData.mentor?.gender,
+                whatapp_mobile: orgData.mentor?.whatapp_mobile
+            }
+        });
+    };
 
     const handleresetpassword = (data) => {
         //  here we can reset the password as disecode //
@@ -272,7 +249,7 @@ const Dashboard = () => {
         // where we can see all details //
         // where orgData = orgnization details , Mentor details //
         history.push({
-            pathname: '/coordinator/View-More-details',
+            pathname: '/coordinator/teacher/View-More-details',
             data: orgData
         });
         localStorage.setItem('orgData', JSON.stringify(orgData));
@@ -327,84 +304,39 @@ const Dashboard = () => {
                 selector: 'ideaStatus',
                 center: true,
                 width: '25%'
+            },
+            {
+                name: 'Actions',
+                cell: (params) => {
+                    return [
+                        <>
+                            {params.ideaStatus == 'SUBMITTED' && (
+                                <Button
+                                    key={params}
+                                    className={
+                                        isideadisable
+                                            ? `btn btn-success btn-lg mr-5 mx-2`
+                                            : `btn btn-lg mr-5 mx-2`
+                                    }
+                                    label={'REVOKE'}
+                                    size="small"
+                                    shape="btn-square"
+                                    onClick={() =>
+                                        handleRevoke(
+                                            params.challenge_response_id,
+                                            params.ideaStatus
+                                        )
+                                    }
+                                    disabled={!isideadisable}
+                                />
+                            )}
+                        </>
+                    ];
+                },
+                width: '20%',
+                center: true
             }
-            // {
-            //     name: 'Actions',
-            //     cell: (params) => {
-            //         return [
-            //             <>
-            //                 {params.ideaStatus == 'SUBMITTED' && (
-            //                     <Button
-            //                         key={params}
-            //                         className={
-            //                             isideadisable
-            //                                 ? `btn btn-success btn-lg mr-5 mx-2`
-            //                                 : `btn btn-lg mr-5 mx-2`
-            //                         }
-            //                         label={'REVOKE'}
-            //                         size="small"
-            //                         shape="btn-square"
-            //                         onClick={() =>
-            //                             handleRevoke(
-            //                                 params.challenge_response_id,
-            //                                 params.ideaStatus
-            //                             )
-            //                         }
-            //                         disabled={!isideadisable}
-            //                     />
-            //                 )}
-            //             </>
-            //         ];
-            //     },
-            //     width: '20%',
-            //     center: true
-            // }
         ]
-    };
-    const [teams, setTeam] = useState('-');
-    const [subIdea, setSubIdea] = useState('-');
-    const [stuCourseComplete, setStuCourseComplete] = useState('-');
-    const [stuCount, setStuCount] = useState('-');
-    const [schoolCount, setSchoolCount] = useState('-');
-    const [tecCourse, setTecCourse] = useState('-');
-    useEffect(() => {
-        regData();
-        mentData();
-        cardData();
-        // setIsSameDistrict(true);
-    }, []);
-    const regData = () => {
-        const config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/reports/studentdetailstable?district=${currentUser?.data[0]?.district_name}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser?.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    // console.log(response);
-                    setTeam(response.data.data[0].summary[0].totalTeams);
-                    setSubIdea(
-                        response.data.data[0].submittedCount[0].submittedCount
-                    );
-                    setStuCourseComplete(
-                        response.data.data[0].courseCompleted[0]
-                            .studentCourseCMP
-                    );
-                    setStuCount(
-                        response.data.data[0].studentCountDetails[0]
-                            .totalstudent
-                    );
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
     };
     const handleRevoke = async (id, type) => {
         // where id = challenge response id //
@@ -434,52 +366,6 @@ const Dashboard = () => {
                         ''
                     );
                     await getMentorIdApi(mentorId);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-    const mentData = () => {
-        const config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentorsummary?district=${currentUser?.data[0]?.district_name}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser?.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    // console.log(response);
-                    setSchoolCount(response.data.data[0].organization_count);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-    const cardData = () => {
-        const config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailstable?district=${currentUser?.data[0]?.district_name}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser?.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    // console.log(response);
-                    setTecCourse(
-                        response.data.data[0].courseCompleted[0].courseCMP
-                    );
                 }
             })
             .catch(function (error) {
@@ -522,271 +408,32 @@ const Dashboard = () => {
     //         });
     // };
 
-    // useEffect(() => {
-    //     const config = {
-    //         method: 'get',
-    //         url:
-    //             process.env.REACT_APP_API_BASE_URL +
-    //             `/reports/mentorsummary?district=${currentUser?.data[0]?.district_name}`,
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             Authorization: `Bearer ${currentUser?.data[0]?.token}`
-    //         }
-    //     };
-
-    //     axios(config)
-    //         .then((response) => {
-    //             if (response.status === 200) {
-    //                 // console.log(response);
-    //                 setRegData(response?.data?.data);
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.log('API error:', error);
-    //         });
-    // }, []);
     return (
         <Layout>
             <div className="dashboard-wrapper pb-5 my-5 px-5">
                 <h2 className="mb-5">Dashboard </h2>
                 <div className="dashboard p-5 mb-5">
+                    <div className="text-right">
+                        <Button
+                            label="Back"
+                            size="small"
+                            btnClass="primary mb-3"
+                            type="cancel"
+                            onClick={() =>
+                                history.push('/coordinator/userlist')
+                            }
+                        />
+                    </div>
                     <div className="row " style={{ overflow: 'auto' }}>
-                        <div className=" row col-xs-12 col-md-7">
-                            <Row>
-                                <Col
-                                    style={{
-                                        paddingRight: '20px',
-                                        paddingTop: '1rem',
-                                        paddingLeft: '2rem'
-                                    }}
-                                >
-                                    {/* <Row> */}
-                                    <Card
-                                        bg="light"
-                                        text="dark"
-                                        className="mb-4"
-                                        style={{ height: '120px' }}
-                                    >
-                                        <Card.Body>
-                                            <label htmlFor="teams" className="">
-                                                Total Schools
-                                            </label>
-
-                                            <Card.Text
-                                                style={{
-                                                    fontSize: '30px',
-                                                    fontWeight: 'bold',
-                                                    marginTop: '10px',
-                                                    marginBottom: '20px'
-                                                }}
-                                            >
-                                                {schoolCount}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                                <Col
-                                    style={{
-                                        paddingRight: '20px',
-                                        paddingTop: '1rem',
-                                        paddingLeft: '2rem'
-                                    }}
-                                >
-                                    {/* <Row> */}
-                                    <Card
-                                        bg="light"
-                                        text="dark"
-                                        className="mb-4"
-                                        style={{ height: '120px' }}
-                                    >
-                                        <Card.Body>
-                                            <label htmlFor="teams" className="">
-                                                Total Teams
-                                            </label>
-                                            <Card.Text
-                                                style={{
-                                                    fontSize: '30px',
-                                                    fontWeight: 'bold',
-                                                    marginTop: '10px',
-                                                    marginBottom: '20px'
-                                                }}
-                                            >
-                                                {teams}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                    {/* </Row> */}
-                                </Col>
-                                <Col
-                                    style={{
-                                        paddingRight: '20px',
-                                        paddingTop: '1rem',
-                                        paddingLeft: '2rem'
-                                    }}
-                                >
-                                    {/* <Row> */}
-                                    <Card
-                                        bg="light"
-                                        text="dark"
-                                        className="mb-4"
-                                        style={{ height: '120px' }}
-                                    >
-                                        <Card.Body>
-                                            <label htmlFor="teams" className="">
-                                                Total Students
-                                            </label>
-                                            <Card.Text
-                                                style={{
-                                                    fontSize: '30px',
-                                                    fontWeight: 'bold',
-                                                    marginTop: '10px',
-                                                    marginBottom: '20px'
-                                                }}
-                                            >
-                                                {stuCount}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                    {/* </Row> */}
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col
-                                    style={{
-                                        paddingRight: '20px',
-                                        paddingTop: '1rem',
-                                        paddingLeft: '2rem'
-                                    }}
-                                >
-                                    {/* <Row> */}
-                                    <Card
-                                        bg="light"
-                                        text="dark"
-                                        className="mb-4"
-                                        // style={{ height: '120px' }}
-                                    >
-                                        <Card.Body>
-                                            <label htmlFor="teams" className="">
-                                                No Of Teachers Completed Course
-                                            </label>
-
-                                            <Card.Text
-                                                style={{
-                                                    fontSize: '30px',
-                                                    fontWeight: 'bold',
-                                                    marginTop: '10px',
-                                                    marginBottom: '20px'
-                                                }}
-                                            >
-                                                {tecCourse}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                                <Col
-                                    style={{
-                                        paddingRight: '20px',
-                                        paddingTop: '1rem',
-                                        paddingLeft: '2rem'
-                                    }}
-                                >
-                                    {/* <Row> */}
-                                    <Card
-                                        bg="light"
-                                        text="dark"
-                                        className="mb-4"
-                                        // style={{ height: '120px' }}
-                                    >
-                                        <Card.Body>
-                                            <label htmlFor="teams" className="">
-                                                No Of Students Completed Course
-                                            </label>
-                                            <Card.Text
-                                                style={{
-                                                    fontSize: '30px',
-                                                    fontWeight: 'bold',
-                                                    marginTop: '10px',
-                                                    marginBottom: '20px'
-                                                }}
-                                            >
-                                                {stuCourseComplete}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                    {/* </Row> */}
-                                </Col>
-                                <Col
-                                    style={{
-                                        paddingRight: '20px',
-                                        paddingTop: '1rem',
-                                        paddingLeft: '2rem'
-                                    }}
-                                >
-                                    {/* <Row> */}
-                                    <Card
-                                        bg="light"
-                                        text="dark"
-                                        className="mb-4"
-                                        // style={{ height: '120px' }}
-                                    >
-                                        <Card.Body>
-                                            <label htmlFor="teams" className="">
-                                                Total Ideas Submitted
-                                            </label>
-                                            <Card.Text
-                                                style={{
-                                                    fontSize: '30px',
-                                                    fontWeight: 'bold',
-                                                    marginTop: '10px',
-                                                    marginBottom: '20px'
-                                                }}
-                                            >
-                                                {subIdea}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                    {/* </Row> */}
-                                </Col>
-                            </Row>
-
-                            <Row className="mb-5">
-                                {/* <Col className="md-5 "> */}
-                                <Col>
-                                    <Card bg="light" text="dark">
-                                        <Card.Body
-                                            style={{ overflowX: 'auto' }}
-                                        >
-                                            <TeacherLatestNewsScroll
-                                                usersdata={currentUser?.data}
-                                            />
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                                {/* </Col> */}
-                            </Row>
-                            <Row className="mb-5">
-                                {/* <Col className="md-5 "> */}
-                                {/* <Col> */}
-                                <Card bg="light" text="dark">
-                                    <Card.Body style={{ overflowX: 'auto' }}>
-                                        <StudentLatestNewsScroll
-                                            usersdata={currentUser?.data}
-                                        />
-                                    </Card.Body>
-                                </Card>
-                                {/* </Col> */}
-                                {/* </Col> */}
-                            </Row>
-                        </div>
-                        <div className=" row  col-xs-12 col-md-5">
+                        <div className=" row  col-12 col-md-12">
                             <div
                                 style={{ flex: 1, overflow: 'auto' }}
                                 className="bg-white rounded px-5 py-3 col-lg-12 disc-card-search col-12"
                             >
-                                <h2 className="mt-3">
+                                {/* <h2 className="mt-3">
                                     Search Registration Details
-                                </h2>
-                                <Row className="text-center justify-content-md-center my-4">
+                                </h2> */}
+                                {/* <Row className="text-center justify-content-md-center my-4">
                                     <Col md={9} lg={12}>
                                         <Row>
                                             <Col md={9} className="my-auto">
@@ -822,7 +469,7 @@ const Dashboard = () => {
                                             </Col>
                                         </Row>
                                     </Col>
-                                </Row>
+                                </Row> */}
 
                                 {orgData &&
                                 orgData?.organization_name &&
@@ -927,6 +574,36 @@ const Dashboard = () => {
                                                             </p>
                                                         </Col>
                                                     </Row>
+                                                    {/* <Row className="pt-3 pb-3">
+                                                        <Col
+                                                            xs={5}
+                                                            sm={5}
+                                                            md={5}
+                                                            xl={5}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>City</p>
+                                                        </Col>
+                                                        <Col
+                                                            xs={1}
+                                                            sm={1}
+                                                            md={1}
+                                                            xl={1}
+                                                        >
+                                                            :
+                                                        </Col>
+                                                        <Col
+                                                            xs={6}
+                                                            sm={6}
+                                                            md={6}
+                                                            xl={6}
+                                                            className="my-auto profile-detail"
+                                                        >
+                                                            <p>
+                                                                {orgData.city}
+                                                            </p>
+                                                        </Col>
+                                                    </Row> */}
                                                     <Row className="pt-3 pb-3">
                                                         <Col
                                                             xs={5}
@@ -1055,6 +732,7 @@ const Dashboard = () => {
                                                             </p>
                                                         </Col>
                                                     </Row>
+
                                                     <Row className="pt-3 pb-3">
                                                         <Col
                                                             xs={5}
@@ -1063,9 +741,7 @@ const Dashboard = () => {
                                                             xl={5}
                                                             className="my-auto profile-detail"
                                                         >
-                                                            <p>
-                                                                Teacher Email Id
-                                                            </p>
+                                                            <p>Email Id</p>
                                                         </Col>
                                                         <Col
                                                             xs={1}
@@ -1169,7 +845,7 @@ const Dashboard = () => {
                                         {/* </div> */}
                                         {/* <div className="d-flex justify-content-between"> */}
                                         <div className="d-flex justify-content-between flex-column flex-md-row">
-                                            {/* <button
+                                            <button
                                                 className="btn  rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"
                                                 style={{
                                                     backgroundColor: '#ffcb34'
@@ -1178,7 +854,7 @@ const Dashboard = () => {
                                                 //className="btn btn-warning btn-lg  px-4"
                                             >
                                                 Edit
-                                            </button> */}
+                                            </button>
                                             <button
                                                 onClick={() =>
                                                     handleresetpassword({
@@ -1273,19 +949,6 @@ const Dashboard = () => {
                                         </span>
                                     </div>
                                 )}
-                                {wrong && diesCode && (
-                                    <div className="text-danger mt-3 p-4 fs-highlight d-flex justify-content-center align-items-center">
-                                        <span>{wrong}</span>
-                                    </div>
-                                )}
-                                {/* {wrong && (
-                                    <div className="d-flex  mt-3 p-4 justify-content-center align-items-center">
-                                        <span className="text-danger fs-highlight">
-                                            You are not authorised to look at
-                                            other district data
-                                        </span>
-                                    </div>
-                                )} */}
                             </div>
                         </div>
                     </div>

@@ -58,29 +58,14 @@ const EditTeamMember = (props) => {
         }),
 
         onSubmit: (values) => {
-            // if (values.username) {
-            //     const start = values.username.indexOf('@');
-            //     const main = values.username.substring(start);
-            //     // console.log(main);
-            //     const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
-            //     const text = checkarry.includes(main);
-            //     if (!text) {
-            //         openNotificationWithIcon(
-            //             'error',
-            //             'Email id should end with any of these "@gmail.com,@outlook.com,@yahoo.com"'
-            //         );
-            //         return;
-            //     }
-            // }
             const body = {
                 // team_id: mentorData.team_id,
                 team_id: JSON.stringify(mentorData && mentorData.team_id),
                 role: 'STUDENT',
                 full_name: values.fullName,
                 Age: values.age,
-                disability: values.disability,
                 Grade: values.grade,
-
+                disability: values.disability,
                 Gender: values.gender
             };
             if (mentorData && mentorData.username !== values.username) {
@@ -105,7 +90,7 @@ const EditTeamMember = (props) => {
                             'success',
                             ' Updated Successfully'
                         );
-                        props.history.push('/admin/userlist');
+                        props.history.push('/coordinator/userlist');
                         // handleView(teamMemberData);
                     } else {
                         openNotificationWithIcon(
@@ -231,7 +216,7 @@ const EditTeamMember = (props) => {
                                     </Row>
 
                                     <Row>
-                                        <Col md={4} className="mb-5 mb-xl-0">
+                                        <Col md={4}>
                                             <Label
                                                 className="name-req"
                                                 htmlFor="grade"
@@ -380,7 +365,7 @@ const EditTeamMember = (props) => {
                                             size="small"
                                             onClick={() =>
                                                 props.history.push(
-                                                    '/admin/userlist'
+                                                    '/coordinator/userlist'
                                                 )
                                             }
                                         />
