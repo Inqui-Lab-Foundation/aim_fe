@@ -84,7 +84,7 @@ const CommonUserProfile = (props) => {
         localStorage.setItem('dist', props.location.dist);
         localStorage.setItem('num', props.location.num);
     };
-    console.log(StudentsDaTa?.team?.mentor?.organization.state, '1');
+    // console.log(StudentsDaTa?.team?.mentor?.organization.state, '1');
     const handleReset = () => {
         // here we can reset password as  user_id //
         // here data = student_id //

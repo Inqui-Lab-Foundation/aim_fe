@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-key */
 /* eslint-disable indent */
 import React, { useState, useEffect, useRef } from 'react';
@@ -100,8 +101,7 @@ const CostudentDetailedReport = () => {
         currentUser?.data[0]?.district_name
     );
     const [category, setCategory] = useState('');
-    const categoryData =
-        categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
+    const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
 
     const [downloadData, setDownloadData] = useState(null);
     const csvLinkRef = useRef();
