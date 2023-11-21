@@ -70,7 +70,7 @@ const ChangePswModal = (props) => {
                     method: 'put',
                     url:
                         process.env.REACT_APP_API_BASE_URL +
-                        '/district_coordinators/changePassword',
+                        '/state_coordinators/changePassword',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${currentUser?.data[0]?.token}`
