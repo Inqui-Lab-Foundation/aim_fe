@@ -128,15 +128,15 @@ const CreateMultipleMembers = ({ id }) => {
             }
 
             if (!item.username.trim()) err['username'] = 'Email is Required';
-            if (item.username) {
-                const start = item.username.indexOf('@');
-                const main = item.username.substring(start);
-                const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
-                const text = checkarry.includes(main);
-                if (!text) {
-                    err['username'] = 'Enter Valid Mail Id';
-                }
-            }
+            // if (item.username) {
+            //     const start = item.username.indexOf('@');
+            //     const main = item.username.substring(start);
+            //     const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
+            //     const text = checkarry.includes(main);
+            //     if (!text) {
+            //         err['username'] = 'Enter Valid Mail Id';
+            //     }
+            // }
 
             if (!item.Age) err['Age'] = 'Age is Required';
 
@@ -250,14 +250,17 @@ const CreateMultipleMembers = ({ id }) => {
                                     >
                                         {/* {t('teacher_teams.age')} */}
                                         Email Address
-                                        <span
+                                        <span required className="p-1">
+                                            *
+                                        </span>
+                                        {/* <span
                                             required
                                             className="p-1 "
                                             style={{ color: 'red' }}
                                         >
                                             * Note : Gmail / Yahoo / Outlook
                                             mails are accepted.
-                                        </span>
+                                        </span> */}
                                     </Label>
                                     <InputBox
                                         className={'defaultInput'}
@@ -801,10 +804,16 @@ const CreateTeamMember = (props) => {
                                                         htmlFor="username"
                                                     >
                                                         Email Address
+                                                        <span
+                                                            required
+                                                            className="p-1"
+                                                        >
+                                                            *
+                                                        </span>
                                                         {/* {t(
                                                         'teacher_teams.student_name'
                                                     )} */}
-                                                        <span
+                                                        {/* <span
                                                             required
                                                             className="p-1 "
                                                             style={{
@@ -814,7 +823,7 @@ const CreateTeamMember = (props) => {
                                                             * Note : Gmail /
                                                             Yahoo / Outlook
                                                             mails are accepted.
-                                                        </span>
+                                                        </span> */}
                                                     </Label>
                                                     <InputBox
                                                         className={

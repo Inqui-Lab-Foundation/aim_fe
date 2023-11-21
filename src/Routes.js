@@ -331,43 +331,43 @@ const Routers = () => {
 
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/dashboard"
                         component={DashboardCoordinator}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/View-More-details"
                         component={CooViewMore}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/reports-registration"
                         component={CoRegReport}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/TeacherProgressDetailed"
                         component={CoTeacherDetailedReport}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/StudentDetailedReport"
                         component={CostudentDetailedReport}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/report"
                         component={DistReports}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator-changePassword"
                         component={CoordinatorChangePswModal}
                     />

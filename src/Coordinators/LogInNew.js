@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import logo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import image_1 from '../assets/media/unisolve_slider1.png';
-import image_2 from '../assets/media/unisolve_slider2.png';
+import image_2 from '../assets/media/aim_Slider.png';
 import CryptoJS from 'crypto-js';
 import { openNotificationWithIcon } from '../helpers/Utils';
 import { coordinatorLoginUser } from '../Coordinators/store/Coordinator/actions';
@@ -36,7 +36,7 @@ const LogInNew = (props) => {
                 ? history.push('/eadmin/dashboard')
                 : moduleName === 'SCHOOL'
                 ? history.push('/school/dashboard')
-                : moduleName === 'COORDINATOR'
+                : moduleName === 'STATE'
                 ? history.push('/coordinator/dashboard')
                 : history.push('/dashboard');
         }
@@ -86,12 +86,12 @@ const LogInNew = (props) => {
                 username: values.district,
                 password: encrypted
             };
-            props.coordinatorLoginUserAction(body, history, 'COORDINATOR');
+            props.coordinatorLoginUserAction(body, history, 'STATE');
         }
     });
     const inputUserId = {
         type: 'text',
-        placeholder: 'Enter District Name '
+        placeholder: 'Enter State Name '
     };
 
     const inputPassword = {
@@ -186,7 +186,7 @@ const LogInNew = (props) => {
                                                 className="mb-2"
                                                 htmlFor="district"
                                             >
-                                                District Name
+                                                State Name
                                             </Label>
                                             <InputBox
                                                 {...inputUserId}

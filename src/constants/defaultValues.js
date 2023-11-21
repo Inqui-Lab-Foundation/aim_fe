@@ -8,7 +8,7 @@ export const URL = {
     // Post //
     schoolLogin: process.env.REACT_APP_API_BASE_URL + '/organizations/login',
     coordinatorLogin:
-        process.env.REACT_APP_API_BASE_URL + '/district_coordinators/login',
+        process.env.REACT_APP_API_BASE_URL + '/state_coordinators/login',
     reportLogin:
         process.env.REACT_APP_API_BASE_URL + '/admins/login?report=true',
 
@@ -77,7 +77,7 @@ export const URL = {
     logOut: process.env.REACT_APP_API_BASE_URL + '/auth/logout',
     schoolLogOut: process.env.REACT_APP_API_BASE_URL + '/organizations/logout',
     coordinatorLogOut:
-        process.env.REACT_APP_API_BASE_URL + '/district_coordinators/logout',
+        process.env.REACT_APP_API_BASE_URL + '/state_coordinators/logout',
 
     adminLogOut: process.env.REACT_APP_API_BASE_URL + '/auth/logout',
     teacherLogOut: process.env.REACT_APP_API_BASE_URL + '/auth/logout',
