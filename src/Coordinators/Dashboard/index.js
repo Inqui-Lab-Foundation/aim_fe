@@ -136,8 +136,8 @@ const Dashboard = () => {
                 setWrong('');
                 if (response.status == 200) {
                     if (
-                        response?.data?.data[0].district ===
-                        currentUser?.data[0]?.district_name
+                        response?.data?.data[0].state ===
+                        currentUser?.data[0]?.state_name
                     ) {
                         // setIsSameDistrict(false);
 
@@ -154,7 +154,7 @@ const Dashboard = () => {
                     } else {
                         // setIsSameDistrict(true);
                         setWrong(
-                            'You are not authorised to look at other district data'
+                            'You are not authorised to look at other state data'
                         );
                     }
                 }
