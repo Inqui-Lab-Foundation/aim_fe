@@ -168,7 +168,7 @@ const TicketsPage = () => {
                 name: 'No',
                 // selector: (row) => row.index,
                 selector: (row, key) => key + 1,
-                // cellExport: (row) => row.index,
+                cellExport: (row) => row.index,
                 width: '10rem'
             },
             {
