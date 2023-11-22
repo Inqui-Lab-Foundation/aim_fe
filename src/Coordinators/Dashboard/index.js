@@ -364,21 +364,25 @@ const Dashboard = () => {
     const [teams, setTeam] = useState('-');
     const [subIdea, setSubIdea] = useState('-');
     const [stuCourseComplete, setStuCourseComplete] = useState('-');
+
     const [stuCount, setStuCount] = useState('-');
     const [schoolCount, setSchoolCount] = useState('-');
     const [tecCourse, setTecCourse] = useState('-');
+    const [tecdata, setTecData] = useState('');
+    const [atldata, setAtlData] = useState('-');
+    const [atl, setAtl] = useState('-');
+
+    const [Nonatl, setNonAtl] = useState('-');
+
     useEffect(() => {
-        regData();
-        mentData();
-        cardData();
-        // setIsSameDistrict(true);
+        newData();
     }, []);
-    const regData = () => {
+    const newData = () => {
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/studentdetailstable?district=${currentUser?.data[0]?.district_name}`,
+                `/dashboard/StateDashboard?state=${currentUser?.data[0]?.state_name}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -388,24 +392,39 @@ const Dashboard = () => {
             .then(function (response) {
                 if (response.status === 200) {
                     // console.log(response);
-                    setTeam(response.data.data[0].summary[0].totalTeams);
-                    setSubIdea(
-                        response.data.data[0].submittedCount[0].submittedCount
+                    setAtlData(response?.data?.data[0]?.orgdata[0]?.ATL_Count);
+                    setAtl(response?.data?.data[0]?.orgdata[0]?.ATL_Reg_Count);
+                    setNonAtl(
+                        response?.data?.data[0]?.orgdata[0]?.NONATL_Reg_Count
                     );
-                    setStuCourseComplete(
-                        response.data.data[0].courseCompleted[0]
-                            .studentCourseCMP
+
+                    setSubIdea(
+                        response?.data?.data[0]?.submittedCount[0]
+                            ?.submittedCount
+                    );
+                    setTecData(
+                        response?.data?.data[0]?.orgdata[0]
+                            ?.total_registered_teachers
                     );
                     setStuCount(
-                        response.data.data[0].studentCountDetails[0]
-                            .totalstudent
+                        response?.data?.data[0]?.studentCountDetails[0]
+                            ?.totalstudent
                     );
+                    setStuCourseComplete(
+                        response?.data?.data[0]?.StudentCourseCompleted[0]
+                            ?.studentCourseCMP
+                    );
+                    setTecCourse(
+                        response?.data?.data[0]?.courseCompleted[0]?.courseCMP
+                    );
+                    setTeam(response?.data?.data[0]?.teamCount[0]?.totalTeams);
                 }
             })
             .catch(function (error) {
                 console.log(error);
             });
     };
+
     const handleRevoke = async (id, type) => {
         // where id = challenge response id //
         // here we  can see the Revoke button when ever idea is submitted //
@@ -434,52 +453,6 @@ const Dashboard = () => {
                         ''
                     );
                     await getMentorIdApi(mentorId);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-    const mentData = () => {
-        const config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentorsummary?district=${currentUser?.data[0]?.district_name}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser?.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    // console.log(response);
-                    setSchoolCount(response.data.data[0].organization_count);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-    const cardData = () => {
-        const config = {
-            method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailstable?district=${currentUser?.data[0]?.district_name}`,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${currentUser?.data[0]?.token}`
-            }
-        };
-        axios(config)
-            .then(function (response) {
-                if (response.status === 200) {
-                    // console.log(response);
-                    setTecCourse(
-                        response.data.data[0].courseCompleted[0].courseCMP
-                    );
                 }
             })
             .catch(function (error) {
@@ -565,11 +538,11 @@ const Dashboard = () => {
                                         bg="light"
                                         text="dark"
                                         className="mb-4"
-                                        style={{ height: '120px' }}
+                                        style={{ height: '150px' }}
                                     >
                                         <Card.Body>
                                             <label htmlFor="teams" className="">
-                                                Total Schools
+                                                Total ATL Schools
                                             </label>
 
                                             <Card.Text
@@ -580,7 +553,7 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {schoolCount}
+                                                {atldata}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -597,11 +570,11 @@ const Dashboard = () => {
                                         bg="light"
                                         text="dark"
                                         className="mb-4"
-                                        style={{ height: '120px' }}
+                                        style={{ height: '150px' }}
                                     >
                                         <Card.Body>
                                             <label htmlFor="teams" className="">
-                                                Total Teams
+                                                Total Registered ATL Schools
                                             </label>
                                             <Card.Text
                                                 style={{
@@ -611,7 +584,7 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {teams}
+                                                {atl ? atl : '0'}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -629,11 +602,11 @@ const Dashboard = () => {
                                         bg="light"
                                         text="dark"
                                         className="mb-4"
-                                        style={{ height: '120px' }}
+                                        style={{ height: '150px' }}
                                     >
                                         <Card.Body>
                                             <label htmlFor="teams" className="">
-                                                Total Students
+                                                Non ATL Registered Schools
                                             </label>
                                             <Card.Text
                                                 style={{
@@ -643,7 +616,7 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {stuCount}
+                                                {Nonatl ? Nonatl : '0'}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -663,11 +636,11 @@ const Dashboard = () => {
                                         bg="light"
                                         text="dark"
                                         className="mb-4"
-                                        // style={{ height: '120px' }}
+                                        style={{ height: '150px' }}
                                     >
                                         <Card.Body>
                                             <label htmlFor="teams" className="">
-                                                No Of Teachers Completed Course
+                                                Total Registered Teachers
                                             </label>
 
                                             <Card.Text
@@ -678,7 +651,7 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {tecCourse}
+                                                {tecdata ? tecdata : '0'}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -695,11 +668,11 @@ const Dashboard = () => {
                                         bg="light"
                                         text="dark"
                                         className="mb-4"
-                                        // style={{ height: '120px' }}
+                                        style={{ height: '150px' }}
                                     >
                                         <Card.Body>
                                             <label htmlFor="teams" className="">
-                                                No Of Students Completed Course
+                                                Total Teams
                                             </label>
                                             <Card.Text
                                                 style={{
@@ -709,7 +682,7 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {stuCourseComplete}
+                                                {teams ? teams : '0'}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -727,7 +700,107 @@ const Dashboard = () => {
                                         bg="light"
                                         text="dark"
                                         className="mb-4"
-                                        // style={{ height: '120px' }}
+                                        style={{ height: '150px' }}
+                                    >
+                                        <Card.Body>
+                                            <label htmlFor="teams" className="">
+                                                Total Students
+                                            </label>
+                                            <Card.Text
+                                                style={{
+                                                    fontSize: '30px',
+                                                    fontWeight: 'bold',
+                                                    marginTop: '10px',
+                                                    marginBottom: '20px'
+                                                }}
+                                            >
+                                                {stuCount ? stuCount : '0'}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                    {/* </Row> */}
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col
+                                    style={{
+                                        paddingRight: '20px',
+                                        paddingTop: '1rem',
+                                        paddingLeft: '2rem'
+                                    }}
+                                >
+                                    {/* <Row> */}
+                                    <Card
+                                        bg="light"
+                                        text="dark"
+                                        className="mb-4"
+                                        style={{ height: '150px' }}
+                                    >
+                                        <Card.Body>
+                                            <label htmlFor="teams" className="">
+                                                No Of Teachers Completed Course
+                                            </label>
+
+                                            <Card.Text
+                                                style={{
+                                                    fontSize: '30px',
+                                                    fontWeight: 'bold',
+                                                    marginTop: '10px',
+                                                    marginBottom: '20px'
+                                                }}
+                                            >
+                                                {tecCourse ? tecCourse : '0'}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                                <Col
+                                    style={{
+                                        paddingRight: '20px',
+                                        paddingTop: '1rem',
+                                        paddingLeft: '2rem'
+                                    }}
+                                >
+                                    {/* <Row> */}
+                                    <Card
+                                        bg="light"
+                                        text="dark"
+                                        className="mb-4"
+                                        style={{ height: '150px' }}
+                                    >
+                                        <Card.Body>
+                                            <label htmlFor="teams" className="">
+                                                No Of Students Completed Course
+                                            </label>
+                                            <Card.Text
+                                                style={{
+                                                    fontSize: '30px',
+                                                    fontWeight: 'bold',
+                                                    marginTop: '10px',
+                                                    marginBottom: '20px'
+                                                }}
+                                            >
+                                                {stuCourseComplete
+                                                    ? stuCourseComplete
+                                                    : '0'}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                    {/* </Row> */}
+                                </Col>
+                                <Col
+                                    style={{
+                                        paddingRight: '20px',
+                                        paddingTop: '1rem',
+                                        paddingLeft: '2rem'
+                                    }}
+                                >
+                                    {/* <Row> */}
+                                    <Card
+                                        bg="light"
+                                        text="dark"
+                                        className="mb-4"
+                                        style={{ height: '150px' }}
                                     >
                                         <Card.Body>
                                             <label htmlFor="teams" className="">
@@ -741,7 +814,7 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {subIdea}
+                                                {subIdea ? subIdea : '0'}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
