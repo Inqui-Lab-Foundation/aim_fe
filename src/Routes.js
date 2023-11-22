@@ -183,6 +183,7 @@ import CooAtlReg from './Coordinators/UsersList/AtlReg';
 import CooSucsessAtl from './Coordinators/UsersList/AtlReg';
 import CooNonAtlReg from './Coordinators/UsersList/NonAtlReg';
 import CooSuccessNonAtl from './Coordinators/UsersList/SuccessNonAtl';
+import CooUserProfileEdit from './Coordinators/Dashboard/EditProfile';
 
 const Routers = () => {
     return (
@@ -644,6 +645,13 @@ const Routers = () => {
                         path="/admin/edit-user-profile"
                         component={CommonUserProfileEdit}
                     />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coo/edit-user-profile"
+                        component={CooUserProfileEdit}
+                    />
+
                     <ProtectedRoute
                         exact={true}
                         user="ADMIN"

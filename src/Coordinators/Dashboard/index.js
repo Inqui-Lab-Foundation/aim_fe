@@ -201,21 +201,21 @@ const Dashboard = () => {
             });
     }
 
-    // const handleEdit = () => {
-    //     //  here  We can edit the Registration details //
-    //     // Where data = orgData //
-    //     history.push({
-    //         pathname: '/admin/edit-user-profile',
-    //         data: {
-    //             full_name: orgData.mentor?.full_name,
-    //             // mobile: orgData.mentor?.mobile,
-    //             username: orgData.mentor?.user?.username,
-    //             mentor_id: orgData.mentor?.mentor_id,
-    //             where: 'Dashbord',
-    //             organization_code: orgData.organization_code
-    //         }
-    //     });
-    // };
+    const handleEdit = () => {
+        //  here  We can edit the Registration details //
+        // Where data = orgData //
+        history.push({
+            pathname: '/coo/edit-user-profile',
+            data: {
+                full_name: orgData.mentor?.full_name,
+                // mobile: orgData.mentor?.mobile,
+                username: orgData.mentor?.user?.username,
+                mentor_id: orgData.mentor?.mentor_id,
+                where: 'Dashbord',
+                organization_code: orgData.organization_code
+            }
+        });
+    };
 
     const handleresetpassword = (data) => {
         //  here we can reset the password as disecode //
@@ -1169,7 +1169,7 @@ const Dashboard = () => {
                                         {/* </div> */}
                                         {/* <div className="d-flex justify-content-between"> */}
                                         <div className="d-flex justify-content-between flex-column flex-md-row">
-                                            {/* <button
+                                            <button
                                                 className="btn  rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"
                                                 style={{
                                                     backgroundColor: '#ffcb34'
@@ -1178,7 +1178,7 @@ const Dashboard = () => {
                                                 //className="btn btn-warning btn-lg  px-4"
                                             >
                                                 Edit
-                                            </button> */}
+                                            </button>
                                             <button
                                                 onClick={() =>
                                                     handleresetpassword({
