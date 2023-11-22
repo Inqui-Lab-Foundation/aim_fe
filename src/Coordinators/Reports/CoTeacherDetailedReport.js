@@ -27,8 +27,7 @@ const CoTeacherDetailedReport = () => {
     );
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
-    const categoryData =
-        categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
+    const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
         []
     );
@@ -55,7 +54,7 @@ const CoTeacherDetailedReport = () => {
     // );
     const tableHeaders = [
         {
-            label: 'District Name',
+            label: 'State Name',
             key: 'district'
         },
         {

@@ -7,7 +7,7 @@ export const ReasonsOptions = [
     'Not filled - Inaccurate data (form is not filled properly)'
 ];
 export const reasondata2 = [
-    'Lot of project effort visible (all of the 1, 2, 3,10, 14, 16 steps in the Idea Submission Format are clearly explained and are valid)',
-    'Some project effort visible (at least the steps 2,3,10 inthe Idea Submission Format are clearly explained and are valid)',
-    'Zero project effort visible (the steps 2,3 and 10 are not clear/relevant)'
+    'Lot of project effort visible ',
+    'Some project effort visible ',
+    'Zero project effort visible '
 ];

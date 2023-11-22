@@ -172,6 +172,17 @@ import AtlReg from './Admin/UserList/AtlReg';
 import NonAtlReg from './Admin/UserList/NonAtlReg';
 import SuccessNonAtl from './Admin/UserList/SuccessNonAtl';
 import SucsessAtl from './Admin/UserList/SucsessAtl';
+import CoordinatorUsers from './Coordinators/UsersList/UsersData';
+import CooCommonUserProfile from './Coordinators/UsersList/CommonUserProfile';
+import CooStudentEditProfile from './Coordinators/UsersList/StudentEditProfile';
+import CooTeacherDashboard from './Coordinators/UsersList/CooTecDashoard';
+import CooMentorEditProfile from './Coordinators/UsersList/MentorEditProfile';
+import CooTeacherViewDetails from './Coordinators/UsersList/TeacView';
+import CooRegister from './Coordinators/UsersList/TeacReg';
+import CooAtlReg from './Coordinators/UsersList/AtlReg';
+import CooSucsessAtl from './Coordinators/UsersList/AtlReg';
+import CooNonAtlReg from './Coordinators/UsersList/NonAtlReg';
+import CooSuccessNonAtl from './Coordinators/UsersList/SuccessNonAtl';
 
 const Routers = () => {
     return (
@@ -240,9 +251,21 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
+                        user="STATE"
+                        path="/coordinator/userprofile"
+                        component={CooCommonUserProfile}
+                    />
+                    <ProtectedRoute
+                        exact={true}
                         user="REPORT"
                         path="/report/student/edit-user-profile"
                         component={ReportStudentEditProfile}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/student/edit-user-profile"
+                        component={CooStudentEditProfile}
                     />
                     <ProtectedRoute
                         exact={true}
@@ -274,6 +297,13 @@ const Routers = () => {
                         path="/report/mentor/edit-user-profile"
                         component={ReportMentorEditProfile}
                     />
+
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/mentor/edit-user-profile"
+                        component={CooMentorEditProfile}
+                    />
                     <ProtectedRoute
                         exact={true}
                         user="REPORT"
@@ -291,6 +321,12 @@ const Routers = () => {
                         user="REPORT"
                         path="/report/teacher/register"
                         component={ReportTeacherRegister}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/teacher/dashboard"
+                        component={CooTeacherDashboard}
                     />
                     <ProtectedRoute
                         exact={true}
@@ -313,6 +349,12 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
+                        user="STATE"
+                        path="/coordinator/teacher/View-More-details"
+                        component={CooTeacherViewDetails}
+                    />
+                    <ProtectedRoute
+                        exact={true}
                         user="REPORT"
                         path="/report/tickets"
                         component={ReportTickets}
@@ -331,43 +373,49 @@ const Routers = () => {
 
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/dashboard"
                         component={DashboardCoordinator}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/View-More-details"
                         component={CooViewMore}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/reports-registration"
                         component={CoRegReport}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/TeacherProgressDetailed"
                         component={CoTeacherDetailedReport}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator/StudentDetailedReport"
                         component={CostudentDetailedReport}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
+                        path="/coordinator/userlist"
+                        component={CoordinatorUsers}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
                         path="/coordinator/report"
                         component={DistReports}
                     />
                     <ProtectedRoute
                         exact={true}
-                        user="DISTRICT"
+                        user="STATE"
                         path="/coordinator-changePassword"
                         component={CoordinatorChangePswModal}
                     />
@@ -489,9 +537,27 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
+                        user="STATE"
+                        path="/coordinator/teacher/register"
+                        component={CooRegister}
+                    />
+                    <ProtectedRoute
+                        exact={true}
                         user="ADMIN"
                         path="/admin/register/atl"
                         component={AtlReg}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/register/atl"
+                        component={CooAtlReg}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/register/non-atl"
+                        component={CooNonAtlReg}
                     />
                     <ProtectedRoute
                         exact={true}
@@ -507,9 +573,21 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
+                        user="STATE"
+                        path="/Coo-successNonAtl"
+                        component={CooSuccessNonAtl}
+                    />
+                    <ProtectedRoute
+                        exact={true}
                         user="ADMIN"
                         path="/successAtl"
                         component={SucsessAtl}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/Coo-successAtl"
+                        component={CooSucsessAtl}
                     />
 
                     <ProtectedRoute

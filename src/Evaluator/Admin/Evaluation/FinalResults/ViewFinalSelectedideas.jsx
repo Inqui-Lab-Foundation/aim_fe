@@ -15,7 +15,10 @@ import Select from '../Pages/Select';
 import { Col, Container, Row } from 'reactstrap';
 import { cardData } from '../../../../Student/Pages/Ideas/SDGData.js';
 import { useSelector } from 'react-redux';
-import { getDistrictData } from '../../../../redux/studentRegistration/actions';
+import {
+    getDistrictData,
+    getStateData
+} from '../../../../redux/studentRegistration/actions';
 import { useDispatch } from 'react-redux';
 import { getCurrentUser, getNormalHeaders } from '../../../../helpers/Utils';
 import { Spinner } from 'react-bootstrap';
@@ -37,6 +40,8 @@ const ViewSelectedIdea = () => {
     const [ideaDetails, setIdeaDetails] = React.useState({});
     const [tableData, settableData] = React.useState({});
     const [district, setdistrict] = React.useState('');
+    const [state, setState] = useState('');
+
     const [sdg, setsdg] = React.useState('');
     const [currentRow, setCurrentRow] = React.useState(1);
     const [tablePage, setTablePage] = React.useState(1);
@@ -45,17 +50,20 @@ const ViewSelectedIdea = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL SDGs');
+    SDGDate.unshift('ALL Themes');
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
+    );
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
 
     const filterParamsfinal =
-        (district && district !== 'All Districts'
-            ? '&district=' + district
-            : '') + (sdg && sdg !== 'ALL SDGs' ? '&sdg=' + sdg : '');
+        (state && state !== 'All States' ? '&state=' + state : '') +
+        (sdg && sdg !== 'ALL Themes' ? '&sdg=' + sdg : '');
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getStateData());
     }, []);
 
     const handlePromotelFinalEvaluated = async (item) => {
@@ -131,21 +139,93 @@ const ViewSelectedIdea = () => {
                 width: '8rem'
             },
             {
+                name: 'State',
+                selector: 'state',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.state}
+                    </div>
+                ),
+                width: '15rem'
+            },
+            {
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
+                name: 'Team Name',
+                selector: (row) => row.team_name,
+                width: '15rem'
+            },
+            {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
                 width: '6rem'
             },
             {
-                name: 'Idea Name',
-                selector: (row) => row?.response[8]?.selected_option || '',
-                // sortable: true,
-                width: '27rem'
-            },
-            {
-                name: 'District',
-                selector: (row) => row.district,
+                name: 'Theme',
+                // selector: (row) => row.sdg,
+                selector: 'sdg',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sdg}
+                    </div>
+                ),
                 width: '15rem'
             },
+            {
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                // sortable: true,
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            // {
+            //     name: 'District',
+            //     selector: (row) => row.district,
+            //     width: '15rem'
+            // },
             // {
             //     name: 'Team Name',
             //     selector: (row) => row?.team_name || '',
@@ -346,7 +426,7 @@ const ViewSelectedIdea = () => {
         setsortid(e.id);
     };
 
-    const showbutton = district && sdg;
+    const showbutton = state && sdg;
 
     const handleNext = () => {
         if (tableData && currentRow < tableData?.length) {
@@ -461,14 +541,12 @@ const ViewSelectedIdea = () => {
                                             <Col md={2}>
                                                 <div className="my-3 d-md-block d-flex justify-content-center">
                                                     <Select
-                                                        list={
-                                                            fullDistrictsNames
-                                                        }
-                                                        setValue={setdistrict}
+                                                        list={fullStatesNames}
+                                                        setValue={setState}
                                                         placeHolder={
-                                                            'Select District'
+                                                            'Select State'
                                                         }
-                                                        value={district}
+                                                        value={state}
                                                     />
                                                 </div>
                                             </Col>
@@ -478,7 +556,7 @@ const ViewSelectedIdea = () => {
                                                         list={SDGDate}
                                                         setValue={setsdg}
                                                         placeHolder={
-                                                            'Select SDG'
+                                                            'Select Themes'
                                                         }
                                                         value={sdg}
                                                     />

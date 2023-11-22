@@ -27,9 +27,7 @@ const CoRegReport = () => {
     const [category, setCategory] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const filterOptions = ['Registered', 'Not Registered'];
-    const categoryData =
-        categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
-
+    const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
     const [downloadData, setDownloadData] = useState(null);
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
         useState(null);

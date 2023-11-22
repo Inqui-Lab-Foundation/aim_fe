@@ -15,6 +15,8 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import Logo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import logoutIcon from '../assets/media/logoutIcon.png';
+import UsersIcon1 from '../assets/media/UsersIcon1.png';
+
 import ReportIcon1 from '../assets/media/ReportIcon1.png';
 
 import { useTranslation } from 'react-i18next';
@@ -34,7 +36,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
     };
 
     const handleLogout = (e) => {
-        logout(history, t, '/COORDINATOR');
+        logout(history, t, '/STATE');
         e.preventDefault();
     };
 
@@ -109,6 +111,33 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                         >
                             <span style={{ color: 'var(--override-color)' }}>
                                 Dashboard
+                            </span>
+                        </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                        icon={
+                            <img src={UsersIcon1} style={{ width: '20px' }} />
+                        }
+                        className={
+                            (location.pathname === '/coordinator/userlist' ||
+                                location.pathname ===
+                                    '/coordinator/add-mentor') &&
+                            //  ||
+                            // location.pathname === '/admin/add-mentor' ||
+                            // location.pathname === '/admin/add-evaluator'
+                            'sidebar-active'
+                        }
+                    >
+                        <NavLink
+                            exact={true}
+                            to={'/coordinator/userlist'}
+                            style={{
+                                color: 'black !important',
+                                '--override-color': 'black'
+                            }}
+                        >
+                            <span style={{ color: 'var(--override-color)' }}>
+                                Users
                             </span>
                         </NavLink>
                     </MenuItem>

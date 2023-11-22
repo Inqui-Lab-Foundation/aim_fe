@@ -193,7 +193,7 @@ const LoginEvaluator = (props) => {
                                                 className="mb-2"
                                                 htmlFor="email"
                                             >
-                                                Mobile Number
+                                                Email Id
                                             </Label>
                                             <InputBox
                                                 {...inputUserId}

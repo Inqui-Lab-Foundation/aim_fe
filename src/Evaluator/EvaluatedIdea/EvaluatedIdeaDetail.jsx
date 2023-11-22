@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React from 'react';
 import './EvaluatedIdea.scss';
@@ -5,6 +6,7 @@ import { Button } from '../../stories/Button';
 import LinkComponent from '../IdeaList/LinkComponent';
 import moment from 'moment';
 import RatedDetailCard from './RatedDetailCard';
+import { Row, Col, Form, Label } from 'reactstrap';
 
 const EvaluatedIdeaDetail = (props) => {
     const [teamResponse, setTeamResponse] = React.useState([]);
@@ -25,7 +27,7 @@ const EvaluatedIdeaDetail = (props) => {
                             <div className="row">
                                 <div className="col-lg-6">
                                     <h2 className="mb-md-4 mb-3">
-                                        SDG:{' '}
+                                        Theme:{' '}
                                         <span className="text-capitalize fs-3">
                                             {props?.ideaDetails?.sdg?.toLowerCase() ||
                                                 ''}
@@ -73,6 +75,23 @@ const EvaluatedIdeaDetail = (props) => {
                                             }
                                         />
                                     </div>
+                                </div>
+                                <div className="col-lg-12 mt-3">
+                                    <Row className="col-lg-12">
+                                        <h2>
+                                            <span
+                                                style={{
+                                                    color: 'blue'
+                                                }}
+                                            >
+                                                Problem Statement :{' '}
+                                            </span>
+                                            <span className="text-capitalize fs-3">
+                                                {props?.ideaDetails?.sub_category?.toLowerCase() ||
+                                                    ''}
+                                            </span>
+                                        </h2>
+                                    </Row>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EvaluatedIdea.scss';
 import Layout from '../Layout';
 import DataTable, { Alignment } from 'react-data-table-component';
@@ -11,7 +12,10 @@ import { getL1EvaluatedIdea } from '../store/evaluator/action';
 import EvaluatedIdeaDetail from './EvaluatedIdeaDetail';
 import { Container, Row, Col } from 'reactstrap';
 import Select from '../Helper/Select';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
+import {
+    getDistrictData,
+    getStateData
+} from '../../redux/studentRegistration/actions';
 import { cardData } from '../../Student/Pages/Ideas/SDGData';
 import { Button } from '../../stories/Button';
 import Spinner from 'react-bootstrap/Spinner';
@@ -21,6 +25,8 @@ const EvaluatedIdea = () => {
     const dispatch = useDispatch();
     const [showspin, setshowspin] = React.useState(false);
     const [district, setdistrict] = React.useState('');
+    const [state, setState] = useState('');
+
     const [sdg, setsdg] = React.useState('');
     const evaluatedIdeaList = useSelector(
         (state) => state?.evaluator.evaluatedIdeaL1
@@ -29,18 +35,22 @@ const EvaluatedIdea = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL SDGs');
+    SDGDate.unshift('ALL Themes');
+    const fullStatesNames = useSelector(
+        (state) => state?.studentRegistration?.regstate
+    );
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
-    
+
     const [tabledate, settabledate] = React.useState([]);
 
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getStateData());
     }, []);
     useEffect(() => {
-        if (district === '') {
+        if (state === '') {
             settabledate([]);
         } else {
             settabledate(evaluatedIdeaList);
@@ -54,8 +64,8 @@ const EvaluatedIdea = () => {
     };
     const levelparam = '?evaluation_status=SELECTEDROUND1&level=L2';
     const districtparam =
-        district && district !== 'All Districts' ? '&district=' + district : '';
-    const sdgparam = sdg && sdg !== 'ALL SDGs' ? '&sdg=' + sdg : '';
+        state && state !== 'All States' ? '&state=' + state : '';
+    const sdgparam = sdg && sdg !== 'ALL Themes' ? '&sdg=' + sdg : '';
     const filterParams = levelparam + districtparam + sdgparam;
     const [isDetail, setIsDetail] = React.useState(false);
     const [ideaDetails, setIdeaDetails] = React.useState([]);
@@ -78,16 +88,80 @@ const EvaluatedIdea = () => {
                 width: '6%'
             },
             {
+                name: 'State',
+                selector: (row) => row.state,
+                width: '10rem'
+            },
+            {
+                name: 'ATL Code',
+                selector: (row) => row.organization_code,
+                width: '15rem'
+            },
+            {
                 name: 'Team Name',
                 selector: (row) => row.team_name || '',
                 sortable: true,
                 width: '15%'
             },
             {
-                name: 'SDG',
-                selector: (row) => row.sdg,
-                width: '20%'
+                name: 'CID',
+                selector: (row) => row.challenge_response_id,
+
+                width: '10rem'
             },
+            {
+                name: 'Theme',
+                // selector: (row) => row.sdg,
+                selector: 'sdg',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sdg}
+                    </div>
+                ),
+                width: '15rem'
+            },
+
+            {
+                name: 'Problem Statement',
+                // selector: (row) => row.sub_category,
+                selector: 'sub_category',
+
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.sub_category}
+                    </div>
+                ),
+                width: '25rem'
+            },
+            {
+                name: 'Idea Name',
+                // selector: (row) => row?.response[1]?.selected_option || '',
+                selector: 'response[1]?.selected_option',
+                // sortable: true,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row?.response[1]?.selected_option || ''}
+                    </div>
+                ),
+                width: '25rem'
+            },
+
             {
                 name: 'Submitted By',
                 selector: (row) => row.initiated_name,
@@ -178,12 +252,10 @@ const EvaluatedIdea = () => {
                                         <Col md={3}>
                                             <div className="my-3 d-md-block d-flex justify-content-center">
                                                 <Select
-                                                    list={fullDistrictsNames}
-                                                    setValue={setdistrict}
-                                                    placeHolder={
-                                                        'Select District'
-                                                    }
-                                                    value={district}
+                                                    list={fullStatesNames}
+                                                    setValue={setState}
+                                                    placeHolder={'Select State'}
+                                                    value={state}
                                                 />
                                             </div>
                                         </Col>
@@ -192,7 +264,9 @@ const EvaluatedIdea = () => {
                                                 <Select
                                                     list={SDGDate}
                                                     setValue={setsdg}
-                                                    placeHolder={'Select SDG'}
+                                                    placeHolder={
+                                                        'Select Themes'
+                                                    }
                                                     value={sdg}
                                                 />
                                             </div>
@@ -202,15 +276,13 @@ const EvaluatedIdea = () => {
                                             <div className="text-center">
                                                 <Button
                                                     btnClass={
-                                                        district && sdg
+                                                        state && sdg
                                                             ? 'primary'
                                                             : 'default'
                                                     }
                                                     size="small"
                                                     label="Search"
-                                                    disabled={
-                                                        !(district && sdg)
-                                                    }
+                                                    disabled={!(state && sdg)}
                                                     onClick={() =>
                                                         handleclickcall()
                                                     }

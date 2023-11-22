@@ -17,6 +17,8 @@ import {
 } from '../../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from '../Helpers/Select';
+import { Bar } from 'react-chartjs-2';
+
 import axios from 'axios';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
@@ -51,6 +53,10 @@ const ReportsRegistration = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const [downloadComplete, setDownloadComplete] = useState(false);
     const [newFormat, setNewFormat] = useState('');
+    const [barChart1Data, setBarChart1Data] = useState({
+        labels: [],
+        datasets: []
+    });
     const fullStatesNames = useSelector(
         (state) => state?.studentRegistration?.regstate
     );
@@ -283,13 +289,55 @@ const ReportsRegistration = () => {
             }
         }
     };
-
+    const options = {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 10
+                },
+                title: {
+                    display: true,
+                    text: 'Number of Registered ATL and Non ATL Schools',
+                    color: 'blue'
+                }
+            },
+            x: {
+                grid: {
+                    display: true,
+                    drawBorder: true,
+                    color: 'rgba(0, 0, 0, 0.2)',
+                    lineWidth: 0.5
+                },
+                title: {
+                    display: true,
+                    text: 'States',
+                    color: 'blue'
+                },
+                ticks: {
+                    maxRotation: 80,
+                    autoSkip: false
+                    //maxTicksLimit: 10,
+                }
+            }
+        }
+    };
     const fetchData = (item) => {
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`
+                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${
+                      RegTeachersdistrict === ''
+                          ? 'All Districts'
+                          : RegTeachersdistrict
+                  }&category=${category}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`
+                ? `/reports/notRegistered?state=${RegTeachersState}&district=${
+                      RegTeachersdistrict === ''
+                          ? 'All Districts'
+                          : RegTeachersdistrict
+                  }&category=${category}`
                 : '';
 
         const config = {
@@ -388,8 +436,7 @@ const ReportsRegistration = () => {
                     const maleCount = lastRow?.male_mentor_count || 0;
                     const femaleCount = lastRow?.female_mentor_count || 0;
                     const ATLregCount = lastRow?.ATL_Reg_Count || 0;
-                    const NONATLregNotCount =
-                        lastRow?.NONATL_Reg_Count || 0;
+                    const NONATLregNotCount = lastRow?.NONATL_Reg_Count || 0;
 
                     setRegisteredGenderChartData({
                         labels: ['Male', 'Female'],
@@ -412,6 +459,26 @@ const ReportsRegistration = () => {
                             }
                         ]
                     });
+                    const barData = {
+                        labels: chartTableData.map((item) => item.state),
+                        datasets: [
+                            {
+                                label: 'Registered ATL Schools',
+                                data: chartTableData.map(
+                                    (item) => item.ATL_Reg_Count
+                                ),
+                                backgroundColor: 'rgba(255, 0, 0, 0.6)'
+                            },
+                            {
+                                label: 'Registered Non ATL Schools',
+                                data: chartTableData.map(
+                                    (item) => item.NONATL_Reg_Count
+                                ),
+                                backgroundColor: 'rgba(75, 162, 192, 0.6)'
+                            }
+                        ]
+                    };
+                    setBarChart1Data(barData);
                 }
             })
             .catch((error) => {
@@ -575,10 +642,15 @@ const ReportsRegistration = () => {
                                                                     ATL Schools
                                                                 </th>
                                                                 <th>
-                                                                Total Registered ATL Schools
+                                                                    Total
+                                                                    Registered
+                                                                    ATL Schools
                                                                 </th>
                                                                 <th>
-                                                                Total Registered NON-ATL Schools
+                                                                    Total
+                                                                    Registered
+                                                                    NON-ATL
+                                                                    Schools
                                                                 </th>
                                                                 <th>
                                                                     Total
@@ -686,22 +758,6 @@ const ReportsRegistration = () => {
                                                             />
                                                         )}
                                                     </div>
-                                                    <div className="col-md-12 text-center mt-3">
-                                                        <p
-                                                            style={{
-                                                                paddingLeft:
-                                                                    '30px'
-                                                            }}
-                                                        >
-                                                            <b>
-                                                                Overall
-                                                                Registered Male
-                                                                vs Female
-                                                                Teachers As of{' '}
-                                                                {newFormat}
-                                                            </b>
-                                                        </p>
-                                                    </div>
 
                                                     <div className="col-md-12 doughnut-chart-container">
                                                         {registeredGenderChartData && (
@@ -720,6 +776,31 @@ const ReportsRegistration = () => {
                                         </div>
                                     </div>
                                 )}
+                                <div className="mt-5">
+                                    <div
+                                        className="col-md-12 chart-container mt-5"
+                                        style={{
+                                            width: '100%',
+                                            height: '370px'
+                                        }}
+                                    >
+                                        <div className="chart-box">
+                                            <Bar
+                                                data={barChart1Data}
+                                                options={options}
+                                            />
+                                            <div className="chart-title">
+                                                <p>
+                                                    <b>
+                                                        Registered ATL Schools
+                                                        v/s Registered Non ATL
+                                                        Schools {newFormat}
+                                                    </b>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {downloadTableData && (
                                     <CSVLink
                                         data={downloadTableData}

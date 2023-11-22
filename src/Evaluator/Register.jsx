@@ -32,6 +32,11 @@ const Register = (props) => {
         placeholder: 'Enter Full Name',
         className: 'defaultInput'
     };
+    const inputUserId = {
+        type: 'text',
+        placeholder: 'Enter Email Id '
+    };
+
     // const inputCity = {
     //     type: 'text',
     //     placeholder: 'District Name',
@@ -49,17 +54,17 @@ const Register = (props) => {
             .trim()
             .matches(phoneRegExp, 'Contact number is not valid')
             .min(10, 'Please enter valid number')
-            .max(10, 'Please enter valid number')
-        // username: Yup.string()
-        //     .trim()
-        //     .email('Invalid username format')
-        //     .required('Required'),
+            .max(10, 'Please enter valid number'),
+        username: Yup.string()
+            .trim()
+            .email('Invalid username format')
+            .required('Required')
         // district: Yup.string().trim().required('Required')
     });
 
     const formik = useFormik({
         initialValues: {
-            // username: '',
+            username: '',
             mobile: '',
             full_name: '',
             password: '',
@@ -87,9 +92,9 @@ const Register = (props) => {
             values.password = encrypted;
             const body = JSON.stringify({
                 full_name: values.full_name.trim(),
-                // mobile: values.username.trim(),
+                username: values.username.trim(),
 
-                username: values.mobile.trim(),
+                mobile: values.mobile.trim(),
                 role: values.role.trim(),
                 password: encrypted
             });
@@ -158,7 +163,7 @@ const Register = (props) => {
                         isSubmitting
                     >
                         <div className={`row justify-content-center pe-md-0`}>
-                            <div className={`col-md-6 p-0 `}>
+                            <div className={`col-md-12 p-0 `}>
                                 <FormGroup
                                     className={`form-group mt-md-0 mt-5 me-md-3 `}
                                     md={12}
@@ -185,8 +190,33 @@ const Register = (props) => {
                                     ) : null}
                                 </FormGroup>
                             </div>
+                            <div className="col-md-12 p-0">
+                                <FormGroup
+                                    className={`form-group mt-md-0 mt-5 me-md-3 `}
+                                    md={12}
+                                >
+                                    <Label className="mb-2" htmlFor="username">
+                                        Email
+                                    </Label>
+                                    <InputBox
+                                        {...inputUserId}
+                                        id="username"
+                                        name="username"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.username}
+                                    />
 
-                            <div className="col-md-6 p-0">
+                                    {formik.touched.username &&
+                                    formik.errors.username ? (
+                                        <small className="error-cls">
+                                            {formik.errors.username}
+                                        </small>
+                                    ) : null}
+                                </FormGroup>
+                            </div>
+
+                            <div className="col-md-12p-0">
                                 <FormGroup
                                     className="form-group mt-md-0 mt-5"
                                     md={12}

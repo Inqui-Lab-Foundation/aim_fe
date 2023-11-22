@@ -36,7 +36,7 @@ const LoginReport = (props) => {
                 ? history.push('/eadmin/dashboard')
                 : moduleName === 'SCHOOL'
                 ? history.push('/school/dashboard')
-                : moduleName === 'COORDINATOR'
+                : moduleName === 'STATE'
                 ? history.push('/coordinator/dashboard')
                 : moduleName === 'REPORT'
                 ? history.push('/report/dashboard')
