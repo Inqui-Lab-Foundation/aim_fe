@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import {
@@ -20,6 +21,7 @@ import { useHistory } from 'react-router-dom';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { useTranslation } from 'react-i18next';
 import { logout } from '../../../helpers/Utils';
+import DashboardIcon1 from '../../../assets/media/DashboardIcon1.png';
 
 const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
     const location = useLocation();
@@ -89,6 +91,33 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                     <MenuItem
                         icon={
                             <img
+                                src={DashboardIcon1}
+                                style={{ width: '20px' }}
+                            />
+                        }
+                        className={
+                            (location.pathname === '/eadmin/evaluationStatus' ||
+                                location.pathname ===
+                                    '/admin/evaluationStatus/viewlist') &&
+                            'sidebar-active'
+                        }
+                    >
+                        <NavLink
+                            exact={true}
+                            to={'/eadmin/evaluationStatus'}
+                            style={{
+                                color: 'black !important',
+                                '--override-color': 'black'
+                            }}
+                        >
+                            <span style={{ color: 'var(--override-color)' }}>
+                                Dashboard
+                            </span>
+                        </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                        icon={
+                            <img
                                 src={ChallengesIcon}
                                 style={{ width: '20px' }}
                             />
@@ -112,33 +141,7 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                             </span>
                         </NavLink>
                     </MenuItem>
-                    <MenuItem
-                        icon={
-                            <img
-                                src={EvaluationIcon}
-                                style={{ width: '20px' }}
-                            />
-                        }
-                        className={
-                            (location.pathname === '/eadmin/evaluationStatus' ||
-                                location.pathname ===
-                                    '/admin/evaluationStatus/viewlist') &&
-                            'sidebar-active'
-                        }
-                    >
-                        <NavLink
-                            exact={true}
-                            to={'/eadmin/evaluationStatus'}
-                            style={{
-                                color: 'black !important',
-                                '--override-color': 'black'
-                            }}
-                        >
-                            <span style={{ color: 'var(--override-color)' }}>
-                                Evaluation Status
-                            </span>
-                        </NavLink>
-                    </MenuItem>
+
                     <MenuItem
                         icon={
                             <img

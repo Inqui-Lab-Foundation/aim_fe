@@ -21,7 +21,7 @@ const CoRegReport = () => {
     const currentUser = getCurrentUser('current_user');
     // console.log(currentUser);
     const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState(
-        currentUser?.data[0]?.district_name
+        currentUser?.data[0]?.state_name
     );
     const [filterType, setFilterType] = useState('');
     const [category, setCategory] = useState('');
@@ -61,20 +61,24 @@ const CoRegReport = () => {
     const [downloadTableData, setDownloadTableData] = useState(null);
     const summaryHeaders = [
         {
-            label: 'District Name',
-            key: 'district'
+            label: 'State Name',
+            key: 'state'
         },
         {
-            label: 'Total Eligible Schools',
-            key: 'organization_count'
+            label: 'Total ATL Eligible Schools',
+            key: 'ATL_Count'
         },
         {
             label: 'Total Registered Teachers',
             key: 'total_registered_teachers'
         },
         {
-            label: 'Total Not Registered Teachers',
-            key: 'total_not_registered_teachers'
+            label: 'Total Registered ATL Teachers',
+            key: 'ATL_Reg_Count'
+        },
+        {
+            label: 'Total Registered Non ATL Teachers',
+            key: 'NONATL_Reg_Count'
         },
         {
             label: 'Registered Male Teachers',
@@ -99,8 +103,8 @@ const CoRegReport = () => {
             key: 'organization.category'
         },
         {
-            label: 'District',
-            key: 'organization.district'
+            label: 'State',
+            key: 'organization.state'
         },
         {
             label: 'City',
@@ -149,17 +153,17 @@ const CoRegReport = () => {
             key: 'category'
         },
         {
-            label: 'District',
-            key: 'district'
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'City',
             key: 'city'
         },
-        {
-            label: 'State',
-            key: 'state'
-        },
+        // {
+        //     label: 'State',
+        //     key: 'state'
+        // },
         {
             label: 'Country',
             key: 'country'
@@ -245,9 +249,9 @@ const CoRegReport = () => {
     const fetchData = (item) => {
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&district=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersdistrict}&category=${category}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?district=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/notRegistered?state=${RegTeachersdistrict}&category=${category}`
                 : '';
 
         const config = {
@@ -291,7 +295,7 @@ const CoRegReport = () => {
         if (!RegTeachersdistrict || !filterType || !category) {
             notification.warning({
                 message:
-                    'Please select a district,category and filter type before Downloading Reports.'
+                    'Please select a category and filter type before Downloading Reports.'
             });
             return;
         }
@@ -319,7 +323,7 @@ const CoRegReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentorsummary?district=${currentUser?.data[0]?.district_name}`,
+                `/reports/mentorsummary?state=${currentUser?.data[0]?.state_name}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -337,9 +341,8 @@ const CoRegReport = () => {
                     const lastRow = chartTableData[chartTableData.length - 1];
                     const maleCount = lastRow?.male_mentor_count || 0;
                     const femaleCount = lastRow?.female_mentor_count || 0;
-                    const regCount = lastRow?.total_registered_teachers || 0;
-                    const regNotCount =
-                        lastRow?.total_not_registered_teachers || 0;
+                    const regCount = lastRow?.ATL_Reg_Count || 0;
+                    const regNotCount = lastRow?.NONATL_Reg_Count || 0;
 
                     setRegisteredGenderChartData({
                         labels: ['Male', 'Female'],
@@ -353,7 +356,7 @@ const CoRegReport = () => {
                     });
 
                     setRegisteredChartData({
-                        labels: ['Registered', 'Not Registered'],
+                        labels: ['Registered ATL ', 'Non ATLRegistered'],
                         datasets: [
                             {
                                 data: [regCount, regNotCount],
@@ -500,21 +503,34 @@ const CoRegReport = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total
                                                                     Eligible
+                                                                    Registered
+                                                                    ATL Schools
+                                                                </th>
+                                                                <th>
+                                                                    Total
+                                                                    Eligible
+                                                                    Registered
+                                                                    Non ATL
                                                                     Schools
                                                                 </th>
                                                                 <th>
                                                                     Total
                                                                     Registered
+                                                                    ATL Teachers
+                                                                </th>
+                                                                <th>
+                                                                    Total
+                                                                    Registered
+                                                                    Non ATL
                                                                     Teachers
                                                                 </th>
                                                                 <th>
-                                                                    Total Not
+                                                                    Total
                                                                     Registered
                                                                     Teachers
                                                                 </th>
@@ -547,22 +563,32 @@ const CoRegReport = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.organization_count
+                                                                                item.ATL_Count
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item.total_not_Reg_ATL
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item.ATL_Reg_Count
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item.NONATL_Reg_Count
                                                                             }
                                                                         </td>
                                                                         <td>
                                                                             {
                                                                                 item.total_registered_teachers
-                                                                            }
-                                                                        </td>
-                                                                        <td>
-                                                                            {
-                                                                                item.total_not_registered_teachers
                                                                             }
                                                                         </td>
                                                                         <td>
@@ -588,8 +614,8 @@ const CoRegReport = () => {
                                                         <p>
                                                             <b>
                                                                 Overall
-                                                                Registered and
-                                                                Not Registered
+                                                                Registered ATL
+                                                                v/s Non ATL
                                                                 Schools As of{' '}
                                                                 {newFormat}
                                                             </b>

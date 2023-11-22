@@ -22,9 +22,7 @@ import { notification } from 'antd';
 const CoTeacherDetailedReport = () => {
     const currentUser = getCurrentUser('current_user');
 
-    const [district, setdistrict] = React.useState(
-        currentUser?.data[0]?.district_name
-    );
+    const [state, setstate] = React.useState(currentUser?.data[0]?.state_name);
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
     const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
@@ -55,7 +53,7 @@ const CoTeacherDetailedReport = () => {
     const tableHeaders = [
         {
             label: 'State Name',
-            key: 'district'
+            key: 'state'
         },
         {
             label: 'Total Registered Teachers',
@@ -233,7 +231,7 @@ const CoTeacherDetailedReport = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -255,7 +253,7 @@ const CoTeacherDetailedReport = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -283,10 +281,10 @@ const CoTeacherDetailedReport = () => {
     };
 
     const handleDownload = () => {
-        if (!district || !category) {
+        if (!state || !category) {
             notification.warning({
                 message:
-                    'Please select a district and category type before Downloading Reports.'
+                    'Please select a category type before Downloading Reports.'
             });
             return;
         }
@@ -298,7 +296,7 @@ const CoTeacherDetailedReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?district=${district}&category=${category}`,
+                `/reports/mentordetailsreport?state=${state}&category=${category}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -336,7 +334,7 @@ const CoTeacherDetailedReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailstable?district=${currentUser?.data[0]?.district_name}`,
+                `/reports/mentordetailstable?state=${currentUser?.data[0]?.state_name}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -357,18 +355,18 @@ const CoTeacherDetailedReport = () => {
                         response.data.data[0].courseINcompleted;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const teamCountItem = teamCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseINcompletedItem = courseINcompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted =
                             summaryItem.totalReg -
@@ -380,7 +378,7 @@ const CoTeacherDetailedReport = () => {
                                     : 0));
 
                         return {
-                            district,
+                            state,
                             totalReg: summaryItem.totalReg,
                             totalTeams: teamCountItem
                                 ? teamCountItem.totalTeams
@@ -419,7 +417,7 @@ const CoTeacherDetailedReport = () => {
                     };
 
                     const barData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No.of Students Enrolled',
@@ -439,7 +437,7 @@ const CoTeacherDetailedReport = () => {
                     };
 
                     const stackedBarChartData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No. of Teachers not started course',
@@ -500,7 +498,7 @@ const CoTeacherDetailedReport = () => {
                             <Row className="align-items-center">
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
-                                        <p>{district}</p>
+                                        <p>{state}</p>
                                         {/* <Select
                                             list={fullDistrictsNames}
                                             setValue={setdistrict}
@@ -598,8 +596,7 @@ const CoTeacherDetailedReport = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total
@@ -662,7 +659,7 @@ const CoTeacherDetailedReport = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>

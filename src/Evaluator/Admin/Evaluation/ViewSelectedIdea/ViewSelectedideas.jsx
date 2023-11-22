@@ -191,13 +191,15 @@ const ViewSelectedIdea = () => {
             {
                 name: 'No',
                 selector: (row) => row.key,
+                cellExport: (row) => row.key,
                 sortable: true,
                 width: '10rem'
             },
             {
                 name: 'State',
+                cellExport: (row) => row.state,
                 // selector: (row) => row.state,
-                selector: 'state',
+                // selector: 'state',
 
                 cell: (row) => (
                     <div
@@ -214,23 +216,26 @@ const ViewSelectedIdea = () => {
             {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
+                cellExport: (row) => row.organization_code,
                 width: '15rem'
             },
             {
                 name: 'Team Name',
                 selector: (row) => row.team_name,
+                cellExport: (row) => row.team_name,
                 width: '15rem'
             },
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
+                cellExport: (row) => row.challenge_response_id,
                 width: '10rem'
             },
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
-                selector: 'sdg',
-
+                // selector: 'sdg',
+                cellExport: (row) => row.sdg,
                 cell: (row) => (
                     <div
                         style={{
@@ -246,7 +251,8 @@ const ViewSelectedIdea = () => {
             {
                 name: 'Problem Statement',
                 // selector: (row) => row.sub_category,
-                selector: 'sub_category',
+                // selector: 'sub_category',
+                cellExport: (row) => row.sub_category,
 
                 cell: (row) => (
                     <div
@@ -264,7 +270,8 @@ const ViewSelectedIdea = () => {
                 name: 'Idea Name',
                 // selector: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                selector: 'response[1]?.selected_option',
+                // selector: 'response[1]?.selected_option',
+                cellExport: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
                 cell: (row) => (
                     <div
@@ -312,7 +319,7 @@ const ViewSelectedIdea = () => {
 
             {
                 name: 'Status',
-
+                cellExport: (row) => row.status,
                 cell: (row) => {
                     return [
                         <div className="d-flex" key={row}>
@@ -333,6 +340,7 @@ const ViewSelectedIdea = () => {
 
             {
                 name: 'Actions',
+                cellExport: (row) => '',
                 cell: (params) => {
                     return [
                         <>
@@ -377,13 +385,14 @@ const ViewSelectedIdea = () => {
             {
                 name: 'No',
                 selector: (row) => row.key,
+                cellExport: (row) => row.key,
                 sortable: true,
                 width: '10rem'
             },
             {
                 name: 'State',
-                selector: 'state',
-
+                // selector: 'state',
+                cellExport: (row) => row.state,
                 cell: (row) => (
                     <div
                         style={{
@@ -399,24 +408,27 @@ const ViewSelectedIdea = () => {
             {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
+                cellExport: (row) => row.organization_code,
                 width: '15rem'
             },
             {
                 name: 'Team Name',
                 selector: (row) => row.team_name,
+                cellExport: (row) => row.team_name,
                 width: '15rem'
             },
 
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
+                cellExport: (row) => row.challenge_response_id,
                 width: '10rem'
             },
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
-                selector: 'sdg',
-
+                // selector: 'sdg',
+                cellExport: (row) => row.sdg,
                 cell: (row) => (
                     <div
                         style={{
@@ -432,8 +444,8 @@ const ViewSelectedIdea = () => {
             {
                 name: 'Problem Statement',
                 // selector: (row) => row.sub_category,
-                selector: 'sub_category',
-
+                // selector: 'sub_category',
+                cellExport: (row) => row.sub_category,
                 cell: (row) => (
                     <div
                         style={{
@@ -448,9 +460,9 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
+                cellExport: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                selector: 'response[1]?.selected_option',
+                // selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div
@@ -487,6 +499,7 @@ const ViewSelectedIdea = () => {
             // },
             {
                 name: 'Actions',
+                cellExport: (row) => '',
                 cell: (params) => {
                     return [
                         <div className="d-flex" key={params}>
@@ -565,13 +578,14 @@ const ViewSelectedIdea = () => {
             {
                 name: 'No',
                 selector: (row) => row.key,
+                cellExport: (row) => row.key,
                 sortable: true,
                 width: '8rem'
             },
             {
                 name: 'State',
-                selector: 'state',
-
+                // selector: 'state',
+                cellExport: (row) => row.state,
                 cell: (row) => (
                     <div
                         style={{
@@ -587,24 +601,29 @@ const ViewSelectedIdea = () => {
             {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
+                cellExport: (row) => row.organization_code,
+
                 width: '15rem'
             },
             {
                 name: 'Team Name',
                 selector: (row) => row.team_name,
+                cellExport: (row) => row.team_name,
+
                 width: '15rem'
             },
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
+                cellExport: (row) => row.challenge_response_id,
                 width: '7rem'
             },
 
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
-                selector: 'sdg',
-
+                // selector: 'sdg',
+                cellExport: (row) => row.sdg,
                 cell: (row) => (
                     <div
                         style={{
@@ -620,7 +639,8 @@ const ViewSelectedIdea = () => {
             {
                 name: 'Problem Statement',
                 // selector: (row) => row.sub_category,
-                selector: 'sub_category',
+                // selector: 'sub_category',
+                cellExport: (row) => row.sub_category,
 
                 cell: (row) => (
                     <div
@@ -636,9 +656,9 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
+                cellExport: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                selector: 'response[1]?.selected_option',
+                // selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div
@@ -659,6 +679,7 @@ const ViewSelectedIdea = () => {
             // },
             {
                 name: 'Quality Score',
+                cellExport: (row) => row?.response[1]?.selected_option || '',
                 selector: (row) => {
                     return [
                         (
@@ -842,13 +863,14 @@ const ViewSelectedIdea = () => {
             {
                 name: 'No',
                 selector: (row) => row.key,
+                cellExport: (row) => row.key,
                 sortable: true,
                 width: '10rem'
             },
             {
                 name: 'State',
-                selector: 'state',
-
+                // selector: 'state',
+                cellExport: (row) => row.state,
                 cell: (row) => (
                     <div
                         style={{
@@ -864,23 +886,29 @@ const ViewSelectedIdea = () => {
             {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
+                cellExport: (row) => row.organization_code,
                 width: '15rem'
             },
             {
                 name: 'Team Name',
                 selector: (row) => row.team_name,
+                cellExport: (row) => row.team_name,
+
                 width: '15rem'
             },
 
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
+                cellExport: (row) => row.challenge_response_id,
+
                 width: '10rem'
             },
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
-                selector: 'sdg',
+                // selector: 'sdg',
+                cellExport: (row) => row.sdg,
 
                 cell: (row) => (
                     <div
@@ -897,7 +925,8 @@ const ViewSelectedIdea = () => {
             {
                 name: 'Problem Statement',
                 // selector: (row) => row.sub_category,
-                selector: 'sub_category',
+                // selector: 'sub_category',
+                cellExport: (row) => row.sub_category,
 
                 cell: (row) => (
                     <div
@@ -913,9 +942,9 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
+                cellExport: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                selector: 'response[1]?.selected_option',
+                // selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div
@@ -942,6 +971,7 @@ const ViewSelectedIdea = () => {
             // },
             {
                 name: 'Actions',
+                cellExport: (row) => '',
                 cell: (params) => {
                     return [
                         <>
@@ -1220,7 +1250,7 @@ const ViewSelectedIdea = () => {
                                     <div className="bg-white border card pt-3 mt-5">
                                         <DataTableExtensions
                                             print={false}
-                                            export={false}
+                                            export={true}
                                             {...sel}
                                         >
                                             <DataTable
