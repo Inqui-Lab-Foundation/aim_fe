@@ -26,6 +26,8 @@ const CoTeacherDetailedReport = () => {
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
     const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
+    const [atl, setAtl] = useState('');
+
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
         []
     );
@@ -39,6 +41,10 @@ const CoTeacherDetailedReport = () => {
     const [newFormat, setNewFormat] = useState('');
 
     const [downloadTableData, setDownloadTableData] = useState([]);
+    const [barChart3Data, setBarChart3Data] = useState({
+        labels: [],
+        datasets: []
+    });
     const [barChart1Data, setBarChart1Data] = useState({
         labels: [],
         datasets: []
@@ -279,7 +285,98 @@ const CoTeacherDetailedReport = () => {
             }
         }
     };
+    const optionsStudent = {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 10
+                },
+                title: {
+                    display: true,
+                    text: 'Number of ATL v/s Non ATl Students ',
+                    color: 'blue'
+                }
+            },
+            x: {
+                grid: {
+                    display: true,
+                    drawBorder: true,
+                    color: 'rgba(0, 0, 0, 0.2)',
+                    lineWidth: 0.5
+                },
+                title: {
+                    display: true,
+                    text: 'States',
+                    color: 'blue'
+                },
+                ticks: {
+                    maxRotation: 80,
+                    autoSkip: false
+                    //maxTicksLimit: 10,
+                }
+            }
+        }
+    };
+    useEffect(() => {
+        nonAtlCount();
+    }, []);
+    const nonAtlCount = () => {
+        var config = {
+            method: 'get',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                `/reports/studentATLnonATLcount?state=${currentUser?.data[0]?.state_name}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (res) {
+                if (res.status === 200) {
+                    console.log(res);
+                    var mentorStuArray = [];
+                    res &&
+                        res.data &&
+                        res.data.data &&
+                        res.data.data.map((students, index) => {
+                            var key = index + 1;
+                            return mentorStuArray.push({ ...students, key });
+                        });
+                    setAtl(mentorStuArray);
+                    // console.log(mentorStuArray);
 
+                    // setAtl(response.data.data);
+                    const barStudentData = {
+                        labels: mentorStuArray.map((item) => item.state),
+                        datasets: [
+                            {
+                                label: 'No.of  ATL Students',
+                                data: mentorStuArray.map(
+                                    (item) => item.ATL_Student_Count
+                                ),
+                                backgroundColor: 'rgba(255, 0, 0, 0.6)'
+                            },
+                            {
+                                label: 'No.of Non ATL Students',
+                                data: mentorStuArray.map(
+                                    (item) => item.NONATL_Student_Count
+                                ),
+                                backgroundColor: 'rgba(75, 162, 192, 0.6)'
+                            }
+                        ]
+                    };
+                    setBarChart3Data(barStudentData);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     const handleDownload = () => {
         if (!state || !category) {
             notification.warning({
@@ -785,6 +882,31 @@ const CoTeacherDetailedReport = () => {
                                                             <b>
                                                                 Teacher Course
                                                                 Status As of
+                                                                {newFormat}
+                                                            </b>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="col-md-6 chart-container mt-5"
+                                                style={{
+                                                    width: '100%',
+                                                    height: '370px'
+                                                }}
+                                            >
+                                                <div className="chart-box">
+                                                    <Bar
+                                                        data={barChart3Data}
+                                                        options={optionsStudent}
+                                                    />
+                                                    <div className="chart-title">
+                                                        <p>
+                                                            <b>
+                                                                No.of Students
+                                                                Enrolled in ATL
+                                                                v/s Non ATL
+                                                                Schools{' '}
                                                                 {newFormat}
                                                             </b>
                                                         </p>

@@ -44,10 +44,8 @@ const EditProfile = (props) => {
                 .matches(/^[aA-zZ\s]+$/, 'Invalid name ')
                 .min(2, 'Enter a valid name')
                 .required('Name is Required'),
-            email: Yup.string()
-                .email()
-                .required('required')
-                .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com')
+            email: Yup.string().email().required('required')
+            // .matches(/[A-Za-z0-9/-/]\.com$/, 'Email must end with .com')
             // .trim()
             // .matches(
             //     /^\d+$/,
