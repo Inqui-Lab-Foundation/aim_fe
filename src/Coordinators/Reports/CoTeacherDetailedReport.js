@@ -4,7 +4,7 @@ import Layout from '../Layout';
 import { Container, Row, Col, Table } from 'reactstrap';
 import { Button } from '../../stories/Button';
 import { CSVLink } from 'react-csv';
-import { getCurrentUser } from '../../helpers/Utils';
+import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
 import { getDistrictData } from '../../redux/studentRegistration/actions';
 import { useDispatch } from 'react-redux';
@@ -96,6 +96,10 @@ const CoTeacherDetailedReport = () => {
     ];
     const teacherDetailsHeaders = [
         {
+            label: 'ATL CODE',
+            key: 'ATL code'
+        },
+        {
             label: 'UDISE CODE',
             key: 'UDISE code'
         },
@@ -106,6 +110,10 @@ const CoTeacherDetailedReport = () => {
         {
             label: 'School Type/Category',
             key: 'category'
+        },
+        {
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'District',
@@ -128,6 +136,10 @@ const CoTeacherDetailedReport = () => {
             key: 'Teacher Name'
         },
         {
+            label: 'Teacher Email',
+            key: 'Teacher Email'
+        },
+        {
             label: 'Teacher Gender',
             key: 'Teacher Gender'
         },
@@ -138,10 +150,6 @@ const CoTeacherDetailedReport = () => {
         {
             label: 'Teacher WhatsApp Contact',
             key: 'Teacher WhatsApp Contact'
-        },
-        {
-            label: 'Pre Survey Status',
-            key: 'Pre Survey Status'
         },
         {
             label: 'Course Status',
@@ -158,14 +166,6 @@ const CoTeacherDetailedReport = () => {
         {
             label: 'No.of Students Enrollrd',
             key: 'student_count'
-        },
-        {
-            label: 'No.of Students Presurvey Completed',
-            key: 'preSur_cmp'
-        },
-        {
-            label: 'No.of Students Presurvey Not Started',
-            key: 'presurveyNotStarted'
         },
         {
             label: 'No.of Students Course Completed',
@@ -416,6 +416,10 @@ const CoTeacherDetailedReport = () => {
                     });
 
                     setmentorDetailedReportsData(newdatalist);
+                    openNotificationWithIcon(
+                        'success',
+                        `School Detailed Reports Downloaded Successfully`
+                    );
                     csvLinkRef.current.link.click();
                     setIsDownload(false);
                 }

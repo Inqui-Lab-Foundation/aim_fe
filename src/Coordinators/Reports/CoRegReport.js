@@ -96,8 +96,12 @@ const CoRegReport = () => {
     ];
     const RegHeaders = [
         {
-            label: 'UDISE CODE',
+            label: 'ATL CODE',
             key: 'organization.organization_code'
+        },
+        {
+            label: 'UDISE CODE',
+            key: 'organization.unique_code'
         },
         {
             label: 'School Name',
@@ -112,8 +116,20 @@ const CoRegReport = () => {
             key: 'organization.state'
         },
         {
+            label: 'District',
+            key: 'organization.district'
+        },
+        {
             label: 'City',
             key: 'organization.city'
+        },
+        {
+            label: 'Pin code',
+            key: 'organization.pin_code'
+        },
+        {
+            label: 'Address',
+            key: 'organization.address'
         },
         {
             label: 'HM Name',
@@ -126,6 +142,10 @@ const CoRegReport = () => {
         {
             label: 'Teacher Name',
             key: 'full_name'
+        },
+        {
+            label: 'Email ID',
+            key: 'user.username'
         },
         {
             label: 'Teacher Gender',
@@ -142,12 +162,12 @@ const CoRegReport = () => {
     ];
     const notRegHeaders = [
         {
-            label: 'Organization_Id',
-            key: 'organization_id'
+            label: 'ATL CODE',
+            key: 'organization_code'
         },
         {
             label: 'UDISE CODE',
-            key: 'organization_code'
+            key: 'unique_code'
         },
         {
             label: 'School Name',
@@ -162,13 +182,21 @@ const CoRegReport = () => {
             key: 'state'
         },
         {
+            label: 'District',
+            key: 'district'
+        },
+        {
             label: 'City',
             key: 'city'
         },
-        // {
-        //     label: 'State',
-        //     key: 'state'
-        // },
+        {
+            label: 'Pin code',
+            key: 'pin_code'
+        },
+        {
+            label: 'Address',
+            key: 'address'
+        },
         {
             label: 'Country',
             key: 'country'
@@ -372,7 +400,7 @@ const CoRegReport = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log(response);
+                    console.log(response);
                     const chartTableData = response?.data?.data || [];
                     setChartTableData(chartTableData);
                     setDownloadTableData(chartTableData);
@@ -761,10 +789,10 @@ const CoRegReport = () => {
                                         filename={`MentorSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
-                                        // onDownloaded={() => {
-                                        //     setIsDownloading(false);
-                                        //     setDownloadComplete(true);
-                                        // }}
+                                        onDownloaded={() => {
+                                            setIsDownloading(false);
+                                            setDownloadComplete(true);
+                                        }}
                                     >
                                         Download Table CSV
                                     </CSVLink>
@@ -777,10 +805,10 @@ const CoRegReport = () => {
                                         filename={`Teacher_${filterType}Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
-                                        // onDownloaded={() => {
-                                        //     setIsDownloading(false);
-                                        //     setDownloadComplete(true);
-                                        // }}
+                                        onDownloaded={() => {
+                                            setIsDownloading(false);
+                                            setDownloadComplete(true);
+                                        }}
                                     >
                                         Download CSV
                                     </CSVLink>
@@ -793,10 +821,10 @@ const CoRegReport = () => {
                                         filename={`Teacher_${filterType}Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefNotRegistered}
-                                        // onDownloaded={() => {
-                                        //     setIsDownloading(false);
-                                        //     setDownloadComplete(true);
-                                        // }}
+                                        onDownloaded={() => {
+                                            setIsDownloading(false);
+                                            setDownloadComplete(true);
+                                        }}
                                     >
                                         Download Not Registered CSV
                                     </CSVLink>

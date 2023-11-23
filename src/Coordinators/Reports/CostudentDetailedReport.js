@@ -130,8 +130,8 @@ const CostudentDetailedReport = () => {
 
     const studentTableHeaders = [
         {
-            label: 'State Name',
-            key: 'state'
+            label: 'District Name',
+            key: 'district'
         },
         {
             label: 'Total No.Of TEAMS created',
@@ -177,6 +177,10 @@ const CostudentDetailedReport = () => {
 
     const studentDetailsHeaders = [
         {
+            label: 'ATL CODE',
+            key: 'ATL code'
+        },
+        {
             label: 'UDISE CODE',
             key: 'UDISE code'
         },
@@ -187,6 +191,10 @@ const CostudentDetailedReport = () => {
         {
             label: 'School Type/Category',
             key: 'category'
+        },
+        {
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'District',
@@ -207,6 +215,10 @@ const CostudentDetailedReport = () => {
         {
             label: 'Teacher Name',
             key: 'Teacher Name'
+        },
+        {
+            label: 'Teacher Email',
+            key: 'Teacher Email'
         },
         {
             label: 'Teacher Gender',
@@ -245,8 +257,8 @@ const CostudentDetailedReport = () => {
             key: 'Grade'
         },
         {
-            label: 'Pre-Survey Status',
-            key: 'Pre Survey Status'
+            label: 'Disability status',
+            key: 'Disability status'
         },
         {
             label: 'Course Completion%',
