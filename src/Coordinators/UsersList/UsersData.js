@@ -512,7 +512,7 @@ const TicketsPage = (props) => {
                 selector: 'username',
                 cellExport: (row) => row.username,
 
-                width: '15rem'
+                width: '25rem'
             },
 
             {

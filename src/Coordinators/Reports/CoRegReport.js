@@ -16,6 +16,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
 import { categoryValue } from '../../Admin/Schools/constentText';
 // import { getDistrictByName } from '../../Coordinators/store/Coordinator/actions';
+import { Bar } from 'react-chartjs-2';
 
 const CoRegReport = () => {
     const currentUser = getCurrentUser('current_user');
@@ -59,6 +60,10 @@ const CoRegReport = () => {
     //     (state) => state?.studentRegistration?.dists
     // );
     const [downloadTableData, setDownloadTableData] = useState(null);
+    const [barChart1Data, setBarChart1Data] = useState({
+        labels: [],
+        datasets: []
+    });
     const summaryHeaders = [
         {
             label: 'State Name',
@@ -245,7 +250,41 @@ const CoRegReport = () => {
             }
         }
     };
-
+    const options = {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 10
+                },
+                title: {
+                    display: true,
+                    text: 'Number of Registered ATL and Non ATL Schools',
+                    color: 'blue'
+                }
+            },
+            x: {
+                grid: {
+                    display: true,
+                    drawBorder: true,
+                    color: 'rgba(0, 0, 0, 0.2)',
+                    lineWidth: 0.5
+                },
+                title: {
+                    display: true,
+                    text: 'States',
+                    color: 'blue'
+                },
+                ticks: {
+                    maxRotation: 80,
+                    autoSkip: false
+                    //maxTicksLimit: 10,
+                }
+            }
+        }
+    };
     const fetchData = (item) => {
         const url =
             item === 'Registered'
@@ -365,6 +404,26 @@ const CoRegReport = () => {
                             }
                         ]
                     });
+                    const barData = {
+                        labels: chartTableData.map((item) => item.state),
+                        datasets: [
+                            {
+                                label: 'Registered ATL Schools',
+                                data: chartTableData.map(
+                                    (item) => item.ATL_Reg_Count
+                                ),
+                                backgroundColor: 'rgba(255, 0, 0, 0.6)'
+                            },
+                            {
+                                label: 'Registered Non ATL Schools',
+                                data: chartTableData.map(
+                                    (item) => item.NONATL_Reg_Count
+                                ),
+                                backgroundColor: 'rgba(75, 162, 192, 0.6)'
+                            }
+                        ]
+                    };
+                    setBarChart1Data(barData);
                 }
             })
             .catch((error) => {
@@ -444,23 +503,28 @@ const CoRegReport = () => {
                                         onClick={handleDownload}
                                         //label={'Download Report'}
                                         label={
-                                            downloadComplete
-                                                ? 'Download Complete'
-                                                : isDownloading
-                                                ? 'Downloading...'
+                                            isDownloading
+                                                ? 'Downloading'
                                                 : 'Download Report'
                                         }
+                                        // label={
+                                        //     downloadComplete
+                                        //         ? 'Download Complete'
+                                        //         : isDownloading
+                                        //         ? 'Downloading...'
+                                        //         : 'Download Report'
+                                        // }
                                         btnClass="primary mx-3"
                                         size="small"
                                         shape="btn-square"
                                         type="submit"
-                                        style={{
-                                            width: '160px',
-                                            whiteSpace: 'nowrap',
-                                            pointerEvents: isDownloading
-                                                ? 'none'
-                                                : 'auto'
-                                        }}
+                                        // style={{
+                                        //     width: '160px',
+                                        //     whiteSpace: 'nowrap',
+                                        //     pointerEvents: isDownloading
+                                        //         ? 'none'
+                                        //         : 'auto'
+                                        // }}
                                         disabled={isDownloading}
                                     />
                                 </Col>
@@ -478,7 +542,7 @@ const CoRegReport = () => {
                                                 shape="btn-square"
                                                 onClick={() => {
                                                     if (downloadTableData) {
-                                                        setIsDownloading(true);
+                                                        // setIsDownloading(true);
                                                         setDownloadTableData(
                                                             null
                                                         ); // Reset data
@@ -507,31 +571,29 @@ const CoRegReport = () => {
                                                                 </th>
                                                                 <th>
                                                                     Total
-                                                                    Eligible
+                                                                    Eligible ATL
+                                                                    Schools
+                                                                </th>
+                                                                <th>
+                                                                    Total Not
                                                                     Registered
                                                                     ATL Schools
                                                                 </th>
                                                                 <th>
                                                                     Total
-                                                                    Eligible
                                                                     Registered
-                                                                    Non ATL
+                                                                    ATL Schools
+                                                                </th>
+                                                                <th>
+                                                                    Total
+                                                                    Registered
+                                                                    NON ATL
                                                                     Schools
                                                                 </th>
                                                                 <th>
                                                                     Total
                                                                     Registered
-                                                                    ATL Teachers
-                                                                </th>
-                                                                <th>
-                                                                    Total
-                                                                    Registered
-                                                                    Non ATL
-                                                                    Teachers
-                                                                </th>
-                                                                <th>
-                                                                    Total
-                                                                    Registered
+                                                                    (ATL+Non-ATL)
                                                                     Teachers
                                                                 </th>
                                                                 <th>
@@ -666,6 +728,31 @@ const CoRegReport = () => {
                                         </div>
                                     </div>
                                 )}
+                                <div className="mt-5">
+                                    <div
+                                        className="col-md-12 chart-container mt-5"
+                                        style={{
+                                            width: '100%',
+                                            height: '370px'
+                                        }}
+                                    >
+                                        <div className="chart-box">
+                                            <Bar
+                                                data={barChart1Data}
+                                                options={options}
+                                            />
+                                            <div className="chart-title">
+                                                <p>
+                                                    <b>
+                                                        Registered ATL Schools
+                                                        v/s Registered Non ATL
+                                                        Schools {newFormat}
+                                                    </b>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 {downloadTableData && (
                                     <CSVLink
                                         data={downloadTableData}
@@ -674,10 +761,10 @@ const CoRegReport = () => {
                                         filename={`MentorSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
-                                        onDownloaded={() => {
-                                            setIsDownloading(false);
-                                            setDownloadComplete(true);
-                                        }}
+                                        // onDownloaded={() => {
+                                        //     setIsDownloading(false);
+                                        //     setDownloadComplete(true);
+                                        // }}
                                     >
                                         Download Table CSV
                                     </CSVLink>
@@ -690,10 +777,10 @@ const CoRegReport = () => {
                                         filename={`Teacher_${filterType}Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
-                                        onDownloaded={() => {
-                                            setIsDownloading(false);
-                                            setDownloadComplete(true);
-                                        }}
+                                        // onDownloaded={() => {
+                                        //     setIsDownloading(false);
+                                        //     setDownloadComplete(true);
+                                        // }}
                                     >
                                         Download CSV
                                     </CSVLink>
@@ -706,10 +793,10 @@ const CoRegReport = () => {
                                         filename={`Teacher_${filterType}Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefNotRegistered}
-                                        onDownloaded={() => {
-                                            setIsDownloading(false);
-                                            setDownloadComplete(true);
-                                        }}
+                                        // onDownloaded={() => {
+                                        //     setIsDownloading(false);
+                                        //     setDownloadComplete(true);
+                                        // }}
                                     >
                                         Download Not Registered CSV
                                     </CSVLink>

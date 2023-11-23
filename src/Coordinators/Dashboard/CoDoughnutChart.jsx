@@ -25,6 +25,7 @@ import { Row, Col } from 'reactstrap';
 import { useReactToPrint } from 'react-to-print';
 import Schoolpdf from '../../School/SchoolPdf';
 export default function DoughnutChart({ user, UserId }) {
+    
     const dispatch = useDispatch();
     const currentUser = getCurrentUser('current_user');
     const { teamsMembersStatus, teamsMembersStatusErr } = useSelector(

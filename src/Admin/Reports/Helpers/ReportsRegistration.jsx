@@ -758,7 +758,17 @@ const ReportsRegistration = () => {
                                                             />
                                                         )}
                                                     </div>
-
+                                                    <div className="col-md-12 text-center mt-3">
+                                                        <p>
+                                                            <b>
+                                                                Overall
+                                                                Registered
+                                                                Female vs Male
+                                                                Teachers As of{' '}
+                                                                {newFormat}
+                                                            </b>
+                                                        </p>
+                                                    </div>
                                                     <div className="col-md-12 doughnut-chart-container">
                                                         {registeredGenderChartData && (
                                                             <Doughnut

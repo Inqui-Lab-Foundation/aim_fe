@@ -9,6 +9,7 @@ import DoughnutChart from '../../Teachers/Dashboard/DoughnutChart';
 import { Button } from '../../stories/Button';
 import axios from 'axios';
 import { getCurrentUser } from '../../helpers/Utils';
+import CoDoughnutChart from '../Dashboard/CoDoughnutChart';
 
 const ViewMore = () => {
     const history = useHistory();
@@ -34,7 +35,9 @@ const ViewMore = () => {
             JSON.stringify(orgDaTa.organization_code)
         );
     };
-
+    const atlData = orgDaTa.organization_code;
+    const altRes = atlData.split('-');
+    const atlNew = altRes[0];
     useEffect(() => {
         var config = {
             method: 'get',
@@ -74,11 +77,12 @@ const ViewMore = () => {
                     />
                 </div>
                 <Row>
-                    <Card className="py-5">
-                        <CardBody>
-                            <h2 className="mb-4">Organization Details</h2>
+                    <Row>
+                        <Card className="py-5">
+                            <CardBody>
+                                <h2 className="mb-4">Organization Details</h2>
 
-                            <CardText>
+                                {/* <CardText>
                                 <span className="mx-3">
                                     <b>principal Name :</b>
                                 </span>
@@ -89,56 +93,99 @@ const ViewMore = () => {
                                     <b>principal Email :</b>
                                 </span>
                                 <b>{orgDaTa.principal_email}</b>
-                            </CardText>
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>organization Name :</b>
-                                </span>
-                                <b>{orgDaTa.organization_name}</b>
-                            </CardText>
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>organization Code :</b>
-                                </span>
-                                <b>{orgDaTa.organization_code}</b>
-                            </CardText>
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>Category :</b>
-                                </span>
-                                <b>{orgDaTa.category}</b>
-                            </CardText>
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>City :</b>
-                                </span>
-                                <b>{orgDaTa.city}</b>
-                            </CardText>
+                            </CardText> */}
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>organization Name :</b>
+                                    </span>
+                                    <b>{orgDaTa.organization_name}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>organization Code :</b>
+                                    </span>
+                                    <b>{orgDaTa.organization_code}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>UDISE Code :</b>
+                                    </span>
+                                    <b>{orgDaTa.unique_code}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Category :</b>
+                                    </span>
+                                    <b>{orgDaTa.category}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>state :</b>
+                                    </span>
+                                    <b>{orgDaTa.state}</b>
+                                </CardText>
 
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>District :</b>
-                                </span>
-                                <b>{orgDaTa.district}</b>
-                            </CardText>
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>state :</b>
-                                </span>
-                                <b>{orgDaTa.state}</b>
-                            </CardText>
-                            <CardText>
-                                <span className="mx-3">
-                                    <b>Country :</b>
-                                </span>
-                                <b>{orgDaTa.country}</b>
-                            </CardText>
-                        </CardBody>
-                    </Card>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>District :</b>
+                                    </span>
+                                    <b>{orgDaTa.district}</b>
+                                </CardText>
+
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Pincode :</b>
+                                    </span>
+                                    <b>{orgDaTa.pin_code}</b>
+                                </CardText>
+                            </CardBody>
+                        </Card>
+                    </Row>
+                    <Row>
+                        {orgDaTa.category === 'Non ATL' && (
+                            <Card className="py-5">
+                                <CardBody>
+                                    <h2 className="mb-4">ATL School Details</h2>
+                                    <CardText>
+                                        <span className="mx-3">
+                                            <b>ATL Code :</b>
+                                        </span>
+                                        <b>{atlNew}</b>
+                                    </CardText>
+                                    <CardText>
+                                        <span className="mx-3">
+                                            <b>Organization Name :</b>
+                                        </span>
+                                        <b>{orgDaTa.organization_name}</b>
+                                    </CardText>
+
+                                    <CardText>
+                                        <span className="mx-3">
+                                            <b>State:</b>
+                                        </span>
+                                        <b>{orgDaTa.state}</b>
+                                    </CardText>
+
+                                    <CardText>
+                                        <span className="mx-3">
+                                            <b>District :</b>
+                                        </span>
+                                        <b>{orgDaTa.district}</b>
+                                    </CardText>
+                                    <CardText>
+                                        <span className="mx-3">
+                                            <b>Pincode :</b>
+                                        </span>
+                                        <b>{orgDaTa.pin_code}</b>
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+                        )}
+                    </Row>
                     <Row className="py-5">
                         <Card className="py-5">
                             <CardBody>
-                                <h2 className="mb-4">Mentor Details</h2>
+                                <h2 className="mb-4">Teacher Details</h2>
                                 <CardText>
                                     <span className="mx-3">
                                         <b>Title :</b>
@@ -148,7 +195,7 @@ const ViewMore = () => {
 
                                 <CardText>
                                     <span className="mx-3">
-                                        <b>Mentor Name :</b>
+                                        <b>Teacher Name :</b>
                                     </span>
                                     <b>{orgDaTa.mentor.full_name}</b>
                                 </CardText>
@@ -166,9 +213,15 @@ const ViewMore = () => {
                                 </CardText>
                                 <CardText>
                                     <span className="mx-3">
-                                        <b>Mobile No :</b>
+                                        <b>Email Id :</b>
                                     </span>
                                     <b>{orgDaTa.mentor.user.username}</b>
+                                </CardText>
+                                <CardText>
+                                    <span className="mx-3">
+                                        <b>Mobile No :</b>
+                                    </span>
+                                    <b>{orgDaTa.mentor.mobile}</b>
                                 </CardText>
                                 <CardText>
                                     <span className="mx-3">
@@ -183,8 +236,14 @@ const ViewMore = () => {
                         <Row className="">
                             <Col>
                                 <div className="d-flex flex-wrap">
-                                    <DoughnutChart
+                                    {/* <DoughnutChart
                                         user={teamId}
+                                        UserId={orgDaTa?.mentor?.user_id}
+                                        dashBoard={'Admin'}
+                                    /> */}
+                                    <CoDoughnutChart
+                                        user={teamId}
+                                        UserId={orgDaTa?.mentor?.user_id}
                                         dashBoard={'Admin'}
                                     />
                                 </div>
