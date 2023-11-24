@@ -16,6 +16,7 @@ import Logo from '../assets/media/tn-brands/UPSHIFT_BLACK.png';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import logoutIcon from '../assets/media/logoutIcon.png';
 import UsersIcon1 from '../assets/media/UsersIcon1.png';
+import ChallengesIcon from '../assets/media/ChallengesIcon.png';
 
 import ReportIcon1 from '../assets/media/ReportIcon1.png';
 
@@ -111,6 +112,33 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                         >
                             <span style={{ color: 'var(--override-color)' }}>
                                 Dashboard
+                            </span>
+                        </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                        icon={
+                            <img
+                                src={ChallengesIcon}
+                                style={{ width: '20px' }}
+                            />
+                        }
+                        className={
+                            (location.pathname === '/coordinator/challenges' ||
+                                location.pathname ===
+                                    '/coordinator/challenges/viewlistofchallenges') &&
+                            'sidebar-active'
+                        }
+                    >
+                        <NavLink
+                            exact={true}
+                            to={'/coordinator/challenges'}
+                            style={{
+                                color: 'black !important',
+                                '--override-color': 'black'
+                            }}
+                        >
+                            <span style={{ color: 'var(--override-color)' }}>
+                                Challenges
                             </span>
                         </NavLink>
                     </MenuItem>

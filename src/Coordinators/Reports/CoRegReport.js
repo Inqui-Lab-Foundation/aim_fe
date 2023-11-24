@@ -7,8 +7,11 @@ import { Button } from '../../stories/Button';
 import { CSVLink } from 'react-csv';
 import { openNotificationWithIcon, getCurrentUser } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
-import { useDispatch } from 'react-redux';
+import {
+    getDistrictData,
+    getFetchDistData
+} from '../../redux/studentRegistration/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from '../../Admin/Reports/Helpers/Select';
 import axios from 'axios';
 import '../../Admin/Reports/reports.scss';
@@ -21,9 +24,11 @@ import { Bar } from 'react-chartjs-2';
 const CoRegReport = () => {
     const currentUser = getCurrentUser('current_user');
     // console.log(currentUser);
-    const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState(
+    const [RegTeachersState, setRegTeachersState] = React.useState(
         currentUser?.data[0]?.state_name
     );
+
+    const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
     const [filterType, setFilterType] = useState('');
     const [category, setCategory] = useState('');
     const [filteredData, setFilteredData] = useState([]);
@@ -47,6 +52,9 @@ const CoRegReport = () => {
     const [newFormat, setNewFormat] = useState('');
 
     const [downloadComplete, setDownloadComplete] = useState(false);
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     // const coordinator = useSelector((state) => state.coordinator);
     // console.log(coordinator, 'coordinator');
 
@@ -216,7 +224,8 @@ const CoRegReport = () => {
     ];
 
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getFetchDistData(currentUser?.data[0]?.state_name));
         fetchChartTableData();
         const newDate = new Date();
         const formattedDate = `${newDate.getUTCDate()}/${
@@ -316,9 +325,17 @@ const CoRegReport = () => {
     const fetchData = (item) => {
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${
+                      RegTeachersdistrict === ''
+                          ? 'All Districts'
+                          : RegTeachersdistrict
+                  }&category=${category}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?state=${RegTeachersdistrict}&category=${category}`
+                ? `/reports/notRegistered?&state=${RegTeachersState}&district=${
+                      RegTeachersdistrict === ''
+                          ? 'All Districts'
+                          : RegTeachersdistrict
+                  }&category=${category}`
                 : '';
 
         const config = {
@@ -359,10 +376,15 @@ const CoRegReport = () => {
     };
 
     const handleDownload = () => {
-        if (!RegTeachersdistrict || !filterType || !category) {
+        if (
+            // !RegTeachersdistrict
+            // ||
+            !filterType ||
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a category and filter type before Downloading Reports.'
+                    'Please select a district,category and filter type before Downloading Reports.'
             });
             return;
         }
@@ -480,9 +502,9 @@ const CoRegReport = () => {
                         </Col>
                         <div className="reports-data p-5 mt-4 mb-5 bg-white">
                             <Row className="align-items-center">
-                                <Col md={3}>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
-                                        <p>{RegTeachersdistrict}</p>
+                                        <p>{RegTeachersState}</p>
                                         {/* <Select
                                             list={fullDistrictsNames}
                                             setValue={setRegTeachersdistrict}
@@ -492,6 +514,17 @@ const CoRegReport = () => {
                                     </div>
                                 </Col>
                                 <Col md={3}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        {/* <p>{RegTeachersdistrict}</p> */}
+                                        <Select
+                                            list={fiterDistData}
+                                            setValue={setRegTeachersdistrict}
+                                            placeHolder={'Select District'}
+                                            value={RegTeachersdistrict}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
                                             list={filterOptions}
@@ -513,7 +546,7 @@ const CoRegReport = () => {
                                 </Col>
 
                                 <Col
-                                    md={3}
+                                    md={2}
                                     className="d-flex align-items-center justify-content-center"
                                 >
                                     {/* <Button

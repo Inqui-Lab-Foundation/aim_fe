@@ -18,7 +18,7 @@ import {
 import axios from 'axios';
 import { URL, KEY } from '../../constants/defaultValues.js';
 
-import { getNormalHeaders } from '../../helpers/Utils';
+import { getNormalHeaders, getCurrentUser } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -94,15 +94,25 @@ const SelectDists = ({
 const TicketsPage = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
-
+    const currentUser = getCurrentUser('current_user');
+    // console.log(currentUser, 'user');
     const district = localStorage.getItem('dist');
     const [menter, activeMenter] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const [evaluater, activeEvaluater] = useState(false);
     const [tab, setTab] = useState('1');
-    const [studentDist, setstudentDist] = useState(district ? district : '');
-    const [mentorDist, setmentorDist] = useState('');
+    // const [studentDist, setstudentDist] = useState(district ? district : '');
+    const [studentDist, setstudentDist] = useState(
+        currentUser?.data[0]?.state_name
+    );
+
+    // console.log(studentDist, 'dist');
+    // const [mentorDist, setmentorDist] = useState('');
+    const [mentorDist, setmentorDist] = useState(
+        currentUser?.data[0]?.state_name
+    );
+
     const [newDist, setNewDists] = useState('');
     const [registerModalShow, setRegisterModalShow] = useState(false);
     const [fetchData, setFetchData] = useState(false);
@@ -115,11 +125,24 @@ const TicketsPage = (props) => {
     // }, [tab]);
     const MentorItemsList = props.mentorsList;
     const StudentItemsList = props.studentList;
-
+    useEffect(() => {
+        if (Number(tab) === 1) {
+            props.getStudentListAction(currentUser?.data[0]?.state_name);
+            // MentorItemsList();
+        }
+    }, [tab]);
+    useEffect(() => {
+        if (Number(tab) === 2) {
+            props.getAdminMentorsListAction(
+                'All',
+                currentUser?.data[0]?.state_name
+            );
+        }
+    }, [tab]);
     useEffect(() => {
         if (Number(tab) === 1 && studentDist !== '') {
             setLoading(true);
-            props.getStudentListAction(studentDist);
+            props.getStudentListAction(currentUser?.data[0]?.state_name);
             // const timeout = setTimeout(() => {
             //     // setLoading(false);
             // }, 2000);
@@ -128,7 +151,10 @@ const TicketsPage = (props) => {
     useEffect(() => {
         if (Number(tab) === 2 && mentorDist !== '') {
             setLoading(true);
-            props.getAdminMentorsListAction('All', mentorDist);
+            props.getAdminMentorsListAction(
+                'All',
+                currentUser?.data[0]?.state_name
+            );
             // const timeout = setTimeout(() => {
             //     // setLoading(false);
             //     // props.getStudentListAction(mentorDist);
@@ -235,11 +261,14 @@ const TicketsPage = (props) => {
                 let dist = localStorage.getItem('dist');
                 setmentorDist(dist);
                 // setNewDists(dist);
-                props.getAdminMentorsListAction('ALL', mentorDist);
+                props.getAdminMentorsListAction(
+                    'ALL',
+                    currentUser?.data[0]?.state_name
+                );
             } else {
                 let dist = localStorage.getItem('dist');
                 setstudentDist(dist);
-                props.getStudentListAction(studentDist);
+                props.getStudentListAction(currentUser?.data[0]?.state_name);
             }
         }
     }, [localStorage.getItem('dist')]);
@@ -406,7 +435,9 @@ const TicketsPage = (props) => {
                     if (type && type === 'student') {
                         props.studentStatusUpdate({ status }, id);
                         setTimeout(() => {
-                            props.getStudentListAction(studentDist);
+                            props.getStudentListAction(
+                                currentUser?.data[0]?.state_name
+                            );
                         }, 500);
                     } else if (type && type === 'evaluator') {
                         console.warn(status, id, type);
@@ -435,7 +466,10 @@ const TicketsPage = (props) => {
                         };
                         props.mentorStatusUpdate(obj, id);
                         setTimeout(() => {
-                            props.getAdminMentorsListAction('ALL', mentorDist);
+                            props.getAdminMentorsListAction(
+                                'ALL',
+                                currentUser?.data[0]?.state_name
+                            );
                         }, 500);
                     }
                     swalWithBootstrapButtons.fire(
@@ -867,7 +901,8 @@ const TicketsPage = (props) => {
                             >
                                 {tab && tab == 1 && (
                                     <>
-                                        <SelectDists
+                                        <p>{studentDist}</p>
+                                        {/* <SelectDists
                                             getStateDataListAction={
                                                 props.getStateDataListAction
                                             }
@@ -881,12 +916,13 @@ const TicketsPage = (props) => {
                                                 Total Students :{' '}
                                                 {StudentItemsList.length}
                                             </Card>
-                                        )}
+                                        )} */}
                                     </>
                                 )}
                                 {tab && tab == 2 && (
                                     <>
-                                        <SelectDists
+                                        <p>{mentorDist}</p>
+                                        {/* <SelectDists
                                             getStateDataListAction={
                                                 props.getStateDataListAction
                                             }
@@ -900,7 +936,7 @@ const TicketsPage = (props) => {
                                                 Total Teachers :{' '}
                                                 {MentorItemsList.length}
                                             </Card>
-                                        )}
+                                        )} */}
                                         {/* <div className="m-5 "> */}
                                         {/* <div className="d-flex justify-content-end">
                                             <Button
@@ -976,7 +1012,7 @@ const TicketsPage = (props) => {
                                 className="bg-white p-3 mt-2 sub-tab"
                                 tabId="1"
                             >
-                                {studentDist === '' ? (
+                                {/* {studentDist === '' ? (
                                     <CommonPage text="Please select a district" />
                                 ) : loading ? (
                                     <ClipLoader
@@ -984,28 +1020,26 @@ const TicketsPage = (props) => {
                                         // color={color}
                                         size={20}
                                     />
-                                ) : (
-                                    <div className="my-5">
-                                        <DataTableExtensions
-                                            {...StudentsData}
-                                            exportHeaders
-                                            print={false}
-                                            export={true}
-                                        >
-                                            <DataTable
-                                                data={rows}
-                                                defaultSortField="id"
-                                                defaultSortAsc={false}
-                                                pagination
-                                                highlightOnHover
-                                                fixedHeader
-                                                subHeaderAlign={
-                                                    Alignment.Center
-                                                }
-                                            />
-                                        </DataTableExtensions>
-                                    </div>
-                                )}
+                                ) : ( */}
+                                <div className="my-5">
+                                    <DataTableExtensions
+                                        {...StudentsData}
+                                        exportHeaders
+                                        print={false}
+                                        export={true}
+                                    >
+                                        <DataTable
+                                            data={rows}
+                                            defaultSortField="id"
+                                            defaultSortAsc={false}
+                                            pagination
+                                            highlightOnHover
+                                            fixedHeader
+                                            subHeaderAlign={Alignment.Center}
+                                        />
+                                    </DataTableExtensions>
+                                </div>
+                                {/* )} */}
                             </TabPane>
                             <TabPane
                                 tab="Teachers"
@@ -1013,32 +1047,30 @@ const TicketsPage = (props) => {
                                 className="bg-white p-3 mt-2 sub-tab"
                                 tabId="2"
                             >
-                                {mentorDist === '' ? (
+                                {/* {mentorDist === '' ? (
                                     <CommonPage text="Please select a district" />
                                 ) : loading ? (
                                     <ClipLoader loading={loading} size={20} />
-                                ) : (
-                                    <div className="my-5">
-                                        <DataTableExtensions
-                                            {...TableMentorsProps}
-                                            exportHeaders
-                                            print={false}
-                                            export={true}
-                                        >
-                                            <DataTable
-                                                data={mentorRows}
-                                                defaultSortField="id"
-                                                defaultSortAsc={false}
-                                                pagination
-                                                highlightOnHover
-                                                fixedHeader
-                                                subHeaderAlign={
-                                                    Alignment.Center
-                                                }
-                                            />
-                                        </DataTableExtensions>
-                                    </div>
-                                )}
+                                ) : ( */}
+                                <div className="my-5">
+                                    <DataTableExtensions
+                                        {...TableMentorsProps}
+                                        exportHeaders
+                                        print={false}
+                                        export={true}
+                                    >
+                                        <DataTable
+                                            data={mentorRows}
+                                            defaultSortField="id"
+                                            defaultSortAsc={false}
+                                            pagination
+                                            highlightOnHover
+                                            fixedHeader
+                                            subHeaderAlign={Alignment.Center}
+                                        />
+                                    </DataTableExtensions>
+                                </div>
+                                {/* )} */}
                             </TabPane>
                             {/* <TabPane
                                 tab="Evaluators"
