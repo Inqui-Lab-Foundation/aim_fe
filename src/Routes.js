@@ -184,7 +184,7 @@ import CooSucsessAtl from './Coordinators/UsersList/AtlReg';
 import CooNonAtlReg from './Coordinators/UsersList/NonAtlReg';
 import CooSuccessNonAtl from './Coordinators/UsersList/SuccessNonAtl';
 import CooUserProfileEdit from './Coordinators/Dashboard/EditProfile';
-
+import CoChallenges from './Coordinators/CooChallenges/CoViewSelectedChallenges';
 const Routers = () => {
     return (
         <>
@@ -717,6 +717,12 @@ const Routers = () => {
                         user="ADMIN"
                         path="/admin/register-new-schools"
                         component={AddNewSchool}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/challenges"
+                        component={CoChallenges}
                     />
                     <ProtectedRoute
                         exact={true}

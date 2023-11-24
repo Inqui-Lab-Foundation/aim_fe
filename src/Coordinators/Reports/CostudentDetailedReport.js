@@ -9,8 +9,11 @@ import { CSVLink } from 'react-csv';
 import { openNotificationWithIcon, getCurrentUser } from '../../helpers/Utils';
 import { Bar } from 'react-chartjs-2';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
-import { useDispatch } from 'react-redux';
+import {
+    getDistrictData,
+    getFetchDistData
+} from '../../redux/studentRegistration/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { categoryValue } from '../../Admin/Schools/constentText';
 
@@ -97,9 +100,10 @@ const CostudentDetailedReport = () => {
             }
         }
     };
-    const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState(
+    const [RegTeachersState, setRegTeachersState] = React.useState(
         currentUser?.data[0]?.state_name
     );
+    const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
     const [category, setCategory] = useState('');
     const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
 
@@ -124,6 +128,9 @@ const CostudentDetailedReport = () => {
         labels: [],
         datasets: []
     });
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     // const fullDistrictsNames = useSelector(
     //     (state) => state?.studentRegistration?.dists
     // );
@@ -278,7 +285,8 @@ const CostudentDetailedReport = () => {
         }
     ];
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getFetchDistData(currentUser?.data[0]?.state_name));
         fetchChartTableData();
         const newDate = new Date();
         const formattedDate = `${newDate.getUTCDate()}/${
@@ -341,7 +349,9 @@ const CostudentDetailedReport = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?state=${RegTeachersdistrict}&category=${category}`;
+        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
+        }&category=${category}`;
 
         const config = {
             method: 'get',
@@ -391,7 +401,10 @@ const CostudentDetailedReport = () => {
     };
 
     const handleDownload = () => {
-        if (!RegTeachersdistrict || !category) {
+        if (
+            // !RegTeachersdistrict ||
+            !category
+        ) {
             notification.warning({
                 message:
                     'Please select a category type before Downloading Reports.'
@@ -658,13 +671,24 @@ const CostudentDetailedReport = () => {
                             <Row className="align-items-center">
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
-                                        <p>{RegTeachersdistrict}</p>
+                                        <p>{RegTeachersState}</p>
                                         {/* <Select
                                             list={fullDistrictsNames}
                                             setValue={setRegTeachersdistrict}
                                             placeHolder={'Select District'}
                                             value={RegTeachersdistrict}
                                         /> */}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        {/* <p>{RegTeachersState}</p> */}
+                                        <Select
+                                            list={fiterDistData}
+                                            setValue={setRegTeachersdistrict}
+                                            placeHolder={'Select District'}
+                                            value={RegTeachersdistrict}
+                                        />
                                     </div>
                                 </Col>
                                 <Col md={3}>

@@ -6,8 +6,11 @@ import { Button } from '../../stories/Button';
 import { CSVLink } from 'react-csv';
 import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
-import { useDispatch } from 'react-redux';
+import {
+    getDistrictData,
+    getFetchDistData
+} from '../../redux/studentRegistration/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from '../../Admin/Reports/Helpers/Select';
 
 import axios from 'axios';
@@ -23,11 +26,15 @@ const CoTeacherDetailedReport = () => {
     const currentUser = getCurrentUser('current_user');
 
     const [state, setstate] = React.useState(currentUser?.data[0]?.state_name);
+    const [district, setdistrict] = React.useState('');
+
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
     const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
     const [atl, setAtl] = useState('');
-
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
         []
     );
@@ -194,7 +201,8 @@ const CoTeacherDetailedReport = () => {
     ];
 
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getFetchDistData(currentUser?.data[0]?.state_name));
         fetchChartTableData();
         const newDate = new Date();
         const formattedDate = `${newDate.getUTCDate()}/${
@@ -378,10 +386,13 @@ const CoTeacherDetailedReport = () => {
             });
     };
     const handleDownload = () => {
-        if (!state || !category) {
+        if (
+            // !district ||
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a category type before Downloading Reports.'
+                    'Please select a district, category type before Downloading Reports.'
             });
             return;
         }
@@ -393,7 +404,9 @@ const CoTeacherDetailedReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?state=${state}&category=${category}`,
+                `/reports/mentordetailsreport?state=${state}&district=${
+                    district === '' ? 'All Districts' : district
+                }&category=${category}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -597,7 +610,7 @@ const CoTeacherDetailedReport = () => {
                         </Col>
                         <div className="reports-data p-5 mt-4 mb-5 bg-white">
                             <Row className="align-items-center">
-                                <Col md={3}>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <p>{state}</p>
                                         {/* <Select
@@ -611,6 +624,16 @@ const CoTeacherDetailedReport = () => {
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
+                                            list={fiterDistData}
+                                            setValue={setdistrict}
+                                            placeHolder={'Select District'}
+                                            value={district}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={2}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        <Select
                                             list={categoryData}
                                             setValue={setCategory}
                                             placeHolder={'Select Category'}
@@ -619,7 +642,7 @@ const CoTeacherDetailedReport = () => {
                                     </div>
                                 </Col>
                                 <Col
-                                    md={3}
+                                    md={2}
                                     className="d-flex align-items-center justify-content-center"
                                 >
                                     {/* <Button
