@@ -4,10 +4,13 @@ import Layout from '../Layout';
 import { Container, Row, Col, Table } from 'reactstrap';
 import { Button } from '../../stories/Button';
 import { CSVLink } from 'react-csv';
-import { getCurrentUser } from '../../helpers/Utils';
+import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
-import { useDispatch } from 'react-redux';
+import {
+    getDistrictData,
+    getFetchDistData
+} from '../../redux/studentRegistration/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from '../../Admin/Reports/Helpers/Select';
 
 import axios from 'axios';
@@ -22,12 +25,16 @@ import { notification } from 'antd';
 const CoTeacherDetailedReport = () => {
     const currentUser = getCurrentUser('current_user');
 
-    const [district, setdistrict] = React.useState(
-        currentUser?.data[0]?.district_name
-    );
+    const [state, setstate] = React.useState(currentUser?.data[0]?.state_name);
+    const [district, setdistrict] = React.useState('');
+
     const [category, setCategory] = useState('');
     const [isDownload, setIsDownload] = useState(false);
     const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
+    const [atl, setAtl] = useState('');
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     const [mentorDetailedReportsData, setmentorDetailedReportsData] = useState(
         []
     );
@@ -41,6 +48,10 @@ const CoTeacherDetailedReport = () => {
     const [newFormat, setNewFormat] = useState('');
 
     const [downloadTableData, setDownloadTableData] = useState([]);
+    const [barChart3Data, setBarChart3Data] = useState({
+        labels: [],
+        datasets: []
+    });
     const [barChart1Data, setBarChart1Data] = useState({
         labels: [],
         datasets: []
@@ -55,7 +66,7 @@ const CoTeacherDetailedReport = () => {
     const tableHeaders = [
         {
             label: 'State Name',
-            key: 'district'
+            key: 'state'
         },
         {
             label: 'Total Registered Teachers',
@@ -92,6 +103,10 @@ const CoTeacherDetailedReport = () => {
     ];
     const teacherDetailsHeaders = [
         {
+            label: 'ATL CODE',
+            key: 'ATL code'
+        },
+        {
             label: 'UDISE CODE',
             key: 'UDISE code'
         },
@@ -102,6 +117,10 @@ const CoTeacherDetailedReport = () => {
         {
             label: 'School Type/Category',
             key: 'category'
+        },
+        {
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'District',
@@ -124,6 +143,10 @@ const CoTeacherDetailedReport = () => {
             key: 'Teacher Name'
         },
         {
+            label: 'Teacher Email',
+            key: 'Teacher Email'
+        },
+        {
             label: 'Teacher Gender',
             key: 'Teacher Gender'
         },
@@ -134,10 +157,6 @@ const CoTeacherDetailedReport = () => {
         {
             label: 'Teacher WhatsApp Contact',
             key: 'Teacher WhatsApp Contact'
-        },
-        {
-            label: 'Pre Survey Status',
-            key: 'Pre Survey Status'
         },
         {
             label: 'Course Status',
@@ -154,14 +173,6 @@ const CoTeacherDetailedReport = () => {
         {
             label: 'No.of Students Enrollrd',
             key: 'student_count'
-        },
-        {
-            label: 'No.of Students Presurvey Completed',
-            key: 'preSur_cmp'
-        },
-        {
-            label: 'No.of Students Presurvey Not Started',
-            key: 'presurveyNotStarted'
         },
         {
             label: 'No.of Students Course Completed',
@@ -190,7 +201,8 @@ const CoTeacherDetailedReport = () => {
     ];
 
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getFetchDistData(currentUser?.data[0]?.state_name));
         fetchChartTableData();
         const newDate = new Date();
         const formattedDate = `${newDate.getUTCDate()}/${
@@ -233,7 +245,7 @@ const CoTeacherDetailedReport = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -255,7 +267,7 @@ const CoTeacherDetailedReport = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -281,12 +293,106 @@ const CoTeacherDetailedReport = () => {
             }
         }
     };
+    const optionsStudent = {
+        maintainAspectRatio: false,
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 10
+                },
+                title: {
+                    display: true,
+                    text: 'Number of ATL v/s Non ATl Students ',
+                    color: 'blue'
+                }
+            },
+            x: {
+                grid: {
+                    display: true,
+                    drawBorder: true,
+                    color: 'rgba(0, 0, 0, 0.2)',
+                    lineWidth: 0.5
+                },
+                title: {
+                    display: true,
+                    text: 'States',
+                    color: 'blue'
+                },
+                ticks: {
+                    maxRotation: 80,
+                    autoSkip: false
+                    //maxTicksLimit: 10,
+                }
+            }
+        }
+    };
+    useEffect(() => {
+        nonAtlCount();
+    }, []);
+    const nonAtlCount = () => {
+        var config = {
+            method: 'get',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                `/reports/studentATLnonATLcount?state=${currentUser?.data[0]?.state_name}`,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: `Bearer ${currentUser.data[0]?.token}`
+            }
+        };
+        axios(config)
+            .then(function (res) {
+                if (res.status === 200) {
+                    console.log(res);
+                    var mentorStuArray = [];
+                    res &&
+                        res.data &&
+                        res.data.data &&
+                        res.data.data.map((students, index) => {
+                            var key = index + 1;
+                            return mentorStuArray.push({ ...students, key });
+                        });
+                    setAtl(mentorStuArray);
+                    // console.log(mentorStuArray);
 
+                    // setAtl(response.data.data);
+                    const barStudentData = {
+                        labels: mentorStuArray.map((item) => item.state),
+                        datasets: [
+                            {
+                                label: 'No.of  ATL Students',
+                                data: mentorStuArray.map(
+                                    (item) => item.ATL_Student_Count
+                                ),
+                                backgroundColor: 'rgba(255, 0, 0, 0.6)'
+                            },
+                            {
+                                label: 'No.of Non ATL Students',
+                                data: mentorStuArray.map(
+                                    (item) => item.NONATL_Student_Count
+                                ),
+                                backgroundColor: 'rgba(75, 162, 192, 0.6)'
+                            }
+                        ]
+                    };
+                    setBarChart3Data(barStudentData);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     const handleDownload = () => {
-        if (!district || !category) {
+        if (
+            // !district ||
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a district and category type before Downloading Reports.'
+                    'Please select a district, category type before Downloading Reports.'
             });
             return;
         }
@@ -298,7 +404,9 @@ const CoTeacherDetailedReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?district=${district}&category=${category}`,
+                `/reports/mentordetailsreport?state=${state}&district=${
+                    district === '' ? 'All Districts' : district
+                }&category=${category}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -321,6 +429,10 @@ const CoTeacherDetailedReport = () => {
                     });
 
                     setmentorDetailedReportsData(newdatalist);
+                    openNotificationWithIcon(
+                        'success',
+                        `School Detailed Reports Downloaded Successfully`
+                    );
                     csvLinkRef.current.link.click();
                     setIsDownload(false);
                 }
@@ -336,7 +448,7 @@ const CoTeacherDetailedReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailstable?district=${currentUser?.data[0]?.district_name}`,
+                `/reports/mentordetailstable?state=${currentUser?.data[0]?.state_name}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -357,18 +469,18 @@ const CoTeacherDetailedReport = () => {
                         response.data.data[0].courseINcompleted;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const teamCountItem = teamCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseINcompletedItem = courseINcompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted =
                             summaryItem.totalReg -
@@ -380,7 +492,7 @@ const CoTeacherDetailedReport = () => {
                                     : 0));
 
                         return {
-                            district,
+                            state,
                             totalReg: summaryItem.totalReg,
                             totalTeams: teamCountItem
                                 ? teamCountItem.totalTeams
@@ -419,7 +531,7 @@ const CoTeacherDetailedReport = () => {
                     };
 
                     const barData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No.of Students Enrolled',
@@ -439,7 +551,7 @@ const CoTeacherDetailedReport = () => {
                     };
 
                     const stackedBarChartData = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No. of Teachers not started course',
@@ -498,9 +610,9 @@ const CoTeacherDetailedReport = () => {
                         </Col>
                         <div className="reports-data p-5 mt-4 mb-5 bg-white">
                             <Row className="align-items-center">
-                                <Col md={3}>
+                                <Col md={2}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
-                                        <p>{district}</p>
+                                        <p>{state}</p>
                                         {/* <Select
                                             list={fullDistrictsNames}
                                             setValue={setdistrict}
@@ -512,6 +624,16 @@ const CoTeacherDetailedReport = () => {
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
                                         <Select
+                                            list={fiterDistData}
+                                            setValue={setdistrict}
+                                            placeHolder={'Select District'}
+                                            value={district}
+                                        />
+                                    </div>
+                                </Col>
+                                <Col md={2}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        <Select
                                             list={categoryData}
                                             setValue={setCategory}
                                             placeHolder={'Select Category'}
@@ -520,7 +642,7 @@ const CoTeacherDetailedReport = () => {
                                     </div>
                                 </Col>
                                 <Col
-                                    md={3}
+                                    md={2}
                                     className="d-flex align-items-center justify-content-center"
                                 >
                                     {/* <Button
@@ -598,8 +720,7 @@ const CoTeacherDetailedReport = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total
@@ -662,7 +783,7 @@ const CoTeacherDetailedReport = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>
@@ -788,6 +909,31 @@ const CoTeacherDetailedReport = () => {
                                                             <b>
                                                                 Teacher Course
                                                                 Status As of
+                                                                {newFormat}
+                                                            </b>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="col-md-6 chart-container mt-5"
+                                                style={{
+                                                    width: '100%',
+                                                    height: '370px'
+                                                }}
+                                            >
+                                                <div className="chart-box">
+                                                    <Bar
+                                                        data={barChart3Data}
+                                                        options={optionsStudent}
+                                                    />
+                                                    <div className="chart-title">
+                                                        <p>
+                                                            <b>
+                                                                No.of Students
+                                                                Enrolled in ATL
+                                                                v/s Non ATL
+                                                                Schools{' '}
                                                                 {newFormat}
                                                             </b>
                                                         </p>

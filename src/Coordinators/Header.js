@@ -38,7 +38,7 @@ const Header = (props) => {
                                             <span className="header-name-size">
                                                 {
                                                     currentUser?.data[0]
-                                                        ?.district_name
+                                                        ?.state_name
                                                 }
                                             </span>
                                         </div>
