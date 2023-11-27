@@ -125,13 +125,14 @@ const ViewSelectedIdea = () => {
             {
                 name: 'No',
                 selector: (row) => row.key,
-                // sortable: true,
+                cellExport: (row) => row.key,
                 width: '10rem'
             },
             {
                 name: 'State',
-                selector: 'state',
-
+                // selector: 'state',
+                // selector: (row) => row.state,
+                cellExport: (row) => row.state,
                 cell: (row) => (
                     <div
                         style={{
@@ -147,24 +148,30 @@ const ViewSelectedIdea = () => {
             {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
+                // selector: 'organization_code',
+                cellExport: (row) => row.organization_code,
                 width: '15rem'
             },
             {
                 name: 'Team Name',
                 selector: (row) => row.team_name,
+                // selector: 'team_name',
+                cellExport: (row) => row.team_name,
                 width: '15rem'
             },
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
+                // selector: 'challenge_response_id',
+                cellExport: (row) => row.challenge_response_id,
                 width: '10rem'
             },
 
             {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
-                selector: 'sdg',
-
+                // selector: 'sdg',
+                cellExport: (row) => row.sdg,
                 cell: (row) => (
                     <div
                         style={{
@@ -180,8 +187,8 @@ const ViewSelectedIdea = () => {
             {
                 name: 'Problem Statement',
                 // selector: (row) => row.sub_category,
-                selector: 'sub_category',
-
+                // selector: 'sub_category',
+                cellExport: (row) => row.sub_category,
                 cell: (row) => (
                     <div
                         style={{
@@ -198,8 +205,9 @@ const ViewSelectedIdea = () => {
                 name: 'Idea Name',
                 // selector: (row) => row?.response[1]?.selected_option || '',
                 // sortable: true,
-                selector: 'response[1]?.selected_option',
+                // selector: 'response[1]?.selected_option',
                 // sortable: true,
+                cellExport: (row) => row.response[1]?.selected_option,
                 cell: (row) => (
                     <div
                         style={{
@@ -225,11 +233,18 @@ const ViewSelectedIdea = () => {
             // },
             {
                 name: 'Status',
-                cell: (row) => row.status,
+                // selector: 'status',
+                selector: (row) => row.status,
+                cellExport: (row) => row.status,
+
+                // cell: (row) => row.status,
                 width: '15rem'
             },
             {
                 name: 'Actions',
+                // selector: 'actions',
+                cellExport: (row) => '',
+                // selector: (row) => row.actions,
                 cell: (params) => {
                     return [
                         <div className="d-flex" key={params}>
@@ -267,7 +282,7 @@ const ViewSelectedIdea = () => {
             }
         ]
     };
-    console.log(tableData, 'tableData');
+    // console.log(tableData, 'tableData');
     const showbutton = state && sdg;
 
     const handleNext = () => {
@@ -402,7 +417,7 @@ const ViewSelectedIdea = () => {
                                     <div className="bg-white border card pt-3 mt-5">
                                         <DataTableExtensions
                                             print={false}
-                                            export={false}
+                                            export={true}
                                             {...evaluatedIdeaforsub}
                                             exportHeaders
                                         >

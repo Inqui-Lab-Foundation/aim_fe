@@ -172,57 +172,57 @@ export default function DoughnutChart({ user, UserId }) {
                 setChangeShow(false);
             });
     };
-    // const handleRevoke = async (id, type) => {
-    //     let submitData = {
-    //         status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
-    //     };
-    //     var config = {
-    //         method: 'put',
-    //         url:
-    //             process.env.REACT_APP_API_BASE_URL +
-    //             '/challenge_response/updateEntry/' +
-    //             JSON.stringify(id),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             Authorization: `Bearer ${currentUser?.data[0]?.token}`
-    //         },
-    //         data: submitData
-    //     };
-    //     axios(config)
-    //         .then(function (response) {
-    //             console.log(response);
-    //             if (response.status === 200) {
-    //                 openNotificationWithIcon(
-    //                     'success',
-    //                     'Idea Submission Status Successfully Update!',
-    //                     ''
-    //                 );
-    //                 dispatch(getTeamMemberStatus(teamId, setshowDefault));
-    //                 dispatch(getStudentChallengeSubmittedResponse(teamId));
-    //             }
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // };
+    const handleRevoke = async (id, type) => {
+        let submitData = {
+            status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
+        };
+        var config = {
+            method: 'put',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                '/challenge_response/updateEntry/' +
+                JSON.stringify(id),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
+            },
+            data: submitData
+        };
+        axios(config)
+            .then(function (response) {
+                console.log(response);
+                if (response.status === 200) {
+                    openNotificationWithIcon(
+                        'success',
+                        'Idea Submission Status Successfully Update!',
+                        ''
+                    );
+                    dispatch(getTeamMemberStatus(teamId, setshowDefault));
+                    dispatch(getStudentChallengeSubmittedResponse(teamId));
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
     const columns = [
         {
             title: 'Name',
             dataIndex: 'full_name',
             width: '15rem'
         },
-        {
-            title: 'Pre Survey',
-            dataIndex: 'pre_survey_status',
-            align: 'center',
-            width: '15rem',
-            render: (_, record) =>
-                record?.pre_survey_status ? (
-                    <FaCheckCircle size={20} color="green" />
-                ) : (
-                    <FaTimesCircle size={20} color="red" />
-                )
-        },
+        // {
+        //     title: 'Pre Survey',
+        //     dataIndex: 'pre_survey_status',
+        //     align: 'center',
+        //     width: '15rem',
+        //     render: (_, record) =>
+        //         record?.pre_survey_status ? (
+        //             <FaCheckCircle size={20} color="green" />
+        //         ) : (
+        //             <FaTimesCircle size={20} color="red" />
+        //         )
+        // },
         {
             title: 'Lesson Progress',
             dataIndex: 'address',
@@ -563,7 +563,7 @@ export default function DoughnutChart({ user, UserId }) {
                                     />
                                 </div>
                                 <div className="m-3">
-                                    {/* <Button
+                                    <Button
                                         label={' Change  '}
                                         disabled={
                                             teamsMembersStatus.length > 0 &&
@@ -583,9 +583,9 @@ export default function DoughnutChart({ user, UserId }) {
                                         shape="btn-square"
                                         style={{ padding: '1rem 3rem' }}
                                         onClick={() => setChangeShow(true)}
-                                    /> */}
+                                    />
                                 </div>
-                                {/* <div>
+                                <div>
                                     {challengesSubmittedResponse[0]?.status ==
                                     'SUBMITTED' ? (
                                         <Button
@@ -602,20 +602,20 @@ export default function DoughnutChart({ user, UserId }) {
                                                 fontSize: '14px',
                                                 marginBottom: '.8rem'
                                             }}
-                                            // onClick={() =>
-                                            //     handleRevoke(
-                                            //         challengesSubmittedResponse[0]
-                                            //             .challenge_response_id,
-                                            //         challengesSubmittedResponse[0]
-                                            //             .status
-                                            //     )
-                                            // }
+                                            onClick={() =>
+                                                handleRevoke(
+                                                    challengesSubmittedResponse[0]
+                                                        .challenge_response_id,
+                                                    challengesSubmittedResponse[0]
+                                                        .status
+                                                )
+                                            }
                                             disabled={!isideadisable}
                                         />
                                     ) : (
                                         ''
                                     )}
-                                </div> */}
+                                </div>
                             </>
                         </>
                     )}

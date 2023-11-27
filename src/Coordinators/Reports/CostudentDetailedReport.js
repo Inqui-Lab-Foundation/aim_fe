@@ -9,8 +9,11 @@ import { CSVLink } from 'react-csv';
 import { openNotificationWithIcon, getCurrentUser } from '../../helpers/Utils';
 import { Bar } from 'react-chartjs-2';
 import { useHistory } from 'react-router-dom';
-import { getDistrictData } from '../../redux/studentRegistration/actions';
-import { useDispatch } from 'react-redux';
+import {
+    getDistrictData,
+    getFetchDistData
+} from '../../redux/studentRegistration/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { categoryValue } from '../../Admin/Schools/constentText';
 
@@ -34,7 +37,7 @@ const CostudentDetailedReport = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'States',
                     color: 'blue'
                 },
                 ticks: {
@@ -71,7 +74,7 @@ const CostudentDetailedReport = () => {
                 },
                 title: {
                     display: true,
-                    text: 'Districts',
+                    text: 'Sates',
                     color: 'blue'
                 },
                 ticks: {
@@ -97,9 +100,10 @@ const CostudentDetailedReport = () => {
             }
         }
     };
-    const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState(
-        currentUser?.data[0]?.district_name
+    const [RegTeachersState, setRegTeachersState] = React.useState(
+        currentUser?.data[0]?.state_name
     );
+    const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
     const [category, setCategory] = useState('');
     const categoryData = ['All Categorys', 'ATL', 'Non ATL'];
 
@@ -124,6 +128,9 @@ const CostudentDetailedReport = () => {
         labels: [],
         datasets: []
     });
+    const fiterDistData = useSelector(
+        (state) => state?.studentRegistration?.fetchdist
+    );
     // const fullDistrictsNames = useSelector(
     //     (state) => state?.studentRegistration?.dists
     // );
@@ -177,6 +184,10 @@ const CostudentDetailedReport = () => {
 
     const studentDetailsHeaders = [
         {
+            label: 'ATL CODE',
+            key: 'ATL code'
+        },
+        {
             label: 'UDISE CODE',
             key: 'UDISE code'
         },
@@ -187,6 +198,10 @@ const CostudentDetailedReport = () => {
         {
             label: 'School Type/Category',
             key: 'category'
+        },
+        {
+            label: 'State',
+            key: 'state'
         },
         {
             label: 'District',
@@ -207,6 +222,10 @@ const CostudentDetailedReport = () => {
         {
             label: 'Teacher Name',
             key: 'Teacher Name'
+        },
+        {
+            label: 'Teacher Email',
+            key: 'Teacher Email'
         },
         {
             label: 'Teacher Gender',
@@ -245,8 +264,8 @@ const CostudentDetailedReport = () => {
             key: 'Grade'
         },
         {
-            label: 'Pre-Survey Status',
-            key: 'Pre Survey Status'
+            label: 'Disability status',
+            key: 'Disability status'
         },
         {
             label: 'Course Completion%',
@@ -266,7 +285,8 @@ const CostudentDetailedReport = () => {
         }
     ];
     useEffect(() => {
-        dispatch(getDistrictData());
+        // dispatch(getDistrictData());
+        dispatch(getFetchDistData(currentUser?.data[0]?.state_name));
         fetchChartTableData();
         const newDate = new Date();
         const formattedDate = `${newDate.getUTCDate()}/${
@@ -329,7 +349,9 @@ const CostudentDetailedReport = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?district=${RegTeachersdistrict}&category=${category}`;
+        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
+        }&category=${category}`;
 
         const config = {
             method: 'get',
@@ -379,10 +401,13 @@ const CostudentDetailedReport = () => {
     };
 
     const handleDownload = () => {
-        if (!RegTeachersdistrict || !category) {
+        if (
+            // !RegTeachersdistrict ||
+            !category
+        ) {
             notification.warning({
                 message:
-                    'Please select a district and category type before Downloading Reports.'
+                    'Please select a category type before Downloading Reports.'
             });
             return;
         }
@@ -402,7 +427,7 @@ const CostudentDetailedReport = () => {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/studentdetailstable?district=${currentUser?.data[0]?.district_name}`,
+                `/reports/studentdetailstable?state=${currentUser?.data[0]?.state_name}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -424,16 +449,16 @@ const CostudentDetailedReport = () => {
                     const draftCount = response.data.data[0].draftCount;
 
                     const combinedArray = summary.map((summaryItem) => {
-                        const district = summaryItem.district;
+                        const state = summaryItem.state;
                         const totalTeams = summaryItem.totalTeams;
                         const studentCountItem = studentCountDetails.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseCompletedItem = courseCompleted.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseInProgressItem = courseINprogesss.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const courseNotStarted = studentCountItem
                             ? studentCountItem.totalstudent -
@@ -446,10 +471,10 @@ const CostudentDetailedReport = () => {
                             : 0;
 
                         const submittedCountItem = submittedCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const draftCountItem = draftCount.find(
-                            (item) => item.district === district
+                            (item) => item.state === state
                         );
                         const ideaNotStarted =
                             summaryItem.totalTeams -
@@ -483,7 +508,7 @@ const CostudentDetailedReport = () => {
                                 : 0;
 
                         return {
-                            district,
+                            state,
                             totalTeams,
                             totalStudents: studentCountItem
                                 ? studentCountItem.totalstudent
@@ -557,7 +582,7 @@ const CostudentDetailedReport = () => {
                     };
 
                     const stackedBarChart1Data = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No of Students Completed Course',
@@ -584,7 +609,7 @@ const CostudentDetailedReport = () => {
                     };
 
                     const stackedBarChart2Data = {
-                        labels: combinedArray.map((item) => item.district),
+                        labels: combinedArray.map((item) => item.state),
                         datasets: [
                             {
                                 label: 'No of Teams Submitted Ideas',
@@ -646,13 +671,24 @@ const CostudentDetailedReport = () => {
                             <Row className="align-items-center">
                                 <Col md={3}>
                                     <div className="my-3 d-md-block d-flex justify-content-center">
-                                        <p>{RegTeachersdistrict}</p>
+                                        <p>{RegTeachersState}</p>
                                         {/* <Select
                                             list={fullDistrictsNames}
                                             setValue={setRegTeachersdistrict}
                                             placeHolder={'Select District'}
                                             value={RegTeachersdistrict}
                                         /> */}
+                                    </div>
+                                </Col>
+                                <Col md={3}>
+                                    <div className="my-3 d-md-block d-flex justify-content-center">
+                                        {/* <p>{RegTeachersState}</p> */}
+                                        <Select
+                                            list={fiterDistData}
+                                            setValue={setRegTeachersdistrict}
+                                            placeHolder={'Select District'}
+                                            value={RegTeachersdistrict}
+                                        />
                                     </div>
                                 </Col>
                                 <Col md={3}>
@@ -734,8 +770,7 @@ const CostudentDetailedReport = () => {
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>
-                                                                    District
-                                                                    Name
+                                                                    State Name
                                                                 </th>
                                                                 <th>
                                                                     Total No.Of
@@ -810,7 +845,7 @@ const CostudentDetailedReport = () => {
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.district
+                                                                                item.state
                                                                             }
                                                                         </td>
                                                                         <td>
