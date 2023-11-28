@@ -293,7 +293,7 @@ const ReportL2 = () => {
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
                         'success',
-                        `Ideas Detailed Reports Downloaded Successfully`
+                        `L2 Status Detailed Reports Downloaded Successfully`
                     );
                     setIsDownloading(false);
                 }
@@ -820,7 +820,7 @@ const ReportL2 = () => {
                                     <CSVLink
                                         data={downloadTableData}
                                         headers={summaryHeaders}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`L2StatusSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
                                         // onDownloaded={() => {
@@ -835,7 +835,7 @@ const ReportL2 = () => {
                                     <CSVLink
                                         data={downloadTableData2}
                                         headers={summaryHeaders2}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`L2EvaluatorSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable2}
                                         // onDownloaded={() => {
@@ -850,7 +850,7 @@ const ReportL2 = () => {
                                     <CSVLink
                                         data={downloadData}
                                         headers={teacherDetailsHeaders}
-                                        filename={`IdeasDetailedSummaryReport_${newFormat}.csv`}
+                                        filename={`L2StatusDetailedSummaryReport_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
                                     >

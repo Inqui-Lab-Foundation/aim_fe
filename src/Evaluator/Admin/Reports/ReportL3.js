@@ -30,6 +30,7 @@ import { notification } from 'antd';
 const ReportL3 = () => {
     const [RegTeachersdistrict, setRegTeachersdistrict] = React.useState('');
     const [RegTeachersState, setRegTeachersState] = React.useState('');
+    const [totalCount, setTotalCount] = useState([]);
 
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
@@ -309,7 +310,7 @@ const ReportL3 = () => {
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
                         'success',
-                        `Ideas Detailed Reports Downloaded Successfully`
+                        `L3 Status Detailed Reports Downloaded Successfully`
                     );
                     setIsDownloading(false);
                 }
@@ -483,8 +484,28 @@ const ReportL3 = () => {
             .then((response) => {
                 if (response.status === 200) {
                     const chartTableData2 = response?.data?.data || [];
+                    const total = chartTableData2.reduce(
+                        (acc, item) => {
+                            (acc.shortedlisted += item.shortedlisted),
+                                // (acc.state += item.state);
+                                (acc.winners += item.winners),
+                                (acc.runners += item.runners);
 
-                    setChartTableData2(chartTableData2);
+                            return acc;
+                        },
+                        {
+                            // state: 0,
+                            shortedlisted: 0,
+                            winners: 0,
+                            runners: 0
+                        }
+                    );
+                    console.log(total, 'Total');
+                    var array = chartTableData2;
+                    array.push({ state: 'Total Count', ...total });
+                    setChartTableData2(array);
+
+                    // setChartTableData2(chartTableData2);
                     setDownloadTableData2(chartTableData2);
                 }
             })
@@ -722,6 +743,30 @@ const ReportL3 = () => {
                                                                     </tr>
                                                                 )
                                                             )}
+                                                            {/* <tr>
+                                                                <td>{}</td>
+                                                                <td>
+                                                                    {
+                                                                        'Total Count'
+                                                                    }
+                                                                </td>
+
+                                                                <td>
+                                                                    {
+                                                                        totalCount.shortedlisted
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        totalCount.winners
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {
+                                                                        totalCount.runners
+                                                                    }
+                                                                </td>
+                                                            </tr> */}
                                                         </tbody>
                                                     </Table>
                                                 </div>
@@ -858,7 +903,7 @@ const ReportL3 = () => {
                                     <CSVLink
                                         data={downloadTableData}
                                         headers={summaryHeaders}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`L3StatuSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
                                         // onDownloaded={() => {
@@ -873,7 +918,7 @@ const ReportL3 = () => {
                                     <CSVLink
                                         data={downloadTableData2}
                                         headers={summaryHeaders2}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`L3EvaluatorSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable2}
                                         // onDownloaded={() => {
@@ -888,7 +933,7 @@ const ReportL3 = () => {
                                     <CSVLink
                                         data={downloadData}
                                         headers={teacherDetailsHeaders}
-                                        filename={`IdeasDetailedSummaryReport_${newFormat}.csv`}
+                                        filename={`L3StatusDetailedSummaryReport_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
                                     >
