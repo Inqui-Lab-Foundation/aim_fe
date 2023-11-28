@@ -83,21 +83,36 @@ const ReportL3 = () => {
 
     const summaryHeaders = [
         {
-            label: 'State Name',
-            key: 'state'
+            label: 'Score Type',
+            key: 'name'
         },
         {
-            label: 'No of Ideas Submitted',
-            key: 'totalSubmited'
-        },
-
-        {
-            label: 'No of Ideas Accepted',
-            key: 'accepted'
+            label: '1to3',
+            key: '1to3'
         },
         {
-            label: 'No of Ideas Rejected',
-            key: 'rejected'
+            label: '3to5',
+            key: '3to5'
+        },
+        {
+            label: '5to6',
+            key: '5to6'
+        },
+        {
+            label: '6to7',
+            key: '6to7'
+        },
+        {
+            label: '7to8',
+            key: '7to8'
+        },
+        {
+            label: '8to9',
+            key: '8to9'
+        },
+        {
+            label: '9to10',
+            key: '9to10'
         }
     ];
     const summaryHeaders2 = [
@@ -411,12 +426,43 @@ const ReportL3 = () => {
                             }
                         });
                     });
-                    console.log(countData, 'data');
-
-                    // const chartTableData = response?.data?.data || [];
-
-                    setChartTableData(countData);
-                    setDownloadTableData(countData);
+                    const overallObj = {
+                        name: 'Overall',
+                        '1to3': countData.overall['1to3'],
+                        '3to5': countData.overall['3to5'],
+                        '5to6': countData.overall['5to6'],
+                        '6to7': countData.overall['6to7'],
+                        '7to8': countData.overall['7to8'],
+                        '8to9': countData.overall['8to9'],
+                        '9to10': countData.overall['9to10']
+                    };
+                    const QualityObj = {
+                        name: 'Quality',
+                        '1to3': countData.Quality['1to3'],
+                        '3to5': countData.Quality['3to5'],
+                        '5to6': countData.Quality['5to6'],
+                        '6to7': countData.Quality['6to7'],
+                        '7to8': countData.Quality['7to8'],
+                        '8to9': countData.Quality['8to9'],
+                        '9to10': countData.Quality['9to10']
+                    };
+                    const FeasibilityObj = {
+                        name: 'Feasibility',
+                        '1to3': countData.Feasibility['1to3'],
+                        '3to5': countData.Feasibility['3to5'],
+                        '5to6': countData.Feasibility['5to6'],
+                        '6to7': countData.Feasibility['6to7'],
+                        '7to8': countData.Feasibility['7to8'],
+                        '8to9': countData.Feasibility['8to9'],
+                        '9to10': countData.Feasibility['9to10']
+                    };
+                    const combineNewarry = [
+                        overallObj,
+                        QualityObj,
+                        FeasibilityObj
+                    ];
+                    setChartTableData(combineNewarry);
+                    setDownloadTableData(combineNewarry);
                 }
             })
             .catch((error) => {
@@ -559,7 +605,7 @@ const ReportL3 = () => {
                             </Row>
 
                             <div className="chart">
-                                {chartTableData.size > 0 && (
+                                {chartTableData.length > 0 && (
                                     <div className="mt-5">
                                         <div className="d-flex align-items-center mb-3">
                                             <h3>OVERVIEW</h3>
@@ -585,24 +631,29 @@ const ReportL3 = () => {
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-md-7">
-                                                <div className="table-wrapper bg-white">
+                                            <div className="col-md">
+                                                <div className="bg-white">
                                                     <Table
                                                         id="dataTable"
                                                         className="table table-striped table-bordered responsive"
                                                     >
                                                         <thead>
                                                             <tr>
+                                                                {/* <th>No</th> */}
                                                                 <th>
                                                                     Score Type
                                                                 </th>
-                                                                {/* <th>
-                                                                    Score Type
-                                                                </th> */}
+                                                                <th>1 to 3</th>
+                                                                <th>3 to 5</th>
+                                                                <th>5 to 6</th>
+                                                                <th>6 to 7</th>
+                                                                <th>7 to 8</th>
+                                                                <th>8 to 9</th>
+                                                                <th>9 to 10</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {/* {chartTableData.map(
+                                                            {chartTableData.map(
                                                                 (
                                                                     item,
                                                                     index
@@ -613,34 +664,64 @@ const ReportL3 = () => {
                                                                         }
                                                                     >
                                                                         <td>
-                                                                            {index +
-                                                                                1}
-                                                                        </td>
-                                                                        <td>
                                                                             {
-                                                                                item.state
+                                                                                item.name
                                                                             }
                                                                         </td>
                                                                         <td>
                                                                             {
-                                                                                item.totalSubmited
+                                                                                item[
+                                                                                    '1to3'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '3to5'
+                                                                                ]
                                                                             }
                                                                         </td>
 
                                                                         <td>
                                                                             {
-                                                                                item.accepted
+                                                                                item[
+                                                                                    '5to6'
+                                                                                ]
                                                                             }
                                                                         </td>
 
                                                                         <td>
                                                                             {
-                                                                                item.rejected
+                                                                                item[
+                                                                                    '6to7'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '7to8'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '8to9'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '9to10'
+                                                                                ]
                                                                             }
                                                                         </td>
                                                                     </tr>
                                                                 )
-                                                            )} */}
+                                                            )}
                                                         </tbody>
                                                     </Table>
                                                 </div>
