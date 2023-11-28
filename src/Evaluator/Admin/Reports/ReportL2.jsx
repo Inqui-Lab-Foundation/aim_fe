@@ -46,7 +46,6 @@ const ReportL2 = () => {
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
     const [downloadData, setDownloadData] = useState(null);
-    // console.log(downloadData, '1');
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
         useState(null);
     const [chartTableData, setChartTableData] = useState([]);
@@ -79,26 +78,41 @@ const ReportL2 = () => {
     const fullDistrictsNames = useSelector(
         (state) => state?.studentRegistration?.dists
     );
-    const [downloadTableData, setDownloadTableData] = useState({});
+    const [downloadTableData, setDownloadTableData] = useState(null);
     const [downloadTableData2, setDownloadTableData2] = useState(null);
 
     const summaryHeaders = [
         {
-            label: 'State Name',
-            key: 'state'
+            label: 'Score Type',
+            key: 'name'
         },
         {
-            label: 'No of Ideas Submitted',
-            key: 'totalSubmited'
-        },
-
-        {
-            label: 'No of Ideas Accepted',
-            key: 'Health'
+            label: '1to3',
+            key: '1to3'
         },
         {
-            label: 'No of Ideas Rejected',
-            key: 'Inclusivity'
+            label: '3to5',
+            key: '3to5'
+        },
+        {
+            label: '5to6',
+            key: '5to6'
+        },
+        {
+            label: '6to7',
+            key: '6to7'
+        },
+        {
+            label: '7to8',
+            key: '7to8'
+        },
+        {
+            label: '8to9',
+            key: '8to9'
+        },
+        {
+            label: '9to10',
+            key: '9to10'
         }
     ];
     const summaryHeaders2 = [
@@ -208,11 +222,6 @@ const ReportL2 = () => {
             label: 'Feasibility Score',
             key: 'Feasibility score'
         },
-
-        // {
-        //     label: 'L2 Status',
-        //     key: 'evaluation_status'
-        // },
         {
             label: 'L2 Status',
             key: 'final_result'
@@ -280,7 +289,6 @@ const ReportL2 = () => {
                     });
 
                     setDownloadData(transformedData);
-                    console.log(transformedData, 'Data');
 
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
@@ -351,61 +359,92 @@ const ReportL2 = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log(res, 'e');
-                    // const countData = {
-                    //     overall: {
-                    //         '1to3': 0,
-                    //         '3to5': 0,
-                    //         '5to6': 0,
-                    //         '6to7': 0,
-                    //         '7to8': 0,
-                    //         '8to9': 0,
-                    //         '9to10': 0
-                    //     },
-                    //     Quality: {
-                    //         '1to3': 0,
-                    //         '3to5': 0,
-                    //         '5to6': 0,
-                    //         '6to7': 0,
-                    //         '7to8': 0,
-                    //         '8to9': 0,
-                    //         '9to10': 0
-                    //     },
-                    //     Feasibility: {
-                    //         '1to3': 0,
-                    //         '3to5': 0,
-                    //         '5to6': 0,
-                    //         '6to7': 0,
-                    //         '7to8': 0,
-                    //         '8to9': 0,
-                    //         '9to10': 0
-                    //     }
-                    // };
-
-                    // response.data.data.forEach((item) => {
-                    //     ['overall', 'Quality', 'Feasibility'].forEach((key) => {
-                    //         const rating = parseFloat(item[key]);
-                    //         if (rating >= 1 && rating <= 3) {
-                    //             countData[key]['1to3']++;
-                    //         } else if (rating > 3 && rating <= 5) {
-                    //             countData[key]['3to5']++;
-                    //         } else if (rating > 5 && rating <= 6) {
-                    //             countData[key]['5to6']++;
-                    //         } else if (rating > 6 && rating <= 7) {
-                    //             countData[key]['6to7']++;
-                    //         } else if (rating > 7 && rating <= 8) {
-                    //             countData[key]['7to8']++;
-                    //         } else if (rating > 8 && rating <= 9) {
-                    //             countData[key]['8to9']++;
-                    //         } else if (rating > 9 && rating <= 10) {
-                    //             countData[key]['9to10']++;
-                    //         }
-                    //     });
-                    // });
-                    console.log(response.data.data, 'data');
-
-                    // setChartTableData(countData);
-                    // setDownloadTableData(countData);
+                    const countData = {
+                        overall: {
+                            '1to3': 0,
+                            '3to5': 0,
+                            '5to6': 0,
+                            '6to7': 0,
+                            '7to8': 0,
+                            '8to9': 0,
+                            '9to10': 0
+                        },
+                        Quality: {
+                            '1to3': 0,
+                            '3to5': 0,
+                            '5to6': 0,
+                            '6to7': 0,
+                            '7to8': 0,
+                            '8to9': 0,
+                            '9to10': 0
+                        },
+                        Feasibility: {
+                            '1to3': 0,
+                            '3to5': 0,
+                            '5to6': 0,
+                            '6to7': 0,
+                            '7to8': 0,
+                            '8to9': 0,
+                            '9to10': 0
+                        }
+                    };
+                    response.data.data.forEach((item) => {
+                        ['overall', 'Quality', 'Feasibility'].forEach((key) => {
+                            const rating = parseFloat(item[key]);
+                            if (rating >= 1 && rating <= 3) {
+                                countData[key]['1to3']++;
+                            } else if (rating > 3 && rating <= 5) {
+                                countData[key]['3to5']++;
+                            } else if (rating > 5 && rating <= 6) {
+                                countData[key]['5to6']++;
+                            } else if (rating > 6 && rating <= 7) {
+                                countData[key]['6to7']++;
+                            } else if (rating > 7 && rating <= 8) {
+                                countData[key]['7to8']++;
+                            } else if (rating > 8 && rating <= 9) {
+                                countData[key]['8to9']++;
+                            } else if (rating > 9 && rating <= 10) {
+                                countData[key]['9to10']++;
+                            }
+                        });
+                    });
+                    const overallObj = {
+                        name: 'Overall',
+                        '1to3': countData.overall['1to3'],
+                        '3to5': countData.overall['3to5'],
+                        '5to6': countData.overall['5to6'],
+                        '6to7': countData.overall['6to7'],
+                        '7to8': countData.overall['7to8'],
+                        '8to9': countData.overall['8to9'],
+                        '9to10': countData.overall['9to10']
+                    };
+                    const QualityObj = {
+                        name: 'Quality',
+                        '1to3': countData.Quality['1to3'],
+                        '3to5': countData.Quality['3to5'],
+                        '5to6': countData.Quality['5to6'],
+                        '6to7': countData.Quality['6to7'],
+                        '7to8': countData.Quality['7to8'],
+                        '8to9': countData.Quality['8to9'],
+                        '9to10': countData.Quality['9to10']
+                    };
+                    const FeasibilityObj = {
+                        name: 'Feasibility',
+                        '1to3': countData.Feasibility['1to3'],
+                        '3to5': countData.Feasibility['3to5'],
+                        '5to6': countData.Feasibility['5to6'],
+                        '6to7': countData.Feasibility['6to7'],
+                        '7to8': countData.Feasibility['7to8'],
+                        '8to9': countData.Feasibility['8to9'],
+                        '9to10': countData.Feasibility['9to10']
+                    };
+                    const combineNewarry = [
+                        overallObj,
+                        QualityObj,
+                        FeasibilityObj
+                    ];
+                    setChartTableData(combineNewarry);
+                    setDownloadTableData(combineNewarry);
                 }
             })
             .catch((error) => {
@@ -425,7 +464,6 @@ const ReportL2 = () => {
         axios(config)
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res, '6');
                     const chartTableData2 = res?.data?.data || [];
 
                     setChartTableData2(chartTableData2);
@@ -575,8 +613,8 @@ const ReportL2 = () => {
                                         </div>
 
                                         <div className="row">
-                                            <div className="col-md-7">
-                                                <div className="table-wrapper bg-white">
+                                            <div className="col-md">
+                                                <div className="bg-white">
                                                     <Table
                                                         id="dataTable"
                                                         className="table table-striped table-bordered responsive"
@@ -587,196 +625,85 @@ const ReportL2 = () => {
                                                                 <th>
                                                                     Score Type
                                                                 </th>
-
-                                                                <th>1 t0 3</th>
-                                                                <th>3 t0 5</th>
-                                                                <th>5 t0 6</th>
-                                                                <th>6 t0 7</th>
-                                                                <th>7 t0 8</th>
-                                                                <th>8 t0 9</th>
-                                                                <th>9 t0 10</th>
+                                                                <th>1 to 3</th>
+                                                                <th>3 to 5</th>
+                                                                <th>5 to 6</th>
+                                                                <th>6 to 7</th>
+                                                                <th>7 to 8</th>
+                                                                <th>8 to 9</th>
+                                                                <th>9 to 10</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td>Overall</td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '1to3'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '3to5'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '5to6'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '6to7'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '7to8'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '8to9'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .overall[
-                                                                            '9to10'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Quality</td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '1to3'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '3to5'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '5to6'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '6to7'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '7to8'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '8to9'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Quality[
-                                                                            '9to10'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    Feasibility
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '1to3'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '3to5'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '5to6'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '6to7'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '7to8'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '8to9'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        chartTableData
-                                                                            .Feasibility[
-                                                                            '9to10'
-                                                                        ]
-                                                                    }
-                                                                </td>
-                                                            </tr>
+                                                            {chartTableData.map(
+                                                                (
+                                                                    item,
+                                                                    index
+                                                                ) => (
+                                                                    <tr
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                    >
+                                                                        <td>
+                                                                            {
+                                                                                item.name
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '1to3'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '3to5'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '5to6'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '6to7'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '7to8'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '8to9'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                item[
+                                                                                    '9to10'
+                                                                                ]
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            )}
                                                         </tbody>
                                                     </Table>
                                                 </div>
