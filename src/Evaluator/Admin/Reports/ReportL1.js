@@ -268,7 +268,7 @@ const ReportL1 = () => {
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
                         'success',
-                        `Ideas Detailed Reports Downloaded Successfully`
+                        `L1 Status Detailed Reports Downloaded Successfully`
                     );
                     setIsDownloading(false);
                 }
@@ -334,27 +334,30 @@ const ReportL1 = () => {
         axios(config)
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res, '6');
+                    // console.log(res, '6');
                     const chartTableData = res?.data?.data || [];
-                    // const total = chartTableData.reduce(
-                    //     (acc, item) => {
-                    //         acc.state += item.state;
-                    //         (acc.totalSubmited += item.totalSubmited),
-                    //             (acc.accepted += item.accepted);
-                    //         acc.rejected += item.rejected;
+                    const total = chartTableData.reduce(
+                        (acc, item) => {
+                            (acc.totalSubmited += item.totalSubmited),
+                                // (acc.state += item.state);
+                                (acc.accepted += item.accepted),
+                                (acc.rejected += item.rejected);
 
-                    //         return acc;
-                    //     },
-                    //     {
-                    //         state: 0,
-                    //         totalSubmited: 0,
-                    //         accepted: 0,
-                    //         rejected: 0
-                    //     }
-                    // );
-                    setChartTableData(chartTableData);
+                            return acc;
+                        },
+                        {
+                            // state: 0,
+                            totalSubmited: 0,
+                            accepted: 0,
+                            rejected: 0
+                        }
+                    );
+                    console.log(total, 'Total');
+                    var array = chartTableData;
+                    array.push({ state: 'Total Count', ...total });
+                    setChartTableData(array);
                     setDownloadTableData(chartTableData);
-                    // setTotalCount(total);
+                    setTotalCount(total);
                 }
             })
             .catch((error) => {
@@ -600,28 +603,27 @@ const ReportL1 = () => {
                                                                         'Total Count'
                                                                     }
                                                                 </td>
-                                                                <td>
+                                                                {/* <td>
                                                                     {
                                                                         totalCount.state
                                                                     }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        totalCount.totalSubmited
-                                                                    }
-                                                                </td>
-                                                                <td>
-                                                                    {
-                                                                        totalCount.accepted
-                                                                    }
-                                                                </td>
-
-                                                                <td>
-                                                                    {
-                                                                        totalCount.rejected
-                                                                    }
-                                                                </td>
-                                                            </tr> */}
+                                                                </td> */}
+                                                            {/* <td>
+                                                                {
+                                                                    totalCount.totalSubmited
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {
+                                                                    totalCount.accepted
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {
+                                                                    totalCount.rejected
+                                                                }
+                                                            </td> */}
+                                                            {/* </tr> */}
                                                         </tbody>
                                                     </Table>
                                                 </div>
@@ -758,7 +760,7 @@ const ReportL1 = () => {
                                     <CSVLink
                                         data={downloadTableData}
                                         headers={summaryHeaders}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`L1StatusTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
                                         // onDownloaded={() => {
@@ -773,7 +775,7 @@ const ReportL1 = () => {
                                     <CSVLink
                                         data={downloadTableData2}
                                         headers={summaryHeaders2}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`L1EvaluatorTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable2}
                                         // onDownloaded={() => {
@@ -788,7 +790,7 @@ const ReportL1 = () => {
                                     <CSVLink
                                         data={downloadData}
                                         headers={teacherDetailsHeaders}
-                                        filename={`IdeasDetailedSummaryReport_${newFormat}.csv`}
+                                        filename={`L1StatusDetailedSummaryReport_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
                                     >

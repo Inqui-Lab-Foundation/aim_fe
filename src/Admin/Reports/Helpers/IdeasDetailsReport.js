@@ -476,9 +476,7 @@ const ReportsRegistration = () => {
                         }
                     );
                     // console.log('Total count', total);
-                    setChartTableData(chartTableData);
-                    setDownloadTableData(chartTableData);
-                    setTotalCount(total);
+
                     setRegisteredGenderChartData({
                         labels: [
                             'Agriculture',
@@ -536,6 +534,11 @@ const ReportsRegistration = () => {
                             }
                         ]
                     });
+                    var array = chartTableData;
+                    array.push({ state: 'Total Count', ...total });
+                    setChartTableData(array);
+                    setDownloadTableData(chartTableData);
+                    setTotalCount(total);
                 }
             })
             .catch((error) => {
@@ -812,7 +815,7 @@ const ReportsRegistration = () => {
                                                                     </tr>
                                                                 )
                                                             )}
-                                                            <tr>
+                                                            {/* <tr>
                                                                 <td>{}</td>
                                                                 <td>
                                                                     {
@@ -875,13 +878,13 @@ const ReportsRegistration = () => {
                                                                         totalCount.Space
                                                                     }
                                                                 </td>
-                                                            </tr>
+                                                            </tr> */}
                                                         </tbody>
                                                     </Table>
                                                     {/* </div> */}
                                                 </div>
                                             </div>
-                                            <div className="col-md-5">
+                                            <div className="col-md-5 mt-5">
                                                 <div className="row">
                                                     <Row>
                                                         <Col>
@@ -974,7 +977,7 @@ const ReportsRegistration = () => {
                                     <CSVLink
                                         data={downloadTableData}
                                         headers={summaryHeaders}
-                                        filename={`MentorSummaryTable_${newFormat}.csv`}
+                                        filename={`IdeasSummaryTable_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRefTable}
                                         // onDownloaded={() => {
