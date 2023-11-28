@@ -22,6 +22,7 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { useTranslation } from 'react-i18next';
 import { logout } from '../../../helpers/Utils';
 import DashboardIcon1 from '../../../assets/media/DashboardIcon1.png';
+import ReportIcon1 from '../../../assets/media/ReportIcon1.png';
 
 const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
     const location = useLocation();
@@ -189,6 +190,33 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                         >
                             <span style={{ color: 'var(--override-color)' }}>
                                 Evaluator
+                            </span>
+                        </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                        icon={
+                            <img
+                                src={ReportIcon1}
+                                style={{ width: '20px' }}
+                                className="img-fluid"
+                                alt="report"
+                            />
+                        }
+                        className={
+                            location.pathname === '/eadmin/reports' &&
+                            'sidebar-active'
+                        }
+                    >
+                        <NavLink
+                            exact={true}
+                            to={'/eadmin/reports'}
+                            style={{
+                                color: 'black !important',
+                                '--override-color': 'black'
+                            }}
+                        >
+                            <span style={{ color: 'var(--override-color)' }}>
+                                Reports
                             </span>
                         </NavLink>
                     </MenuItem>

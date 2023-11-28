@@ -59,17 +59,17 @@ const Reports = () => {
                             </Col>
                         </Row>
 
-                        {/* <Row className="mb-3">
+                        <Row className="mb-3">
                             <Col lg={6} md={6}>
-                                <Link to="/admin/">
+                                <Link to="/admin/IdeaDetailsReport">
                                     <Card className="p-4 text-center card-effect mb-4">
                                         <b className="text-secondary">
-                                            IDEA SUBMISSION DETAILED REPORT
+                                            IDEAS DETAILS REPORT
                                         </b>
                                     </Card>
                                 </Link>
                             </Col>
-                        </Row> */}
+                        </Row>
                         {/* <Row className="mb-3">
                             <Col lg={6} md={6}>
                                 <Link to="/admin/ChallengesReport">
