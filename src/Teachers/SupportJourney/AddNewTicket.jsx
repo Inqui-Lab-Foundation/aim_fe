@@ -17,15 +17,14 @@ import { useHistory } from 'react-router-dom';
 import logout from '../../assets/media/logout.svg';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { useTranslation } from 'react-i18next';
-
+import { getCurrentUser } from '../../helpers/Utils';
 const AddNewTicket = (props) => {
     // here we can add new support tickets //
     // console.log(props);
+    const currentUser = getCurrentUser('current_user');
     const dispatch = useDispatch();
     const history = useHistory();
     const { t } = useTranslation();
-
-   
 
     const formik = useFormik({
         initialValues: {
@@ -45,7 +44,8 @@ const AddNewTicket = (props) => {
 
             const body = JSON.stringify({
                 query_category: query_category,
-                query_details: query_details
+                query_details: query_details,
+                state: currentUser.data[0].state
             });
 
             dispatch(createSupportTickets(body, history));
@@ -116,7 +116,6 @@ const AddNewTicket = (props) => {
                                                     className="form-group"
                                                     md={12}
                                                 >
-                                                  
                                                     <select
                                                         name="ticket"
                                                         id="ticket"

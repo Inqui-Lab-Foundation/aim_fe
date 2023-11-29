@@ -17,6 +17,7 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import logoutIcon from '../assets/media/logoutIcon.png';
 import UsersIcon1 from '../assets/media/UsersIcon1.png';
 import ChallengesIcon from '../assets/media/ChallengesIcon.png';
+import SupportIcon from '../assets/media/SupportIcon.png';
 
 import ReportIcon1 from '../assets/media/ReportIcon1.png';
 
@@ -166,6 +167,33 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
                         >
                             <span style={{ color: 'var(--override-color)' }}>
                                 Users
+                            </span>
+                        </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                        icon={
+                            <img
+                                src={SupportIcon}
+                                style={{ width: '20px' }}
+                                className="img-fluid"
+                                alt="ticket"
+                            />
+                        }
+                        className={
+                            location.pathname === '/coordinator/tickets' &&
+                            'sidebar-active'
+                        }
+                    >
+                        <NavLink
+                            exact={true}
+                            to={'/coordinator/tickets'}
+                            style={{
+                                color: 'black !important',
+                                '--override-color': 'black'
+                            }}
+                        >
+                            <span style={{ color: 'var(--override-color)' }}>
+                                Support
                             </span>
                         </NavLink>
                     </MenuItem>
