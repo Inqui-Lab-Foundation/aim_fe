@@ -190,6 +190,8 @@ import EadminReports from './Evaluator/Admin/Reports/index';
 import ReportsL1 from './Evaluator/Admin/Reports/ReportL1';
 import ReportsL2 from './Evaluator/Admin/Reports/ReportL2';
 import ReportsL3 from './Evaluator/Admin/Reports/ReportL3';
+import CooTickets from './Coordinators/CooTickets/Tickets';
+import CooTicketResView from './Coordinators/CooTickets/TicketResponse';
 
 const Routers = () => {
     return (
@@ -365,6 +367,12 @@ const Routers = () => {
                         user="REPORT"
                         path="/report/tickets"
                         component={ReportTickets}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/support-journey/ans-ticket"
+                        component={CooTicketResView}
                     />
                     <ProtectedRoute
                         exact={true}
@@ -699,6 +707,12 @@ const Routers = () => {
                         user="ADMIN"
                         path="/admin/tickets"
                         component={AdminTickets}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/tickets"
+                        component={CooTickets}
                     />
                     <ProtectedRoute
                         exact={true}
