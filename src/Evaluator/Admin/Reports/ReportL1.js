@@ -35,7 +35,7 @@ const ReportL1 = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL Themes');
+    SDGDate.unshift('All Themes');
     const [sdg, setsdg] = React.useState('');
     const [filterType, setFilterType] = useState('');
     const [category, setCategory] = useState('');
@@ -87,7 +87,7 @@ const ReportL1 = () => {
             key: 'state'
         },
         {
-            label: 'No of Ideas Submitted',
+            label: 'No of Ideas Evaluated',
             key: 'totalSubmited'
         },
 
@@ -542,7 +542,7 @@ const ReportL1 = () => {
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
-                                                                    Submitted
+                                                                    Evaluated
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas

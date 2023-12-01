@@ -35,7 +35,7 @@ const ReportsRegistration = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL Themes');
+    SDGDate.unshift('All Themes');
     const [sdg, setsdg] = React.useState('');
     const [filterType, setFilterType] = useState('');
     const [category, setCategory] = useState('');
@@ -95,27 +95,35 @@ const ReportsRegistration = () => {
             key: 'NonATL_Count'
         },
         {
-            label: 'Theme 1',
+            label: 'Agriculture',
             key: 'Agriculture'
         },
         {
-            label: 'Theme 2',
+            label: 'Disaster Management',
             key: 'DisasterManagement'
         },
         {
-            label: 'Theme 3',
+            label: 'Education Skill Development',
             key: 'EducationSkillDevelopment'
         },
         {
-            label: 'Theme 4',
+            label: 'Health',
             key: 'Health'
         },
         {
-            label: 'Theme 5',
+            label: 'Inclusivity',
             key: 'Inclusivity'
         },
         {
-            label: 'Theme 6',
+            label: 'Mobility',
+            key: 'Mobility'
+        },
+        {
+            label: 'OTHERS',
+            key: 'OTHERS'
+        },
+        {
+            label: 'Space',
             key: 'Space'
         }
     ];
@@ -480,8 +488,8 @@ const ReportsRegistration = () => {
                     setRegisteredGenderChartData({
                         labels: [
                             'Agriculture',
-                            'DisasterManagement',
-                            'EducationSkillDevelopment',
+                            'Disaster Management',
+                            'Education Skill Development',
                             'Health',
                             'Inclusivity',
                             'Mobility',
@@ -719,10 +727,13 @@ const ReportsRegistration = () => {
                                                                     Agriculture
                                                                 </th>
                                                                 <th>
-                                                                    DisasterManagement
+                                                                    Disaster
+                                                                    Management
                                                                 </th>
                                                                 <th>
-                                                                    EducationSkillDevelopment
+                                                                    Education
+                                                                    Skill
+                                                                    Development
                                                                 </th>
                                                                 <th>Health</th>
                                                                 <th>
