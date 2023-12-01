@@ -304,6 +304,41 @@ const IdeasPageNew = () => {
             selected_option: eachValues.selected_option
         };
     });
+    async function apiCall() {
+        // Dice code list API //
+        // where list = diescode //
+        const body = JSON.stringify(
+            {
+                mentor_id:currentUser?.data[0]?.mentor_id,
+                team_id: currentUser?.data[0]?.team_id,
+                team_name:currentUser?.data[0]?.team_name,
+                title:submittedResponse[1]?.selected_option[0]
+            });
+        var config = {
+            method: 'post',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                '/students/stuIdeaSubmissionEmail',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
+            },
+            data: body
+        };
+
+        await axios(config)
+            .then(async function (response) {
+                if (response.status == 200) {
+                    openNotificationWithIcon(
+                        'success',
+                        'Email sent successfully'
+                    );
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     const handlefinalsubmit = async (id) => {
         var config = {
@@ -326,6 +361,7 @@ const IdeasPageNew = () => {
                         'Idea Submission Submitted Successfully',
                         ''
                     );
+                    apiCall();
                     dispatch(
                         updateStudentBadges(
                             { badge_slugs: ['the_change_maker'] },
