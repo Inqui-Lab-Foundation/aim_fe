@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React, { useState, useEffect } from 'react';
 import Layout from '../Pages/Layout';
@@ -60,6 +61,7 @@ const Evalprocess = () => {
             {
                 name: 'No',
                 selector: (row, key) => key + 1,
+                cellExport: (row) => row.key,
                 // sortable: true,
                 width: '6%'
             },
@@ -68,6 +70,7 @@ const Evalprocess = () => {
                 name: 'Level Name',
                 // selector: 'level_name',
                 // sortable: true,
+                cellExport: (row) => row.state,
                 selector: (row) => row.level_name,
                 sortable: true,
                 width: '10%'
@@ -76,6 +79,7 @@ const Evalprocess = () => {
                 name: 'Evaluation Schema',
                 // selector: 'eval_schema',
                 selector: (row) => row.eval_schema,
+                cellExport: (row) => row.eval_schema,
 
                 width: '15%'
             },
@@ -83,12 +87,12 @@ const Evalprocess = () => {
                 name: 'No of Evaluations',
                 // selector: 'no_of_evaluation',
                 selector: (row) => row.no_of_evaluation,
-
+                cellExport: (row) => row.no_of_evaluation,
                 width: '15%'
             },
             {
                 name: 'Status',
-                // cellExport: (row) => row.status,
+                cellExport: (row) => row.status,
 
                 cell: (row) => [
                     <Badge
@@ -104,7 +108,8 @@ const Evalprocess = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
+                // selector: 'action',
+                cellExport: (row) => '',
                 center: true,
                 width: '40%',
                 cell: (record) => [
@@ -199,9 +204,10 @@ const Evalprocess = () => {
                             {...evalData}
                             exportHeaders
                             print={false}
+                            export={true}
                         >
                             <DataTable
-                                data={setEvalList}
+                                data={evalList}
                                 defaultSortField="id"
                                 defaultSortAsc={false}
                                 pagination
