@@ -45,7 +45,7 @@ const ViewSelectedIdea = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL Themes');
+    SDGDate.unshift('All Themes');
     const fullStatesNames = useSelector(
         (state) => state?.studentRegistration?.regstate
     );
@@ -62,7 +62,7 @@ const ViewSelectedIdea = () => {
         (district && district !== 'All Districts'
             ? '&district=' + district
             : '') +
-        (sdg && sdg !== 'ALL Themes' ? '&sdg=' + sdg : '');
+        (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '');
 
     // useEffect(() => {
     //     dispatch(getDistrictData());

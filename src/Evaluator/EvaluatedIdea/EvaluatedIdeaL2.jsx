@@ -35,7 +35,7 @@ const EvaluatedIdea = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL Themes');
+    SDGDate.unshift('All Themes');
     const fullStatesNames = useSelector(
         (state) => state?.studentRegistration?.regstate
     );
@@ -65,7 +65,7 @@ const EvaluatedIdea = () => {
     const levelparam = '?evaluation_status=SELECTEDROUND1&level=L2';
     const districtparam =
         state && state !== 'All States' ? '&state=' + state : '';
-    const sdgparam = sdg && sdg !== 'ALL Themes' ? '&sdg=' + sdg : '';
+    const sdgparam = sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '';
     const filterParams = levelparam + districtparam + sdgparam;
     const [isDetail, setIsDetail] = React.useState(false);
     const [ideaDetails, setIdeaDetails] = React.useState([]);

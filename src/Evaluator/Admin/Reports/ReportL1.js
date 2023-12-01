@@ -35,7 +35,7 @@ const ReportL1 = () => {
     const SDGDate = cardData.map((i) => {
         return i.goal_title;
     });
-    SDGDate.unshift('ALL Themes');
+    SDGDate.unshift('All Themes');
     const [sdg, setsdg] = React.useState('');
     const [filterType, setFilterType] = useState('');
     const [category, setCategory] = useState('');
