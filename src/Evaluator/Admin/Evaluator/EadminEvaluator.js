@@ -72,7 +72,7 @@ const TicketsPage = (props) => {
         localStorage.setItem('mentor', JSON.stringify(item));
     };
 
-    const handleStatus = (status, id, type = undefined, all = undefined) => {
+    const handleStatus = (status, id) => {
         // where we can update the status Active to InActive //
         // where id = student id / mentor id  / admin id / evaluator  id//
         // where status = status //
@@ -86,19 +86,21 @@ const TicketsPage = (props) => {
 
         swalWithBootstrapButtons
             .fire({
+                // title: 'You are Changing the status',
                 title: `You are attempting to ${
                     status.toLowerCase() === 'active'
                         ? 'activate'
                         : 'inactivate'
-                } ${
-                    type && type === 'student'
-                        ? 'Student'
-                        : type && type === 'evaluator'
-                        ? 'evaluator'
-                        : type && type === 'admin'
-                        ? 'Admin'
-                        : 'Mentor'
-                }.`,
+                } `,
+                // ${
+                //     type && type === 'student'
+                //         ? 'Student'
+                //         : type && type === 'evaluator'
+                //         ? 'evaluator'
+                //         : type && type === 'admin'
+                //         ? 'Admin'
+                //         : 'Mentor'
+                // }.`,
                 text: 'Are you sure?',
                 imageUrl: `${logout}`,
                 showCloseButton: true,
@@ -109,56 +111,61 @@ const TicketsPage = (props) => {
             })
             .then(async (result) => {
                 if (result.isConfirmed) {
+                    dispatch(updateEvaluator({ status }, id));
+                    setTimeout(() => {
+                        props.getEvaluatorListAction();
+                    }, 500);
                     // if (type && type === 'student') {
                     //     props.studentStatusUpdate({ status }, id);
                     //     setTimeout(() => {
                     //         props.getStudentListAction(studentDist);
                     //     }, 500);
                 }
-                if (type && type === 'evaluator') {
-                    console.warn(status, id, type);
-                    dispatch(updateEvaluator({ status }, id));
-                    setTimeout(() => {
-                        props.getEvaluatorListAction();
-                    }, 500);
-                    // } else if (type && type === 'admin') {
-                    //     const obj = {
-                    //         full_name: all.full_name,
-                    //         username: all.username,
-                    //         // mobile: all.mobile,
-                    //         status
-                    //     };
-                    //     await handleStatusUpdateInAdmin({ obj }, id);
+                // if (type && type === 'evaluator') {
+                //     console.warn(status, id, type);
+                //     dispatch(updateEvaluator({ status }, id));
+                //     setTimeout(() => {
+                //         props.getEvaluatorListAction();
+                //     }, 500);
+                //     // } else if (type && type === 'admin') {
+                //     //     const obj = {
+                //     //         full_name: all.full_name,
+                //     //         username: all.username,
+                //     //         // mobile: all.mobile,
+                //     //         status
+                //     //     };
+                //     //     await handleStatusUpdateInAdmin({ obj }, id);
 
-                    //     setTimeout(() => {
-                    //         props.getAdminListAction();
-                    //     }, 500);
-                    // } else {
-                    //     const obj = {
-                    //         full_name: all.full_name,
-                    //         username: all.username,
-                    //         // mobile: all.mobile,
-                    //         status
-                    //     };
-                    //     props.mentorStatusUpdate(obj, id);
-                    //     setTimeout(() => {
-                    //         props.getAdminMentorsListAction('ALL', mentorDist);
-                    //     }, 500);
-                    // }
-                    swalWithBootstrapButtons.fire(
-                        `${
-                            type && type === 'student'
-                                ? 'Student'
-                                : type && type === 'evaluator'
-                                ? 'evaluator'
-                                : type && type === 'admin'
-                                ? 'Admin'
-                                : 'Mentor'
-                        } Status has been changed!`,
-                        'Successfully updated.',
-                        'success'
-                    );
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                //     //     setTimeout(() => {
+                //     //         props.getAdminListAction();
+                //     //     }, 500);
+                //     // } else {
+                //     //     const obj = {
+                //     //         full_name: all.full_name,
+                //     //         username: all.username,
+                //     //         // mobile: all.mobile,
+                //     //         status
+                //     //     };
+                //     //     props.mentorStatusUpdate(obj, id);
+                //     //     setTimeout(() => {
+                //     //         props.getAdminMentorsListAction('ALL', mentorDist);
+                //     //     }, 500);
+                //     // }
+                //     swalWithBootstrapButtons.fire(
+                //         `${
+                //             type && type === 'student'
+                //                 ? 'Student'
+                //                 : type && type === 'evaluator'
+                //                 ? 'evaluator'
+                //                 : type && type === 'admin'
+                //                 ? 'Admin'
+                //                 : 'Mentor'
+                //         } Status has been changed!`,
+                //         'Successfully updated.',
+                //         'success'
+                //     );
+                // }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire(
                         'Cancelled',
                         'Not updated successfully',
@@ -239,11 +246,7 @@ const TicketsPage = (props) => {
                                 record?.status === 'ACTIVE'
                                     ? 'INACTIVE'
                                     : 'ACTIVE';
-                            handleStatus(
-                                status,
-                                record?.evaluator_id,
-                                'evaluator'
-                            );
+                            handleStatus(status, record?.evaluator_id);
                         }}
                     >
                         {record?.status === 'ACTIVE' ? (
