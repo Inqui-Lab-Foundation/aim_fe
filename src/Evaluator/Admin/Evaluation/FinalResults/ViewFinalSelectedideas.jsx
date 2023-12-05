@@ -243,6 +243,12 @@ const ViewSelectedIdea = () => {
 
             {
                 name: 'Novelty',
+                cellExport: (row) =>
+                    row.evaluator_ratings
+                        ? row.evaluator_ratings.length > 0
+                            ? row.evaluator_ratings[0].param_1_avg
+                            : ' '
+                        : ' ',
                 selector: (row) => {
                     return [
                         row.evaluator_ratings
@@ -258,6 +264,7 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Usefulness',
+                cellExport: (row) => row.sub_category,
                 selector: (row) => {
                     return [
                         row.evaluator_ratings
@@ -273,6 +280,12 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Feasability',
+                cellExport: (row) =>
+                    row.evaluator_ratings
+                        ? row.evaluator_ratings.length > 0
+                            ? row.evaluator_ratings[0].param_3_avg
+                            : ' '
+                        : ' ',
                 selector: (row) => {
                     return [
                         row.evaluator_ratings
@@ -288,7 +301,12 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Scalability',
-                // cellExport: (row) => row.sub_category,
+                cellExport: (row) =>
+                    row.evaluator_ratings
+                        ? row.evaluator_ratings.length > 0
+                            ? row.evaluator_ratings[0].param_4_avg
+                            : ' '
+                        : ' ',
                 selector: (row) => {
                     return [
                         row.evaluator_ratings
@@ -304,6 +322,12 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Sustainability',
+                cellExport: (row) =>
+                    row.evaluator_ratings
+                        ? row.evaluator_ratings.length > 0
+                            ? row.evaluator_ratings[0].param_5_avg
+                            : ' '
+                        : ' ',
                 selector: (row) => {
                     return [
                         row.evaluator_ratings
@@ -319,6 +343,12 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Overall',
+                cellExport: (row) =>
+                    row.evaluator_ratings
+                        ? row.evaluator_ratings.length > 0
+                            ? row.evaluator_ratings[0].overall_avg
+                            : ' '
+                        : ' ',
                 selector: (row) => {
                     return [
                         row.evaluator_ratings
@@ -335,6 +365,7 @@ const ViewSelectedIdea = () => {
 
             {
                 name: 'Actions',
+                cellExport: (row) => '',
                 cell: (params) => {
                     return [
                         <div className="d-flex" key={params}>
