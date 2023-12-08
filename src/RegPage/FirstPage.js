@@ -198,6 +198,20 @@ function RegisterNew() {
                                                 </Link>
                                             </p>
                                         </div>
+                                        <div className="form-row row mb-5 mt-5 text-left">
+                                            <p>
+                                                {' '}
+                                                <span style={{ color: 'red' }}>
+                                                    Note : &nbsp;
+                                                </span>
+                                                Kindly note that only one
+                                                teacher per school can register
+                                                here. Additional teachers
+                                                guiding teams can be mentioned
+                                                as mentors while creating
+                                                student teams.
+                                            </p>
+                                        </div>
                                         {/* </Col> */}
                                         {/* <Col md={12} className="m-5"> */}
 
