@@ -7,7 +7,7 @@ export const ReasonsOptions = [
     'Not filled - Inaccurate data (form is not filled properly)'
 ];
 export const reasondata2 = [
-    'Lot of project effort visible ',
-    'Some project effort visible ',
-    'Zero project effort visible '
+    'Lot of project effort visible.',
+    'Some project effort visible.',
+    'Zero project effort visible.'
 ];

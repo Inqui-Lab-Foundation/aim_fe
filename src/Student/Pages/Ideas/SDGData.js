@@ -60,7 +60,7 @@ export const cardData = [
     },
     {
         goal_number: '6',
-        goal_title: 'Education & Skill Development',
+        goal_title: 'Education And Skill Development',
         goal_text:
             'Design a low-cost ATL Model/toolkit encompassing all the key segments of Tinkering.',
         goal_bg:bgimg6,
@@ -108,7 +108,7 @@ export const subCategoryData = {
         'Develop products to ensure the availability of quality healthcare on an equitable, affordable and accessible basis with a special focus on underserved populations.',
         'Create a tool that promotes healthy living among Indian youth, focusing on areas like nutrition, physical activity, and mental well-being.'
     ],
-    'Education & Skill Development': [
+    'Education And Skill Development': [
         'Design a low-cost ATL Model/toolkit encompassing all the key segments of Tinkering.',
         'Toys/Games for Education : Design Toys and Games that will help children (2 - 12 years) learn better in an interactive and fun way.'
     ],

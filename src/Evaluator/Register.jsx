@@ -19,7 +19,7 @@ const Register = (props) => {
     const handleClose = () => {};
     const dispatch = useDispatch();
 
-    const phoneRegExp = /^[0-9\s]+$/;
+    const phoneRegExp = /^[0-9]+$/;
 
     const inputPhone = {
         type: 'text',
@@ -50,10 +50,15 @@ const Register = (props) => {
             .matches(/^[aA-zZ\s]+$/, 'Not allowed')
             .required('Required'),
         mobile: Yup.string()
+            // .required('required')
+            // .trim()
+            // .matches(/^\d+$/, 'Mobile number is not valid (Enter only digits)')
+            // .max(10, 'Please enter only 10 digit valid number')
+            // .min(10, 'Number is less than 10 digits'),
             .required('required')
             .trim()
             .matches(phoneRegExp, 'Contact number is not valid')
-            .min(10, 'Please enter valid number')
+            .min(10, 'Number is less than 10 digits')
             .max(10, 'Please enter valid number'),
         username: Yup.string()
             .trim()
@@ -233,6 +238,7 @@ const Register = (props) => {
                                         onBlur={formik.handleBlur}
                                         value={formik.values.mobile}
                                         maxLength={10}
+                                        minLength={10}
                                     />
 
                                     {formik.touched.mobile &&

@@ -94,9 +94,12 @@ const Popup = () => {
         await axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    Statusfunc({
-                        url: `${response?.data?.data[0]?.attachments[0]}`
-                    },1);
+                    Statusfunc(
+                        {
+                            url: `${response?.data?.data[0]?.attachments[0]}`
+                        },
+                        1
+                    );
                 }
             })
             .catch(function (error) {
@@ -123,9 +126,7 @@ const Popup = () => {
         const maxFileSize = 3000000;
         const isOverMaxSize = file.size > maxFileSize;
         const allowedTypes = ['image/jpeg', 'image/png'];
-        if (
-            !allowedTypes.includes(file.type)
-        ) {
+        if (!allowedTypes.includes(file.type)) {
             openNotificationWithIcon(
                 'error',
                 'file type should be PNG JPG JPEG'
@@ -145,6 +146,74 @@ const Popup = () => {
             return;
         }
         handleFile(file);
+    };
+    const [date, setDate] = useState('');
+    const handlechange = (e) => {
+        setDate(e.target.value);
+    };
+    const handelInDraftApicall = async () => {
+        if (!date) {
+            openNotificationWithIcon('error', 'Date should not be empty');
+            return;
+        }
+        const body = JSON.stringify({
+            date: date
+        });
+        var config = {
+            method: 'post',
+            url: process.env.REACT_APP_API_BASE_URL + '/admins/IdeaInDraftEmail',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
+            },
+            data: body
+        };
+
+        await axios(config)
+            .then(async function (response) {
+                if (response.status == 200) {
+                    openNotificationWithIcon(
+                        'success',
+                        'Email sent successfully'
+                    );
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+    const handelInInitiatedApicall = async () => {
+        if (!date) {
+            openNotificationWithIcon('error', 'Date should not be empty');
+            return;
+        }
+        const body = JSON.stringify({
+            date: date
+        });
+        var config = {
+            method: 'post',
+            url:
+                process.env.REACT_APP_API_BASE_URL +
+                '/admins/IdeaNotInitiatedEmail',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
+            },
+            data: body
+        };
+
+        await axios(config)
+            .then(async function (response) {
+                if (response.status == 200) {
+                    openNotificationWithIcon(
+                        'success',
+                        'Email sent successfully'
+                    );
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     return (
@@ -290,7 +359,53 @@ const Popup = () => {
                                         }
                                     />
                                 )}
-                                <p className='p-5'>Note : Before disabling the idea Submission please change all draft status to submitted status</p>
+                                <p className="p-5">
+                                    Note : Before disabling the idea Submission
+                                    please change all draft status to submitted
+                                    status
+                                </p>
+                            </Col>
+                        </Row>
+                    </Card>
+                    <Row className="mb-2 mb-sm-5 mb-md-5 mb-lg-2 mt-2 mt-sm-5 mt-md-5 mt-lg-5">
+                        <Col className="col-auto">
+                            <h2>Bulk Email sending</h2>
+                        </Col>
+                    </Row>
+                    <Card className="p-5">
+                        <Row>
+                            <Col>
+                                <label
+                                    htmlFor="enddate"
+                                    style={{
+                                        font: '1 rem Fira Sans,sans-serif',
+                                        margin: '0.4rem 0'
+                                    }}
+                                >
+                                    Date:
+                                </label>
+                                <input
+                                    style={{ margin: '1rem 0' }}
+                                    type="test"
+                                    id="enddate"
+                                    name="idea_end_date"
+                                    onChange={handlechange}
+                                />
+                                <Button
+                                    label="InDrafted"
+                                    btnClass="primary mx-3"
+                                    size={'small'}
+                                    shape="btn-square"
+                                    onClick={() => handelInDraftApicall()}
+                                />
+
+                                <Button
+                                    label="Not Initiated"
+                                    btnClass="primary mx-3"
+                                    size={'small'}
+                                    shape="btn-square"
+                                    onClick={() => handelInInitiatedApicall()}
+                                />
                             </Col>
                         </Row>
                     </Card>

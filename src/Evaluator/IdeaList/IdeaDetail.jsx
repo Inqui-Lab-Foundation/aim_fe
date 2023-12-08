@@ -32,9 +32,9 @@ const IdeaDetail = (props) => {
         'Not filled - Inaccurate data (form is not filled properly)'
     ];
     const reasondata2 = [
-        'Lot of project effort visible ',
-        'Some project effort visible ',
-        'Zero project effort visible '
+        'Lot of project effort visible.',
+        'Some project effort visible.',
+        'Zero project effort visible.'
     ];
 
     const [levelName, setLevelName] = React.useState('');

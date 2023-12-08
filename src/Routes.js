@@ -185,6 +185,14 @@ import CooNonAtlReg from './Coordinators/UsersList/NonAtlReg';
 import CooSuccessNonAtl from './Coordinators/UsersList/SuccessNonAtl';
 import CooUserProfileEdit from './Coordinators/Dashboard/EditProfile';
 import CoChallenges from './Coordinators/CooChallenges/CoViewSelectedChallenges';
+import IdeasDetailsReport from './Admin/Reports/Helpers/IdeasDetailsReport';
+import EadminReports from './Evaluator/Admin/Reports/index';
+import ReportsL1 from './Evaluator/Admin/Reports/ReportL1';
+import ReportsL2 from './Evaluator/Admin/Reports/ReportL2';
+import ReportsL3 from './Evaluator/Admin/Reports/ReportL3';
+import CooTickets from './Coordinators/CooTickets/Tickets';
+import CooTicketResView from './Coordinators/CooTickets/TicketResponse';
+
 const Routers = () => {
     return (
         <>
@@ -359,6 +367,12 @@ const Routers = () => {
                         user="REPORT"
                         path="/report/tickets"
                         component={ReportTickets}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="STATE"
+                        path="/coordinator/support-journey/ans-ticket"
+                        component={CooTicketResView}
                     />
                     <ProtectedRoute
                         exact={true}
@@ -696,6 +710,12 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
+                        user="STATE"
+                        path="/coordinator/tickets"
+                        component={CooTickets}
+                    />
+                    <ProtectedRoute
+                        exact={true}
                         user="ADMIN"
                         path="/admin/registered-schools"
                         component={AdminAllSchools}
@@ -782,6 +802,24 @@ const Routers = () => {
                     />
                     <ProtectedRoute
                         exact={true}
+                        user="EADMIN"
+                        path="/eadmin/l1-reports"
+                        component={ReportsL1}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="EADMIN"
+                        path="/eadmin/l2-reports"
+                        component={ReportsL2}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="EADMIN"
+                        path="/eadmin/l3-reports"
+                        component={ReportsL3}
+                    />
+                    <ProtectedRoute
+                        exact={true}
                         user="ADMIN"
                         path="/admin/SurveyStatus"
                         component={SurveyStatus}
@@ -797,6 +835,12 @@ const Routers = () => {
                         user="ADMIN"
                         path="/admin/StudentsProgressReport"
                         component={StudentsProgressReport}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="ADMIN"
+                        path="/admin/IdeaDetailsReport"
+                        component={IdeasDetailsReport}
                     />
                     <ProtectedRoute
                         exact={true}
@@ -1130,6 +1174,12 @@ const Routers = () => {
                         user="EADMIN"
                         path="/eadmin/dashboard"
                         component={EvaluatorChallenges}
+                    />
+                    <ProtectedRoute
+                        exact={true}
+                        user="EADMIN"
+                        path="/eadmin/reports"
+                        component={EadminReports}
                     />
                     <ProtectedRoute
                         exact={true}
