@@ -542,7 +542,7 @@ const ReportL1 = () => {
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
-                                                                    Evaluated
+                                                                    Submitted
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
@@ -672,7 +672,7 @@ const ReportL1 = () => {
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
-                                                                    Submitted
+                                                                    Evaluated
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
