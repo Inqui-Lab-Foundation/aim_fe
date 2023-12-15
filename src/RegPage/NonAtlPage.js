@@ -36,6 +36,7 @@ import {
     getPinCodeData
 } from '../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { decryptGlobal } from '../constants/encryptDecrypt';
 
 function RegisterNew() {
     const { t } = useTranslation();
@@ -416,12 +417,8 @@ function RegisterNew() {
         axios(config)
             .then(function (response) {
                 if (response.status === 202) {
-                    const key = 'PMBXDE9N53V89K65';
-                    const UNhashedPassword = CryptoJS.AES.decrypt(
-                        response?.data?.data,
-                        key
-                    ).toString(CryptoJS.enc.Utf8);
-                    setOtpRes(UNhashedPassword);
+                    const UNhashedPassword = decryptGlobal(response?.data?.data);
+                    setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);
                     setTimeout(() => {

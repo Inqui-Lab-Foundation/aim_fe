@@ -29,6 +29,7 @@ import { UncontrolledAlert } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import PostSurveyStatic from './PostSurveyStatic';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const PostSurvey = () => {
     // here we can attempt all the questions then we are able to download the certificate //
@@ -237,6 +238,8 @@ const PostSurvey = () => {
     // });
 
     useEffect(() => {
+        let enDataone = encryptGlobal('3');
+        console.log(enDataone,"enDataone");
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const lang = 'locale=en';
         const final = lang.split('=');

@@ -11,7 +11,7 @@ import { getTeacherByID } from '../redux/actions';
 import { Button } from '../stories/Button';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import CryptoJS from 'crypto-js';
+import { encryptGlobal } from '../constants/encryptDecrypt.js';
 
 const MyProfile = () => {
     // here we can see all the details of details of teacher //
@@ -23,10 +23,7 @@ const MyProfile = () => {
     const dispatch = useDispatch();
     useLayoutEffect(() => {
         if (currentUser?.data[0]?.mentor_id) {
-            const key = 'PMBXDE9N53V89K65';
-            const stringotp = String(currentUser?.data[0]?.mentor_id);
-            const hashedPassword = CryptoJS.AES.encrypt(stringotp, key).toString();
-            const encoded = btoa(hashedPassword);
+            const encoded = encryptGlobal(JSON.stringify(currentUser?.data[0]?.mentor_id));
             dispatch(getTeacherByID(encoded));
         }
     }, [currentUser?.data[0]?.mentor_id]);

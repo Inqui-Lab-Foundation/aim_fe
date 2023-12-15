@@ -30,6 +30,7 @@ import CryptoJS from 'crypto-js';
 import OtpInput from 'react-otp-input-rc-17';
 import { useHistory } from 'react-router-dom';
 import { isDisabled } from '@testing-library/user-event/dist/utils';
+import { decryptGlobal } from '../../constants/encryptDecrypt';
 
 function AtlPage() {
     const { t } = useTranslation();
@@ -300,12 +301,8 @@ function AtlPage() {
         axios(config)
             .then(function (response) {
                 if (response.status === 202) {
-                    const key = 'PMBXDE9N53V89K65';
-                    const UNhashedPassword = CryptoJS.AES.decrypt(
-                        response?.data?.data,
-                        key
-                    ).toString(CryptoJS.enc.Utf8);
-                    setOtpRes(UNhashedPassword);
+                    const UNhashedPassword = decryptGlobal(response?.data?.data);
+                    setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);
                     setTimeout(() => {
