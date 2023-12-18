@@ -232,6 +232,11 @@ const ViewSelectedIdea = () => {
                 width: '10rem'
             },
             {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
+            },
+            {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
                 // selector: 'sdg',
@@ -246,7 +251,7 @@ const ViewSelectedIdea = () => {
                         {row.sdg}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
                 name: 'Problem Statement',
@@ -425,6 +430,11 @@ const ViewSelectedIdea = () => {
                 width: '10rem'
             },
             {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
+            },
+            {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
                 // selector: 'sdg',
@@ -439,7 +449,7 @@ const ViewSelectedIdea = () => {
                         {row.sdg}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
                 name: 'Problem Statement',
@@ -618,6 +628,11 @@ const ViewSelectedIdea = () => {
                 cellExport: (row) => row.challenge_response_id,
                 width: '7rem'
             },
+            {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
+            },
 
             {
                 name: 'Theme',
@@ -634,7 +649,7 @@ const ViewSelectedIdea = () => {
                         {row.sdg}
                     </div>
                 ),
-                width: '25rem'
+                width: '15rem'
             },
             {
                 name: 'Problem Statement',
@@ -901,6 +916,11 @@ const ViewSelectedIdea = () => {
                 cellExport: (row) => row.challenge_response_id,
 
                 width: '10rem'
+            },
+            {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
             },
             {
                 name: 'Theme',

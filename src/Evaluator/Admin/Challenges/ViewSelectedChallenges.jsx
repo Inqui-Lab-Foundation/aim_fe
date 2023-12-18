@@ -166,6 +166,11 @@ const ViewSelectedIdea = () => {
                 cellExport: (row) => row.challenge_response_id,
                 width: '10rem'
             },
+            {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
+            },
 
             {
                 name: 'Theme',

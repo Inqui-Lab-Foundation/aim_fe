@@ -174,6 +174,11 @@ const ViewSelectedIdea = () => {
                 width: '6rem'
             },
             {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
+            },
+            {
                 name: 'Theme',
                 // selector: (row) => row.sdg,
                 // selector: 'sdg',
