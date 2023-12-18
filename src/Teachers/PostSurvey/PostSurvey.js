@@ -239,16 +239,19 @@ const PostSurvey = () => {
 
     useEffect(() => {
         let enDataone = encryptGlobal('3');
-        console.log(enDataone,"enDataone");
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const lang = 'locale=en';
         const final = lang.split('=');
-        axiosConfig['params'] = {
+        let enParamData = encryptGlobal(JSON.stringify({
             role: 'MENTOR',
             locale: final[1]
+        }));
+        axiosConfig['params'] = {
+            Data: enParamData
         };
+        
         axios
-            .get(`${URL.getPostSurveyList}/3`, axiosConfig)
+            .get(`${URL.getPostSurveyList}/${enDataone}`, axiosConfig)
             .then((postSurveyRes) => {
                 if (postSurveyRes?.status == 200) {
                     setQuizSurveyId(postSurveyRes.data.data[0].quiz_survey_id);
