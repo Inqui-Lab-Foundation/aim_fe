@@ -63,7 +63,7 @@ export const evaluatorLoginUser =
             } else {
                 openNotificationWithIcon(
                     'error',
-                    'Enter the correct credentials'
+                    'Invalid Username or Password'
                 );
                 dispatch(evaluatorLoginUserError(result.statusText));
             }
@@ -113,7 +113,7 @@ export const evaluatorAdminLoginUser =
             } else {
                 openNotificationWithIcon(
                     'error',
-                    'Enter the correct credentials'
+                    'Invalid Username or Password'
                 );
                 dispatch(evaluatorAdminLoginUserError(result.statusText));
             }

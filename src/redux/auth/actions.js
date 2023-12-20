@@ -56,7 +56,7 @@ export const loginUser = (data, history, module) => async (dispatch) => {
             history.push('/dashboard');
         } else {
             dispatch(loginUserError(result.statusText));
-            openNotificationWithIcon('error', 'Enter the correct credentials');
+            openNotificationWithIcon('error', 'Invalid Username or Password');
         }
     } catch (error) {
         dispatch(loginUserError({}));

@@ -62,7 +62,7 @@ export const schoolLoginUser = (data, history, module) => async (dispatch) => {
             } else {
                 openNotificationWithIcon(
                     'error',
-                    'Enter the correct credentials'
+                    'Invalid Username or Password'
                 );
             }
         }

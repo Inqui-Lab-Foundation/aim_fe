@@ -146,7 +146,7 @@ export const adminLoginUser = (data, history, module) => async (dispatch) => {
 
             history.push('/admin/dashboard');
         } else {
-            openNotificationWithIcon('error', 'Enter the correct credentials');
+            openNotificationWithIcon('error', 'Invalid Username or Password');
             dispatch(adminLoginUserError(result.statusText));
         }
     } catch (error) {
