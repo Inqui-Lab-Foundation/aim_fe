@@ -25,6 +25,7 @@ import axios from 'axios';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportsRegistration = () => {
@@ -330,16 +331,23 @@ const ReportsRegistration = () => {
         }
     };
     const fetchData = () => {
+        const ideaDist =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const IdeaPram = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE',
+                state: RegTeachersState,
+                district: ideaDist,
+                category: category,
+                sdg: sdg
+            })
+        );
         // alert('hi');
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/ideadeatilreport?status=ACTIVE&state=${RegTeachersState}&district=${
-                    RegTeachersdistrict === ''
-                        ? 'All Districts'
-                        : RegTeachersdistrict
-                }&category=${category}&sdg=${sdg}`,
+                `/reports/ideadeatilreport?Data=${IdeaPram}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

@@ -6,6 +6,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Col, Row, Card, CardBody, CardText } from 'reactstrap';
 import { getCurrentUser } from '../../helpers/Utils';
 // import './scroll.scss';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import './TeacContinousScroll.css';
 
 import axios from 'axios';
@@ -55,11 +56,16 @@ function TeacherLatestScroll({ usersdata }) {
     // }, []);
 
     useEffect(async () => {
+        let teacherParam = encryptGlobal(
+            JSON.stringify({
+                category: 'mentor'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/latest_news/list?category=mentor',
+                `/latest_news/list?Data=${teacherParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

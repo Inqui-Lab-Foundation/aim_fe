@@ -24,6 +24,7 @@ import { categoryValue } from '../../Schools/constentText';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 
 const ReportsRegistration = () => {
     const stackedBarChart = {
@@ -357,7 +358,16 @@ const ReportsRegistration = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`;
+        const stuDist =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const param = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                district: stuDist,
+                category: category
+            })
+        );
+        const url = `/reports/studentdetailsreport?Data=${param}`;
 
         const config = {
             method: 'get',

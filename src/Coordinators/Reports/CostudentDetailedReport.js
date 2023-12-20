@@ -22,6 +22,7 @@ import '../../Admin/Reports/reports.scss';
 
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const CostudentDetailedReport = () => {
     const currentUser = getCurrentUser('current_user');
@@ -349,9 +350,16 @@ const CostudentDetailedReport = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
-        }&category=${category}`;
+        const costudist =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const apiParam = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                district: costudist,
+                category: category
+            })
+        );
+        const url = `/reports/studentdetailsreport?Data=${apiParam}`;
 
         const config = {
             method: 'get',
@@ -423,11 +431,16 @@ const CostudentDetailedReport = () => {
     }, [downloadComplete]);
 
     const fetchChartTableData = () => {
+        const staParam = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/studentdetailstable?state=${currentUser?.data[0]?.state_name}`,
+                `/reports/studentdetailstable?Data=${staParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

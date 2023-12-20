@@ -5,6 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import { Accordion } from 'react-bootstrap';
 import Layout from '../Layout';
 import { KEY } from '../../constants/defaultValues';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const FaqPage = () => {
     const [queryId] = useState('Idea Submission');
@@ -12,9 +13,18 @@ const FaqPage = () => {
 
     const getFaqByCategory = async (id) => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        await axios
+        const getFaqParam = encryptGlobal(JSON.stringify(id));
+        const lang = 'locale=en';
+        const final = lang.split('=');
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                locale: final[1]
+            })
+        );
+
+        axios
             .get(
-                `${process.env.REACT_APP_API_BASE_URL}/faqs/getbyCategoryid/${id}?locale=en`,
+                `${process.env.REACT_APP_API_BASE_URL}/faqs/getbyCategoryid/${getFaqParam}?Data=${enParamData}`,
                 axiosConfig
             )
             .then((res) => {
@@ -27,7 +37,7 @@ const FaqPage = () => {
             });
     };
     // changed
-    useEffect(async() => {
+    useEffect(async () => {
         await getFaqByCategory(1);
     }, []);
     return (

@@ -25,6 +25,7 @@ import axios from 'axios';
 import '../../../Admin/Reports/reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportL3 = () => {
@@ -261,9 +262,18 @@ const ReportL3 = () => {
     // }, []);
 
     const fetchData = () => {
-        const url = `/reports/L3deatilreport?status=ACTIVE&state=${RegTeachersState}&district=${
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
-        }&category=${category}&sdg=${sdg}`;
+        const distApi =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const variables = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE',
+                state: RegTeachersState,
+                district: distApi,
+                category: category,
+                sdg: sdg
+            })
+        );
+        const url = `/reports/L3deatilreport?Data=${variables}`;
 
         const config = {
             method: 'get',

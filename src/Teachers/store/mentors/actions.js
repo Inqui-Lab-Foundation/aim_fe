@@ -28,6 +28,7 @@ import {
     getNormalHeaders,
     openNotificationWithIcon
 } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const mentorCreateSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -87,8 +88,9 @@ export const getStudentByIdData = (id) => async (dispatch) => {
     try {
         dispatch({ type: GET_TEACHERS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const getId = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .get(`${URL.getStudentById}${id}`, axiosConfig)
+            .get(`${URL.getStudentById}${getId}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -206,11 +208,17 @@ export const getSupportTicketsSuccess = (tickets) => async (dispatch) => {
 export const getSupportTickets = (user) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const lang = 'locale=en';
+        const final = lang.split('=');
+
+        const param = encryptGlobal(
+            JSON.stringify({
+                user_id: user.user_id,
+                locale: final[1]
+            })
+        );
         const result = await axios
-            .get(
-                `${URL.getMentorSupportTickets}?user_id=${user.user_id}&locale=en`,
-                axiosConfig
-            )
+            .get(`${URL.getMentorSupportTickets}?Data=${param}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -275,9 +283,17 @@ export const getSupportTicketByIdSuccess = (tickets) => async (dispatch) => {
 export const getSupportTicketById = (id) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const supId = encryptGlobal(id);
+        const lang = 'locale=en';
+        const final = lang.split('=');
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                locale: final[1]
+            })
+        );
         const result = await axios
             .get(
-                `${URL.getMentorSupportTicketsById}${id}?locale=en`,
+                `${URL.getMentorSupportTicketsById}${supId}?Data=${enParamData}`,
                 axiosConfig
             )
             .then((user) => user)
@@ -385,9 +401,10 @@ export const SupportTicketStatusChange = (id, data) => async (dispatch) => {
     try {
         dispatch({ type: MENTORS_SUPPORT_TICKETS_STATUS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const chang = encryptGlobal(JSON.stringify(id));
         await axios
             .put(
-                `${URL.updateSupportTicketResponse + '/' + id}`,
+                `${URL.updateSupportTicketResponse + '/' + chang}`,
                 data,
                 axiosConfig
             )

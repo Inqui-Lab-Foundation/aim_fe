@@ -6,6 +6,8 @@ import { Col, Row, Card, CardBody, CardText } from 'reactstrap';
 import { getCurrentUser } from '../../../helpers/Utils';
 // import './scroll.scss';
 import axios from 'axios';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
+
 import newIcon from '../../../assets/media/blinking_new.gif';
 import './ContinousScrollList.css';
 function LatestScrollNew({ usersdata }) {
@@ -51,11 +53,16 @@ function LatestScrollNew({ usersdata }) {
         setIsPaused(!isPaused);
     };
     useEffect(async () => {
+        const stuParam = encryptGlobal(
+            JSON.stringify({
+                category: 'student'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/latest_news/list?category=student',
+                `/latest_news/list?Data=${stuParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

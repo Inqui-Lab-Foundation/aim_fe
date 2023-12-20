@@ -23,7 +23,7 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import logout from '../../assets/media/logout.svg';
 import { useDispatch } from 'react-redux';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getCurrentUser,
     getNormalHeaders,
@@ -255,9 +255,10 @@ const Dashboard = () => {
         localStorage.setItem('orgData', JSON.stringify(orgData));
     };
     useEffect(() => {
+        const popParam = encryptGlobal('2');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/2`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -345,12 +346,14 @@ const Dashboard = () => {
         let submitData = {
             status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
         };
+        const handleRevPram = encryptGlobal(id);
+
         var config = {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+                JSON.stringify(handleRevPram),
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

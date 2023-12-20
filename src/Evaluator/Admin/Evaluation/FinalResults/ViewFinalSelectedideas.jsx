@@ -28,6 +28,7 @@ import html2canvas from 'html2canvas';
 import TableDetailPdf from './TableDetailPdf';
 import { useReactToPrint } from 'react-to-print';
 import DetailToDownload from '../../Challenges/DetailToDownload';
+import { encryptGlobal } from '../../../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     const { search } = useLocation();
@@ -72,12 +73,13 @@ const ViewSelectedIdea = () => {
 
     async function promoteapi(id) {
         const body = JSON.stringify({ final_result: '1' });
+        const promPram = encryptGlobal(JSON.stringify(id));
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                id
+                promPram
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -103,13 +105,15 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const titPar = title && title == '0' ? '0' : '1';
+        const apiParam = encryptGlobal(
+            JSON.stringify({
+                key: titPar,
+                filterParamsfinal
+            })
+        );
         await axios
-            .get(
-                `${URL.getFinalEvaluation}?key=${
-                    title && title == '0' ? '0' : '1'
-                }${filterParamsfinal}`,
-                axiosConfig
-            )
+            .get(`${URL.getFinalEvaluation}?Data=${apiParam}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     const updatedWithKey =

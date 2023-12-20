@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 // import * as ReactDOM from 'react-dom';
 import Swal from 'sweetalert2/dist/sweetalert2';
 import logout from '../../assets/media/logout.svg';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import 'sweetalert2/src/sweetalert2.scss';
 const AdminResources = () => {
     const history = useHistory();
@@ -30,9 +30,14 @@ const AdminResources = () => {
         fetchTecResourceList();
     }, []);
     async function fetchTecResourceList() {
+        const fectchTecParam = encryptGlobal(
+            JSON.stringify({
+                role: 'mentor'
+            })
+        );
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/resource/list?role=mentor`,
+                `${process.env.REACT_APP_API_BASE_URL}/resource/list?Data=${fectchTecParam}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -162,12 +167,15 @@ const AdminResources = () => {
             })
             .then((result) => {
                 if (result.isConfirmed) {
+                    const resId = encryptGlobal(
+                        JSON.stringify(items.resource_id)
+                    );
                     var config = {
                         method: 'delete',
                         url:
                             process.env.REACT_APP_API_BASE_URL +
                             '/resource/' +
-                            items.resource_id,
+                            resId,
                         headers: {
                             'Content-Type': 'application/json',
                             // Accept: "application/json",
@@ -232,11 +240,16 @@ const AdminResources = () => {
     //     }
     // };
     const fetchResourceList = () => {
+        const fectchParam = encryptGlobal(
+            JSON.stringify({
+                role: 'student'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/resource/list?role=student',
+                `/resource/list?Data=${fectchParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -377,12 +390,15 @@ const AdminResources = () => {
             })
             .then((result) => {
                 if (result.isConfirmed) {
+                    const delParam = encryptGlobal(
+                        JSON.stringify(item.resource_id)
+                    );
                     var config = {
                         method: 'delete',
                         url:
                             process.env.REACT_APP_API_BASE_URL +
                             '/resource/' +
-                            item.resource_id,
+                            delParam,
                         headers: {
                             'Content-Type': 'application/json',
                             // Accept: "application/json",

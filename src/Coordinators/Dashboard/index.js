@@ -23,7 +23,7 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import logout from '../../assets/media/logout.svg';
 import { useDispatch } from 'react-redux';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getCurrentUser,
     getNormalHeaders,
@@ -278,9 +278,10 @@ const Dashboard = () => {
         localStorage.setItem('orgData', JSON.stringify(orgData));
     };
     useEffect(() => {
+        const popParam = encryptGlobal('2');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/2`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -378,11 +379,16 @@ const Dashboard = () => {
         newData();
     }, []);
     const newData = () => {
+        const newParam = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/StateDashboard?state=${currentUser?.data[0]?.state_name}`,
+                `/dashboard/StateDashboard?Data=${newParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -426,6 +432,7 @@ const Dashboard = () => {
     };
 
     const handleRevoke = async (id, type) => {
+        const revoPram = encryptGlobal(id);
         // where id = challenge response id //
         // here we  can see the Revoke button when ever idea is submitted //
         // where type = ideaStatus //
@@ -437,7 +444,7 @@ const Dashboard = () => {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+                JSON.stringify(revoPram),
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

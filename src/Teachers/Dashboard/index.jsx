@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React, { useEffect, useLayoutEffect, useState } from 'react';
@@ -9,8 +10,8 @@ import { getCurrentUser } from '../../helpers/Utils';
 import Layout from '../Layout';
 import DoughnutChart from './DoughnutChart';
 import { Modal } from 'react-bootstrap';
-
 // import LatestNewsNew from './LatestNewsNew';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import LatestScrollNew from './LatestScrollNew';
 
 import { Card } from 'react-bootstrap';
@@ -55,9 +56,10 @@ const Dashboard = () => {
     //         history.push('/teacher/pre-survey');
     // }, []);
     useEffect(() => {
+        const popParam = encryptGlobal('1');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/1`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -92,11 +94,16 @@ const Dashboard = () => {
     const [coursepercentage, setCoursepercentage] = useState('-');
 
     const mentorTeamsCount = () => {
+        const teamApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/teamCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/teamCount?Data=${teamApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -114,11 +121,16 @@ const Dashboard = () => {
             });
     };
     const mentorIdeaCount = () => {
+        const ideaApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/ideaCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/ideaCount?Data=${ideaApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -136,11 +148,16 @@ const Dashboard = () => {
             });
     };
     const mentorStudentCount = () => {
+        const studentApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/studentCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/studentCount?Data=${studentApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -158,11 +175,16 @@ const Dashboard = () => {
             });
     };
     const mentorcoursepercentage = () => {
+        const corseApi = encryptGlobal(
+            JSON.stringify({
+                user_id: currentUser?.data[0]?.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/mentorpercentage?user_id=${currentUser?.data[0]?.user_id}`,
+                `/dashboard/mentorpercentage?Data=${corseApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

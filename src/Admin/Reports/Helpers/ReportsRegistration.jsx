@@ -23,6 +23,7 @@ import axios from 'axios';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportsRegistration = () => {
@@ -325,19 +326,29 @@ const ReportsRegistration = () => {
         }
     };
     const fetchData = (item) => {
+        const regaram =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const param = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                status: 'ACTIVE',
+                district: regaram,
+                category: category
+            })
+        );
+
+        const params = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                district: regaram,
+                category: category
+            })
+        );
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${
-                      RegTeachersdistrict === ''
-                          ? 'All Districts'
-                          : RegTeachersdistrict
-                  }&category=${category}`
+                ? `/reports/mentorRegList?Data=${param}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?state=${RegTeachersState}&district=${
-                      RegTeachersdistrict === ''
-                          ? 'All Districts'
-                          : RegTeachersdistrict
-                  }&category=${category}`
+                ? `/reports/notRegistered?Data=${params}`
                 : '';
 
         const config = {

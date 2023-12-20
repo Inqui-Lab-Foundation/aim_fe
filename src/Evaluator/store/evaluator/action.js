@@ -19,6 +19,7 @@ import {
     openNotificationWithIcon
 } from '../../../helpers/Utils.js';
 import { getCurrentUser } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 //------login---
 export const evaluatorLoginUserSuccess = (user) => async (dispatch) => {
@@ -133,14 +134,17 @@ export const getSubmittedIdeaList = (level) => async (dispatch) => {
     // const level = currentUser?.data[0]?.level_name;
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const ApiParam = encryptGlobal(
+            JSON.stringify({
+                evaluator_user_id: currentUser?.data[0]?.user_id,
+                level: level
+            })
+        );
         const result = await axios
             .get(
                 `${
                     process.env.REACT_APP_API_BASE_URL +
-                    '/challenge_response/fetchRandomChallenge?evaluator_user_id=' +
-                    currentUser?.data[0]?.user_id +
-                    '&level=' +
-                    level
+                    `/challenge_response/fetchRandomChallenge?Data=${ApiParam}`
                 }`,
                 axiosConfig
             )
@@ -149,7 +153,6 @@ export const getSubmittedIdeaList = (level) => async (dispatch) => {
                 return err.response;
             });
         if (result && result.status === 200) {
-
             const data = result?.data?.data[0];
             dispatch(getSubmittedIdeaListSuccess(data));
         } else {
@@ -170,9 +173,12 @@ export const getInstructionsSuccess = (data) => async (dispatch) => {
 export const getInstructions = () => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const Num = encryptGlobal('1');
         const result = await axios
             .get(
-                `${process.env.REACT_APP_API_BASE_URL + '/instructions/1'}`,
+                `${
+                    process.env.REACT_APP_API_BASE_URL + `/instructions/${Num}`
+                }`,
                 axiosConfig
             )
             .then((data) => data)
@@ -201,13 +207,17 @@ export const getL1EvaluatedIdea = (params, setshowspin) => async (dispatch) => {
     const currentUser = getCurrentUser('current_user');
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const evId = encryptGlobal(
+            JSON.stringify(currentUser?.data[0]?.user_id)
+        );
+        const idRes = encryptGlobal(JSON.stringify(params));
         const result = await axios
             .get(
                 `${
                     process.env.REACT_APP_API_BASE_URL +
                     '/challenge_response/evaluated/' +
-                    currentUser?.data[0]?.user_id +
-                    params
+                    evId +
+                    idRes
                 }`,
                 axiosConfig
             )
@@ -239,9 +249,14 @@ export const updateEvaluatorSuccess = (data) => async (dispatch) => {
 export const updateEvaluator = (params, id) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const idParam = encryptGlobal(JSON.stringify(id));
         const result = await axios
             .put(
-                `${process.env.REACT_APP_API_BASE_URL + '/evaluators/' + id}`,
+                `${
+                    process.env.REACT_APP_API_BASE_URL +
+                    '/evaluators/' +
+                    idParam
+                }`,
                 params,
                 axiosConfig
             )

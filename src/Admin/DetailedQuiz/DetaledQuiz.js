@@ -21,7 +21,7 @@ import {
 import QuizResponse from './QuizResponse';
 import succesImg from '../../assets/media/success1.jpeg';
 import { updateStudentBadges } from '../../redux/studentRegistration/actions';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const DetaledQuiz = (props) => {
     const currentUser = getCurrentUser('current_user');
     const { t } = useTranslation();
@@ -52,11 +52,17 @@ const DetaledQuiz = (props) => {
     }, [currentUser]);
 
     function resultdata() {
+        const paramApi = encryptGlobal(
+            JSON.stringify({
+                user_id: currentUser.data[0].user_id,
+                quiz_id: quizId
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/quiz/result?user_id=${currentUser.data[0].user_id}&quiz_id=${quizId}`,
+                `/quiz/result?Data=${paramApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

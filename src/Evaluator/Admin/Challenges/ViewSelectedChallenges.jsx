@@ -25,6 +25,7 @@ import { useLocation } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { FaDownload } from 'react-icons/fa';
 import DetailToDownload from './DetailToDownload';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     // here we can see the selected ideas in district wise and sdg //
@@ -92,13 +93,15 @@ const ViewSelectedIdea = () => {
         //where we can see all ideas in districtwise //
         settableData([]);
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const stat = status ? status : 'ALL';
+        const newParam = encryptGlobal(
+            JSON.stringify({
+                status: stat,
+                filterParams
+            })
+        );
         await axios
-            .get(
-                `${URL.getidealist}status=${
-                    status ? status : 'ALL'
-                }${filterParams}`,
-                axiosConfig
-            )
+            .get(`${URL.getidealist}Data=${newParam}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     const updatedWithKey =

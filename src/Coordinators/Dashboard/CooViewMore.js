@@ -10,7 +10,7 @@ import CoDoughnutChart from './CoDoughnutChart';
 import { Button } from '../../stories/Button';
 import axios from 'axios';
 import { getCurrentUser } from '../../helpers/Utils';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const ViewMore = () => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
@@ -39,11 +39,17 @@ const ViewMore = () => {
     const altRes = atlData.split('-');
     const atlNew = altRes[0];
     useEffect(() => {
+        const userIdParam = encryptGlobal(
+            JSON.stringify({
+                user_id: orgDaTa?.mentor.user_id,
+                role: 'MENTOR'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${orgDaTa?.mentor.user_id}&role=MENTOR`,
+                `/dashboard/quizscores?Data=${userIdParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

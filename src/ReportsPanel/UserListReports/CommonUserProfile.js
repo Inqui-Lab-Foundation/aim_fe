@@ -54,11 +54,16 @@ const CommonUserProfile = (props) => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
     useEffect(() => {
+        const userIdParam = encryptGlobal(
+            JSON.stringify({
+                user_id: StudentsDaTa.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${StudentsDaTa.user_id}`,
+                `/dashboard/quizscores?Data=${userIdParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

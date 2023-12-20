@@ -71,12 +71,15 @@ const EditTeamMember = (props) => {
             if (mentorData && mentorData.username !== values.username) {
                 body['username'] = values.username;
             }
+            const stuparamId = encryptGlobal(
+                JSON.stringify(mentorData.student_id)
+            );
             var config = {
                 method: 'put',
                 url:
                     process.env.REACT_APP_API_BASE_URL +
                     '/students/' +
-                    mentorData.student_id,
+                    stuparamId,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`

@@ -57,11 +57,16 @@ const CommonUserProfile = (props) => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
     useEffect(() => {
+        const quizparam = encryptGlobal(
+            JSON.stringify({
+                user_id: StudentsDaTa.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${StudentsDaTa.user_id}`,
+                `/dashboard/quizscores?Data=${quizparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -92,11 +97,16 @@ const CommonUserProfile = (props) => {
         mentorsData();
     }, []);
     const mentorsData = () => {
+        const mentorsparam = encryptGlobal(
+            JSON.stringify({
+                team_id: StudentsDaTa.team.team_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${StudentsDaTa.team.team_id}`,
+                `/teams/teamMentor?Data=${mentorsparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

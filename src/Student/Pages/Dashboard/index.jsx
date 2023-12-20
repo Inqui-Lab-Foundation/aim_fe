@@ -7,7 +7,7 @@ import { getCurrentUser } from '../../../helpers/Utils.js';
 import { useSelector } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 import axios from 'axios';
-
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import AvatarImg from '../../../assets/media/img/Avatar.png';
 // import topCard1 from '../../../assets/media/img/admin-card-1.png';
 // import topCard2 from '../../../assets/media/img/admin-card-2.png';
@@ -73,9 +73,10 @@ const Dashboard = () => {
     const [imgUrl, setImgUrl] = useState('');
 
     useEffect(() => {
+        const popParam = encryptGlobal('1');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/1`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

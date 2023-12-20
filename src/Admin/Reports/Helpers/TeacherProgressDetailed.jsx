@@ -20,6 +20,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import { categoryValue } from '../../Schools/constentText';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 
 const TeacherDetailed = () => {
     const [district, setdistrict] = React.useState('');
@@ -434,13 +435,19 @@ const TeacherDetailed = () => {
         fetchData();
     };
     const fetchData = () => {
+        const feDist = district === '' ? 'All Districts' : district;
+        const apiRes = encryptGlobal(
+            JSON.stringify({
+                state: state,
+                district: feDist,
+                category: category
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?state=${state}&district=${
-                    district === '' ? 'All Districts' : district
-                }&category=${category}`,
+                `/reports/mentordetailsreport?Data=${apiRes}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

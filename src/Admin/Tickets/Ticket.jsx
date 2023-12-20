@@ -7,7 +7,7 @@ import { getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { FaComments } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import { useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -58,11 +58,16 @@ const TicketsPage = () => {
     async function openListApi() {
         setFetchData(true);
         // where we can see all open tickets //
+        const openParam = encryptGlobal(
+            JSON.stringify({
+                status: 'OPEN'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/supportTickets?status=OPEN',
+                `/supportTickets?Data=${openParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -84,12 +89,17 @@ const TicketsPage = () => {
     }
     async function inProgressApi() {
         setFetchData(true);
+        const inProgressParam = encryptGlobal(
+            JSON.stringify({
+                status: 'INPROGRESS'
+            })
+        );
         // where  we can see  all inprogress tickets //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/supportTickets?status=INPROGRESS',
+                `/supportTickets?Data=${inProgressParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -111,12 +121,17 @@ const TicketsPage = () => {
     }
     async function resolvedApi() {
         setFetchData(true);
+        const resolvedParam = encryptGlobal(
+            JSON.stringify({
+                status: 'RESOLVED'
+            })
+        );
         // where we ca see all resolved tickets //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/supportTickets?status=RESOLVED',
+                `/supportTickets?Data=${resolvedParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -137,12 +152,17 @@ const TicketsPage = () => {
             });
     }
     async function invalidApi() {
+        const invalidParam = encryptGlobal(
+            JSON.stringify({
+                status: 'INVALID'
+            })
+        );
         // where we can see all invalid tickets //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/supportTickets?status=INVALID',
+                `/supportTickets?Data=${invalidParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

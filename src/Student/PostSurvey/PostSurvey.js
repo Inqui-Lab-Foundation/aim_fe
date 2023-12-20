@@ -36,7 +36,7 @@ import {
     studentPostSurveyCertificate,
     updateStudentBadges
 } from '../../redux/studentRegistration/actions';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const PostSurvey = () => {
     // here we can attempt all the question to complete the postsurvey //
     const { t } = useTranslation();
@@ -272,10 +272,16 @@ const PostSurvey = () => {
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const lang = getLanguage(language);
         const final = lang.split('=');
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                role: 'MENTOR',
+                locale: final[1]
+            })
+        );
         axiosConfig['params'] = {
-            role: 'STUDENT',
-            locale: final[1]
+            Data: enParamData
         };
+
         axios
             .get(`${URL.getStudentPostSurveyList}`, axiosConfig)
             .then((postSurveyRes) => {

@@ -7,7 +7,7 @@ import { getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { FaComments } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import { useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -30,11 +30,16 @@ const TicketsPage = () => {
         // where we can see all tickets //
         setFetchData(true);
         // alert('hii');
+        const listParam = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/supportTickets?state=${currentUser?.data[0]?.state_name}`,
+                `/supportTickets?Data=${listParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -58,12 +63,18 @@ const TicketsPage = () => {
     }
     async function openListApi() {
         setFetchData(true);
+        const openParam = encryptGlobal(
+            JSON.stringify({
+                status: 'OPEN',
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         // where we can see all open tickets //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/supportTickets?status=OPEN&state=${currentUser?.data[0]?.state_name}`,
+                `/supportTickets?Data=${openParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -85,12 +96,18 @@ const TicketsPage = () => {
     }
     async function inProgressApi() {
         setFetchData(true);
+        const inProgressParam = encryptGlobal(
+            JSON.stringify({
+                status: 'INPROGRESS',
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         // where  we can see  all inprogress tickets //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/supportTickets?status=INPROGRESS&state=${currentUser?.data[0]?.state_name}`,
+                `/supportTickets?Data=${inProgressParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -113,11 +130,17 @@ const TicketsPage = () => {
     async function resolvedApi() {
         setFetchData(true);
         // where we ca see all resolved tickets //
+        const resolvedParam = encryptGlobal(
+            JSON.stringify({
+                status: 'RESOLVED',
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/supportTickets?status=RESOLVED&state=${currentUser?.data[0]?.state_name}`,
+                `/supportTickets?Data=${resolvedParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -139,11 +162,17 @@ const TicketsPage = () => {
     }
     async function invalidApi() {
         // where we can see all invalid tickets //
+        const invalidParam = encryptGlobal(
+            JSON.stringify({
+                status: 'INVALID',
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/supportTickets?status=INVALID&state=${currentUser?.data[0]?.state_name}`,
+                `/supportTickets?Data=${invalidParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

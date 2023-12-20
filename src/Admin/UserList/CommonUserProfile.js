@@ -15,7 +15,7 @@ import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getStudentDashboardStatus,
     getStudentDashboardTeamProgressStatus
@@ -53,11 +53,16 @@ const CommonUserProfile = (props) => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
     useEffect(() => {
+        const stuParam = encryptGlobal(
+            JSON.stringify({
+                user_id: StudentsDaTa.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${StudentsDaTa.user_id}`,
+                `/dashboard/quizscores?Data=${stuParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -128,11 +133,16 @@ const CommonUserProfile = (props) => {
         mentorsData();
     }, []);
     const mentorsData = () => {
+        const mentorsParam = encryptGlobal(
+            JSON.stringify({
+                team_id: StudentsDaTa.team.team_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${StudentsDaTa.team.team_id}`,
+                `/teams/teamMentor?Data=${mentorsParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

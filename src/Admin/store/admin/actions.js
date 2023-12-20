@@ -15,6 +15,7 @@ import {
     getNormalHeaders,
     openNotificationWithIcon
 } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const getAdminSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -34,8 +35,13 @@ export const getAdmin = () => async (dispatch) => {
     try {
         dispatch({ type: GET_ADMINS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const adstatus = encryptGlobal(
+            JSON.stringify({
+                status: 'ALL'
+            })
+        );
         const result = await axios
-            .get(`${URL.getAdmin + '?status= ALL'}`, axiosConfig)
+            .get(`${URL.getAdmin + `?Data=${adstatus}`}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -177,8 +183,12 @@ export const adminLoginUserLogOut = (history) => async () => {
 export const deleteTempMentorById = async (id) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const delMent = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .delete(`${URL.deleteTempMentor}${id}/deleteAllData`, axiosConfig)
+            .delete(
+                `${URL.deleteTempMentor}${delMent}/deleteAllData`,
+                axiosConfig
+            )
             .then((res) => res)
             .catch((err) => {
                 return err.response;

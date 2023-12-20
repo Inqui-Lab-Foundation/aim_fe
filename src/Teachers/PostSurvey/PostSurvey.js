@@ -58,11 +58,16 @@ const PostSurvey = () => {
     const [teamsCount, setTeamsCount] = useState(0);
     const [ideaCount, setIdeaCount] = useState(0);
     const mentorTeamsCount = () => {
+        const mentteamApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/teamCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/teamCount?Data=${mentteamApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -80,11 +85,16 @@ const PostSurvey = () => {
             });
     };
     const mentorIdeaCount = () => {
+        const mentideaApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/ideaCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/ideaCount?Data=${mentideaApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -242,14 +252,16 @@ const PostSurvey = () => {
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const lang = 'locale=en';
         const final = lang.split('=');
-        let enParamData = encryptGlobal(JSON.stringify({
-            role: 'MENTOR',
-            locale: final[1]
-        }));
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                role: 'MENTOR',
+                locale: final[1]
+            })
+        );
         axiosConfig['params'] = {
             Data: enParamData
         };
-        
+
         axios
             .get(`${URL.getPostSurveyList}/${enDataone}`, axiosConfig)
             .then((postSurveyRes) => {

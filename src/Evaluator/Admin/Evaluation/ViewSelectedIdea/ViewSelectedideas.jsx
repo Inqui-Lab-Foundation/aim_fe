@@ -35,6 +35,7 @@ import html2canvas from 'html2canvas';
 import TableDetailPdf from './TableDetailPdf';
 import { useReactToPrint } from 'react-to-print';
 import DetailToDownload from '../../Challenges/DetailToDownload';
+import { encryptGlobal } from '../../../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     const { search } = useLocation();
@@ -116,13 +117,14 @@ const ViewSelectedIdea = () => {
     };
 
     async function promoteapi(id) {
+        const promoteId = encryptGlobal(JSON.stringify(id));
         const body = JSON.stringify({ final_result: '0' });
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                id
+                promoteId
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -147,13 +149,21 @@ const ViewSelectedIdea = () => {
     };
 
     async function handleideaList() {
+        const data = encryptGlobal(JSON.stringify(filterParamsfinal));
+        const datas = encryptGlobal(
+            JSON.stringify({
+                level: level,
+                dataParam,
+                filterParams
+            })
+        );
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         await axios
             .get(
                 title === 'Final'
-                    ? `${URL.getidealistfinal}${filterParamsfinal}`
-                    : `${URL.getidealist}level=${level}${dataParam}${filterParams}`,
+                    ? `${URL.getidealistfinal}${data}`
+                    : `${URL.getidealist}Data=${datas}`,
                 axiosConfig
             )
             .then(function (response) {

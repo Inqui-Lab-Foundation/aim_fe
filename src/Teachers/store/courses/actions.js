@@ -8,6 +8,7 @@ import {
 } from '../../../redux/actions.js';
 import { URL, KEY } from '../../../constants/defaultValues.js';
 import { getNormalHeaders } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 //import { getLanguage } from '../../../constants/languageOptions.js';
 
 export const getTeacherCourseDetailsSuccess = (user) => async (dispatch) => {
@@ -30,9 +31,15 @@ export const getTeacherCourseDetails = (courseId) => async (dispatch) => {
     try {
         dispatch({ type: TEACHER_COURSES_DETAILS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const idParam = encryptGlobal(JSON.stringify(courseId));
+        const langparam = encryptGlobal(
+            JSON.stringify({
+                locale: 'en'
+            })
+        );
         const result = await axios
             .get(
-                `${URL.getTeacherCousesDetails + courseId}?locale=en`,
+                `${URL.getTeacherCousesDetails + idParam}?Data=${langparam}`,
                 axiosConfig
             )
             .then((user) => user)
