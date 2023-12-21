@@ -359,12 +359,16 @@ export const getStudentChallengeSubmittedResponse =
     (id, language) => async (dispatch) => {
         try {
             const newParam = getLanguage(language);
-            const newres = encryptGlobal(JSON.stringify(newParam));
-            const submitedId = encryptGlobal(JSON.stringify(id));
+            const newres = encryptGlobal(
+                JSON.stringify({
+                    team_id:id,
+                    newParam
+                })
+            );
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .get(
-                    `${URL.getChallengeSubmittedResponse}${submitedId}&Data=${newres}`,
+                    `${URL.getChallengeSubmittedResponse}Data=${newres}`,
                     axiosConfig
                 )
                 .then((user) => user)

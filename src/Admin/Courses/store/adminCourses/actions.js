@@ -220,8 +220,7 @@ export const getAdminQuizResponce =
         try {
             dispatch({ type: ADMIN_COURSES_QUESTIONS_RESPONCE });
             const resId = encryptGlobal(JSON.stringify(quizId));
-            const Lngparam = getLanguage(lang);
-
+            const Lngparam = encryptGlobal(JSON.stringify(getLanguage(lang)));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .post(

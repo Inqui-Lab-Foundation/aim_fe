@@ -147,7 +147,7 @@ export default function DoughnutChart({ user }) {
     }, []);
 
     const handleChangeStudent = async (id, name) => {
-        const StudentId = encryptGlobal(id);
+        const StudentId = encryptGlobal(JSON.stringify(id));
 
         //  handleChangeStudent Api we can update the initiate student //
         // here id = class ; name = student name //
@@ -161,9 +161,7 @@ export default function DoughnutChart({ user }) {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/challenge_response/updateEntry/' +
-                JSON.stringify(StudentId) +
-                `?Data=${changParam}`,
+                `/challenge_response/updateEntry/${StudentId}?Data=${changParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -189,7 +187,7 @@ export default function DoughnutChart({ user }) {
             });
     };
     const handleRevoke = async (id, type) => {
-        const handleRevokeId = encryptGlobal(id);
+        const handleRevokeId = encryptGlobal(JSON.stringify(id));
         let submitData = {
             status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
         };
@@ -197,8 +195,7 @@ export default function DoughnutChart({ user }) {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/challenge_response/updateEntry/' +
-                JSON.stringify(handleRevokeId),
+                `/challenge_response/updateEntry/${handleRevokeId}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -399,7 +396,7 @@ export default function DoughnutChart({ user }) {
 
     // Function to fetch data for a single team by ID
     const fetchTeamData = async (teamId, teamName) => {
-        const teamParam = encryptGlobal(teamId);
+        const teamParam = encryptGlobal(JSON.stringify(teamId));
         try {
             const response = await axios.get(
                 `${process.env.REACT_APP_API_BASE_URL}/dashboard/teamStats/${teamParam}`,

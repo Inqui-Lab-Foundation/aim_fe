@@ -214,22 +214,19 @@ const TeacherPlayVideo = (props) => {
         getisquizcompleted();
     }, []);
     async function getisquizcompleted() {
-        const lang = 'locale=en';
-        const atte = 'attempts=1';
-        const res = atte.split('=');
-        const final = lang.split('=');
         let quizParamData = encryptGlobal(
             JSON.stringify({
-                attempts: res[1],
-                locale: final[1]
+                attempts:1,
+                locale:'en'
             })
         );
+        const quiZEnId = encryptGlobal('8');
         var config = {
             method: 'get',
 
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/quiz/8/nextQuestion?Data=${quizParamData}`,
+                `/quiz/${quiZEnId}/nextQuestion?Data=${quizParamData}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
