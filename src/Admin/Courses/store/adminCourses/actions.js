@@ -48,8 +48,10 @@ export const getAdminCoursesList = (lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_LIST });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const newLan = getLanguage(lang);
+        const pars = encryptGlobal(JSON.stringify(newLan));
         const result = await axios
-            .get(`${URL.getAdminCouses}?${getLanguage(lang)}`, axiosConfig)
+            .get(`${URL.getAdminCouses}?Data=${pars}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -83,12 +85,10 @@ export const adminCoursesCreate = (data, history, lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_CREATE });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const newLans = getLanguage(lang);
+        const parss = encryptGlobal(JSON.stringify(newLans));
         const result = await axios
-            .post(
-                `${URL.addAdminCourses}?${getLanguage(lang)}`,
-                data,
-                axiosConfig
-            )
+            .post(`${URL.addAdminCourses}?Data=${parss}`, data, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -265,11 +265,13 @@ export const getAdminRfQuizResponce =
         try {
             dispatch({ type: ADMIN_COURSES_REF_QUESTIONS_RESPONCE });
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const newLang = getLanguage(lang);
+            const parse = encryptGlobal(JSON.stringify(newLang));
             const result = await axios
                 .post(
                     `${
                         URL.postAdminRefQuizResponce + quizId + '/' + 'response'
-                    }?${getLanguage(lang)}`,
+                    }?Data=${parse}`,
                     body,
                     axiosConfig
                 )
@@ -306,11 +308,13 @@ export const getAdminRefQuizQst = (refQizId, lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_REF_QUESTIONS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const newLangQ = getLanguage(lang);
+        const parseQ = encryptGlobal(JSON.stringify(newLangQ));
         const result = await axios
             .get(
                 `${
                     URL.getAdminRefQizList + refQizId + '/' + 'nextQuestion'
-                }?${getLanguage(lang)}`,
+                }?Data=${parseQ}`,
                 axiosConfig
             )
             .then((user) => user)

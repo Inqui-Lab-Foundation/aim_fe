@@ -14,6 +14,7 @@ import {
 } from '../../helpers/Utils';
 import { getLanguage } from '../../constants/languageOptions';
 import { useSelector } from 'react-redux';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const AddFaqCategoryModal = (props) => {
     const language = useSelector((state) => state?.admin?.adminLanguage);
@@ -29,10 +30,12 @@ const AddFaqCategoryModal = (props) => {
 
         onSubmit: (values) => {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const FaqL = getLanguage(language);
+            const NewFaq = encryptGlobal(JSON.stringify(FaqL));
 
             axios
                 .post(
-                    `${URL.getFaqCategoryList}?${getLanguage(language)}`,
+                    `${URL.getFaqCategoryList}?Data=${NewFaq}`,
                     values,
                     axiosConfig
                 )

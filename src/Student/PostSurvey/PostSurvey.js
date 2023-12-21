@@ -131,6 +131,8 @@ const PostSurvey = () => {
         let submitData = {
             responses: answerReSponses
         };
+        const lang = getLanguage(language);
+        const Newa = encryptGlobal(JSON.stringify(lang));
         const nonEmptySelectedOptions = submitData.responses.filter(
             (item) => item.selected_option.length > 0
         );
@@ -143,9 +145,7 @@ const PostSurvey = () => {
         } else {
             return await axios
                 .post(
-                    `${
-                        URL.getPostSurveyList
-                    }/${quizSurveyId}/responses?${getLanguage(language)}`,
+                    `${URL.getPostSurveyList}/${quizSurveyId}/responses?Data=${Newa}`,
                     JSON.stringify(submitData, null, 2),
                     axiosConfig
                 )

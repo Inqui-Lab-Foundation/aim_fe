@@ -93,13 +93,15 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const titA = title && title == '0' ? '0' : '1';
+        const Param = encryptGlobal(
+            JSON.stringify({
+                key: titA,
+                filterParamsfinal
+            })
+        );
         await axios
-            .get(
-                `${URL.getFinalEvaluation}?key=${
-                    title && title == '0' ? '0' : '1'
-                }${filterParamsfinal}`,
-                axiosConfig
-            )
+            .get(`${URL.getFinalEvaluation}?Data=${Param}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     const updatedWithKey =

@@ -135,11 +135,24 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const NewPaA = encryptGlobal(
+            JSON.stringify({
+                filterParamsfinal
+            })
+        );
+        const NewPa = encryptGlobal(
+            JSON.stringify({
+                filterParamsfinal,
+                level: level,
+                dataParam,
+                filterParams
+            })
+        );
         await axios
             .get(
                 title === 'Final'
-                    ? `${URL.getidealistfinal}${filterParamsfinal}`
-                    : `${URL.getidealist}level=${level}${dataParam}${filterParams}`,
+                    ? `${URL.getidealistfinal}${NewPaA}`
+                    : `${URL.getidealist}Data=${NewPa}`,
                 axiosConfig
             )
             .then(function (response) {

@@ -478,13 +478,14 @@ const TeacherPlayVideo = (props) => {
     const handleSubmit = (e) => {
         // here we can submit the worksheets  responses//
         const data = new FormData();
+        const ID = encryptGlobal(JSON.stringify(worksheetId));
         data.append('attachment_1', image);
         var config = {
             method: 'post',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/worksheets/' +
-                worksheetId +
+                ID +
                 '/response',
             headers: {
                 'Content-Type': 'application/json',

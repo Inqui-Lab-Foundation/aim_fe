@@ -311,6 +311,8 @@ const PlayVideoCourses = (props) => {
     async function fetchData(videoId) {
         // here videoId= videoId //
         setVideoId(videoId);
+        const Lang = getLanguage(language);
+        const New = encryptGlobal(JSON.stringify(Lang));
         const videoParam = encryptGlobal(JSON.stringify(videoId));
         var config = {
             method: 'get',
@@ -319,7 +321,7 @@ const PlayVideoCourses = (props) => {
                 '/videos/' +
                 videoParam +
                 '?' +
-                getLanguage(language),
+                New,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
