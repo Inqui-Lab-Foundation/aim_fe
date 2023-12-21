@@ -147,10 +147,15 @@ const DashboardReport = () => {
         // Mentor Id  Api//
         // id = Mentor Id //
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                mentor_id: id,
+                status: 'ACTIVE',
+                ideaStatus: true
+            })
+        );
         axiosConfig['params'] = {
-            mentor_id: id,
-            status: 'ACTIVE',
-            ideaStatus: true
+            Data: enParamData
         };
         await axios
             .get(`${URL.getTeamMembersList}`, axiosConfig)

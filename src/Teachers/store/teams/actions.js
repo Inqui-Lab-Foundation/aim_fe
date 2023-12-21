@@ -128,9 +128,10 @@ export const getTeamMemberStatus =
         if (teamId) {
             try {
                 const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+                const teamPara = encryptGlobal(JSON.stringify(teamId));
                 const result = await axios
                     .get(
-                        `${URL.getTeamMemberStatusEndpoint + teamId}`,
+                        `${URL.getTeamMemberStatusEndpoint + teamPara}`,
                         axiosConfig
                     )
                     .then((user) => user)
