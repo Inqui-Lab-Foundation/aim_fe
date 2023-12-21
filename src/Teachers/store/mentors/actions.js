@@ -147,8 +147,9 @@ export const deleteMentor = (courseId) => async (dispatch) => {
     try {
         dispatch({ type: MENTORS_DELETE });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const Del = encryptGlobal(JSON.stringify(courseId));
         const result = await axios
-            .delete(`${URL.deleteMentor + '/' + courseId}`, axiosConfig)
+            .delete(`${URL.deleteMentor + '/' + Del}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -182,8 +183,10 @@ export const mentorsEdit = (courseId, data, history) => async (dispatch) => {
     try {
         dispatch({ type: MENTORS_EDIT });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const edi = encryptGlobal(JSON.stringify(courseId));
+
         const result = await axios
-            .put(`${URL.updateMentor + '/' + courseId}`, data, axiosConfig)
+            .put(`${URL.updateMentor + '/' + edi}`, data, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;

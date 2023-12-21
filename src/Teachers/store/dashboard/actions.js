@@ -6,6 +6,7 @@ import {
     getNormalHeaders,
     openNotificationWithIcon
 } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const getDashboardStatesSuccess = (data) => async (dispatch) => {
     dispatch({
@@ -14,12 +15,12 @@ export const getDashboardStatesSuccess = (data) => async (dispatch) => {
     });
 };
 
-
 export const getDashboardStates = (id) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const ids = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .get(`${URL.getTeacherDashboardStatesById}${id}`, axiosConfig)
+            .get(`${URL.getTeacherDashboardStatesById}${ids}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
