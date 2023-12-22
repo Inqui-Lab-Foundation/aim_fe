@@ -348,7 +348,7 @@ const Dashboard = () => {
         // where id = challenge response id //
         // here we  can see the Revoke button when ever idea is submitted //
         // where type = ideaStatus //
-        const RevokId = encryptGlobal(id);
+        const RevokId = encryptGlobal(JSON.stringify(id));
         let submitData = {
             status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
         };
@@ -357,7 +357,7 @@ const Dashboard = () => {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(RevokId),
+                RevokId,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

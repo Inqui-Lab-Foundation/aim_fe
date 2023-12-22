@@ -348,13 +348,13 @@ const DashboardReport = () => {
         let submitData = {
             status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
         };
-        const revokId = encryptGlobal(id);
+        const revokId = encryptGlobal(JSON.stringify(id));
         var config = {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(revokId),
+                revokId,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

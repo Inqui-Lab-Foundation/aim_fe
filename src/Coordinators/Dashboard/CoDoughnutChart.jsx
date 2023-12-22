@@ -146,7 +146,7 @@ export default function DoughnutChart({ user, UserId }) {
     }, []);
 
     const handleChangeStudent = async (id, name) => {
-        const handleStu = encryptGlobal(id);
+        const handleStu = encryptGlobal(JSON.stringify(id));
         //  handleChangeStudent Api we can update the initiate student //
         // here id = class ; name = student name //
 
@@ -160,7 +160,7 @@ export default function DoughnutChart({ user, UserId }) {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(handleStu) +
+                handleStu +
                 `?Data=${changParam}`,
             headers: {
                 'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ export default function DoughnutChart({ user, UserId }) {
             });
     };
     const handleRevoke = async (id, type) => {
-        const handleRevokeId = encryptGlobal(id);
+        const handleRevokeId = encryptGlobal(JSON.stringify(id));
         let submitData = {
             status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
         };
@@ -196,7 +196,7 @@ export default function DoughnutChart({ user, UserId }) {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(handleRevokeId),
+                handleRevokeId,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

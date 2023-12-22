@@ -339,13 +339,13 @@ const IdeasPageNew = () => {
     }
 
     const handlefinalsubmit = async (id) => {
-        const editParam = encryptGlobal(id);
+        const editParam = encryptGlobal(JSON.stringify(id));
         var config = {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(editParam),
+                editParam,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
