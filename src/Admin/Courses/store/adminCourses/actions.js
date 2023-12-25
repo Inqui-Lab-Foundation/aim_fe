@@ -173,14 +173,20 @@ export const getAdminQuizQuestions =
             const quizParam = encryptGlobal(JSON.stringify(quizId));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const quizLang = getLanguage(lang);
-            const resGet = encryptGlobal(JSON.stringify(quizLang));
             const att = attempt;
-            const attRes = encryptGlobal(JSON.stringify(att));
+
+            const resGet = encryptGlobal(
+                JSON.stringify({
+                    quizLang,
+                    att
+                })
+            );
+            // const attRes = encryptGlobal(JSON.stringify(att));
             const result = await axios
                 .get(
                     `${
                         URL.getAdminQstList + quizParam + '/' + 'nextQuestion'
-                    }?${resGet}&attempts=${attRes}`,
+                    }``?Data=${resGet}`,
                     axiosConfig
                 )
                 .then((user) => user)

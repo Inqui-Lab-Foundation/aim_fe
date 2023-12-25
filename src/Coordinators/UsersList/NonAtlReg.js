@@ -355,11 +355,16 @@ function RegisterNew() {
             unique_code: diesCode,
             address: textData
         });
+        const nonReg = encryptGlobal(
+            JSON.stringify({
+                nonatlcode: 'true'
+            })
+        );
         var config = {
             method: 'post',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/organizations/createOrg?nonatlcode=true',
+                `/organizations/createOrg?Data=${nonReg}`,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -417,7 +422,9 @@ function RegisterNew() {
         axios(config)
             .then(function (response) {
                 if (response.status === 202) {
-                    const UNhashedPassword = decryptGlobal(response?.data?.data);
+                    const UNhashedPassword = decryptGlobal(
+                        response?.data?.data
+                    );
                     setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);

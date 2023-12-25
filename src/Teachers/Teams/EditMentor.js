@@ -16,12 +16,16 @@ import {
     openNotificationWithIcon,
     setCurrentUser
 } from '../../helpers/Utils';
+// import { useNavigate } from 'react-router-dom';
+
 import { useHistory } from 'react-router-dom';
 import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const EditMentor = (props) => {
     // here we can edit the users details //
     const history = useHistory();
+    // const navigate = useNavigate();
+
     const mentorData =
         // where  mentorData = mentor details //
         (history && history.location && history.location.item) || {};
@@ -103,9 +107,10 @@ const EditMentor = (props) => {
                         );
                         currentUser.data[0].moc_name = values.name;
                         setCurrentUser(currentUser);
-                        // setTimeout(() => {
-                        //     props.history.push('/teacher/view-team-member');
-                        // }, 2000);
+                        // navigate('/teacher/view-team-member');
+                        setTimeout(() => {
+                            props.history.push('/teacher/view-team-member');
+                        }, 1000);
                     }
                 })
                 .catch(function (error) {

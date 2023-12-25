@@ -147,9 +147,13 @@ export const getAtlCodeData = (item) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         let result;
-        const ItemAtl = encryptGlobal(JSON.stringify(item));
+        const ItemAtl = encryptGlobal(
+            JSON.stringify({
+                pin_code: item
+            })
+        );
         result = await axios
-            .get(`${URL.getAtlCodesOnly}${ItemAtl}`, axiosConfig)
+            .get(`${URL.getAtlCodesOnly}Data=${ItemAtl}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
@@ -182,9 +186,13 @@ export const getPinCodeData = (item) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         let result;
-        const Item = encryptGlobal(JSON.stringify(item));
+        const Item = encryptGlobal(
+            JSON.stringify({
+                district: item
+            })
+        );
         result = await axios
-            .get(`${URL.getPinCodesOnly}${Item}`, axiosConfig)
+            .get(`${URL.getPinCodesOnly}Data=${Item}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
@@ -210,16 +218,21 @@ export const getFetchDistData = (item) => async (dispatch) => {
     // here we can see  district wise data //
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const distParam = encryptGlobal(JSON.stringify(item));
+        const distParam = encryptGlobal(
+            JSON.stringify({
+                state: item
+            })
+        );
 
         let result;
         result = await axios
-            .get(`${URL.getFetchDistsOnly}${distParam}`, axiosConfig)
+            .get(`${URL.getFetchDistsOnly}Data=${distParam}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
             });
         if (result && result.status === 200) {
+            // console.log(result, '1');
             const data = result.data.data.length > 0 ? result.data.data : [];
             dispatch(getFetchDistsSuccess(data));
         } else {
@@ -361,7 +374,7 @@ export const getStudentChallengeSubmittedResponse =
             const newParam = getLanguage(language);
             const newres = encryptGlobal(
                 JSON.stringify({
-                    team_id:id,
+                    team_id: id,
                     newParam
                 })
             );

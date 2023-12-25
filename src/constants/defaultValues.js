@@ -93,7 +93,7 @@ export const URL = {
     getAdminQstList: process.env.REACT_APP_API_BASE_URL + '/quiz/',
     getAdminRefQizList: process.env.REACT_APP_API_BASE_URL + '/reflectiveQuiz/',
     getSchoolRegistrationBulkupload:
-        process.env.REACT_APP_API_BASE_URL + '/organizations?status=ACTIVE',
+        process.env.REACT_APP_API_BASE_URL + '/organizations?',
     getFaqCategoryList: `${process.env.REACT_APP_API_BASE_URL}/faqCategories`,
     getFaqByCategoryId: `${process.env.REACT_APP_API_BASE_URL}/faqCategories`,
     getFaqList: `${process.env.REACT_APP_API_BASE_URL}/faqs`,
@@ -115,11 +115,11 @@ export const URL = {
     getDistrictsOnly:
         process.env.REACT_APP_API_BASE_URL + '/organizations/districts',
     getPinCodesOnly:
-        process.env.REACT_APP_API_BASE_URL + '/organizations/pinCode?district=',
+        process.env.REACT_APP_API_BASE_URL + '/organizations/pinCode?',
     getAtlCodesOnly:
-        process.env.REACT_APP_API_BASE_URL + '/organizations/ATLCode?pin_code=',
+        process.env.REACT_APP_API_BASE_URL + '/organizations/ATLCode?',
     getFetchDistsOnly:
-        process.env.REACT_APP_API_BASE_URL + '/organizations/districts?state=',
+        process.env.REACT_APP_API_BASE_URL + '/organizations/districts?',
     getStatesOnly: process.env.REACT_APP_API_BASE_URL + '/organizations/states',
     getStudentBadges: process.env.REACT_APP_API_BASE_URL + '/students/',
     getStudentById: process.env.REACT_APP_API_BASE_URL + '/students/',

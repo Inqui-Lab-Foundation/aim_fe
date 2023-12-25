@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 
 import {
@@ -26,6 +28,7 @@ export const getMentorRegStatusReportSuccess = (data) => async (dispatch) => {
 export const getSurveyReport = (surveyId, role, status) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const surId = encryptGlobal(JSON.stringify(surveyId));
         // axiosConfig['params'] = queryParams;
         let surRep = encryptGlobal(
             JSON.stringify({
@@ -37,7 +40,7 @@ export const getSurveyReport = (surveyId, role, status) => async (dispatch) => {
         const result = await axios
             // /quizSurveys/1/surveyStatus?role=MENTOR&quizSurveyStatus=INCOMPLETE
             .get(
-                `${URL.getAdminReports}${surveyId}/surveyStatus?Data=${surRep}`,
+                `${URL.getAdminReports}${surId}/surveyStatus?Data=${surRep}`,
                 axiosConfig
             )
             .then((user) => user)
@@ -121,10 +124,18 @@ export const getMentorRegStatusReport =
     (surveyId, role, status) => async (dispatch) => {
         try {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            let NewId = encryptGlobal(JSON.stringify(surveyId));
+            let surMentRep = encryptGlobal(
+                JSON.stringify({
+                    role: role,
+                    quizSurveyStatus: status
+                })
+            );
             const result = await axios
                 // /quizSurveys/1/surveyStatus?role=MENTOR&quizSurveyStatus=INCOMPLETE
+
                 .get(
-                    `${URL.getAdminReports}${surveyId}/surveyStatus?role=${role}&quizSurveyStatus=${status}`,
+                    `${URL.getAdminReports}${NewId}/surveyStatus?Data=${surMentRep}`,
                     axiosConfig
                 )
                 .then((user) => user)

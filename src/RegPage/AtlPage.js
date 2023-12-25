@@ -91,7 +91,7 @@ function AtlPage() {
         placeholder: 'Enter Email Id',
         className: 'defaultInput'
     };
-    
+
     const formik = useFormik({
         initialValues: {
             full_name: '',
@@ -305,7 +305,10 @@ function AtlPage() {
         axios(config)
             .then(function (response) {
                 if (response.status === 202) {
-                    const UNhashedPassword = decryptGlobal(response?.data?.data);
+                    const UNhashedPassword = decryptGlobal(
+                        response?.data?.data
+                    );
+                    // console.log(UNhashedPassword, 'new');
                     setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);

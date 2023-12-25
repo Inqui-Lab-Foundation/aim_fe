@@ -294,7 +294,6 @@ const EditTeacherProfileDetails = (props) => {
                                         </Col>
                                     </Row>
                                 </div>
-
                                 <hr className="mt-4 mb-4"></hr>
                                 <Row>
                                     <Col className="col-xs-12 col-sm-6">
