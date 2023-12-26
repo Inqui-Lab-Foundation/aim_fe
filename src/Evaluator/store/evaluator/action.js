@@ -93,10 +93,15 @@ export const evaluatorAdminLoginUser =
                 ...data,
                 passwordConfirmation: data.password
             };
+            const ead = encryptGlobal(
+                JSON.stringify({
+                    eAdmin: 'true'
+                })
+            );
             dispatch({ type: EVALUATOR_ADMIN_LOGIN_USER });
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
-                .post(`${URL.eadminLogin}`, loginData, axiosConfig)
+                .post(`${URL.eadminLogin}Data=${ead}`, loginData, axiosConfig)
                 .then((user) => user)
                 .catch((err) => {
                     return err.response;

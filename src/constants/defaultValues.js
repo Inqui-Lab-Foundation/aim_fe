@@ -10,12 +10,12 @@ export const URL = {
     coordinatorLogin:
         process.env.REACT_APP_API_BASE_URL + '/state_coordinators/login',
     reportLogin:
-        process.env.REACT_APP_API_BASE_URL + '/admins/login?report=true',
+        process.env.REACT_APP_API_BASE_URL + '/admins/login?',
 
     login: process.env.REACT_APP_API_BASE_URL + '/students/login',
     adminLogin: process.env.REACT_APP_API_BASE_URL + '/admins/login',
     eadminLogin:
-        process.env.REACT_APP_API_BASE_URL + '/admins/login?eAdmin=true',
+        process.env.REACT_APP_API_BASE_URL + '/admins/login?',
     adminRegister: process.env.REACT_APP_API_BASE_URL + '/admins/register',
     evaluatorLogin: process.env.REACT_APP_API_BASE_URL + '/evaluators/login',
     // evaluatorRegister: `${process.env.REACT_APP_API_BASE_URL}/evaluators/register`,

@@ -744,10 +744,17 @@ export const setPresurveyStatus = (data) => async (dispatch) => {
 export const getPresurveyData = (language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const Plang = getLanguage(language);
+        const finals = Plang.split('=');
+        let enParamDatas = encryptGlobal(
+            JSON.stringify({
+                role: 'STUDENT',
+                locale: finals[1]
+            })
+        );
         axios
             .get(
-                `${URL.getStudentPreSurveyList}?role=STUDENT&${getLanguage(
-                    language
+                `${URL.getStudentPreSurveyList}?Data=${enParamDatas}
                 )}`,
                 axiosConfig
             )
