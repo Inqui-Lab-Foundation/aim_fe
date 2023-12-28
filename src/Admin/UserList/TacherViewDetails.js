@@ -88,7 +88,7 @@ const ViewMore = () => {
     //     axios(config)
     //         .then(function (response) {
     //             if (response.status === 200) {
-    //                 // console.log(response, 'res');
+    //                 
     //                 setData(response?.data?.data[0]);
     //                 setButton(response.data.data[0].moc_name);
     //                 // if (response.data.data[0].moc_name !== null) {

@@ -581,9 +581,6 @@ const ReportsRegistration = () => {
                             ideaNotStarted: 0
                         }
                     );
-                    console.log('Combined Array:', combinedArray);
-                    console.log('Total count', total);
-
                     const doughNutData1 = {
                         labels: ['Completed', 'IN Progress', 'NOT Started'],
                         datasets: [
@@ -699,7 +696,6 @@ const ReportsRegistration = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>

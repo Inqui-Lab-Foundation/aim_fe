@@ -24,6 +24,7 @@ import Select from '../../Admin/Challenges/pages/Select';
 // import { getDistrictData } from '../../redux/studentRegistration/actions';
 
 import { useSelector } from 'react-redux';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 const EditProfile = (props) => {
     // here we can edit the users details //
     const history = useHistory();

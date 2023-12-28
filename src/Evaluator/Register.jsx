@@ -113,7 +113,6 @@ const Register = (props) => {
 
                 data: body
             };
-            console.log(body);
             // const actualUrl = URL.evaluatorRegister;
             await axios(config)
                 // .post(actualUrl, JSON.stringify(values, null, 2), axiosConfig)

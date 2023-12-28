@@ -9,7 +9,6 @@ const PageNotFound = (props) => {
     const handleOnClick = () => {
         // const history = useHistory();
         const currentUser = getCurrentUser('current_user');
-        // console.log(currentUser && currentUser?.data[0]?.role);
         if (currentUser && currentUser?.data[0]?.role === 'ADMIN') {
             props.history.push('/admin/dashboard');
         } else if (currentUser && currentUser?.data[0]?.role === 'STUDENT') {

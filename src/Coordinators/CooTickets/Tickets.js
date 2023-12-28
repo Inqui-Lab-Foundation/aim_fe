@@ -48,7 +48,7 @@ const TicketsPage = () => {
         await axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response);
+                   
                     setAllTicketResponse(
                         response.data.data[0] &&
                             response.data.data[0].dataValues

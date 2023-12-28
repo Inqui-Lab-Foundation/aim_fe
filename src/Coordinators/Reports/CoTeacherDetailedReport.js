@@ -352,7 +352,7 @@ const CoTeacherDetailedReport = () => {
         axios(config)
             .then(function (res) {
                 if (res.status === 200) {
-                    console.log(res);
+                   
                     var mentorStuArray = [];
                     res &&
                         res.data &&
@@ -362,7 +362,7 @@ const CoTeacherDetailedReport = () => {
                             return mentorStuArray.push({ ...students, key });
                         });
                     setAtl(mentorStuArray);
-                    // console.log(mentorStuArray);
+                    
 
                     // setAtl(response.data.data);
                     const barStudentData = {
@@ -406,11 +406,10 @@ const CoTeacherDetailedReport = () => {
         fetchData();
     };
     const fetchData = () => {
-        const tecDist = district === '' ? 'All Districts' : district;
         const apiParam = encryptGlobal(
             JSON.stringify({
                 state: state,
-                district: district,
+                district: district === '' ? 'All Districts' : district,
                 category: category
             })
         );
@@ -470,7 +469,6 @@ const CoTeacherDetailedReport = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log(response);
                     const summary = response.data.data[0].summary;
                     const teamCount = response.data.data[0].teamCount;
                     const studentCountDetails =
@@ -599,7 +597,6 @@ const CoTeacherDetailedReport = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>

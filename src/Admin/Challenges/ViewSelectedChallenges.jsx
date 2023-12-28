@@ -118,7 +118,6 @@ const ViewSelectedIdea = () => {
                 setshowspin(false);
             });
     }
-    console.log(tableData, '2');
     const evaluatedIdeaforsub = {
         data: tableData && tableData.length > 0 ? tableData : [],
         columns: [

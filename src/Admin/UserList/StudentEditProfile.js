@@ -62,7 +62,7 @@ const EditTeamMember = (props) => {
             // if (values.username) {
             //     const start = values.username.indexOf('@');
             //     const main = values.username.substring(start);
-            //     // console.log(main);
+            //     
             //     const checkarry = ['@gmail.com', '@outlook.com', '@yahoo.com'];
             //     const text = checkarry.includes(main);
             //     if (!text) {

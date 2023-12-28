@@ -92,8 +92,6 @@ const EditResource = (props) => {
             })
         }),
         onSubmit: async (values) => {
-            console.log(typeof values.attachments, 'hii');
-            console.log(typeof values.attachments !== 'string');
             try {
                 if (
                     values.type === 'file' &&

@@ -165,7 +165,7 @@ export const getAtlCodeData = (item) => async (dispatch) => {
                 ATLlistObj[code.organization_code] = code.organization_name;
                 return code.organization_code;
             });
-            console.log(ATLCodeslist, '1');
+            
             dispatch(getAtlCodesSuccess(data));
         } else {
             dispatch(getAtlCodesSuccess([]));
@@ -332,8 +332,8 @@ export const getStudentChallengeQuestions = (language) => async (dispatch) => {
         // dispatch({ type: GET_STUDENTS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const Id = encryptGlobal('1');
-        const challLang = getLanguage(language);
-        const Challres = encryptGlobal(JSON.stringify(challLang));
+        const locale = getLanguage(language);
+        const Challres = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
             .get(
                 `${URL.getChallengeQuestions}/${Id}?Data=${Challres}`,
@@ -371,11 +371,11 @@ export const getStudentChallengeSubmittedResponseSuccess =
 export const getStudentChallengeSubmittedResponse =
     (id, language) => async (dispatch) => {
         try {
-            const newParam = getLanguage(language);
+            const locale = getLanguage(language);
             const newres = encryptGlobal(
                 JSON.stringify({
                     team_id: id,
-                    newParam
+                    locale
                 })
             );
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
@@ -412,12 +412,16 @@ export const initiateIdea = async (
 ) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const ideaId = encryptGlobal(JSON.stringify(id));
-        const ideaLang = getLanguage(language);
-        const ideares = encryptGlobal(JSON.stringify(ideaLang));
+        const challengeParamID = encryptGlobal('1');
+        const locale = getLanguage(language);
+        const queryObj = JSON.stringify({
+            team_id : id,
+            locale
+        });
+        const queryObjEn = encryptGlobal(queryObj);
         const result = await axios
             .post(
-                `${URL.initiateChallenge}${ideaId}&${ideares}`,
+                `${URL.initiateChallenge}${challengeParamID}/initiate?Data=${queryObjEn}`,
                 data,
                 axiosConfig
             )
@@ -478,8 +482,8 @@ export const getStudentBadges = (id, language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const stuId = encryptGlobal(JSON.stringify(id));
-        const stuLang = getLanguage(language);
-        const res = encryptGlobal(JSON.stringify(stuLang));
+        const locale = getLanguage(language);
+        const res = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
             .get(
                 `${URL.getStudentBadges}${stuId}/badges?Data=${res}`,
@@ -503,9 +507,9 @@ export const getStudentBadges = (id, language) => async (dispatch) => {
 export const updateStudentBadges =
     (data, id, language, t) => async (dispatch) => {
         try {
-            const Lang = getLanguage(language);
+            const locale = getLanguage(language);
             const upLan = encryptGlobal(JSON.stringify(id));
-            const resL = encryptGlobal(JSON.stringify(Lang));
+            const resL = encryptGlobal(JSON.stringify({locale}));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .post(
@@ -554,9 +558,9 @@ export const getStudentDashboardStatusSuccess = (data) => async (dispatch) => {
 };
 export const getStudentDashboardStatus = (id, language) => async (dispatch) => {
     try {
-        const Param = getLanguage(language);
+        const locale = getLanguage(language);
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const resultParam = encryptGlobal(JSON.stringify(Param));
+        const resultParam = encryptGlobal(JSON.stringify({locale}));
         const idParam = encryptGlobal(JSON.stringify(id));
         const result = await axios
             .get(
@@ -589,9 +593,9 @@ export const getStudentDashboardChallengesStatus =
     (id, language) => async (dispatch) => {
         try {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-            const getLang = getLanguage(language);
+            const locale = getLanguage(language);
             const getId = encryptGlobal(JSON.stringify(id));
-            const res = encryptGlobal(JSON.stringify(getLang));
+            const res = encryptGlobal(JSON.stringify({locale}));
             const result = await axios
                 .get(
                     `${URL.getStudentDashboardStatusCommonById}${getId}/challenges?Data=${res}`,
@@ -623,8 +627,8 @@ export const getStudentDashboardTeamProgressStatus =
     (id, language) => async (dispatch) => {
         try {
             const dashId = encryptGlobal(JSON.stringify(id));
-            const Dash = getLanguage(language);
-            const res = encryptGlobal(JSON.stringify(Dash));
+            const locale = getLanguage(language);
+            const res = encryptGlobal(JSON.stringify({locale}));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .get(
@@ -659,8 +663,8 @@ export const getStudentDashboardTutorialVideos =
     (language) => async (dispatch) => {
         try {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-            const vidLang = getLanguage(language);
-            const ResParam = encryptGlobal(JSON.stringify(vidLang));
+            const locale = getLanguage(language);
+            const ResParam = encryptGlobal(JSON.stringify({locale}));
             const result = await axios
                 .get(
                     `${process.env.REACT_APP_API_BASE_URL}/tutorialVideos?Data=${ResParam}`,
@@ -709,12 +713,11 @@ export const studentPostSurveyCertificateSuccess =
 export const studentPostSurveyCertificate = (language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const lang = getLanguage(language);
-        const final = lang.split('=');
+        const locale = getLanguage(language);
         let enParamData = encryptGlobal(
             JSON.stringify({
                 role: 'STUDENT',
-                locale: final[1]
+                locale
             })
         );
         await axios
@@ -744,12 +747,11 @@ export const setPresurveyStatus = (data) => async (dispatch) => {
 export const getPresurveyData = (language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const Plang = getLanguage(language);
-        const finals = Plang.split('=');
+        const locale = getLanguage(language);
         let enParamDatas = encryptGlobal(
             JSON.stringify({
                 role: 'STUDENT',
-                locale: finals[1]
+                locale
             })
         );
         axios

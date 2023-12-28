@@ -60,14 +60,14 @@ const ViewMore = () => {
             .then(function (response) {
                 if (response.status === 200) {
                     setCourse(response.data.data);
-                    // console.log(response);
+                  
                 }
             })
             .catch(function (error) {
                 console.log(error);
             });
     }, []);
-    // console.log(course);
+    
     const percentageBWNumbers = (a, b) => {
         // here a = all_topics_count ; b= topics_completed_count //
         return (((a - b) / a) * 100).toFixed(2);

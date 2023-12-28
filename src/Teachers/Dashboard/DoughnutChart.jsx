@@ -46,8 +46,10 @@ export default function DoughnutChart({ user }) {
         (state) => state?.studentRegistration
     );
     useEffect(() => {
-        dispatch(getTeamMemberStatus(teamId, setshowDefault));
-        dispatch(getStudentChallengeSubmittedResponse(teamId));
+        if(teamId){
+            dispatch(getTeamMemberStatus(teamId, setshowDefault));
+            dispatch(getStudentChallengeSubmittedResponse(teamId));
+        }
     }, [teamId, dispatch]);
     const percentageBWNumbers = (a, b) => {
         return (((a - b) / a) * 100).toFixed(2);

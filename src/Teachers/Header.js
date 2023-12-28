@@ -1,32 +1,31 @@
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import { FaBars } from 'react-icons/fa';
 import { Row, Col, Navbar } from 'reactstrap';
 // import AvatarImg from '../assets/media/img/teacher.png';
 import AvatarImg from '../assets/media/img/Avatar.png';
 
 import {
-    getAdminNotificationsList,
-    getTeacherPresurveyStatus
+    getAdminNotificationsList
 } from '../redux/actions';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { getCurrentUser } from '../helpers/Utils';
 
 const Header = (props) => {
     const currentUser = getCurrentUser('current_user');
-    const dispatch = useDispatch();
-    const presurveyStatus = useSelector(
-        (state) => state?.mentors.teacherPresurveyStatus
-    );
+    //const dispatch = useDispatch();
+    // const presurveyStatus = useSelector(
+    //     (state) => state?.mentors.teacherPresurveyStatus
+    // );
     // eslint-disable-next-line no-unused-vars
     window.onunload = function () {
         localStorage.setItem('headerOption', JSON.stringify('Home'));
     };
 
-    useLayoutEffect(() => {
-        if (!presurveyStatus) {
-            dispatch(getTeacherPresurveyStatus());
-        }
-    }, [dispatch]);
+    // useLayoutEffect(() => {
+    //     if (!presurveyStatus) {
+    //         dispatch(getTeacherPresurveyStatus());
+    //     }
+    // }, [dispatch]);
     return (
         <header>
             <div

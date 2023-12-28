@@ -524,11 +524,7 @@ const CreateTeamMember = (props) => {
 
         var config = {
             method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/teams/' +
-                creaParam +
-                `?Data=${param}`,
+            url:`${process.env.REACT_APP_API_BASE_URL}/teams/${creaParam}?Data=${param}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

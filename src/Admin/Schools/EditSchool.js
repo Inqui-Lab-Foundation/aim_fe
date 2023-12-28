@@ -50,7 +50,7 @@ const EditSchool = (props) => {
         type: 'text',
         className: 'defaultInput'
     };
-    // console.log(listID, '1');
+  
     const filterCategory = ['ATL', 'Non ATL'];
 
     const fullStatesNames = useSelector(
@@ -186,7 +186,7 @@ const EditSchool = (props) => {
     //         dispatch(getFetchDistData());
     //     }
     // }, [formik.values.state]);
-    console.log(listId && listId.district, formik.values.district);
+   
 
     return (
         <Layout>

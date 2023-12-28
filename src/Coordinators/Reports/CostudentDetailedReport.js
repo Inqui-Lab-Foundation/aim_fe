@@ -450,7 +450,6 @@ const CostudentDetailedReport = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log(response, 'stu');
                     const summary = response.data.data[0].summary;
                     const studentCountDetails =
                         response.data.data[0].studentCountDetails;
@@ -659,7 +658,6 @@ const CostudentDetailedReport = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>

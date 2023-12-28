@@ -131,8 +131,8 @@ const PostSurvey = () => {
         let submitData = {
             responses: answerReSponses
         };
-        const lang = getLanguage(language);
-        const Newa = encryptGlobal(JSON.stringify(lang));
+        const locale = getLanguage(language);
+        const Newa = encryptGlobal(JSON.stringify({locale}));
         const nonEmptySelectedOptions = submitData.responses.filter(
             (item) => item.selected_option.length > 0
         );
@@ -143,9 +143,10 @@ const PostSurvey = () => {
                 ''
             );
         } else {
+            const quizSurveyIdParam  = encryptGlobal(JSON.stringify(quizSurveyId));
             return await axios
                 .post(
-                    `${URL.getPostSurveyList}/${quizSurveyId}/responses?Data=${Newa}`,
+                    `${URL.getPostSurveyList}/${quizSurveyIdParam}/responses?Data=${Newa}`,
                     JSON.stringify(submitData, null, 2),
                     axiosConfig
                 )
@@ -270,12 +271,12 @@ const PostSurvey = () => {
 
     useEffect(() => {
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const lang = getLanguage(language);
-        const final = lang.split('=');
+        const locale = getLanguage(language);
+        const postIdEn = encryptGlobal('4');
         let enParamData = encryptGlobal(
             JSON.stringify({
-                role: 'MENTOR',
-                locale: final[1]
+                role:'STUDENT',
+                locale
             })
         );
         axiosConfig['params'] = {
@@ -283,7 +284,7 @@ const PostSurvey = () => {
         };
 
         axios
-            .get(`${URL.getStudentPostSurveyList}`, axiosConfig)
+            .get(`${URL.getStudentPostSurveyList}${postIdEn}`, axiosConfig)
             .then((postSurveyRes) => {
                 if (postSurveyRes?.status == 200) {
                     setQuizSurveyId(postSurveyRes.data.data[0].quiz_survey_id);

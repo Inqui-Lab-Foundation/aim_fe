@@ -273,7 +273,7 @@ const ReportL1 = () => {
                         };
                     });
                     setDownloadData(transformedData);
-                    console.log(transformedData, 'Data');
+                   
 
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
@@ -362,7 +362,7 @@ const ReportL1 = () => {
                             rejected: 0
                         }
                     );
-                    console.log(total, 'Total');
+                    
                     var array = chartTableData;
                     array.push({ state: 'Total Count', ...total });
                     setChartTableData(array);
@@ -387,7 +387,7 @@ const ReportL1 = () => {
         axios(config)
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res, '6');
+                 
                     const chartTableData2 = res?.data?.data || [];
 
                     setChartTableData2(chartTableData2);

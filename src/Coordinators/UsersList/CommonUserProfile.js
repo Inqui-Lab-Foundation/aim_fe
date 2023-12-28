@@ -23,6 +23,7 @@ import {
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import logout from '../../assets/media/logout.svg';
 import { studentResetPassword } from '../../redux/actions';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const CommonUserProfile = (props) => {
     const history = useHistory();
@@ -116,7 +117,7 @@ const CommonUserProfile = (props) => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response, 'res');
+
                     setData(response?.data?.data[0]);
                     setButton(response.data.data[0].moc_name);
                     // if (response.data.data[0].moc_name !== null) {

@@ -20,8 +20,8 @@ const FaqPage = () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const getFaqParam = encryptGlobal(JSON.stringify(id));
 
-        const lanPar = getLanguage(language);
-        const res = encryptGlobal(JSON.stringify(lanPar));
+        const locale = getLanguage(language);
+        const res = encryptGlobal(JSON.stringify({locale}));
         await axios
             .get(
                 `${process.env.REACT_APP_API_BASE_URL}/faqs/getbyCategoryid/${getFaqParam}?Data=${res}`,

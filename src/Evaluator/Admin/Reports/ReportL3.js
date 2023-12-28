@@ -387,7 +387,7 @@ const ReportL3 = () => {
             .then((response) => {
                 if (response.status === 200) {
                     // console.log(res, '6');
-                    console.log(response.data.data, 'response.data.data');
+                   
                     const countData = {
                         overall: {
                             '1to3': 0,
@@ -510,7 +510,7 @@ const ReportL3 = () => {
                             runners: 0
                         }
                     );
-                    console.log(total, 'Total');
+                   
                     var array = chartTableData2;
                     array.push({ state: 'Total Count', ...total });
                     setChartTableData2(array);

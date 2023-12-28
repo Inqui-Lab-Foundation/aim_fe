@@ -301,7 +301,6 @@ const AdminLatestNews = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    console.log(response, 'stu');
                     setStudentList(response.data.data);
                     setReqList(true);
                 }

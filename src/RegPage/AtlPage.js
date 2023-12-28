@@ -308,7 +308,6 @@ function AtlPage() {
                     const UNhashedPassword = decryptGlobal(
                         response?.data?.data
                     );
-                    // console.log(UNhashedPassword, 'new');
                     setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);

@@ -123,9 +123,11 @@ const AddNewFaq = (props) => {
 
     const getFaqCategoryList = async () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale = getLanguage(language);
+        const newLange = encryptGlobal(JSON.stringify({locale}));
         return await axios
             .get(
-                `${URL.getFaqCategoryList}?${getLanguage(language)}`,
+                `${URL.getFaqCategoryList}?Data=${newLange}`,
                 axiosConfig
             )
             .then((categoryListRes) => {
@@ -152,8 +154,8 @@ const AddNewFaq = (props) => {
     const getFaqList = async () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const NewId = encryptGlobal(JSON.stringify(faqID));
-        const lang = getLanguage(language);
-        const newLang = encryptGlobal(JSON.stringify(lang));
+        const locale = getLanguage(language);
+        const newLang = encryptGlobal(JSON.stringify({locale}));
         return await axios
             .get(
                 faqID

@@ -86,7 +86,6 @@ const EditLatestNews = (props) => {
             //url: Yup.string()
         }),
         onSubmit: async (values) => {
-            // console.log(values, '----');
             try {
                 if (
                     values.file_name !== null &&

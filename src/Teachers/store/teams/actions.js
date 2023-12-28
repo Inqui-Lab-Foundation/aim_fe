@@ -129,7 +129,6 @@ export const getTeamMemberStatus =
             try {
                 const axiosConfig = getNormalHeaders(KEY.User_API_Key);
                 const teamPara = encryptGlobal(JSON.stringify(teamId));
-                console.log(teamId,teamPara,"popop");
                 const result = await axios
                     .get(
                         `${URL.getTeamMemberStatusEndpoint + teamPara}`,

@@ -163,11 +163,9 @@ const PostSurvey = () => {
         e.preventDefault();
 
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const tec = 'locale=en';
-        const finals = tec.split('=');
         let enParamDatas = encryptGlobal(
             JSON.stringify({
-                locale: finals[1]
+                locale: 'en'
             })
         );
         let submitData = {
@@ -183,9 +181,10 @@ const PostSurvey = () => {
                 ''
             );
         } else {
+            const quizSurveyIdParam  = encryptGlobal(JSON.stringify(quizSurveyId));
             return await axios
                 .post(
-                    `${URL.getPostSurveyList}/${quizSurveyId}/responses?Data=${enParamDatas}`,
+                    `${URL.getPostSurveyList}/${quizSurveyIdParam}/responses?Data=${enParamDatas}`,
                     JSON.stringify(submitData, null, 2),
                     axiosConfig
                 )

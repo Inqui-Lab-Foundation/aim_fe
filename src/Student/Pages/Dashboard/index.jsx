@@ -25,8 +25,7 @@ import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import {
     getStudentByIdData,
     getStudentDashboardStatus,
-    getStudentDashboardTeamProgressStatus,
-    getStudentDashboardTutorialVideos
+    getStudentDashboardTeamProgressStatus
 } from '../../../redux/studentRegistration/actions.js';
 import LanguageSelectorComp from '../../../components/LanguageSelectorComp/index.js';
 // import LatestNews from './LatestNews.js';
@@ -128,9 +127,9 @@ const Dashboard = () => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
 
-    useEffect(() => {
-        if (currentUser) dispatch(getStudentDashboardTutorialVideos(language));
-    }, [language]);
+    // useEffect(() => {
+    //     if (currentUser) dispatch(getStudentDashboardTutorialVideos(language));
+    // }, [language]);
 
     useEffect(() => {
         if (currentUser)

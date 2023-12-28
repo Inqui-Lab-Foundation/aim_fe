@@ -14,6 +14,7 @@ import { openNotificationWithIcon, getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const EditTeamMember = (props) => {
     const { t } = useTranslation();

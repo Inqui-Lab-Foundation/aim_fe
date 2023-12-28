@@ -24,10 +24,10 @@ export const URL = {
     addAdminCourses: process.env.REACT_APP_API_BASE_URL + '/course',
     submitChallengeResponse:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response?challenge_id=1&',
+        '/challenge_response',
     initiateChallenge:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response/1/initiate?team_id=',
+        '/challenge_response/',
     postAdminRefQuizResponce:
         process.env.REACT_APP_API_BASE_URL + '/reflectiveQuiz/',
     createMentorSupportTickets:
@@ -46,7 +46,7 @@ export const URL = {
         process.env.REACT_APP_API_BASE_URL + '/students/bulkCreateStudent',
     uploadFile:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response/fileUpload?team_id=',
+        '/challenge_response/fileUpload',
     updatepromote:
         process.env.REACT_APP_API_BASE_URL + '/challenge_response/updateEntry/',
 
@@ -108,7 +108,7 @@ export const URL = {
     getPreSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys`,
     getStudentPreSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys/2`,
     getPostSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys`,
-    getStudentPostSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys/4`,
+    getStudentPostSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys/`,
     getTeacherCousesDetails:
         process.env.REACT_APP_API_BASE_URL + '/mentorCourses/',
     getStudents: process.env.REACT_APP_API_BASE_URL + '/students',

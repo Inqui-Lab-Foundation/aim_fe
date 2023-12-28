@@ -515,16 +515,17 @@ const IdeasPageNew = () => {
             district: currentUser?.data[0]?.district,
             state: currentUser?.data[0]?.state
         };
+        const locale = getLanguage(language);
         const subId = encryptGlobal(
             JSON.stringify({
-                team_id: currentUser?.data[0]?.team_id
+                challenge_id :'1',
+                team_id: currentUser?.data[0]?.team_id,
+                locale
             })
         );
-        const Lang = getLanguage(language);
-        const reslang = encryptGlobal(JSON.stringify(Lang));
         await axios
             .post(
-                `${URL.submitChallengeResponse}&${subId}&${reslang}`,
+                `${URL.submitChallengeResponse}?Data=${subId}`,
                 submitData,
                 axiosConfig
             )
@@ -587,10 +588,10 @@ const IdeasPageNew = () => {
             }
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const subId = encryptGlobal(
-                JSON.stringify(currentUser?.data[0]?.team_id)
+                JSON.stringify({team_id:currentUser?.data[0]?.team_id})
             );
             const result = await axios
-                .post(`${URL.uploadFile}${subId}`, formData, axiosConfig)
+                .post(`${URL.uploadFile}?Data=${subId}`, formData, axiosConfig)
                 .then((res) => res)
                 .catch((err) => {
                     return err.response;

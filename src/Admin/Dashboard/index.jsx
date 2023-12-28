@@ -461,7 +461,6 @@ const Dashboard = () => {
                 if (response.status === 200) {
                     setAtl(response.data.data[0].ATLCount);
                     setNonAtl(response.data.data[0].NONATLCount);
-                    // console.log(response, 'response');
                 }
             })
             .catch(function (error) {

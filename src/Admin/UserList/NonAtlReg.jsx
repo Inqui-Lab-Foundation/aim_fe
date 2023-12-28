@@ -131,7 +131,7 @@ function RegisterNew() {
     let pattern = /[0-9]*$/;
     const handleRegister = (e) => {
         const { index } = diesCode.match(pattern);
-        // console.log(index, '=====', diesCode);
+       
         if (index) {
             setError('Only numeric are allowed');
         } else if (diesCode.length < 11) {

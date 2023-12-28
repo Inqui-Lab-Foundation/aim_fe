@@ -30,8 +30,8 @@ const AddFaqCategoryModal = (props) => {
 
         onSubmit: (values) => {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-            const FaqL = getLanguage(language);
-            const NewFaq = encryptGlobal(JSON.stringify(FaqL));
+            const locale = getLanguage(language);
+            const NewFaq = encryptGlobal(JSON.stringify({locale}));
 
             axios
                 .post(

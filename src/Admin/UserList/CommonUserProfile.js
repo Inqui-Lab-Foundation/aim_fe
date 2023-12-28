@@ -89,7 +89,7 @@ const CommonUserProfile = (props) => {
         localStorage.setItem('dist', props.location.dist);
         localStorage.setItem('num', props.location.num);
     };
-    // console.log(StudentsDaTa?.team?.mentor?.organization.state, '1');
+   
     const handleReset = () => {
         // here we can reset password as  user_id //
         // here data = student_id //
@@ -152,7 +152,7 @@ const CommonUserProfile = (props) => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response, 'res');
+                   
                     setData(response?.data?.data[0]);
                     setButton(response.data.data[0].moc_name);
                     // if (response.data.data[0].moc_name !== null) {

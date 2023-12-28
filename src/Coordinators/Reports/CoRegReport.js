@@ -23,7 +23,7 @@ import { Bar } from 'react-chartjs-2';
 import { encryptGlobal } from '../../constants/encryptDecrypt';
 const CoRegReport = () => {
     const currentUser = getCurrentUser('current_user');
-    // console.log(currentUser);
+   
     const [RegTeachersState, setRegTeachersState] = React.useState(
         currentUser?.data[0]?.state_name
     );
@@ -38,7 +38,7 @@ const CoRegReport = () => {
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
         useState(null);
     const [chartTableData, setChartTableData] = useState([]);
-    // console.log(chartTableData);
+ 
 
     const csvLinkRefTable = useRef();
     const csvLinkRef = useRef();
@@ -56,7 +56,6 @@ const CoRegReport = () => {
         (state) => state?.studentRegistration?.fetchdist
     );
     // const coordinator = useSelector((state) => state.coordinator);
-    // console.log(coordinator, 'coordinator');
 
     // useLayoutEffect(() => {
     //     if (currentUser?.data[0]?.district_name) {
@@ -437,7 +436,6 @@ const CoRegReport = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response);
                     const chartTableData = response?.data?.data || [];
                     setChartTableData(chartTableData);
                     setDownloadTableData(chartTableData);

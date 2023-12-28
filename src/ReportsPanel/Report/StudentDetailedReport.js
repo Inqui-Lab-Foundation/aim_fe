@@ -531,8 +531,7 @@ const StudentDetailedReport = () => {
                             ideaNotStarted: 0
                         }
                     );
-                    console.log('Combined Array:', combinedArray);
-                    console.log('Total count', total);
+                    
 
                     const doughNutData1 = {
                         labels: ['Completed', 'IN Progress', 'NOT Started'],
@@ -649,7 +648,7 @@ const StudentDetailedReport = () => {
                 console.log('API error:', error);
             });
     };
-    console.log(downloadTableData);
+    
 
     return (
         <>

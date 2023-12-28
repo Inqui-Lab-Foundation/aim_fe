@@ -91,7 +91,7 @@ export default function DoughnutChart({ user, UserId }) {
                 console.log(error);
             });
     };
-    // console.log(teamsMembersStatus, challengesSubmittedResponse);
+   
 
     useEffect(() => {
         const popParam = encryptGlobal('2');
@@ -205,7 +205,7 @@ export default function DoughnutChart({ user, UserId }) {
         };
         axios(config)
             .then(function (response) {
-                console.log(response);
+               
                 if (response.status === 200) {
                     openNotificationWithIcon(
                         'success',

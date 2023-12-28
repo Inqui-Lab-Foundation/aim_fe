@@ -97,7 +97,9 @@ const ViewSelectedIdea = () => {
         const newParam = encryptGlobal(
             JSON.stringify({
                 status: stat,
-                filterParams
+                state: state !== 'All States' ? state : '',
+                district: district !== 'All Districts' ? district : '',
+                sdg :sdg !== 'All Themes' ? sdg : ''
             })
         );
         await axios

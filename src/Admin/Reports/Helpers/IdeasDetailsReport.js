@@ -47,7 +47,6 @@ const ReportsRegistration = () => {
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
     const [downloadData, setDownloadData] = useState(null);
-    // console.log(downloadData, '1');
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
         useState(null);
     const [chartTableData, setChartTableData] = useState([]);
@@ -384,9 +383,8 @@ const ReportsRegistration = () => {
                             ...entry
                         };
                     });
-                    // console.log(response);
+                
                     setDownloadData(transformedData);
-                    // console.log(transformedData, '5');
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
                         'success',
@@ -491,8 +489,6 @@ const ReportsRegistration = () => {
                             Space: 0
                         }
                     );
-                    // console.log('Total count', total);
-
                     setRegisteredGenderChartData({
                         labels: [
                             'Agriculture',

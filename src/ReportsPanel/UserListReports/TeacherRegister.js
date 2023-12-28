@@ -177,12 +177,11 @@ function RegisterNew() {
 
                 data: body
             };
-            console.log(body);
 
             await axios(config)
                 .then((mentorRegRes) => {
                     if (mentorRegRes?.data?.status == 201) {
-                        console.log(mentorRegRes, 'Data');
+                        
 
                         setMentorData(mentorRegRes?.data?.data[0]);
                         const successData = {

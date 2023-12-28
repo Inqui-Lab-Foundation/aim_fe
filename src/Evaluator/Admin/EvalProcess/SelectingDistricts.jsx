@@ -12,6 +12,7 @@ import { URL, KEY } from '../../../constants/defaultValues';
 import Check from './Pages/Check';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStateData } from '../../../redux/studentRegistration/actions';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 
 const EditEvalProcess = (props) => {
     const evalID = JSON.parse(localStorage.getItem('eavlId'));
@@ -77,9 +78,10 @@ const EditEvalProcess = (props) => {
             value.state = '-';
         }
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const evalid = encryptGlobal(JSON.stringify(evalID.evaluation_process_id));
         await axios
             .put(
-                `${URL.updateEvalProcess + evalID.evaluation_process_id}`,
+                `${URL.updateEvalProcess + evalid}`,
                 JSON.stringify(value, null, 2),
                 axiosConfig
             )

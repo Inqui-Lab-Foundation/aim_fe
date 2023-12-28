@@ -65,7 +65,7 @@ const Dashboard = () => {
         setError('');
     };
 
-    // console.log(stuData, 'reg');
+    
     useEffect(async () => {
         // where list = diescode //
         //where organization_code = diescode //
@@ -94,7 +94,7 @@ const Dashboard = () => {
 
                 if (response.status == 200) {
                     setOrgData(response?.data?.data[0]);
-                    // console.log(orgData);
+                    
                     setCount(count + 1);
                     setMentorId(response?.data?.data[0]?.mentor.mentor_id);
                     setError('');
@@ -407,7 +407,7 @@ const Dashboard = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response);
+                    
                     setAtlData(response?.data?.data[0]?.orgdata[0]?.ATL_Count);
                     setAtl(response?.data?.data[0]?.orgdata[0]?.ATL_Reg_Count);
                     setNonAtl(
@@ -451,10 +451,7 @@ const Dashboard = () => {
         };
         var config = {
             method: 'put',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/challenge_response/updateEntry/' +
-                revoPram,
+            url: `${process.env.REACT_APP_API_BASE_URL}/challenge_response/updateEntry/${revoPram}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -527,7 +524,7 @@ const Dashboard = () => {
     //     axios(config)
     //         .then((response) => {
     //             if (response.status === 200) {
-    //                 // console.log(response);
+    //               
     //                 setRegData(response?.data?.data);
     //             }
     //         })

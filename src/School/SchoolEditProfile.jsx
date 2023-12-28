@@ -41,7 +41,6 @@ const EditSchool = (props) => {
         className: 'defaultInput'
     };
 
-    console.log(listId, 'listId');
     const formik = useFormik({
         initialValues: {
             principal_name: listId && listId.principal_name,
@@ -121,7 +120,6 @@ const EditSchool = (props) => {
                 });
         }
     });
-    console.log(status);
     // console.log('formik.values.district', formik.values.district);
 
     return (

@@ -311,8 +311,8 @@ const PlayVideoCourses = (props) => {
     async function fetchData(videoId) {
         // here videoId= videoId //
         setVideoId(videoId);
-        const Lang = getLanguage(language);
-        const New = encryptGlobal(JSON.stringify(Lang));
+        const locale = getLanguage(language);
+        const New = encryptGlobal(JSON.stringify({locale}));
         const videoParam = encryptGlobal(JSON.stringify(videoId));
         var config = {
             method: 'get',
@@ -340,8 +340,8 @@ const PlayVideoCourses = (props) => {
     }
     async function getWorkSheetApi(worksheetId) {
         const getWorkSheetParam = encryptGlobal(JSON.stringify(worksheetId));
-        const WrkLang = getLanguage(language);
-        const resw = encryptGlobal(JSON.stringify(WrkLang));
+        const locale = getLanguage(language);
+        const resw = encryptGlobal(JSON.stringify({locale}));
         // here worksheetId = worksheetId //
         var config = {
             method: 'get',
@@ -349,7 +349,7 @@ const PlayVideoCourses = (props) => {
                 process.env.REACT_APP_API_BASE_URL +
                 '/worksheets/' +
                 getWorkSheetParam +
-                '?' +
+                '?Data=' +
                 resw,
             headers: {
                 'Content-Type': 'application/json',
@@ -391,8 +391,8 @@ const PlayVideoCourses = (props) => {
             course_topic_id: JSON.stringify(courseTopicId),
             status: 'Completed'
         });
-        const apiLang = getLanguage(language);
-        const resapi = encryptGlobal(JSON.stringify(apiLang));
+        const locale = getLanguage(language);
+        const resapi = encryptGlobal(JSON.stringify({locale}));
         var config = {
             method: 'post',
             url:
@@ -760,8 +760,8 @@ const PlayVideoCourses = (props) => {
                 let fieldName = 'file' + i ? i : '';
                 formData.append(fieldName, files[i]);
             }
-            const getLang = getLanguage(language);
-            const getres = encryptGlobal(JSON.stringify(getLang));
+            const locale = getLanguage(language);
+            const getres = encryptGlobal(JSON.stringify({locale}));
             var config = {
                 method: 'post',
                 url:

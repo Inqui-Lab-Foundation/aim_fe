@@ -380,7 +380,6 @@ const TeacherDetailed = () => {
         axios(config)
             .then(function (res) {
                 if (res.status === 200) {
-                    console.log(res);
                     var mentorStuArray = [];
                     res &&
                         res.data &&
@@ -390,7 +389,6 @@ const TeacherDetailed = () => {
                             return mentorStuArray.push({ ...students, key });
                         });
                     setAtl(mentorStuArray);
-                    // console.log(mentorStuArray);
 
                     // setAtl(response.data.data);
                     const barStudentData = {
@@ -572,8 +570,6 @@ const TeacherDetailed = () => {
                             courseINcompleted: 0
                         }
                     );
-                    console.log('Total count', total);
-
                     const doughnutData = {
                         labels: ['Male', 'Female'],
                         datasets: [
@@ -646,7 +642,6 @@ const TeacherDetailed = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>
