@@ -25,7 +25,7 @@ import jsPDF from 'jspdf';
 import { FaDownload, FaHourglassHalf } from 'react-icons/fa';
 import html2canvas from 'html2canvas';
 import TableDetailPdf from './TableDetailPdf';
-
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 const ViewSelectedIdea = () => {
     const { search } = useLocation();
     const history = useHistory();
@@ -95,18 +95,20 @@ const ViewSelectedIdea = () => {
         dispatch(getAdminList());
     }, []);
 
-    const handlePromotel2processed = async(item) => {
+    const handlePromotel2processed = async (item) => {
         await promoteapi(item.challenge_response_id);
     };
 
     async function promoteapi(id) {
         const body = JSON.stringify({ final_result: '0' });
+        const promotPram = encryptGlobal(JSON.stringify(id));
+
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                id
+                promotPram
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +127,7 @@ const ViewSelectedIdea = () => {
             });
     }
 
-    const handleclickcall = async() => {
+    const handleclickcall = async () => {
         setshowspin(true);
         await handleideaList();
     };
@@ -133,11 +135,24 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const NewPaA = encryptGlobal(
+            JSON.stringify({
+                filterParamsfinal
+            })
+        );
+        const NewPa = encryptGlobal(
+            JSON.stringify({
+                filterParamsfinal,
+                level: level,
+                dataParam,
+                filterParams
+            })
+        );
         await axios
             .get(
                 title === 'Final'
-                    ? `${URL.getidealistfinal}${filterParamsfinal}`
-                    : `${URL.getidealist}level=${level}${dataParam}${filterParams}`,
+                    ? `${URL.getidealistfinal}${NewPaA}`
+                    : `${URL.getidealist}Data=${NewPa}`,
                 axiosConfig
             )
             .then(function (response) {
@@ -418,7 +433,7 @@ const ViewSelectedIdea = () => {
                                 {!pdfLoader ? (
                                     <FaDownload
                                         size={22}
-                                        onClick={async() => {
+                                        onClick={async () => {
                                             await downloadPDF(params);
                                         }}
                                         className="text-danger"
@@ -507,7 +522,7 @@ const ViewSelectedIdea = () => {
                                 {!pdfLoader ? (
                                     <FaDownload
                                         size={22}
-                                        onClick={async() => {
+                                        onClick={async () => {
                                             await downloadPDF(params);
                                         }}
                                         className="text-danger"

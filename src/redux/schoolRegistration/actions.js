@@ -7,7 +7,7 @@ import {
 } from '../actions';
 import { URL, KEY } from '../../constants/defaultValues';
 import { getNormalHeaders } from '../../helpers/Utils';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 export const getSchoolRegistrationBulkuploadListSuccess =
     (user) => async (dispatch) => {
         dispatch({
@@ -28,8 +28,16 @@ export const getSchoolRegistationBulkUploadList = () => async (dispatch) => {
     try {
         dispatch({ type: SCHOOL_REGISTRATOION_BULKUPLOAD_LIST });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const stat = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE'
+            })
+        );
         const result = await axios
-            .get(`${URL.getSchoolRegistrationBulkupload}`, axiosConfig)
+            .get(
+                `${URL.getSchoolRegistrationBulkupload}Data=${stat}`,
+                axiosConfig
+            )
             .then((user) => user)
             .catch((err) => {
                 return err.response;

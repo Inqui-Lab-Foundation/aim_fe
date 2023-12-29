@@ -14,7 +14,7 @@ import { KEY, URL } from '../../constants/defaultValues';
 import Swal from 'sweetalert2/dist/sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import { Button } from '../../stories/Button';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 const FaqByCategory = () => {
     // eslint-disable-next-line no-unused-vars
     const [rows, setRows] = useState([]);
@@ -24,15 +24,20 @@ const FaqByCategory = () => {
     const [data, setData] = useState([]);
     const [activeButton, setActiveButton] = useState('teacher');
     const getFaqByCategory = async (id) => {
-        if(id === 1){
+        if (id === 1) {
             setActiveButton('teacher');
-        }else if(id===2){
+        } else if (id === 2) {
             setActiveButton('student');
         }
         setData([]);
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const getFaqParam = encryptGlobal(JSON.stringify(id));
+
         await axios
-            .get(`${process.env.REACT_APP_API_BASE_URL}/faqs/getbyCategoryid/${id}`, axiosConfig)
+            .get(
+                `${process.env.REACT_APP_API_BASE_URL}/faqs/getbyCategoryid/${getFaqParam}`,
+                axiosConfig
+            )
             .then((res) => {
                 if (res?.status === 200) {
                     const updatedWithKey =
@@ -56,7 +61,7 @@ const FaqByCategory = () => {
     useEffect(async () => {
         await getFaqByCategory(1);
     }, []);
-    const deleteFaq = async (faqID,catId) => {
+    const deleteFaq = async (faqID, catId) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -68,8 +73,17 @@ const FaqByCategory = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+                const delFaqParam = encryptGlobal(
+                    JSON.stringify({
+                        faq_id: faqID
+                    })
+                );
+
                 axios
-                    .delete(`${process.env.REACT_APP_API_BASE_URL}/faqs/deletefaqandtranslation?faq_id=${faqID}`, axiosConfig)
+                    .delete(
+                        `${process.env.REACT_APP_API_BASE_URL}/faqs/deletefaqandtranslation?Data=${delFaqParam}`,
+                        axiosConfig
+                    )
                     .then(async (faqDeleteRes) => {
                         if (faqDeleteRes?.status == 200) {
                             Swal.fire(
@@ -143,7 +157,14 @@ const FaqByCategory = () => {
                                     style={{ marginRight: '10px' }}
                                 />
                             </a>
-                            <a onClick={() => deleteFaq(params.faq_id,params.faq_category_id)}>
+                            <a
+                                onClick={() =>
+                                    deleteFaq(
+                                        params.faq_id,
+                                        params.faq_category_id
+                                    )
+                                }
+                            >
                                 <i
                                     //key={params.faq_id}
                                     className="fa fa-trash"

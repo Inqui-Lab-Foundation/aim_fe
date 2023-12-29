@@ -32,6 +32,7 @@ import { getLanguage } from '../../constants/languageOptions';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import logout from '../../assets/media/badge.png';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 export const getStudentListSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -64,20 +65,28 @@ export const getStudentRegistationData = (studentType) => async (dispatch) => {
     try {
         dispatch({ type: GET_STUDENTS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const getStu = encryptGlobal(
+            JSON.stringify({
+                adult: 'true'
+            })
+        );
+        const newS = encryptGlobal(
+            JSON.stringify({
+                status: 'ALL',
+                state: studentType
+            })
+        );
         let result;
         if (studentType && studentType === 'above') {
             result = await axios
-                .get(`${URL.getStudents}?adult=${true}`, axiosConfig)
+                .get(`${URL.getStudents}?Data=${getStu}`, axiosConfig)
                 .then((user) => user)
                 .catch((err) => {
                     return err.response;
                 });
         } else {
             result = await axios
-                .get(
-                    `${URL.getStudents}?status=ALL&state=${studentType}`,
-                    axiosConfig
-                )
+                .get(`${URL.getStudents}?Data=${newS}`, axiosConfig)
                 .then((user) => user)
                 .catch((err) => {
                     return err.response;
@@ -138,8 +147,13 @@ export const getAtlCodeData = (item) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         let result;
+        const ItemAtl = encryptGlobal(
+            JSON.stringify({
+                pin_code: item
+            })
+        );
         result = await axios
-            .get(`${URL.getAtlCodesOnly}${item}`, axiosConfig)
+            .get(`${URL.getAtlCodesOnly}Data=${ItemAtl}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
@@ -172,8 +186,13 @@ export const getPinCodeData = (item) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         let result;
+        const Item = encryptGlobal(
+            JSON.stringify({
+                district: item
+            })
+        );
         result = await axios
-            .get(`${URL.getPinCodesOnly}${item}`, axiosConfig)
+            .get(`${URL.getPinCodesOnly}Data=${Item}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
@@ -199,14 +218,21 @@ export const getFetchDistData = (item) => async (dispatch) => {
     // here we can see  district wise data //
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const distParam = encryptGlobal(
+            JSON.stringify({
+                state: item
+            })
+        );
+
         let result;
         result = await axios
-            .get(`${URL.getFetchDistsOnly}${item}`, axiosConfig)
+            .get(`${URL.getFetchDistsOnly}Data=${distParam}`, axiosConfig)
             .then((data) => data)
             .catch((err) => {
                 return err.response;
             });
         if (result && result.status === 200) {
+            // console.log(result, '1');
             const data = result.data.data.length > 0 ? result.data.data : [];
             dispatch(getFetchDistsSuccess(data));
         } else {
@@ -248,8 +274,9 @@ export const getStudentByIdData = (id) => async (dispatch) => {
     try {
         dispatch({ type: GET_STUDENTS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const getId = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .get(`${URL.getStudentById}${id}`, axiosConfig)
+            .get(`${URL.getStudentById}${getId}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -272,8 +299,9 @@ export const updateStudentStatus = (data, id) => async (dispatch) => {
     try {
         dispatch({ type: UPDATE_STUDENT_STATUS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const upId = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .put(`${URL.updateStudentStatus + '/' + id}`, data, axiosConfig)
+            .put(`${URL.updateStudentStatus + '/' + upId}`, data, axiosConfig)
             .then((user) => console.log(user))
             .catch((err) => {
                 return err.response;
@@ -303,9 +331,12 @@ export const getStudentChallengeQuestions = (language) => async (dispatch) => {
     try {
         // dispatch({ type: GET_STUDENTS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const Id = encryptGlobal('1');
+        const locale = getLanguage(language);
+        const Challres = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
             .get(
-                `${URL.getChallengeQuestions}/1?${getLanguage(language)}`,
+                `${URL.getChallengeQuestions}/${Id}?Data=${Challres}`,
                 axiosConfig
             )
             .then((user) => user)
@@ -340,12 +371,17 @@ export const getStudentChallengeSubmittedResponseSuccess =
 export const getStudentChallengeSubmittedResponse =
     (id, language) => async (dispatch) => {
         try {
+            const locale = getLanguage(language);
+            const newres = encryptGlobal(
+                JSON.stringify({
+                    team_id: id,
+                    locale
+                })
+            );
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .get(
-                    `${URL.getChallengeSubmittedResponse}${id}&${getLanguage(
-                        language
-                    )}`,
+                    `${URL.getChallengeSubmittedResponse}Data=${newres}`,
                     axiosConfig
                 )
                 .then((user) => user)
@@ -376,9 +412,16 @@ export const initiateIdea = async (
 ) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const challengeParamID = encryptGlobal('1');
+        const locale = getLanguage(language);
+        const queryObj = JSON.stringify({
+            team_id : id,
+            locale
+        });
+        const queryObjEn = encryptGlobal(queryObj);
         const result = await axios
             .post(
-                `${URL.initiateChallenge}${id}&${getLanguage(language)}`,
+                `${URL.initiateChallenge}${challengeParamID}/initiate?Data=${queryObjEn}`,
                 data,
                 axiosConfig
             )
@@ -438,9 +481,12 @@ export const getStudentBadgesSuccess = (badges) => async (dispatch) => {
 export const getStudentBadges = (id, language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const stuId = encryptGlobal(JSON.stringify(id));
+        const locale = getLanguage(language);
+        const res = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
             .get(
-                `${URL.getStudentBadges}${id}/badges?${getLanguage(language)}`,
+                `${URL.getStudentBadges}${stuId}/badges?Data=${res}`,
                 axiosConfig
             )
             .then((badges) => badges)
@@ -461,12 +507,13 @@ export const getStudentBadges = (id, language) => async (dispatch) => {
 export const updateStudentBadges =
     (data, id, language, t) => async (dispatch) => {
         try {
+            const locale = getLanguage(language);
+            const upLan = encryptGlobal(JSON.stringify(id));
+            const resL = encryptGlobal(JSON.stringify({locale}));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .post(
-                    `${URL.getStudentBadges}${id}/badges?${getLanguage(
-                        language
-                    )}`,
+                    `${URL.getStudentBadges}${upLan}/badges?Data=${resL}`,
                     data,
                     axiosConfig
                 )
@@ -511,12 +558,13 @@ export const getStudentDashboardStatusSuccess = (data) => async (dispatch) => {
 };
 export const getStudentDashboardStatus = (id, language) => async (dispatch) => {
     try {
+        const locale = getLanguage(language);
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const resultParam = encryptGlobal(JSON.stringify({locale}));
+        const idParam = encryptGlobal(JSON.stringify(id));
         const result = await axios
             .get(
-                `${URL.getStudentDashboardStatusCommonById}${id}?${getLanguage(
-                    language
-                )}`,
+                `${URL.getStudentDashboardStatusCommonById}${idParam}?Data=${resultParam}`,
                 axiosConfig
             )
             .then((data) => data)
@@ -545,11 +593,12 @@ export const getStudentDashboardChallengesStatus =
     (id, language) => async (dispatch) => {
         try {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const locale = getLanguage(language);
+            const getId = encryptGlobal(JSON.stringify(id));
+            const res = encryptGlobal(JSON.stringify({locale}));
             const result = await axios
                 .get(
-                    `${
-                        URL.getStudentDashboardStatusCommonById
-                    }${id}/challenges?${getLanguage(language)}`,
+                    `${URL.getStudentDashboardStatusCommonById}${getId}/challenges?Data=${res}`,
                     axiosConfig
                 )
                 .then((data) => data)
@@ -577,18 +626,20 @@ export const getStudentDashboardTeamProgressStatusSuccess =
 export const getStudentDashboardTeamProgressStatus =
     (id, language) => async (dispatch) => {
         try {
+            const dashId = encryptGlobal(JSON.stringify(id));
+            const locale = getLanguage(language);
+            const res = encryptGlobal(JSON.stringify({locale}));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .get(
-                    `${
-                        URL.getStudentDashboardStatusCommonById
-                    }${id}/teamProgress?${getLanguage(language)}`,
+                    `${URL.getStudentDashboardStatusCommonById}${dashId}/teamProgress?Data=${res}`,
                     axiosConfig
                 )
                 .then((data) => data)
                 .catch((err) => {
                     return err.response;
                 });
+
             if (result && result.status === 200) {
                 const data =
                     result.data && result?.data?.data && result?.data?.data;
@@ -612,11 +663,11 @@ export const getStudentDashboardTutorialVideos =
     (language) => async (dispatch) => {
         try {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const locale = getLanguage(language);
+            const ResParam = encryptGlobal(JSON.stringify({locale}));
             const result = await axios
                 .get(
-                    `${
-                        process.env.REACT_APP_API_BASE_URL
-                    }/tutorialVideos?${getLanguage(language)}`,
+                    `${process.env.REACT_APP_API_BASE_URL}/tutorialVideos?Data=${ResParam}`,
                     axiosConfig
                 )
                 .then((data) => data)
@@ -662,13 +713,15 @@ export const studentPostSurveyCertificateSuccess =
 export const studentPostSurveyCertificate = (language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale = getLanguage(language);
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                role: 'STUDENT',
+                locale
+            })
+        );
         await axios
-            .get(
-                `${URL.getPostSurveyList}?role=STUDENT&${getLanguage(
-                    language
-                )}`,
-                axiosConfig
-            )
+            .get(`${URL.getPostSurveyList}?Data=${enParamData}`, axiosConfig)
             .then((postSurveyRes) => {
                 if (postSurveyRes?.status === 200) {
                     dispatch(
@@ -694,10 +747,16 @@ export const setPresurveyStatus = (data) => async (dispatch) => {
 export const getPresurveyData = (language) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale = getLanguage(language);
+        let enParamDatas = encryptGlobal(
+            JSON.stringify({
+                role: 'STUDENT',
+                locale
+            })
+        );
         axios
             .get(
-                `${URL.getStudentPreSurveyList}?role=STUDENT&${getLanguage(
-                    language
+                `${URL.getStudentPreSurveyList}?Data=${enParamDatas}
                 )}`,
                 axiosConfig
             )

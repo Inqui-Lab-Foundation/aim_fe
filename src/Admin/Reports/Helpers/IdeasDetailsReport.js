@@ -25,6 +25,7 @@ import axios from 'axios';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportsRegistration = () => {
@@ -46,7 +47,6 @@ const ReportsRegistration = () => {
     //     categoryValue[process.env.REACT_APP_LOCAL_LANGUAGE_CODE];
 
     const [downloadData, setDownloadData] = useState(null);
-    // console.log(downloadData, '1');
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
         useState(null);
     const [chartTableData, setChartTableData] = useState([]);
@@ -330,16 +330,21 @@ const ReportsRegistration = () => {
         }
     };
     const fetchData = () => {
+        const IdeaPram = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE',
+                state: RegTeachersState,
+                district: RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict,
+                category: category,
+                sdg: sdg
+            })
+        );
         // alert('hi');
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/ideadeatilreport?status=ACTIVE&state=${RegTeachersState}&district=${
-                    RegTeachersdistrict === ''
-                        ? 'All Districts'
-                        : RegTeachersdistrict
-                }&category=${category}&sdg=${sdg}`,
+                `/reports/ideadeatilreport?Data=${IdeaPram}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -376,9 +381,8 @@ const ReportsRegistration = () => {
                             ...entry
                         };
                     });
-                    // console.log(response);
+                
                     setDownloadData(transformedData);
-                    // console.log(transformedData, '5');
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
                         'success',
@@ -483,8 +487,6 @@ const ReportsRegistration = () => {
                             Space: 0
                         }
                     );
-                    // console.log('Total count', total);
-
                     setRegisteredGenderChartData({
                         labels: [
                             'Agriculture',

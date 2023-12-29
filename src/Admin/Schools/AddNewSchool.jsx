@@ -141,7 +141,6 @@ const AddNewSchool = (props) => {
             dispatch(getFetchDistData(formik.values.state));
         }
     }, [formik.values.state]);
-    // console.log('formik.values.district', formik.values.district);
 
     return (
         <Layout>

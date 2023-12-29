@@ -17,7 +17,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import { useTranslation } from 'react-i18next';
 import DoubleBounce from '../../components/Loaders/DoubleBounce';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const TicketsPage = () => {
     const history = useHistory();
     const { t } = useTranslation();
@@ -34,11 +34,16 @@ const TicketsPage = () => {
     }, [currentUser?.data[0]?.mentor_id]);
 
     const teamListbymentorid = (mentorid) => {
+        const teamparam = encryptGlobal(
+            JSON.stringify({
+                mentor_id: mentorid
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/list?mentor_id=${mentorid}`,
+                `/teams/list?Data=${teamparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

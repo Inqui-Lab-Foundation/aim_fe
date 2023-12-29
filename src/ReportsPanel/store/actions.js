@@ -11,6 +11,7 @@ import {
     getNormalHeaders,
     openNotificationWithIcon
 } from '../../helpers/Utils.js';
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 export const reportLoginUserSuccess = (user) => async (dispatch) => {
     dispatch({
         type: REPORT_LOGIN_USER_SUCCESS,
@@ -30,9 +31,13 @@ export const reportLoginUser = (data, history, module) => async (dispatch) => {
         };
         dispatch({ type: REPORT_LOGIN_USER });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-
+        const news = encryptGlobal(
+            JSON.stringify({
+                report: 'true'
+            })
+        );
         const result = await axios
-            .post(`${URL.reportLogin}`, loginData, axiosConfig)
+            .post(`${URL.reportLogin}Data=${news}`, loginData, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -46,7 +51,7 @@ export const reportLoginUser = (data, history, module) => async (dispatch) => {
             dispatch(reportLoginUserSuccess(result));
             history.push('/report/dashboard');
         } else {
-            openNotificationWithIcon('error', 'Enter the correct credentials');
+            openNotificationWithIcon('error', 'Invalid Username or Password');
             dispatch(reportLoginUserError(result.statusText));
         }
     } catch (error) {

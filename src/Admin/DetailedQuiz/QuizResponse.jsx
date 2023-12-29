@@ -4,7 +4,6 @@ import './quiz.scss';
 
 const QuizResponse = ({ response }) => {
     const { accimg, msg, ar_image, ar_link } = response;
-    console.log(response);
     const config = process.env.REACT_APP_API_IMAGE_BASE_URL;
     return (
         <div className="w-100">

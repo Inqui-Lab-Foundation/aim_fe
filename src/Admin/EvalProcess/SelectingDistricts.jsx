@@ -12,7 +12,7 @@ import { URL, KEY } from '../../constants/defaultValues';
 import Check from './Pages/Check';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDistrictData } from '../../redux/studentRegistration/actions';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditEvalProcess = (props) => {
     const evalID = JSON.parse(localStorage.getItem('eavlId'));
     //  where evalID= evaluation_process_id //
@@ -74,9 +74,12 @@ const EditEvalProcess = (props) => {
         //  handledistricts Api where value = district //
         // where we can update the district //
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const parseQ = encryptGlobal(
+            JSON.stringify(evalID.evaluation_process_id)
+        );
         await axios
             .put(
-                `${URL.updateEvalProcess + evalID.evaluation_process_id}`,
+                `${URL.updateEvalProcess + parseQ}`,
                 JSON.stringify(value, null, 2),
                 axiosConfig
             )

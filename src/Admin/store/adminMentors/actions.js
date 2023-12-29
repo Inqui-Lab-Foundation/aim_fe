@@ -9,6 +9,7 @@ import {
 } from '../../../redux/actions.js';
 import { URL, KEY } from '../../../constants/defaultValues.js';
 import { getNormalHeaders } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const getAdminMentorsListSuccess =
     (user, totalItems) => async (dispatch) => {
@@ -38,14 +39,21 @@ export const getAdminMentorsList = (status, district) => async (dispatch) => {
         dispatch({ type: ADMIN_MENTORS_LIST });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const mentorStatus = status ? status : 'ALL';
+        const resParam = encryptGlobal(
+            JSON.stringify({
+                status: mentorStatus
+            })
+        );
+        const newsParam = encryptGlobal(
+            JSON.stringify({
+                status: mentorStatus,
+                state: district
+            })
+        );
         const actualURL = `${
             !district
-                ? URL.getMentors + '?status=' + mentorStatus
-                : URL.getMentors +
-                  '?status=' +
-                  mentorStatus +
-                  '&state=' +
-                  district
+                ? URL.getMentors + `?Data=${resParam}`
+                : URL.getMentors + `?Data=${newsParam}`
         }`;
         const result = await axios
             .get(actualURL, axiosConfig)
@@ -55,7 +63,10 @@ export const getAdminMentorsList = (status, district) => async (dispatch) => {
             });
         if (result && result.status === 200) {
             const data = result.data?.data[0]?.dataValues || [];
-            let datamodify = data.length > 0 ? data.forEach((item, i) => (item.id = i + 1)) : [];
+            let datamodify =
+                data.length > 0
+                    ? data.forEach((item, i) => (item.id = i + 1))
+                    : [];
             console.log(datamodify);
             const totalData =
                 result.data &&
@@ -76,8 +87,9 @@ export const updateMentorStatus = (data, id) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_MENTORS_STATUS_UPDATE });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const upMent = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .put(`${URL.updateMentorStatus + '/' + id}`, data, axiosConfig)
+            .put(`${URL.updateMentorStatus + '/' + upMent}`, data, axiosConfig)
             .then((user) => console.log(user))
             .catch((err) => {
                 return err.response;

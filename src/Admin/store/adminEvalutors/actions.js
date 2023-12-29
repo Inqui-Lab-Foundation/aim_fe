@@ -7,6 +7,7 @@ import {
 } from '../../../redux/actions.js';
 import { URL, KEY } from '../../../constants/defaultValues.js';
 import { getNormalHeaders } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const getAdminEvalutorsListSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -26,15 +27,23 @@ export const getAdminEvalutorsList = () => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_EVALUTORS_LIST });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const evalParam = encryptGlobal(
+            JSON.stringify({
+                status: 'ALL'
+            })
+        );
         const result = await axios
-            .get(`${URL.getAdminEvaluator + '?status=ALL'}`, axiosConfig)
+            .get(`${URL.getAdminEvaluator + `?Data=${evalParam}`}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
             });
         if (result && result.status === 200) {
             const data = result.data?.data[0]?.dataValues || [];
-            let datamodify = data.length > 0 ? data.forEach((item, i) => (item.id = i + 1)) : [];
+            let datamodify =
+                data.length > 0
+                    ? data.forEach((item, i) => (item.id = i + 1))
+                    : [];
             console.log(datamodify);
             dispatch(getAdminEvalutorsListSuccess(data));
         } else {

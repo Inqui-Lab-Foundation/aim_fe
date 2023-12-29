@@ -42,6 +42,7 @@ import jsPDF from 'jspdf';
 import { useLayoutEffect } from 'react';
 import { FaBullseye } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 //VIMEO REFERENCE
 //https://github.com/u-wave/react-vimeo/blob/default/test/util/createVimeo.js
 
@@ -159,11 +160,12 @@ const TeacherPlayVideo = (props) => {
     }, [props.teaherCoursesDetails]);
 
     async function fetchData(videoId) {
+        const fetchParam = encryptGlobal(JSON.stringify(videoId));
         // here videoId = videoId //
         setVideoId(videoId);
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + '/videos/' + videoId,
+            url: process.env.REACT_APP_API_BASE_URL + '/videos/' + fetchParam,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -182,13 +184,14 @@ const TeacherPlayVideo = (props) => {
     }
 
     async function getWorkSheetApi(worksheetId) {
+        const worksheetIdParam = encryptGlobal(JSON.stringify(worksheetId));
         // here worksheetId = worksheetId //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/mentorAttachments/' +
-                worksheetId,
+                worksheetIdParam,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -211,11 +214,19 @@ const TeacherPlayVideo = (props) => {
         getisquizcompleted();
     }, []);
     async function getisquizcompleted() {
+        let quizParamData = encryptGlobal(
+            JSON.stringify({
+                attempts:1,
+                locale:'en'
+            })
+        );
+        const quiZEnId = encryptGlobal('8');
         var config = {
             method: 'get',
+
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/quiz/8/nextQuestion?locale=en&attempts=1',
+                `/quiz/${quiZEnId}/nextQuestion?Data=${quizParamData}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -464,13 +475,14 @@ const TeacherPlayVideo = (props) => {
     const handleSubmit = (e) => {
         // here we can submit the worksheets  responses//
         const data = new FormData();
+        const ID = encryptGlobal(JSON.stringify(worksheetId));
         data.append('attachment_1', image);
         var config = {
             method: 'post',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/worksheets/' +
-                worksheetId +
+                ID +
                 '/response',
             headers: {
                 'Content-Type': 'application/json',

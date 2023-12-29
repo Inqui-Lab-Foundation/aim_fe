@@ -13,7 +13,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { Modal } from 'react-bootstrap';
 import Select from '../Helper/Select';
 import RateIdea from './RateIdea';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const IdeaDetail = (props) => {
     const dispatch = useDispatch();
     const currentUser = getCurrentUser('current_user');
@@ -96,12 +96,15 @@ const IdeaDetail = (props) => {
             rejected_reason: handledText == 'reject' ? reason : '',
             rejected_reasonSecond: handledText == 'reject' ? reasonSec : ''
         });
+        const challId = encryptGlobal(
+            JSON.stringify(props?.ideaDetails?.challenge_response_id)
+        );
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/' +
-                props?.ideaDetails?.challenge_response_id
+                challId
             }`,
             headers: {
                 'Content-Type': 'application/json',

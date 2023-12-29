@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 // import { BreadcrumbTwo } from '../../stories/BreadcrumbTwo/BreadcrumbTwo';
 //import { RichText } from '../../stories/RichText/RichText';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import Layout from '../Layout';
 import { URL, KEY } from '../../constants/defaultValues';
 import {
@@ -78,9 +78,14 @@ const EditFaq = (props) => {
 
         onSubmit: async (values) => {
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const faqeditparam = encryptGlobal(
+                JSON.stringify({
+                    faq_id: faqid
+                })
+            );
             return await axios
                 .put(
-                    `${process.env.REACT_APP_API_BASE_URL}/faqs/editfaqandtranslation?faq_id=${faqid}`,
+                    `${process.env.REACT_APP_API_BASE_URL}/faqs/editfaqandtranslation?Data=${faqeditparam}`,
                     JSON.stringify(values, null, 2),
                     axiosConfig
                 )
@@ -124,7 +129,6 @@ const EditFaq = (props) => {
             .then((categoryListRes) => {
                 if (categoryListRes?.status == 200) {
                     let dataValue = categoryListRes?.data?.data[0]?.dataValues;
-                    // console.log('Data value ', dataValue);
                     if (dataValue) {
                         let categoriesOptions = [];
                         dataValue.map((item) => {
@@ -145,8 +149,9 @@ const EditFaq = (props) => {
 
     const getFaqList = async () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const faqidparam = encryptGlobal(JSON.stringify(faqid));
         return await axios
-            .get(`${URL.getFaqList}/${faqid}`, axiosConfig)
+            .get(`${URL.getFaqList}/${faqidparam}`, axiosConfig)
             .then((faqResData) => {
                 if (faqResData?.status == 200) {
                     let dataValue = faqResData?.data?.data[0];

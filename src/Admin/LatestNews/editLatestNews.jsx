@@ -9,6 +9,7 @@ import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const EditLatestNews = (props) => {
     const { t } = useTranslation();
@@ -34,9 +35,18 @@ const EditLatestNews = (props) => {
         const maxFileSize = 10000000;
         const isOverMaxSize = file.size > maxFileSize;
 
-        const allowedTypes = ['image/jpeg', 'image/png','application/msword','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-        if(!allowedTypes.includes(file.type)){
-            openNotificationWithIcon('error', t('Accepting only png,jpg,jpeg,pdf,doc,docx Only'));
+        const allowedTypes = [
+            'image/jpeg',
+            'image/png',
+            'application/msword',
+            'application/pdf',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        if (!allowedTypes.includes(file.type)) {
+            openNotificationWithIcon(
+                'error',
+                t('Accepting only png,jpg,jpeg,pdf,doc,docx Only')
+            );
             return;
         }
 
@@ -76,7 +86,6 @@ const EditLatestNews = (props) => {
             //url: Yup.string()
         }),
         onSubmit: async (values) => {
-            // console.log(values, '----');
             try {
                 if (
                     values.file_name !== null &&
@@ -111,9 +120,11 @@ const EditLatestNews = (props) => {
                 if (values.url !== '' && values.url !== null) {
                     body['url'] = values.url;
                 }
-
+                const newsId = encryptGlobal(
+                    JSON.stringify(newsID.latest_news_id)
+                );
                 const response = await axios.put(
-                    `${process.env.REACT_APP_API_BASE_URL}/latest_news/${newsID.latest_news_id}`,
+                    `${process.env.REACT_APP_API_BASE_URL}/latest_news/${newsId}`,
                     body,
                     {
                         headers: {

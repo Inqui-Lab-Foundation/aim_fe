@@ -29,6 +29,7 @@ import { UncontrolledAlert } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import PostSurveyStatic from './PostSurveyStatic';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const PostSurvey = () => {
     // here we can attempt all the questions then we are able to download the certificate //
@@ -57,11 +58,16 @@ const PostSurvey = () => {
     const [teamsCount, setTeamsCount] = useState(0);
     const [ideaCount, setIdeaCount] = useState(0);
     const mentorTeamsCount = () => {
+        const mentteamApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/teamCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/teamCount?Data=${mentteamApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -79,11 +85,16 @@ const PostSurvey = () => {
             });
     };
     const mentorIdeaCount = () => {
+        const mentideaApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: currentUser?.data[0]?.mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/ideaCount?mentor_id=${currentUser?.data[0]?.mentor_id}`,
+                `/dashboard/ideaCount?Data=${mentideaApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -152,7 +163,11 @@ const PostSurvey = () => {
         e.preventDefault();
 
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-
+        let enParamDatas = encryptGlobal(
+            JSON.stringify({
+                locale: 'en'
+            })
+        );
         let submitData = {
             responses: answerResponses
         };
@@ -166,9 +181,10 @@ const PostSurvey = () => {
                 ''
             );
         } else {
+            const quizSurveyIdParam  = encryptGlobal(JSON.stringify(quizSurveyId));
             return await axios
                 .post(
-                    `${URL.getPostSurveyList}/${quizSurveyId}/responses?locale=en`,
+                    `${URL.getPostSurveyList}/${quizSurveyIdParam}/responses?Data=${enParamDatas}`,
                     JSON.stringify(submitData, null, 2),
                     axiosConfig
                 )
@@ -237,15 +253,22 @@ const PostSurvey = () => {
     // });
 
     useEffect(() => {
+        let enDataone = encryptGlobal('3');
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
         const lang = 'locale=en';
         const final = lang.split('=');
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                role: 'MENTOR',
+                locale: final[1]
+            })
+        );
         axiosConfig['params'] = {
-            role: 'MENTOR',
-            locale: final[1]
+            Data: enParamData
         };
+
         axios
-            .get(`${URL.getPostSurveyList}/3`, axiosConfig)
+            .get(`${URL.getPostSurveyList}/${enDataone}`, axiosConfig)
             .then((postSurveyRes) => {
                 if (postSurveyRes?.status == 200) {
                     setQuizSurveyId(postSurveyRes.data.data[0].quiz_survey_id);

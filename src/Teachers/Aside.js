@@ -40,9 +40,9 @@ const Aside = ({ rtl, toggled, handleToggleSidebar }) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const { schedules } = useSelector((state) => state.schedules);
-    const presurveyStatus = useSelector(
-        (state) => state?.mentors.teacherPresurveyStatus
-    );
+    // const presurveyStatus = useSelector(
+    //     (state) => state?.mentors.teacherPresurveyStatus
+    // );
 
     const location = useLocation();
 

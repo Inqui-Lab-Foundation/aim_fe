@@ -10,6 +10,7 @@ import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const EditResource = (props) => {
     const { t } = useTranslation();
@@ -34,9 +35,18 @@ const EditResource = (props) => {
         const maxFileSize = 10000000;
         const isOverMaxSize = file.size > maxFileSize;
 
-        const allowedTypes = ['image/jpeg', 'image/png','application/msword','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-        if(!allowedTypes.includes(file.type)){
-            openNotificationWithIcon('error', t('Accepting only png,jpg,jpeg,pdf,doc,docx Only'));
+        const allowedTypes = [
+            'image/jpeg',
+            'image/png',
+            'application/msword',
+            'application/pdf',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        if (!allowedTypes.includes(file.type)) {
+            openNotificationWithIcon(
+                'error',
+                t('Accepting only png,jpg,jpeg,pdf,doc,docx Only')
+            );
             return;
         }
 
@@ -82,8 +92,6 @@ const EditResource = (props) => {
             })
         }),
         onSubmit: async (values) => {
-            console.log(typeof values.attachments, 'hii');
-            console.log(typeof values.attachments !== 'string');
             try {
                 if (
                     values.type === 'file' &&
@@ -93,7 +101,6 @@ const EditResource = (props) => {
                 ) {
                     const fileData = new FormData();
                     fileData.append('file', values.attachments);
-
                     const response = await axios.post(
                         `${process.env.REACT_APP_API_BASE_URL}/resource/resourceFileUpload`,
                         fileData,
@@ -123,9 +130,12 @@ const EditResource = (props) => {
                     description: values.description,
                     attachments: values.attachments
                 };
+                const editParam = encryptGlobal(
+                    JSON.stringify(resID.resource_id)
+                );
 
                 const response = await axios.put(
-                    `${process.env.REACT_APP_API_BASE_URL}/resource/${resID.resource_id}`,
+                    `${process.env.REACT_APP_API_BASE_URL}/resource/${editParam}`,
                     body,
                     {
                         headers: {

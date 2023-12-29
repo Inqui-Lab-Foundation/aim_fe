@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { FaComments } from 'react-icons/fa';
 import { getCurrentUser } from '../../helpers/Utils';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const TicketsPage = (props) => {
     const [rows, setRows] = React.useState([]);
@@ -26,6 +27,11 @@ const TicketsPage = (props) => {
         dispatch(getSupportTickets(currentUser?.data[0]));
     }, []);
     // here  we can also rise the tickets as well as we can give the replies to tickets //
+    // const ticktId = encryptGlobal(
+    //     JSON.stringify({
+    //         id: params.support_ticket_id
+    //     })
+    // );
     const SchoolsData = {
         data: supportTickets,
         columns: [

@@ -7,7 +7,7 @@ import { getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 // import { Link } from 'react-router-dom';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const StudentResources = () => {
     const [resList, setResList] = useState([]);
     const currentUser = getCurrentUser('current_user');
@@ -18,9 +18,14 @@ const StudentResources = () => {
     }, []);
 
     async function fetchResourceList() {
+        const fectchstuParam = encryptGlobal(
+            JSON.stringify({
+                role: 'student'
+            })
+        );
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/resource/list?role=student`,
+                `${process.env.REACT_APP_API_BASE_URL}/resource/list?Data=${fectchstuParam}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',

@@ -108,12 +108,12 @@ const Register = (props) => {
                 url:
                     process.env.REACT_APP_API_BASE_URL + '/evaluators/register',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
                 },
 
                 data: body
             };
-            console.log(body);
             // const actualUrl = URL.evaluatorRegister;
             await axios(config)
                 // .post(actualUrl, JSON.stringify(values, null, 2), axiosConfig)

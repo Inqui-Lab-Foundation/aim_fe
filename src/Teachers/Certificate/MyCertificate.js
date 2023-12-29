@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { KEY, URL } from '../../constants/defaultValues';
 import Congo from '../../assets/media/survey-success.jpg';
 import axios from 'axios';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const MyCertificate = () => {
     const { t } = useTranslation();
@@ -31,11 +32,12 @@ const MyCertificate = () => {
 
     useLayoutEffect(() => {
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const lang = 'local=en';
-        const final = lang.split('=');
-        axiosConfig['params'] = {
+        const reParam = encryptGlobal(JSON.stringify({
             role: 'MENTOR',
-            local: final[1]
+            locale: 'en'
+        }));
+        axiosConfig['params'] = {
+           Data : reParam
         };
         axios
             .get(`${URL.getPostSurveyList}`, axiosConfig)

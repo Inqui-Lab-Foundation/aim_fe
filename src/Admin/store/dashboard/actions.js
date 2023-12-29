@@ -9,6 +9,7 @@ import {
     getNormalHeaders
     // openNotificationWithIcon
 } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 // export const deleteTempMentor =
 //     (user) => async (dispatch) => {
@@ -21,8 +22,9 @@ import {
 const deleteTempMentorById = (id) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const delId = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .delete(`${URL.getStudentById}${id}`, axiosConfig)
+            .delete(`${URL.getStudentById}${delId}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;

@@ -8,7 +8,7 @@ import { getCurrentUser } from '../../helpers/Utils';
 import './scroll.scss';
 import axios from 'axios';
 import newIcon from '../../assets/media/blinking_new.gif';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 function LatestNewsNew({ usersdata }) {
     const currentUser = getCurrentUser('current_user');
 
@@ -49,11 +49,16 @@ function LatestNewsNew({ usersdata }) {
     }, []);
 
     useEffect(async () => {
+        let teacherParam = encryptGlobal(
+            JSON.stringify({
+                category: 'mentor'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/latest_news/list?category=mentor',
+                `/latest_news/list?Data=${teacherParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import { useTranslation } from 'react-i18next';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const EditTranslation = (props) => {
     const { t } = useTranslation();
@@ -48,13 +49,15 @@ const EditTranslation = (props) => {
                 value: values.value,
                 status: 'ACTIVE'
             });
-
+            const tranId = encryptGlobal(
+                JSON.stringify(translationData.translation_id)
+            );
             var config = {
                 method: 'put',
                 url:
                     process.env.REACT_APP_API_BASE_URL +
                     '/translations/' +
-                    translationData.translation_id,
+                    tranId,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`

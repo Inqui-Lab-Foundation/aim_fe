@@ -10,12 +10,12 @@ export const URL = {
     coordinatorLogin:
         process.env.REACT_APP_API_BASE_URL + '/state_coordinators/login',
     reportLogin:
-        process.env.REACT_APP_API_BASE_URL + '/admins/login?report=true',
+        process.env.REACT_APP_API_BASE_URL + '/admins/login?',
 
     login: process.env.REACT_APP_API_BASE_URL + '/students/login',
     adminLogin: process.env.REACT_APP_API_BASE_URL + '/admins/login',
     eadminLogin:
-        process.env.REACT_APP_API_BASE_URL + '/admins/login?eAdmin=true',
+        process.env.REACT_APP_API_BASE_URL + '/admins/login?',
     adminRegister: process.env.REACT_APP_API_BASE_URL + '/admins/register',
     evaluatorLogin: process.env.REACT_APP_API_BASE_URL + '/evaluators/login',
     // evaluatorRegister: `${process.env.REACT_APP_API_BASE_URL}/evaluators/register`,
@@ -24,10 +24,10 @@ export const URL = {
     addAdminCourses: process.env.REACT_APP_API_BASE_URL + '/course',
     submitChallengeResponse:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response?challenge_id=1&',
+        '/challenge_response',
     initiateChallenge:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response/1/initiate?team_id=',
+        '/challenge_response/',
     postAdminRefQuizResponce:
         process.env.REACT_APP_API_BASE_URL + '/reflectiveQuiz/',
     createMentorSupportTickets:
@@ -46,7 +46,7 @@ export const URL = {
         process.env.REACT_APP_API_BASE_URL + '/students/bulkCreateStudent',
     uploadFile:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response/fileUpload?team_id=',
+        '/challenge_response/fileUpload',
     updatepromote:
         process.env.REACT_APP_API_BASE_URL + '/challenge_response/updateEntry/',
 
@@ -93,7 +93,7 @@ export const URL = {
     getAdminQstList: process.env.REACT_APP_API_BASE_URL + '/quiz/',
     getAdminRefQizList: process.env.REACT_APP_API_BASE_URL + '/reflectiveQuiz/',
     getSchoolRegistrationBulkupload:
-        process.env.REACT_APP_API_BASE_URL + '/organizations?status=ACTIVE',
+        process.env.REACT_APP_API_BASE_URL + '/organizations?',
     getFaqCategoryList: `${process.env.REACT_APP_API_BASE_URL}/faqCategories`,
     getFaqByCategoryId: `${process.env.REACT_APP_API_BASE_URL}/faqCategories`,
     getFaqList: `${process.env.REACT_APP_API_BASE_URL}/faqs`,
@@ -108,18 +108,18 @@ export const URL = {
     getPreSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys`,
     getStudentPreSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys/2`,
     getPostSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys`,
-    getStudentPostSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys/4`,
+    getStudentPostSurveyList: `${process.env.REACT_APP_API_BASE_URL}/quizSurveys/`,
     getTeacherCousesDetails:
         process.env.REACT_APP_API_BASE_URL + '/mentorCourses/',
     getStudents: process.env.REACT_APP_API_BASE_URL + '/students',
     getDistrictsOnly:
         process.env.REACT_APP_API_BASE_URL + '/organizations/districts',
     getPinCodesOnly:
-        process.env.REACT_APP_API_BASE_URL + '/organizations/pinCode?district=',
+        process.env.REACT_APP_API_BASE_URL + '/organizations/pinCode?',
     getAtlCodesOnly:
-        process.env.REACT_APP_API_BASE_URL + '/organizations/ATLCode?pin_code=',
+        process.env.REACT_APP_API_BASE_URL + '/organizations/ATLCode?',
     getFetchDistsOnly:
-        process.env.REACT_APP_API_BASE_URL + '/organizations/districts?state=',
+        process.env.REACT_APP_API_BASE_URL + '/organizations/districts?',
     getStatesOnly: process.env.REACT_APP_API_BASE_URL + '/organizations/states',
     getStudentBadges: process.env.REACT_APP_API_BASE_URL + '/students/',
     getStudentById: process.env.REACT_APP_API_BASE_URL + '/students/',
@@ -138,7 +138,7 @@ export const URL = {
     getChallengeQuestions: process.env.REACT_APP_API_BASE_URL + '/challenge',
     getChallengeSubmittedResponse:
         process.env.REACT_APP_API_BASE_URL +
-        '/challenge_response/submittedDetails?team_id=',
+        '/challenge_response/submittedDetails?',
     getMentorSupportTickets:
         process.env.REACT_APP_API_BASE_URL + '/supportTickets',
     getMentorSupportTicketsById:

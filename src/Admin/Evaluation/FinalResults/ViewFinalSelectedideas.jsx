@@ -5,7 +5,7 @@ import Layout from '../../../Admin/Layout';
 import DataTable, { Alignment } from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import ViewDetail from './ViewFinalDetail';
-import { useHistory, useLocation} from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { KEY, URL } from '../../../constants/defaultValues';
 import { Button } from '../../../stories/Button';
@@ -21,6 +21,7 @@ import jsPDF from 'jspdf';
 import { FaDownload, FaHourglassHalf } from 'react-icons/fa';
 import html2canvas from 'html2canvas';
 import TableDetailPdf from './TableDetailPdf';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     const { search } = useLocation();
@@ -54,18 +55,19 @@ const ViewSelectedIdea = () => {
         dispatch(getDistrictData());
     }, []);
 
-    const handlePromotelFinalEvaluated = async(item) => {
+    const handlePromotelFinalEvaluated = async (item) => {
         await promoteapi(item.challenge_response_id);
     };
 
     async function promoteapi(id) {
+        const promotPram = encryptGlobal(JSON.stringify(id));
         const body = JSON.stringify({ final_result: '1' });
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                id
+                promotPram
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +85,7 @@ const ViewSelectedIdea = () => {
                 console.log(error);
             });
     }
-    const handleclickcall = async() => {
+    const handleclickcall = async () => {
         setshowspin(true);
         await handleideaList();
     };
@@ -91,13 +93,15 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const titA = title && title == '0' ? '0' : '1';
+        const Param = encryptGlobal(
+            JSON.stringify({
+                key: titA,
+                filterParamsfinal
+            })
+        );
         await axios
-            .get(
-                `${URL.getFinalEvaluation}?key=${
-                    title && title == '0' ? '0' : '1'
-                }${filterParamsfinal}`,
-                axiosConfig
-            )
+            .get(`${URL.getFinalEvaluation}?Data=${Param}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     const updatedWithKey =
@@ -255,7 +259,7 @@ const ViewSelectedIdea = () => {
                                 {!pdfLoader ? (
                                     <FaDownload
                                         size={22}
-                                        onClick={async() => {
+                                        onClick={async () => {
                                             await downloadPDF(params);
                                         }}
                                         className="text-danger"

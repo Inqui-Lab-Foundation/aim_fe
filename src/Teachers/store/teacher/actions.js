@@ -12,6 +12,7 @@ import {
     getNormalHeaders,
     openNotificationWithIcon
 } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const teacherLoginUserSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -35,8 +36,9 @@ export const teacherLoginUserError = (message) => async (dispatch) => {
 export const getTeacherByID = (id) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const tecId = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .get(`${URL.getTeacherById}${id}`, axiosConfig)
+            .get(`${URL.getTeacherById}${tecId}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -128,7 +130,7 @@ export const teacherLoginUser = (data, history, module) => async (dispatch) => {
             } else {
                 openNotificationWithIcon(
                     'error',
-                    'Enter the correct credentials'
+                    'Invalid Username or Password'
                 );
             }
             dispatch(teacherLoginUserError(result.statusText));

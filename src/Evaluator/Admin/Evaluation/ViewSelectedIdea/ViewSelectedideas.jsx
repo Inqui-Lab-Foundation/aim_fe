@@ -35,6 +35,7 @@ import html2canvas from 'html2canvas';
 import TableDetailPdf from './TableDetailPdf';
 import { useReactToPrint } from 'react-to-print';
 import DetailToDownload from '../../Challenges/DetailToDownload';
+import { encryptGlobal } from '../../../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     const { search } = useLocation();
@@ -86,24 +87,14 @@ const ViewSelectedIdea = () => {
         Allevalobj[i.user.full_name] = i.user.user_id;
         Allevalnamelist.push(i.user.full_name);
     });
-
-    const dataParam =
-        level === 'L1' && title !== 'L1 - Yet to Processed'
-            ? '&evaluation_status=' + evaluation_status
-            : level === 'L1' && title === 'L1 - Yet to Processed'
-            ? '&yetToProcessList=L1'
-            : title === 'L2 - Yet to Processed'
-            ? '&yetToProcessList=L2'
-            : '';
-    const filterParams =
-        (state && state !== 'All States' ? '&state=' + state : '') +
-        (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '') +
-        (reason && '&rejected_reason=' + reason) +
-        (reasonSec && '&rejected_reasonSecond=' + reasonSec) +
-        (evalname && '&evaluator_id=' + Allevalobj[evalname]);
-    const filterParamsfinal =
-        (state && state !== 'All States' ? '?state=' + state : '') +
-        (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '');
+    const newQuery = {
+        level: level,
+        state : state !== 'All States' ? state : '',
+        sdg : sdg !== 'All Themes' ? sdg : '',
+        rejected_reason : reason,
+        rejected_reasonSecond : reasonSec,
+        evaluator_id : Allevalobj[evalname]
+    };
     useEffect(() => {
         // dispatch(getDistrictData());
         dispatch(getStateData());
@@ -116,13 +107,14 @@ const ViewSelectedIdea = () => {
     };
 
     async function promoteapi(id) {
+        const promoteId = encryptGlobal(JSON.stringify(id));
         const body = JSON.stringify({ final_result: '0' });
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                id
+                promoteId
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -147,13 +139,27 @@ const ViewSelectedIdea = () => {
     };
 
     async function handleideaList() {
+        level === 'L1' && title !== 'L1 - Yet to Processed'
+        ? newQuery['evaluation_status'] = evaluation_status
+        : level === 'L1' && title === 'L1 - Yet to Processed'
+        ? newQuery['yetToProcessList'] = 'L1'
+        : title === 'L2 - Yet to Processed'
+        ? newQuery['yetToProcessList'] = 'L2'
+        : '';
+        const data = encryptGlobal(JSON.stringify({
+            state : state !== 'All States' ? state : '',
+            sdg : sdg !== 'All Themes' ? sdg : ''
+        }));
+        const datas = encryptGlobal(
+            JSON.stringify(newQuery)
+        );
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         await axios
             .get(
                 title === 'Final'
-                    ? `${URL.getidealistfinal}${filterParamsfinal}`
-                    : `${URL.getidealist}level=${level}${dataParam}${filterParams}`,
+                    ? `${URL.getidealistfinal}${data}`
+                    : `${URL.getidealist}Data=${datas}`,
                 axiosConfig
             )
             .then(function (response) {

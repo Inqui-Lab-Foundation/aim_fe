@@ -12,7 +12,7 @@ import { openNotificationWithIcon, getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditTeamMember = (props) => {
     const { t } = useTranslation();
     const allowedAge = [10, 11, 12, 13, 14, 15, 16, 17, 18];
@@ -84,12 +84,15 @@ const EditTeamMember = (props) => {
             ) {
                 body['username'] = values.username;
             }
+            const teamparamId = encryptGlobal(
+                JSON.stringify(teamMemberData.student_id)
+            );
             var config = {
                 method: 'put',
                 url:
                     process.env.REACT_APP_API_BASE_URL +
                     '/students/' +
-                    teamMemberData.student_id,
+                    teamparamId,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`

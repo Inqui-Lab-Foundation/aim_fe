@@ -12,6 +12,7 @@ import {
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../../../stories/Button';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 const Evalprocess = () => {
     const history = useHistory();
     const [evalList, setEvalList] = useState([]);
@@ -21,11 +22,16 @@ const Evalprocess = () => {
     }, []);
     async function handleEvalList() {
         //  handleEvalList Api where we can see list of all evaluationProcess //
+        const statusParam = encryptGlobal(
+            JSON.stringify({
+                status: 'ALL'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/evaluationProcess?status=ALL',
+                `/evaluationProcess?Data=${statusParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -158,9 +164,10 @@ const Evalprocess = () => {
     }
 
     const Statusfunc = async (item, id) => {
+        const popId = encryptGlobal(JSON.stringify(id));
         let config = {
             method: 'put',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/${id}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popId}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

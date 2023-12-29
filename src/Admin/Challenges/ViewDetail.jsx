@@ -19,6 +19,7 @@ import { useReactToPrint } from 'react-to-print';
 import DetailToDownload from './DetailToDownload';
 import html2canvas from 'html2canvas';
 import { Row, Col, Form, Label } from 'reactstrap';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const ViewDetail = (props) => {
     const componentRef = useRef();
@@ -82,12 +83,15 @@ const ViewDetail = (props) => {
                 handledText == 'accept' ? 'SELECTEDROUND1' : 'REJECTEDROUND1',
             rejected_reason: handledText == 'reject' ? reason : ''
         });
+        const challId = encryptGlobal(
+            JSON.stringify(props?.ideaDetails?.challenge_response_id)
+        );
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/' +
-                props?.ideaDetails?.challenge_response_id
+                challId
             }`,
             headers: {
                 'Content-Type': 'application/json',
