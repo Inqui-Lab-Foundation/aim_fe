@@ -105,11 +105,11 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const titPar = title && title == '0' ? '0' : '1';
         const apiParam = encryptGlobal(
             JSON.stringify({
-                key: titPar,
-                filterParamsfinal
+                key: title == '0' ? '0' : '1',
+                state : state !== 'All States' ? state : '',
+                sdg : sdg !== 'All Themes' ? sdg : ''
             })
         );
         await axios

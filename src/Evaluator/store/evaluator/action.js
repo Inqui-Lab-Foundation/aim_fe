@@ -222,6 +222,7 @@ export const getL1EvaluatedIdea = (params, setshowspin) => async (dispatch) => {
                     process.env.REACT_APP_API_BASE_URL +
                     '/challenge_response/evaluated/' +
                     evId +
+                    '?Data=' +
                     idRes
                 }`,
                 axiosConfig
