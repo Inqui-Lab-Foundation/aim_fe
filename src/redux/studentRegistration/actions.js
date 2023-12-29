@@ -165,7 +165,7 @@ export const getAtlCodeData = (item) => async (dispatch) => {
                 ATLlistObj[code.organization_code] = code.organization_name;
                 return code.organization_code;
             });
-            
+            console.log(ATLCodeslist, '1');
             dispatch(getAtlCodesSuccess(data));
         } else {
             dispatch(getAtlCodesSuccess([]));
