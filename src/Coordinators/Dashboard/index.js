@@ -83,7 +83,8 @@ const Dashboard = () => {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -126,7 +127,8 @@ const Dashboard = () => {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
