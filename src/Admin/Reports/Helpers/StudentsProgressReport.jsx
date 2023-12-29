@@ -358,12 +358,10 @@ const ReportsRegistration = () => {
     };
 
     const fetchData = () => {
-        const stuDist =
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
         const param = encryptGlobal(
             JSON.stringify({
                 state: RegTeachersState,
-                district: stuDist,
+                district: RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict,
                 category: category
             })
         );

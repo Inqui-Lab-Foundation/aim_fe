@@ -254,7 +254,7 @@ const Dashboard = () => {
                 if (result.isConfirmed) {
                     dispatch(
                         teacherResetPassword({
-                            organization_code: data.organization_code,
+                            username: orgData.mentor?.user?.username,
                             mentor_id: data.mentor_id,
                             otp: false
                         })

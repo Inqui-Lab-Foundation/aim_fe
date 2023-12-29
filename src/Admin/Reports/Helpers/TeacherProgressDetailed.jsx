@@ -433,11 +433,10 @@ const TeacherDetailed = () => {
         fetchData();
     };
     const fetchData = () => {
-        const feDist = district === '' ? 'All Districts' : district;
         const apiRes = encryptGlobal(
             JSON.stringify({
                 state: state,
-                district: feDist,
+                district: district === '' ? 'All Districts' : district,
                 category: category
             })
         );

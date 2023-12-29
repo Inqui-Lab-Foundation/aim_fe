@@ -149,8 +149,9 @@ const EditFaq = (props) => {
 
     const getFaqList = async () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const faqidparam = encryptGlobal(JSON.stringify(faqid));
         return await axios
-            .get(`${URL.getFaqList}/${faqid}`, axiosConfig)
+            .get(`${URL.getFaqList}/${faqidparam}`, axiosConfig)
             .then((faqResData) => {
                 if (faqResData?.status == 200) {
                     let dataValue = faqResData?.data?.data[0];

@@ -58,12 +58,12 @@ const ViewSelectedIdea = () => {
     // );
     const { search } = useLocation();
     const status = new URLSearchParams(search).get('status');
-    const filterParams =
-        (state && state !== 'All States' ? '&state=' + state : '') +
-        (district && district !== 'All Districts'
-            ? '&district=' + district
-            : '') +
-        (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '');
+    // const filterParams =
+    //     (state && state !== 'All States' ? '&state=' + state : '') +
+    //     (district && district !== 'All Districts'
+    //         ? '&district=' + district
+    //         : '') +
+    //     (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '');
 
     // useEffect(() => {
     //     dispatch(getDistrictData());
@@ -94,7 +94,9 @@ const ViewSelectedIdea = () => {
         const resparam = encryptGlobal(
             JSON.stringify({
                 status: param,
-                filterParams
+                state : state !== 'All States' ? state : '',
+                district : district !== 'All Districts' ? district: '',
+                sdg : sdg !== 'All Themes' ? sdg : ''
             })
         );
         await axios

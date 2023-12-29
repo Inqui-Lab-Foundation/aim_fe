@@ -326,13 +326,11 @@ const ReportsRegistration = () => {
         }
     };
     const fetchData = (item) => {
-        const regaram =
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
         const param = encryptGlobal(
             JSON.stringify({
                 state: RegTeachersState,
                 status: 'ACTIVE',
-                district: regaram,
+                district: RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict,
                 category: category
             })
         );
@@ -340,7 +338,7 @@ const ReportsRegistration = () => {
         const params = encryptGlobal(
             JSON.stringify({
                 state: RegTeachersState,
-                district: regaram,
+                district: RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict,
                 category: category
             })
         );
