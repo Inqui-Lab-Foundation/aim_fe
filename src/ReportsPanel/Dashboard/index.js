@@ -315,7 +315,7 @@ const DashboardReport = () => {
                 cell: (params) => {
                     return [
                         <>
-                            {params.ideaStatus == 'SUBMITTED' && (
+                            {params.ideaStatus == 'SUBMITTED' && params.evaluation_status === null && (
                                 <Button
                                     key={params}
                                     className={
