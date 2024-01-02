@@ -152,8 +152,8 @@ const ReportsRegistration = () => {
     }, [RegTeachersState]);
     const studentTableHeaders = [
         {
-            label: 'District Name',
-            key: 'district'
+            label: 'State Name',
+            key: 'state'
         },
         {
             label: 'Total No.Of TEAMS created',
