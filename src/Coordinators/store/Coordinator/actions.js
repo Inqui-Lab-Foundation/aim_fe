@@ -50,7 +50,7 @@ export const coordinatorLoginUser =
             } else {
                 openNotificationWithIcon(
                     'error',
-                    'Enter the correct credentials'
+                    'Invalid Username or Password'
                 );
                 dispatch(coordinatorLoginUserError(result.statusText));
             }

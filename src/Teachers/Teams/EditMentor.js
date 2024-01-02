@@ -16,11 +16,16 @@ import {
     openNotificationWithIcon,
     setCurrentUser
 } from '../../helpers/Utils';
+// import { useNavigate } from 'react-router-dom';
+
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const EditMentor = (props) => {
     // here we can edit the users details //
     const history = useHistory();
+    // const navigate = useNavigate();
+
     const mentorData =
         // where  mentorData = mentor details //
         (history && history.location && history.location.item) || {};
@@ -80,10 +85,9 @@ const EditMentor = (props) => {
                 team_name: mentorData.team_name
                 // username: mentorData.username
             });
+            const editParam = encryptGlobal(JSON.stringify(mentorData.team_id));
             const url =
-                process.env.REACT_APP_API_BASE_URL +
-                '/teams/' +
-                mentorData.team_id;
+                process.env.REACT_APP_API_BASE_URL + '/teams/' + editParam;
             var config = {
                 method: 'put',
                 url: url,
@@ -103,9 +107,10 @@ const EditMentor = (props) => {
                         );
                         currentUser.data[0].moc_name = values.name;
                         setCurrentUser(currentUser);
-                        // setTimeout(() => {
-                        //     props.history.push('/teacher/view-team-member');
-                        // }, 2000);
+                        // navigate('/teacher/view-team-member');
+                        setTimeout(() => {
+                            props.history.push('/teacher/view-team-member');
+                        }, 1000);
                     }
                 })
                 .catch(function (error) {

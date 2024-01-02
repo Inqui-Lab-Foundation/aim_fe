@@ -25,6 +25,7 @@ import {
     AccordionHeader,
     AccordionBody
 } from 'reactstrap';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 import { Button } from '../../../stories/Button';
 import { GrDocument } from 'react-icons/gr';
 import { AiFillPlayCircle, AiOutlineCloseCircle } from 'react-icons/ai';
@@ -310,14 +311,17 @@ const PlayVideoCourses = (props) => {
     async function fetchData(videoId) {
         // here videoId= videoId //
         setVideoId(videoId);
+        const locale = getLanguage(language);
+        const New = encryptGlobal(JSON.stringify({locale}));
+        const videoParam = encryptGlobal(JSON.stringify(videoId));
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/videos/' +
-                videoId +
+                videoParam +
                 '?' +
-                getLanguage(language),
+                New,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -335,15 +339,18 @@ const PlayVideoCourses = (props) => {
             });
     }
     async function getWorkSheetApi(worksheetId) {
+        const getWorkSheetParam = encryptGlobal(JSON.stringify(worksheetId));
+        const locale = getLanguage(language);
+        const resw = encryptGlobal(JSON.stringify({locale}));
         // here worksheetId = worksheetId //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/worksheets/' +
-                worksheetId +
-                '?' +
-                getLanguage(language),
+                getWorkSheetParam +
+                '?Data=' +
+                resw,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -384,13 +391,15 @@ const PlayVideoCourses = (props) => {
             course_topic_id: JSON.stringify(courseTopicId),
             status: 'Completed'
         });
+        const locale = getLanguage(language);
+        const resapi = encryptGlobal(JSON.stringify({locale}));
         var config = {
             method: 'post',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/userTopicProgress' +
                 '?' +
-                getLanguage(language),
+                resapi,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -578,11 +587,17 @@ const PlayVideoCourses = (props) => {
     };
 
     function resultdata(id) {
+        const paramApi = encryptGlobal(
+            JSON.stringify({
+                user_id: currentUser.data[0].user_id,
+                quiz_id: id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/quiz/result?user_id=${currentUser.data[0].user_id}&quiz_id=${id}`,
+                `/quiz/result?Data=${paramApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -745,6 +760,8 @@ const PlayVideoCourses = (props) => {
                 let fieldName = 'file' + i ? i : '';
                 formData.append(fieldName, files[i]);
             }
+            const locale = getLanguage(language);
+            const getres = encryptGlobal(JSON.stringify({locale}));
             var config = {
                 method: 'post',
                 url:
@@ -753,7 +770,7 @@ const PlayVideoCourses = (props) => {
                     worksheetId +
                     '/response' +
                     '?' +
-                    getLanguage(language),
+                    getres,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`

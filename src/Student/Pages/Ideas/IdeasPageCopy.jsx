@@ -39,6 +39,7 @@ import logout from '../../../assets/media/logout.svg';
 import { cardData, subCategoryData } from './SDGData';
 import moment from 'moment';
 import { getLanguage } from '../../../constants/languageOptions';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 
 const LinkComponent = ({ original, item, url, removeFileHandler, i }) => {
     let a_link;
@@ -295,9 +296,7 @@ const IdeasPageNew = () => {
         }
         setAnswerResponses(newItems);
     };
-    let lengthCheck =
-        challengeQuestions.length +
-        (sdg === 'OTHERS' ? 1 : 0);
+    let lengthCheck = challengeQuestions.length + (sdg === 'OTHERS' ? 1 : 0);
     const responseData = answerResponses.map((eachValues) => {
         return {
             challenge_question_id: eachValues.challenge_question_id,
@@ -307,13 +306,12 @@ const IdeasPageNew = () => {
     async function apiCall() {
         // Dice code list API //
         // where list = diescode //
-        const body = JSON.stringify(
-            {
-                mentor_id:currentUser?.data[0]?.mentor_id,
-                team_id: currentUser?.data[0]?.team_id,
-                team_name:currentUser?.data[0]?.team_name,
-                title:submittedResponse[1]?.selected_option[0]
-            });
+        const body = JSON.stringify({
+            mentor_id: currentUser?.data[0]?.mentor_id,
+            team_id: currentUser?.data[0]?.team_id,
+            team_name: currentUser?.data[0]?.team_name,
+            title: submittedResponse[1]?.selected_option[0]
+        });
         var config = {
             method: 'post',
             url:
@@ -341,12 +339,13 @@ const IdeasPageNew = () => {
     }
 
     const handlefinalsubmit = async (id) => {
+        const editParam = encryptGlobal(JSON.stringify(id));
         var config = {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+                editParam,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -472,9 +471,23 @@ const IdeasPageNew = () => {
             );
             return;
         }
-        const allowedTypes = ['image/jpeg', 'image/png','application/msword','application/pdf','application/vnd.openxmlformats-officedocument.wordprocessingml.document','application/vnd.openxmlformats-officedocument.presentationml.presentation'];
-        if(choosenFiles.filter((item) => allowedTypes.includes(item.type) === false).length > 0){
-            openNotificationWithIcon('error', t('Accepting only png,jpg,jpeg,pdf,doc,docx Only'));
+        const allowedTypes = [
+            'image/jpeg',
+            'image/png',
+            'application/msword',
+            'application/pdf',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        ];
+        if (
+            choosenFiles.filter(
+                (item) => allowedTypes.includes(item.type) === false
+            ).length > 0
+        ) {
+            openNotificationWithIcon(
+                'error',
+                t('Accepting only png,jpg,jpeg,pdf,doc,docx Only')
+            );
             return;
         }
         if (choosenFiles.filter((item) => item.size > maxFileSize).length > 0) {
@@ -502,11 +515,17 @@ const IdeasPageNew = () => {
             district: currentUser?.data[0]?.district,
             state: currentUser?.data[0]?.state
         };
+        const locale = getLanguage(language);
+        const subId = encryptGlobal(
+            JSON.stringify({
+                challenge_id :'1',
+                team_id: currentUser?.data[0]?.team_id,
+                locale
+            })
+        );
         await axios
             .post(
-                `${URL.submitChallengeResponse}team_id=${
-                    currentUser?.data[0]?.team_id
-                }&${getLanguage(language)}`,
+                `${URL.submitChallengeResponse}?Data=${subId}`,
                 submitData,
                 axiosConfig
             )
@@ -568,12 +587,11 @@ const IdeasPageNew = () => {
                 formData.append(fieldName, files[i]);
             }
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const subId = encryptGlobal(
+                JSON.stringify({team_id:currentUser?.data[0]?.team_id})
+            );
             const result = await axios
-                .post(
-                    `${URL.uploadFile}${currentUser?.data[0]?.team_id}`,
-                    formData,
-                    axiosConfig
-                )
+                .post(`${URL.uploadFile}?Data=${subId}`, formData, axiosConfig)
                 .then((res) => res)
                 .catch((err) => {
                     return err.response;
@@ -1006,8 +1024,7 @@ const IdeasPageNew = () => {
                                                                                                 .value
                                                                                         )
                                                                                     }
-                                                                                />
-                                                                                {' '}
+                                                                                />{' '}
                                                                                 {
                                                                                     item
                                                                                 }

@@ -21,6 +21,7 @@ import { Bar } from 'react-chartjs-2';
 import { categoryValue } from '../../Admin/Schools/constentText';
 
 import { notification } from 'antd';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const CoTeacherDetailedReport = () => {
     const currentUser = getCurrentUser('current_user');
@@ -332,11 +333,16 @@ const CoTeacherDetailedReport = () => {
         nonAtlCount();
     }, []);
     const nonAtlCount = () => {
+        const tecSt = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/studentATLnonATLcount?state=${currentUser?.data[0]?.state_name}`,
+                `/reports/studentATLnonATLcount?Data=${tecSt}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -346,7 +352,7 @@ const CoTeacherDetailedReport = () => {
         axios(config)
             .then(function (res) {
                 if (res.status === 200) {
-                    console.log(res);
+                   
                     var mentorStuArray = [];
                     res &&
                         res.data &&
@@ -356,7 +362,7 @@ const CoTeacherDetailedReport = () => {
                             return mentorStuArray.push({ ...students, key });
                         });
                     setAtl(mentorStuArray);
-                    // console.log(mentorStuArray);
+                    
 
                     // setAtl(response.data.data);
                     const barStudentData = {
@@ -400,13 +406,18 @@ const CoTeacherDetailedReport = () => {
         fetchData();
     };
     const fetchData = () => {
+        const apiParam = encryptGlobal(
+            JSON.stringify({
+                state: state,
+                district: district === '' ? 'All Districts' : district,
+                category: category
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?state=${state}&district=${
-                    district === '' ? 'All Districts' : district
-                }&category=${category}`,
+                `/reports/mentordetailsreport?Data=${apiParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -458,7 +469,6 @@ const CoTeacherDetailedReport = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log(response);
                     const summary = response.data.data[0].summary;
                     const teamCount = response.data.data[0].teamCount;
                     const studentCountDetails =
@@ -587,7 +597,6 @@ const CoTeacherDetailedReport = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>

@@ -10,7 +10,7 @@ import DoughnutChart from '../../Teachers/Dashboard/DoughnutChart';
 import { Button } from '../../stories/Button';
 import axios from 'axios';
 import { getCurrentUser } from '../../helpers/Utils';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const ViewMore = () => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
@@ -20,9 +20,7 @@ const ViewMore = () => {
     const orgDaTa = JSON.parse(localStorage.getItem('orgData'));
     // const tecDaTa = JSON.parse(localStorage.getItem('teacherId'));
     const [showMentorCard, setshowMentorCard] = useState(false);
-    // console.log(tecDaTa, '1');
     const [course, setCourse] = useState([]);
-    // console.log(orgDaTa, '1');
     // where orgDaTa = orgnization details //
     // we can see all orgnization , mentor details //
     const headingDetails = {
@@ -45,11 +43,18 @@ const ViewMore = () => {
     };
 
     useEffect(() => {
+        const userIdParam = encryptGlobal(
+            JSON.stringify({
+                user_id: orgDaTa?.mentor.user_id,
+                role: 'MENTOR'
+            })
+        );
+
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${orgDaTa?.mentor.user_id}&role=MENTOR`,
+                `/dashboard/quizscores?Data=${userIdParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -60,7 +65,6 @@ const ViewMore = () => {
             .then(function (response) {
                 if (response.status === 200) {
                     setCourse(response.data.data);
-                    // console.log(response);
                 }
             })
             .catch(function (error) {
@@ -85,7 +89,6 @@ const ViewMore = () => {
     //     axios(config)
     //         .then(function (response) {
     //             if (response.status === 200) {
-    //                 // console.log(response, 'res');
     //                 setData(response?.data?.data[0]);
     //                 setButton(response.data.data[0].moc_name);
     //                 // if (response.data.data[0].moc_name !== null) {
@@ -100,7 +103,6 @@ const ViewMore = () => {
     const atlData = orgDaTa.organization_code;
     const altRes = atlData.split('-');
     const atlNew = altRes[0];
-    // console.log(atlNew, 'atlNew');
     const percentageBWNumbers = (a, b) => {
         // here a = all_topics_count ; b= topics_completed_count //
         return (((a - b) / a) * 100).toFixed(2);

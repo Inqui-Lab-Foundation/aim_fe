@@ -16,7 +16,7 @@ import TeacherLatestScroll from './TeacherLatestScroll';
 import StudentLatestScroll from './StudentLatestScroll';
 // import './style.css';
 import DoughnutChart from '../../Teachers/Dashboard/DoughnutChart';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const DashboardSchool = (props) => {
     const [orgData, setOrgData] = useState({});
     const [mentorId, setMentorId] = useState('');
@@ -35,7 +35,7 @@ const DashboardSchool = (props) => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
     const school = useSelector((state) => state.school);
-    
+
     const dispatch = useDispatch();
     useLayoutEffect(() => {
         if (currentUser?.data[0]?.organization_id) {
@@ -54,7 +54,8 @@ const DashboardSchool = (props) => {
                     process.env.REACT_APP_API_BASE_URL +
                     '/organizations/checkOrg',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
                 },
                 data: body
             };
@@ -69,7 +70,9 @@ const DashboardSchool = (props) => {
                         setUserId(response?.data?.data[0]?.mentor.user_id);
                         var array = [];
                         array.push({
-                            mentor_id: response?.data?.data[0]?.mentor.mentor_id,user_id: response?.data?.data[0]?.mentor.user_id
+                            mentor_id:
+                                response?.data?.data[0]?.mentor.mentor_id,
+                            user_id: response?.data?.data[0]?.mentor.user_id
                         });
                         setMentorArrayId(array);
                     }
@@ -188,11 +191,17 @@ const DashboardSchool = (props) => {
     };
     // useEffect(() => {
     const mentorScore = () => {
+        const userIdParam = encryptGlobal(
+            JSON.stringify({
+                user_id: userId,
+                role: 'MENTOR'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${userId}&role=MENTOR`,
+                `/dashboard/quizscores?Data=${userIdParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -222,7 +231,7 @@ const DashboardSchool = (props) => {
                 <h2 className="mb-5  text-center mt-5">
                     <strong> School Dashboard</strong>
                 </h2>
-                <Row className='p-3'>
+                <Row className="p-3">
                     <Col className="md-5 ">
                         <Col>
                             <Card
@@ -258,7 +267,7 @@ const DashboardSchool = (props) => {
                         </Col>
                     </Col>
                 </Row>
-                <Row className='p-3'>
+                <Row className="p-3">
                     <Col md={6}>
                         <Card
                             bg="light"
@@ -266,7 +275,7 @@ const DashboardSchool = (props) => {
                             // className="mb-4"
                             // style={{ width: '350px' }}
                             // className="md-3 xs-12 mb-4 "
-                            style={{height:'16rem'}}
+                            style={{ height: '16rem' }}
                         >
                             <Card.Body>
                                 <label
@@ -308,7 +317,7 @@ const DashboardSchool = (props) => {
                                         <b> Quiz Score :</b>
                                     </span>
                                     <b>
-                                        {score?score:0 + '/15'}
+                                        {score ? score : 0 + '/15'}
                                         {/* {course[0]?.scores[0]?.score
                                             ? course[0]?.scores[0]?.score +
                                               '/15'
@@ -325,7 +334,7 @@ const DashboardSchool = (props) => {
                             className="p-2"
                             // className="md-3 xs-12 mb-4 "
                             // style={{ width: '350px' }}
-                            style={{height:'16rem'}}
+                            style={{ height: '16rem' }}
                         >
                             <Card.Body>
                                 <label htmlFor="teams" className="">
@@ -352,7 +361,7 @@ const DashboardSchool = (props) => {
                             className="p-2"
                             // style={{ height: '200px' }}
                             // className="md-3 xs-12 mb-4 "
-                            style={{height:'16rem'}}
+                            style={{ height: '16rem' }}
                         >
                             <Card.Body>
                                 <label htmlFor="teams" className="">
@@ -378,7 +387,7 @@ const DashboardSchool = (props) => {
                             className="p-2"
                             // style={{ width: '350px' }}
                             // className="md-3 xs-12 mb-4 "
-                            style={{height:'16rem'}}
+                            style={{ height: '16rem' }}
                         >
                             <Card.Body>
                                 <label htmlFor="teams" className="">

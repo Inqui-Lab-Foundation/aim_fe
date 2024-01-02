@@ -10,7 +10,7 @@ import IdeasPageNew from './IdeasPageCopy';
 import SDG from './SDG';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 const IdeaSubmission = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -26,9 +26,10 @@ const IdeaSubmission = () => {
     const [view, setView] = useState(false);
     const [isideadisable, setIsideadisable] = useState(false);
     useEffect(() => {
+        const popParam = encryptGlobal('2');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/2`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

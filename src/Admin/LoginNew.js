@@ -25,7 +25,6 @@ const LoginNew = (props) => {
     useLayoutEffect(() => {
         const moduleName = localStorage.getItem('module');
         const loginTime = localStorage.getItem('time');
-        // console.log(loginTime, 'q');
 
         if (
             localStorage.getItem('current_user') &&

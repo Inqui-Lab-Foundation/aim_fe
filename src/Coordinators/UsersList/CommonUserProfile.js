@@ -23,6 +23,7 @@ import {
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import logout from '../../assets/media/logout.svg';
 import { studentResetPassword } from '../../redux/actions';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const CommonUserProfile = (props) => {
     const history = useHistory();
@@ -57,11 +58,16 @@ const CommonUserProfile = (props) => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
     useEffect(() => {
+        const quizparam = encryptGlobal(
+            JSON.stringify({
+                user_id: StudentsDaTa.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${StudentsDaTa.user_id}`,
+                `/dashboard/quizscores?Data=${quizparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -92,11 +98,16 @@ const CommonUserProfile = (props) => {
         mentorsData();
     }, []);
     const mentorsData = () => {
+        const mentorsparam = encryptGlobal(
+            JSON.stringify({
+                team_id: StudentsDaTa.team.team_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${StudentsDaTa.team.team_id}`,
+                `/teams/teamMentor?Data=${mentorsparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -106,7 +117,7 @@ const CommonUserProfile = (props) => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response, 'res');
+
                     setData(response?.data?.data[0]);
                     setButton(response.data.data[0].moc_name);
                     // if (response.data.data[0].moc_name !== null) {

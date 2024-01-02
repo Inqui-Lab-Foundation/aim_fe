@@ -17,7 +17,7 @@ import {
     setCurrentUser
 } from '../../helpers/Utils';
 import { useHistory } from 'react-router-dom';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const AddMentor = (props) => {
     // here we can edit the users details //
     const history = useHistory();
@@ -80,10 +80,9 @@ const AddMentor = (props) => {
                 team_name: mentorData.team_name
                 // username: mentorData.username
             });
+            const editParam = encryptGlobal(JSON.stringify(mentorData.team_id));
             const url =
-                process.env.REACT_APP_API_BASE_URL +
-                '/teams/' +
-                mentorData.team_id;
+                process.env.REACT_APP_API_BASE_URL + '/teams/' + editParam;
             var config = {
                 method: 'put',
                 url: url,

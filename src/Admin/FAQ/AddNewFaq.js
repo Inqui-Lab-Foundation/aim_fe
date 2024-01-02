@@ -34,6 +34,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import './style.scss';
 import { getLanguage } from '../../constants/languageOptions';
 import { useSelector } from 'react-redux';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const AddNewFaq = (props) => {
     const language = useSelector((state) => state?.admin?.adminLanguage);
@@ -122,9 +123,11 @@ const AddNewFaq = (props) => {
 
     const getFaqCategoryList = async () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale = getLanguage(language);
+        const newLange = encryptGlobal(JSON.stringify({locale}));
         return await axios
             .get(
-                `${URL.getFaqCategoryList}?${getLanguage(language)}`,
+                `${URL.getFaqCategoryList}?Data=${newLange}`,
                 axiosConfig
             )
             .then((categoryListRes) => {
@@ -150,11 +153,14 @@ const AddNewFaq = (props) => {
 
     const getFaqList = async () => {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const NewId = encryptGlobal(JSON.stringify(faqID));
+        const locale = getLanguage(language);
+        const newLang = encryptGlobal(JSON.stringify({locale}));
         return await axios
             .get(
                 faqID
-                    ? `${URL.getFaqList}/${faqID}`
-                    : `${URL.getFaqList}?${getLanguage(language)}`,
+                    ? `${URL.getFaqList}/${NewId}`
+                    : `${URL.getFaqList}?Data=${newLang}`,
                 axiosConfig
             )
             .then((faqResData) => {

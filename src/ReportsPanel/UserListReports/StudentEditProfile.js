@@ -63,12 +63,15 @@ const EditTeamMember = (props) => {
                 Grade: values.grade,
                 Gender: values.gender
             };
+            const stuparamId = encryptGlobal(
+                JSON.stringify(mentorData.student_id)
+            );
             var config = {
                 method: 'put',
                 url:
                     process.env.REACT_APP_API_BASE_URL +
                     '/students/' +
-                    mentorData.student_id,
+                    stuparamId,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`

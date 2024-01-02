@@ -12,6 +12,7 @@ import {
 } from '../../../redux/actions.js';
 import { URL, KEY } from '../../../constants/defaultValues.js';
 import { getNormalHeaders } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 
 export const getAdminTeamsListSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -31,9 +32,14 @@ export const getAdminTeamsList = (item) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_TEAMS_LIST });
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const teamParam = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE'
+            })
+        );
         axiosConfig['params'] = {
             mentor_id: item,
-            status: 'ACTIVE'
+            Data: teamParam
         };
         const result = await axios
             .get(URL.getTeamsList, axiosConfig)
@@ -73,12 +79,19 @@ export const getAdminTeamMembersList = (teamId) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_TEAMS_MEMBERS_LIST });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const teamPar = encryptGlobal(JSON.stringify(teamId));
+        const Stat = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE'
+            })
+        );
         const result = await axios
             .get(
-                `${URL.getTeamMembersList +
-                teamId +
-                '/members' +
-                '?status=ACTIVE'
+                `${
+                    URL.getTeamMembersList +
+                    teamPar +
+                    '/members' +
+                    `?Data=${Stat}`
                 }`,
                 axiosConfig
             )
@@ -98,7 +111,6 @@ export const getAdminTeamMembersList = (teamId) => async (dispatch) => {
     }
 };
 
-
 export const getTeamMemberStatusSuccess = (user) => async (dispatch) => {
     dispatch({
         type: TEAM_MEMBER_STATUS,
@@ -111,37 +123,39 @@ export const getTeamMemberStatusError = (msg) => async (dispatch) => {
         payload: msg
     });
 };
-export const getTeamMemberStatus = (teamId,setShowDefault) => async (dispatch) => {
-    if (teamId) {
-        try {
-            const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-            const result = await axios
-                .get(
-                    `${URL.getTeamMemberStatusEndpoint +
-                    teamId
-                    }`,
-                    axiosConfig
-                )
-                .then((user) => user)
-                .catch((err) => {
-                    return err.response;
-                });
-            if (result && result.status === 200) {
-                const data = result.data && result.data.data;
-                if(data.length > 0){
-                    dispatch(getTeamMemberStatusSuccess(data));
-                }else{
-                    dispatch(getTeamMemberStatusError("Yet to add Students"));
+export const getTeamMemberStatus =
+    (teamId, setShowDefault) => async (dispatch) => {
+        if (teamId) {
+            try {
+                const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+                const teamPara = encryptGlobal(JSON.stringify(teamId));
+                const result = await axios
+                    .get(
+                        `${URL.getTeamMemberStatusEndpoint + teamPara}`,
+                        axiosConfig
+                    )
+                    .then((user) => user)
+                    .catch((err) => {
+                        return err.response;
+                    });
+                if (result && result.status === 200) {
+                    const data = result.data && result.data.data;
+                    if (data.length > 0) {
+                        dispatch(getTeamMemberStatusSuccess(data));
+                    } else {
+                        dispatch(
+                            getTeamMemberStatusError('Yet to add Students')
+                        );
+                    }
+                } else {
+                    dispatch(getTeamMemberStatusSuccess(result.statusText));
+                    dispatch(getTeamMemberStatusError('Yet to add Students'));
                 }
-            } else {
-                dispatch(getTeamMemberStatusSuccess(result.statusText));
-                dispatch(getTeamMemberStatusError("Yet to add Students"));
+                setShowDefault(false);
+            } catch (error) {
+                dispatch(getTeamMemberStatusSuccess([]));
+                dispatch(getTeamMemberStatusError('Yet to add Students'));
+                setShowDefault(false);
             }
-            setShowDefault(false);
-        } catch (error) {
-            dispatch(getTeamMemberStatusSuccess([]));
-            dispatch(getTeamMemberStatusError("Yet to add Students"));
-            setShowDefault(false);
         }
-    }
-};
+    };

@@ -15,6 +15,7 @@ import {
     setCurrentUser
 } from '../helpers/Utils';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../constants/encryptDecrypt';
 
 const EditTeacherProfileDetails = (props) => {
     // here we can edit the users details //
@@ -82,10 +83,8 @@ const EditTeacherProfileDetails = (props) => {
                 mobile: mobile,
                 username: mentorData.username
             });
-            const url =
-                process.env.REACT_APP_API_BASE_URL +
-                '/mentors/' +
-                mentorData.mentor_id;
+            const ment = encryptGlobal(JSON.stringify(mentorData.mentor_id));
+            const url = process.env.REACT_APP_API_BASE_URL + '/mentors/' + ment;
             var config = {
                 method: 'put',
                 url: url,
@@ -295,7 +294,6 @@ const EditTeacherProfileDetails = (props) => {
                                         </Col>
                                     </Row>
                                 </div>
-
                                 <hr className="mt-4 mb-4"></hr>
                                 <Row>
                                     <Col className="col-xs-12 col-sm-6">

@@ -42,6 +42,7 @@ import Register from '../../Evaluator/Register';
 import dist from 'react-data-table-component-extensions';
 // import AddADmins from './AddAdmins';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 
 const { TabPane } = Tabs;
 
@@ -386,9 +387,10 @@ const TicketsPage = (props) => {
         // where we can update the admin status //
         // where id = admin id //
         // where data = status //
+        const adUp = encryptGlobal(JSON.stringify(id));
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
         await axios
-            .put(`${URL.updateMentorStatus + '/' + id}`, data, axiosConfig)
+            .put(`${URL.updateMentorStatus + '/' + adUp}`, data, axiosConfig)
             .then((user) => console.log(user))
             .catch((err) => {
                 console.log('error', err);

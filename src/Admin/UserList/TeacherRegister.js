@@ -386,7 +386,7 @@ export default RegisterNew;
 //                 reg_status: values.reg_status,
 //                 password: encrypted
 //             });
-//             // console.log(mobile);
+//             
 
 //             var config = {
 //                 method: 'post',
@@ -397,12 +397,12 @@ export default RegisterNew;
 
 //                 data: body
 //             };
-//             console.log(body);
+//            
 
 //             await axios(config)
 //                 .then((mentorRegRes) => {
 //                     if (mentorRegRes?.data?.status == 201) {
-//                         // console.log(mentorRegRes, 'Data');
+//                         
 
 //                         setMentorData(mentorRegRes?.data?.data[0]);
 //                         const successData = {
@@ -437,7 +437,7 @@ export default RegisterNew;
 //                 });
 //         }
 //     });
-//     // console.log(formik.values, 'formik.values');
+//    
 
 //     const handleRegister = (e) => {
 //         const body = JSON.stringify({

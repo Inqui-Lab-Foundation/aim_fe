@@ -8,6 +8,7 @@ import axios from 'axios';
 import { openNotificationWithIcon } from '../../helpers/Utils';
 import { Button } from '../../stories/Button';
 import { Spinner } from 'react-bootstrap';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 
 const Popup = () => {
     const [popupList, setPopupList] = useState([]);
@@ -43,9 +44,10 @@ const Popup = () => {
     }
 
     const Statusfunc = async (item, id) => {
+        const popParam = encryptGlobal(JSON.stringify(id));
         let config = {
             method: 'put',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/${id}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -161,7 +163,8 @@ const Popup = () => {
         });
         var config = {
             method: 'post',
-            url: process.env.REACT_APP_API_BASE_URL + '/admins/IdeaInDraftEmail',
+            url:
+                process.env.REACT_APP_API_BASE_URL + '/admins/IdeaInDraftEmail',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

@@ -24,6 +24,7 @@ import axios from 'axios';
 import { Row, Col } from 'reactstrap';
 import { useReactToPrint } from 'react-to-print';
 import Schoolpdf from '../../School/SchoolPdf';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 export default function DoughnutChart({ user, UserId }) {
     const dispatch = useDispatch();
     const currentUser = getCurrentUser('current_user');
@@ -64,11 +65,16 @@ export default function DoughnutChart({ user, UserId }) {
     }, [mentorid]);
 
     const teamNameandIDsbymentorid = (mentorid) => {
+        const teamApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: mentorid
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/namebymenterid?mentor_id=${mentorid}`,
+                `/teams/namebymenterid?Data=${teamApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -85,12 +91,13 @@ export default function DoughnutChart({ user, UserId }) {
                 console.log(error);
             });
     };
-    // console.log(teamsMembersStatus, challengesSubmittedResponse);
+   
 
     useEffect(() => {
+        const popParam = encryptGlobal('2');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/2`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -113,9 +120,10 @@ export default function DoughnutChart({ user, UserId }) {
     }, []);
 
     useEffect(() => {
+        const popaddParam = encryptGlobal('3');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/3`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popaddParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -138,16 +146,22 @@ export default function DoughnutChart({ user, UserId }) {
     }, []);
 
     const handleChangeStudent = async (id, name) => {
+        const handleStu = encryptGlobal(JSON.stringify(id));
         //  handleChangeStudent Api we can update the initiate student //
         // here id = class ; name = student name //
 
+        let changParam = encryptGlobal(
+            JSON.stringify({
+                nameChange: 'true'
+            })
+        );
         var config = {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id) +
-                `?nameChange=true`,
+                handleStu +
+                `?Data=${changParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -173,6 +187,7 @@ export default function DoughnutChart({ user, UserId }) {
             });
     };
     const handleRevoke = async (id, type) => {
+        const handleRevokeId = encryptGlobal(JSON.stringify(id));
         let submitData = {
             status: type == 'DRAFT' ? 'SUBMITTED' : 'DRAFT'
         };
@@ -181,7 +196,7 @@ export default function DoughnutChart({ user, UserId }) {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+                handleRevokeId,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -190,7 +205,7 @@ export default function DoughnutChart({ user, UserId }) {
         };
         axios(config)
             .then(function (response) {
-                console.log(response);
+               
                 if (response.status === 200) {
                     openNotificationWithIcon(
                         'success',
@@ -322,11 +337,16 @@ export default function DoughnutChart({ user, UserId }) {
     //school pdf idea deatils
     const [ideaValuesForPDF, setIdeaValuesForPDF] = useState();
     const ideaDataforPDF = () => {
+        const ideaDataApi = encryptGlobal(
+            JSON.stringify({
+                mentor_id: user[0].mentor_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/challenge_response/schoolpdfideastatus?mentor_id=${user[0].mentor_id}`,
+                `/challenge_response/schoolpdfideastatus?Data=${ideaDataApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser.data[0]?.token}`
@@ -348,11 +368,17 @@ export default function DoughnutChart({ user, UserId }) {
     //school pdf mentor deatils
     const [mentorValuesForPDF, setMentorValuesForPDF] = useState();
     const mentorDataforPDF = () => {
+        const mentorDataApi = encryptGlobal(
+            JSON.stringify({
+                id: user[0].mentor_id,
+                user_id: UserId
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/mentors/mentorpdfdata?id=${user[0].mentor_id}&user_id=${UserId}`,
+                `/mentors/mentorpdfdata?Data=${mentorDataApi}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -372,9 +398,10 @@ export default function DoughnutChart({ user, UserId }) {
 
     // Function to fetch data for a single team by ID
     const fetchTeamData = async (teamId, teamName) => {
+        const teamParam = encryptGlobal(JSON.stringify(teamId));
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/dashboard/teamStats/${teamId}`,
+                `${process.env.REACT_APP_API_BASE_URL}/dashboard/teamStats/${teamParam}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',

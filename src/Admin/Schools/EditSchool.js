@@ -30,6 +30,7 @@ import {
     getStateData,
     getFetchDistData
 } from '../../redux/studentRegistration/actions';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditSchool = (props) => {
     const currentUser = getCurrentUser('current_user');
 
@@ -49,7 +50,7 @@ const EditSchool = (props) => {
         type: 'text',
         className: 'defaultInput'
     };
-    // console.log(listID, '1');
+  
     const filterCategory = ['ATL', 'Non ATL'];
 
     const fullStatesNames = useSelector(
@@ -146,12 +147,15 @@ const EditSchool = (props) => {
             // if (listId && listId.district !== values.district) {
             //     body['district'] = values.district;
             // }
+            const editId = encryptGlobal(
+                JSON.stringify(listId.organization_id)
+            );
             var config = {
                 method: 'put',
                 url:
                     process.env.REACT_APP_API_BASE_URL +
                     '/organizations/' +
-                    listId.organization_id,
+                    editId,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -182,7 +186,7 @@ const EditSchool = (props) => {
     //         dispatch(getFetchDistData());
     //     }
     // }, [formik.values.state]);
-    console.log(listId && listId.district, formik.values.district);
+   
 
     return (
         <Layout>

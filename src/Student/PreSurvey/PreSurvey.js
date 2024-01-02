@@ -16,6 +16,7 @@ import { Button } from '../../stories/Button';
 // import { useFormik } from 'formik';
 import Layout from '../Layout';
 import { URL, KEY } from '../../constants/defaultValues';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getCurrentUser,
     getNormalHeaders,
@@ -87,9 +88,10 @@ const PreSurvey = () => {
     const [imgUrl, setImgUrl] = useState('');
 
     useEffect(() => {
+        const popParam = encryptGlobal('1');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/1`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',

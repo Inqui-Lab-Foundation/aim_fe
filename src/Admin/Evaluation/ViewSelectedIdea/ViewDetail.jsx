@@ -18,7 +18,7 @@ import jsPDF from 'jspdf';
 import { FaDownload, FaHourglassHalf } from 'react-icons/fa';
 import DetailToDownload from './DetailToDownload';
 import html2canvas from 'html2canvas';
-
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 const ViewDetail = (props) => {
     const history = useHistory();
     const { search } = useLocation();
@@ -83,12 +83,15 @@ const ViewDetail = (props) => {
                 handledText == 'accept' ? 'SELECTEDROUND1' : 'REJECTEDROUND1',
             rejected_reason: handledText == 'reject' ? reason : ''
         });
+        const challId = encryptGlobal(
+            JSON.stringify(props?.ideaDetails?.challenge_response_id)
+        );
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/' +
-                props?.ideaDetails?.challenge_response_id
+                challId
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -218,7 +221,7 @@ const ViewDetail = (props) => {
                                         {!pdfLoader ? (
                                             <FaDownload
                                                 size={22}
-                                                onClick={async() => {
+                                                onClick={async () => {
                                                     await downloadPDF();
                                                 }}
                                             />

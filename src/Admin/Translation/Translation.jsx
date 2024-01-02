@@ -13,6 +13,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import logout from '../../assets/media/logout.svg';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const Translation = (props) => {
     const history = useHistory();
     const currentUser = getCurrentUser('current_user');
@@ -61,7 +62,7 @@ const Translation = (props) => {
                                 className="fa fa-edit"
                                 style={{ marginRight: '10px' }}
                             />
-                        </a>,
+                        </a>
                         // <a onClick={() => handleDeleteTranslationById(params)}>
                         //     <i
                         //         className="fa fa-trash"
@@ -73,7 +74,7 @@ const Translation = (props) => {
                 width: '12rem',
                 center: true
             },
-          /*  {
+            /*  {
                 name: 'From',
                 selector: 'from_locale',
                 width: '8%'
@@ -89,8 +90,8 @@ const Translation = (props) => {
                 width: '50rem'
             },
             {
-                name:'language',
-                selector: 'to_locale',
+                name: 'language',
+                selector: 'to_locale'
             },
             {
                 name: 'Translation',
@@ -132,13 +133,16 @@ const Translation = (props) => {
                 reverseButtons: false
             })
             .then((result) => {
+                const delId = encryptGlobal(
+                    JSON.stringify(item.translation_id)
+                );
                 if (result.isConfirmed) {
                     var config = {
                         method: 'delete',
                         url:
                             process.env.REACT_APP_API_BASE_URL +
                             '/translations/' +
-                            item.translation_id,
+                            delId,
                         headers: {
                             'Content-Type': 'application/json',
                             Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -180,7 +184,7 @@ const Translation = (props) => {
                             <h2>Translation</h2>
                         </div>
                     </Col>
-                 {/*   <Col className="text-right">
+                    {/*   <Col className="text-right">
                         <Button
                             label="Add"
                             btnClass="primary mx-3"

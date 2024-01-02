@@ -13,7 +13,7 @@ import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import axios from 'axios';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const TicketsPage = (props) => {
     // here we can see all the support tickets //
     const currentUser = getCurrentUser('current_user');
@@ -63,12 +63,13 @@ const TicketsPage = (props) => {
             organization_code: item.organization_code,
             organization_name: item.organization_name
         };
+        const upparam = encryptGlobal(JSON.stringify(item.organization_id));
         var config = {
             method: 'put',
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/organizations/' +
-                item.organization_id,
+                upparam,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -105,12 +106,10 @@ const TicketsPage = (props) => {
             organization_code: item.organization_code,
             organization_name: item.organization_name
         };
+        const stUp = encryptGlobal(JSON.stringify(item.organization_id));
         var config = {
             method: 'put',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/organizations/' +
-                item.organization_id,
+            url: process.env.REACT_APP_API_BASE_URL + '/organizations/' + stUp,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -148,12 +147,10 @@ const TicketsPage = (props) => {
             organization_code: item.organization_code,
             organization_name: item.organization_name
         };
+        const NewUp = encryptGlobal(JSON.stringify(item.organization_id));
         var config = {
             method: 'put',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/organizations/' +
-                item.organization_id,
+            url: process.env.REACT_APP_API_BASE_URL + '/organizations/' + NewUp,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -186,11 +183,16 @@ const TicketsPage = (props) => {
     };
     async function listApi() {
         //  here we can see listApi where we can see all InActive Institutions //
+        const listParam = encryptGlobal(
+            JSON.stringify({
+                status: 'INACTIVE'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/organizations?status=INACTIVE',
+                `/organizations?Data=${listParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -211,12 +213,17 @@ const TicketsPage = (props) => {
             });
     }
     async function newListApi() {
+        const newListParam = encryptGlobal(
+            JSON.stringify({
+                status: 'NEW'
+            })
+        );
         // here we can see newListApi where we can see list of new Institutions //
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/organizations?status=NEW',
+                `/organizations?Data=${newListParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

@@ -420,7 +420,7 @@ const TeacherDetailed = () => {
                             courseINcompleted: 0
                         }
                     );
-                    console.log('Total count', total);
+                 
 
                     const doughnutData = {
                         labels: ['Male', 'Female'],

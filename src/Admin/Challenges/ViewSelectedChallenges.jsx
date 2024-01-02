@@ -26,6 +26,7 @@ import { useLocation } from 'react-router-dom';
 import DetailToDownload from './DetailToDownload';
 import { useReactToPrint } from 'react-to-print';
 import { FaDownload } from 'react-icons/fa';
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     // here we can see the selected ideas in district wise and sdg //
@@ -57,12 +58,12 @@ const ViewSelectedIdea = () => {
     // );
     const { search } = useLocation();
     const status = new URLSearchParams(search).get('status');
-    const filterParams =
-        (state && state !== 'All States' ? '&state=' + state : '') +
-        (district && district !== 'All Districts'
-            ? '&district=' + district
-            : '') +
-        (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '');
+    // const filterParams =
+    //     (state && state !== 'All States' ? '&state=' + state : '') +
+    //     (district && district !== 'All Districts'
+    //         ? '&district=' + district
+    //         : '') +
+    //     (sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '');
 
     // useEffect(() => {
     //     dispatch(getDistrictData());
@@ -89,13 +90,17 @@ const ViewSelectedIdea = () => {
         //where we can see all ideas in districtwise //
         settableData([]);
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const param = status ? status : 'ALL';
+        const resparam = encryptGlobal(
+            JSON.stringify({
+                status: param,
+                state : state !== 'All States' ? state : '',
+                district : district !== 'All Districts' ? district: '',
+                sdg : sdg !== 'All Themes' ? sdg : ''
+            })
+        );
         await axios
-            .get(
-                `${URL.getidealist}status=${
-                    status ? status : 'ALL'
-                }${filterParams}`,
-                axiosConfig
-            )
+            .get(`${URL.getidealist}Data=${resparam}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     const updatedWithKey =
@@ -115,7 +120,6 @@ const ViewSelectedIdea = () => {
                 setshowspin(false);
             });
     }
-    console.log(tableData, '2');
     const evaluatedIdeaforsub = {
         data: tableData && tableData.length > 0 ? tableData : [],
         columns: [

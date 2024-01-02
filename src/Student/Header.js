@@ -1,36 +1,36 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React from 'react';
 import './Header.scss';
 import { FaBars } from 'react-icons/fa';
 import { Row, Col, Navbar } from 'reactstrap';
 import AvatarImg from '../assets/media/img/Avatar.png';
-import LanguageSelectorComp from '../components/LanguageSelectorComp';
+//import LanguageSelectorComp from '../components/LanguageSelectorComp';
 import {getCurrentUser} from "../helpers/Utils"; 
-import { useDispatch, useSelector } from 'react-redux';
-import i18next from 'i18next';
-import { getPresurveyData, getStudentGlobalLanguage } from '../redux/studentRegistration/actions';
+//import { useDispatch} from 'react-redux';
+//import i18next from 'i18next';
+//import {getStudentGlobalLanguage } from '../redux/studentRegistration/actions';
 
 const Header = (props) => {
-    const dispatch= useDispatch();
+    //const dispatch= useDispatch();
     const currentUser = getCurrentUser("current_user");
-    const presuveyStatusGl = useSelector(
-        (state) =>
-            state?.studentRegistration?.presuveyStatusGl
-    );
-    const language = useSelector(
-        (state) => state?.studentRegistration?.studentLanguage
-    );
-    useLayoutEffect(() => {
-        if(!presuveyStatusGl && currentUser)
-            dispatch(getPresurveyData(language));
-    }, [presuveyStatusGl,language,dispatch]);
+    // const presuveyStatusGl = useSelector(
+    //     (state) =>
+    //         state?.studentRegistration?.presuveyStatusGl
+    // );
+    // const language = useSelector(
+    //     (state) => state?.studentRegistration?.studentLanguage
+    // );
+    // useLayoutEffect(() => {
+    //     if(!presuveyStatusGl && currentUser)
+    //         dispatch(getPresurveyData(language));
+    // }, [presuveyStatusGl,language,dispatch]);
     
-    const localLang = JSON.parse(localStorage.getItem("s_language"));
-    useEffect(() => {
-        if(localLang){
-            i18next.changeLanguage(localLang.code);
-            dispatch(getStudentGlobalLanguage(localLang));
-        }
-    }, []);
+    // const localLang = JSON.parse(localStorage.getItem("s_language"));
+    // useEffect(() => {
+    //     if(localLang){
+    //         i18next.changeLanguage(localLang.code);
+    //         dispatch(getStudentGlobalLanguage(localLang));
+    //     }
+    // }, []);
     
     window.onunload = function () {
         localStorage.setItem('headerOption', JSON.stringify('Home'));
@@ -56,9 +56,9 @@ const Header = (props) => {
                                             {currentUser?.data[0].full_name}
                                         </span> 
                                         
-                                        {window.location.pathname === '/student/pre-survey' && presuveyStatusGl && presuveyStatusGl !=="COMPLETED" && <span className="common-language-selc">
+                                        {/* {window.location.pathname === '/student/pre-survey' && presuveyStatusGl && presuveyStatusGl !=="COMPLETED" && <span className="common-language-selc">
                                             <LanguageSelectorComp module="student" />
-                                        </span>}
+                                        </span>} */}
                                     </div>
                                 </Col>
                             </Row>

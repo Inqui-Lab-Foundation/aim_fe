@@ -26,6 +26,7 @@ import {
     getCurrentUser
 } from '../helpers/Utils';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../constants/encryptDecrypt.js';
 
 const EditSchool = (props) => {
     const history = useHistory();
@@ -40,7 +41,6 @@ const EditSchool = (props) => {
         className: 'defaultInput'
     };
 
-    console.log(listId, 'listId');
     const formik = useFormik({
         initialValues: {
             principal_name: listId && listId.principal_name,
@@ -97,9 +97,12 @@ const EditSchool = (props) => {
         onSubmit: async (values) => {
             // console.log(values, 'values');
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const editId = encryptGlobal(
+                JSON.stringify(listId.organization_id)
+            );
             await axios
                 .put(
-                    `${URL.updateOrganization + listId.organization_id}`,
+                    `${URL.updateOrganization + editId}`,
                     JSON.stringify(values, null, 2),
                     axiosConfig
                 )
@@ -117,7 +120,6 @@ const EditSchool = (props) => {
                 });
         }
     });
-    console.log(status);
     // console.log('formik.values.district', formik.values.district);
 
     return (
