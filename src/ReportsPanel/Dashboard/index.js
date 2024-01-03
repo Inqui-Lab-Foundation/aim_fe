@@ -309,38 +309,38 @@ const DashboardReport = () => {
                 selector: 'ideaStatus',
                 center: true,
                 width: '25%'
-            },
-            {
-                name: 'Actions',
-                cell: (params) => {
-                    return [
-                        <>
-                            {params.ideaStatus == 'SUBMITTED' && params.evaluation_status === null && (
-                                <Button
-                                    key={params}
-                                    className={
-                                        isideadisable
-                                            ? `btn btn-success btn-lg mr-5 mx-2`
-                                            : `btn btn-lg mr-5 mx-2`
-                                    }
-                                    label={'REVOKE'}
-                                    size="small"
-                                    shape="btn-square"
-                                    onClick={() =>
-                                        handleRevoke(
-                                            params.challenge_response_id,
-                                            params.ideaStatus
-                                        )
-                                    }
-                                    disabled={!isideadisable}
-                                />
-                            )}
-                        </>
-                    ];
-                },
-                width: '20%',
-                center: true
             }
+            // {
+            //     name: 'Actions',
+            //     cell: (params) => {
+            //         return [
+            //             <>
+            //                 {params.ideaStatus == 'SUBMITTED' && params.evaluation_status === null && (
+            //                     <Button
+            //                         key={params}
+            //                         className={
+            //                             isideadisable
+            //                                 ? `btn btn-success btn-lg mr-5 mx-2`
+            //                                 : `btn btn-lg mr-5 mx-2`
+            //                         }
+            //                         label={'REVOKE'}
+            //                         size="small"
+            //                         shape="btn-square"
+            //                         onClick={() =>
+            //                             handleRevoke(
+            //                                 params.challenge_response_id,
+            //                                 params.ideaStatus
+            //                             )
+            //                         }
+            //                         disabled={!isideadisable}
+            //                     />
+            //                 )}
+            //             </>
+            //         ];
+            //     },
+            //     width: '20%',
+            //     center: true
+            // }
         ]
     };
     const handleRevoke = async (id, type) => {
