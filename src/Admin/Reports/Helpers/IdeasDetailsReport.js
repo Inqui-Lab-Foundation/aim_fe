@@ -329,8 +329,6 @@ const ReportsRegistration = () => {
             }
         }
     };
-    const distEx =
-        RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
 
     const fetchData = () => {
         const IdeaPram = encryptGlobal(
@@ -412,7 +410,8 @@ const ReportsRegistration = () => {
                 setIsDownloading(false);
             });
     };
-
+    const distEx =
+        RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
     const handleDownload = () => {
         // alert('hii');
         if (
