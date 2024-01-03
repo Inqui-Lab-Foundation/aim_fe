@@ -329,6 +329,9 @@ const ReportsRegistration = () => {
             }
         }
     };
+    const distEx =
+        RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+
     const fetchData = () => {
         const IdeaPram = encryptGlobal(
             JSON.stringify({
@@ -1018,7 +1021,7 @@ const ReportsRegistration = () => {
                                     <CSVLink
                                         data={downloadData}
                                         headers={teacherDetailsHeaders}
-                                        filename={`IdeasDetailedSummaryReport_${newFormat}.csv`}
+                                        filename={`${distEx}_IdeasDetails_Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
                                     >
