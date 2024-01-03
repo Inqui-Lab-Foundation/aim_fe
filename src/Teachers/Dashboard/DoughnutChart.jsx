@@ -457,7 +457,6 @@ export default function DoughnutChart({ user }) {
     const handlePrint = useReactToPrint({
         content: () => componentRef.current
     });
-
     //////
     const [ideaStatusEval, setIdeaStatusEval] = useState('-');
     useEffect(() => {
@@ -615,8 +614,8 @@ export default function DoughnutChart({ user }) {
                                     />
                                 </div>
                                 <div>
-                                    {challengesSubmittedResponse[0]?.status ==
-                                    'SUBMITTED' ? (
+                                    {challengesSubmittedResponse[0]?.status ===
+                                    'SUBMITTED' && challengesSubmittedResponse[0]?.evaluation_status === null? (
                                         <Button
                                             className={
                                                 isideadisable

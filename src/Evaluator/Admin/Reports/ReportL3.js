@@ -306,8 +306,19 @@ const ReportL3 = () => {
                         Object.keys(parsedResponse).forEach((key) => {
                             const { challenge_question_id, selected_option } =
                                 parsedResponse[key];
-                            entry[challenge_question_id] =
-                                selected_option.toString();
+                            var newSelectedOption;
+                            const tostringCovert = selected_option.toString();
+                            if (
+                                tostringCovert === null ||
+                                tostringCovert === undefined
+                            ) {
+                                newSelectedOption = selected_option;
+                            } else {
+                                newSelectedOption = tostringCovert
+                                    .replace(/\n/g, ' ')
+                                    .replace(/,/g, ';');
+                            }
+                            entry[challenge_question_id] = newSelectedOption;
                         });
 
                         return {
@@ -387,7 +398,7 @@ const ReportL3 = () => {
             .then((response) => {
                 if (response.status === 200) {
                     // console.log(res, '6');
-                   
+
                     const countData = {
                         overall: {
                             '1to3': 0,
@@ -510,7 +521,7 @@ const ReportL3 = () => {
                             runners: 0
                         }
                     );
-                   
+
                     var array = chartTableData2;
                     array.push({ state: 'Total Count', ...total });
                     setChartTableData2(array);

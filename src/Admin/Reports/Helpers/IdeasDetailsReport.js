@@ -329,12 +329,16 @@ const ReportsRegistration = () => {
             }
         }
     };
+
     const fetchData = () => {
         const IdeaPram = encryptGlobal(
             JSON.stringify({
                 status: 'ACTIVE',
                 state: RegTeachersState,
-                district: RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict,
+                district:
+                    RegTeachersdistrict === ''
+                        ? 'All Districts'
+                        : RegTeachersdistrict,
                 category: category,
                 sdg: sdg
             })
@@ -373,15 +377,25 @@ const ReportsRegistration = () => {
                         Object.keys(parsedResponse).forEach((key) => {
                             const { challenge_question_id, selected_option } =
                                 parsedResponse[key];
-                            entry[challenge_question_id] =
-                                selected_option.toString();
+                            var newSelectedOption;
+                            const tostringCovert = selected_option.toString();
+                            if (
+                                tostringCovert === null ||
+                                tostringCovert === undefined
+                            ) {
+                                newSelectedOption = selected_option;
+                            } else {
+                                newSelectedOption = tostringCovert
+                                    .replace(/\n/g, ' ')
+                                    .replace(/,/g, ';');
+                            }
+                            entry[challenge_question_id] = newSelectedOption;
                         });
 
                         return {
                             ...entry
                         };
                     });
-                
                     setDownloadData(transformedData);
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
@@ -396,7 +410,8 @@ const ReportsRegistration = () => {
                 setIsDownloading(false);
             });
     };
-
+    const distEx =
+        RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
     const handleDownload = () => {
         // alert('hii');
         if (
@@ -1005,7 +1020,7 @@ const ReportsRegistration = () => {
                                     <CSVLink
                                         data={downloadData}
                                         headers={teacherDetailsHeaders}
-                                        filename={`IdeasDetailedSummaryReport_${newFormat}.csv`}
+                                        filename={`${distEx}_IdeasDetails_Report_${newFormat}.csv`}
                                         className="hidden"
                                         ref={csvLinkRef}
                                     >
