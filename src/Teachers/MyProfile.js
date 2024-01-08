@@ -536,6 +536,13 @@ const MyProfile = () => {
                                                                                   .organization
                                                                                   ?.district
                                                                             : '-'}
+                                                                            {teacher
+                                                                            .organization
+                                                                            ?.new_district
+                                                                            ? ` (${teacher
+                                                                                  .organization
+                                                                                  ?.new_district})`
+                                                                            : ''}
                                                                     </b>
                                                                 </Col>
                                                             </Row>

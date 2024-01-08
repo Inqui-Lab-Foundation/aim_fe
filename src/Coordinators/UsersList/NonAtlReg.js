@@ -59,6 +59,7 @@ function RegisterNew() {
 
     const [textData, setTextData] = useState('');
     const [schoolname, setSchoolname] = useState('');
+    const [newDistrict, setnewDistrict] = useState('');
     const [error, setError] = useState('');
     const [btnOtp, setBtnOtp] = useState(false);
     const [otpRes, setOtpRes] = useState('');
@@ -220,34 +221,34 @@ function RegisterNew() {
         onSubmit: async (values) => {
             // alert('hi');
 
-            const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-            var pass = values.email.trim();
-            var myArray = pass.split('@');
-            let word = myArray[0];
-            const key = CryptoJS.enc.Hex.parse(
-                '253D3FB468A0E24677C28A624BE0F939'
-            );
-            const iv = CryptoJS.enc.Hex.parse(
-                '00000000000000000000000000000000'
-            );
-            const encrypted = CryptoJS.AES.encrypt(word, key, {
-                iv: iv,
-                padding: CryptoJS.pad.NoPadding
-            }).toString();
-            // values.password = encrypted;
-            const body = {
-                full_name: values.full_name.trim(),
-                mobile: values.mobile.trim(),
-                whatapp_mobile: values.whatapp_mobile.trim(),
-                username: values.email.trim(),
-                qualification: values.qualification.trim(),
-                role: values.role.trim(),
-                gender: values.gender,
-                title: values.title,
-                reg_status: values.reg_status,
-                password: encrypted
-            };
-            handleRegist(body);
+                const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+                var pass = values.email.trim();
+                var myArray = pass.split('@');
+                let word = myArray[0];
+                const key = CryptoJS.enc.Hex.parse(
+                    '253D3FB468A0E24677C28A624BE0F939'
+                );
+                const iv = CryptoJS.enc.Hex.parse(
+                    '00000000000000000000000000000000'
+                );
+                const encrypted = CryptoJS.AES.encrypt(word, key, {
+                    iv: iv,
+                    padding: CryptoJS.pad.NoPadding
+                }).toString();
+                // values.password = encrypted;
+                const body = {
+                    full_name: values.full_name.trim(),
+                    mobile: values.mobile.trim(),
+                    whatapp_mobile: values.whatapp_mobile.trim(),
+                    username: values.email.trim(),
+                    qualification: values.qualification.trim(),
+                    role: values.role.trim(),
+                    gender: values.gender,
+                    title: values.title,
+                    reg_status: values.reg_status,
+                    password: encrypted
+                };
+                handleRegist(body);
         }
     });
 
@@ -282,6 +283,9 @@ function RegisterNew() {
     const handleOnChangeSchool = (e) => {
         setSchoolname(e.target.value);
     };
+    const handleOnChangeNewDistrict = (e) => {
+        setnewDistrict(e.target.value);
+    };
     const handleSubmit = (e) => {
         const body = {
             state: stateData,
@@ -290,7 +294,7 @@ function RegisterNew() {
             category: 'Non ATL',
             organization_code: atlCode,
             organization_name: schoolname,
-
+            new_district : newDistrict,
             address: textData
         };
         setOrgData(body);
@@ -351,6 +355,7 @@ function RegisterNew() {
             category: 'Non ATL',
             organization_code: atlCode,
             organization_name: schoolname,
+            new_district : newDistrict,
             unique_code: diesCode,
             address: textData
         });
@@ -764,6 +769,38 @@ function RegisterNew() {
                                                 value={textData}
                                                 name="address"
                                                 placeholder="Enter Your School Address"
+                                                className="w-100 mb-3 mb-md-0"
+                                                style={{
+                                                    borderRadius: '0px',
+                                                    padding: '9px 11px'
+                                                    // color: 'red'
+                                                }}
+                                            />
+                                        </Col>
+                                    </div>
+                                    <div className="form-row row mb-3">
+                                        <Col
+                                            className="form-group"
+                                            xs={12}
+                                            sm={12}
+                                            md={12}
+                                            xl={12}
+                                        >
+                                            <Label
+                                                className="mb-2"
+                                                htmlFor="new_district"
+                                            >
+                                                New District Name (if applicable)
+                                            </Label>
+                                            <Input
+                                                {...inputField}
+                                                id="new_district"
+                                                onChange={(e) =>
+                                                    handleOnChangeNewDistrict(e)
+                                                }
+                                                value={newDistrict}
+                                                name="new_district"
+                                                placeholder="Enter New District"
                                                 className="w-100 mb-3 mb-md-0"
                                                 style={{
                                                     borderRadius: '0px',
@@ -1242,7 +1279,7 @@ function RegisterNew() {
                                                     </span>
                                                 </div>
                                             </Row>
-                                            {/* <div className="mt-5 d-flex align-items-center">
+                                             {/* <div className="mt-5 d-flex align-items-center">
                                                 <Button
                                                     label={change}
                                                     btnClass={
