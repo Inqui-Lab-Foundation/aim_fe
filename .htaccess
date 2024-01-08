@@ -1,5 +1,7 @@
-Header set Cache-Control "no-store, must-revalidate"
-Header set X-XSS-Protection "1; mode=block"
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-store, must-revalidate"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
 Options All -Indexes
 Options +FollowSymLinks
 RewriteEngine On
