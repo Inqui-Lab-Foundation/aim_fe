@@ -52,7 +52,9 @@ const LoginEvaluator = (props) => {
         },
 
         validationSchema: Yup.object({
-            email: Yup.string().required('required'),
+            email: Yup.string()
+                .email('Must be a valid email')
+                .required('required'),
             password: Yup.string().required('required')
         }),
         // EVALUATOR ROLE
@@ -207,7 +209,7 @@ const LoginEvaluator = (props) => {
                                             {formik.touched.email &&
                                             formik.errors.email ? (
                                                 <small className="error-cls">
-                                                    Required
+                                                    {formik.errors.email}
                                                 </small>
                                             ) : null}
                                         </Col>

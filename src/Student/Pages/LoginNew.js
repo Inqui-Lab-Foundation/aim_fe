@@ -48,7 +48,9 @@ const LoginNew = (props) => {
         },
 
         validationSchema: Yup.object({
-            email: Yup.string().required('Required user id'),
+            email: Yup.string()
+                .email('Must be a valid email')
+                .required('Required user id'),
             password: Yup.string().required('Required Password')
         }),
         // STIDENT ROLE

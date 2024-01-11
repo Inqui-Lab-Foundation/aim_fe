@@ -36,7 +36,7 @@ const EditTeamMember = (props) => {
                 .required('Please Enter valid Full Name')
                 .max(40)
                 .matches(
-                    /^[A-Za-z0-9 ]*$/,
+                    /^[A-Za-z0-9\s]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),

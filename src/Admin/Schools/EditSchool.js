@@ -50,7 +50,7 @@ const EditSchool = (props) => {
         type: 'text',
         className: 'defaultInput'
     };
-  
+
     const filterCategory = ['ATL', 'Non ATL'];
 
     const fullStatesNames = useSelector(
@@ -101,9 +101,9 @@ const EditSchool = (props) => {
                 )
                 .trim()
                 .required('UDISE  Code is Required'),
-            organization_name: Yup.string().required(
-                'Organization  Name is Required'
-            ),
+            organization_name: Yup.string()
+                .required('Organization  Name is Required')
+                .matches(/^[a-zA-Z\s]+$/, 'Only Alpha characters are allowed'),
             unique_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('UDISE Code is Required'),
@@ -186,7 +186,6 @@ const EditSchool = (props) => {
     //         dispatch(getFetchDistData());
     //     }
     // }, [formik.values.state]);
-   
 
     return (
         <Layout>

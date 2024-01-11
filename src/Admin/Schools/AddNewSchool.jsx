@@ -78,15 +78,17 @@ const AddNewSchool = (props) => {
                 )
                 .trim()
                 .required('ATL Code is Required'),
-            organization_name: Yup.string().required(
-                'Organization  Name is Required'
-            ),
+            organization_name: Yup.string()
+                .required('Organization  Name is Required')
+                .matches(/^[a-zA-Z\s]+$/, 'Please enter only alpha characters'),
             unique_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .max(11, 'Please enter only 11 digit valid Udise code')
                 .min(11, 'Udise code is less than 11 digits')
                 .required('UDISE Code is Required'),
-            address: Yup.string().required('Address is required'),
+            address: Yup.string()
+                .required('Address is required')
+                .matches(/^[a-zA-Z0-9\s\-/_]+$/),
             pin_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('Please Enter PinCode'),
