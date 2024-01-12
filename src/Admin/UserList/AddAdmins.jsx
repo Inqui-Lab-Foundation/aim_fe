@@ -7,11 +7,14 @@ import { Button } from '../../stories/Button';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { getNormalHeaders, openNotificationWithIcon } from '../../helpers/Utils';
+import {
+    getNormalHeaders,
+    openNotificationWithIcon
+} from '../../helpers/Utils';
 import { URL, KEY } from '../../constants/defaultValues';
 import CryptoJS from 'crypto-js';
 import { useDispatch } from 'react-redux';
-import { getAdmin} from '../store/admin/actions';
+import { getAdmin } from '../store/admin/actions';
 
 const Register = (props) => {
     // here we can add admin / eadmin //
@@ -34,7 +37,7 @@ const Register = (props) => {
         full_name: Yup.string()
             .trim()
             .min(2, 'Enter Name')
-            .matches(/^[aA-zZ\s]+$/, 'Not allowed')
+            .matches(/^[aA-zZ\s]+$/, 'Only allow alpha characters')
             .required('Required'),
         username: Yup.string()
             .trim()

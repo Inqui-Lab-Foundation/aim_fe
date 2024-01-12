@@ -144,7 +144,7 @@ function RegisterNew() {
                     '/organizations/checkUniqueCode',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                    Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
                 },
                 data: body
             };
@@ -279,10 +279,24 @@ function RegisterNew() {
         className: 'defaultInput'
     };
     const handleOnChange = (e) => {
-        setTextData(e.target.value);
+        // setTextData(e.target.value);
+
+        const inputValues = e.target.value;
+        const isValidInputs =
+            /^[a-zA-Z0-9\s\-/_]+$/.test(inputValues) || inputValues === '';
+        if (isValidInputs) {
+            setTextData(inputValues);
+        }
     };
     const handleOnChangeSchool = (e) => {
-        setSchoolname(e.target.value);
+        // setSchoolname(e.target.value);
+        const inputValue = e.target.value;
+
+        const isValidInput =
+            /^[a-zA-Z\s]+$/.test(inputValue) || inputValue === '';
+        if (isValidInput) {
+            setSchoolname(inputValue);
+        }
     };
     const handleSubmit = (e) => {
         const body = {
@@ -308,7 +322,7 @@ function RegisterNew() {
             url: process.env.REACT_APP_API_BASE_URL + '/mentors/register',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
 
             data: JSON.stringify(body)
@@ -369,7 +383,7 @@ function RegisterNew() {
                 `/organizations/createOrg?Data=${nonReg}`,
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -419,7 +433,7 @@ function RegisterNew() {
             url: process.env.REACT_APP_API_BASE_URL + '/mentors/mobileOtp',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -429,6 +443,7 @@ function RegisterNew() {
                     const UNhashedPassword = decryptGlobal(
                         response?.data?.data
                     );
+                    console.log(UNhashedPassword);
                     setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);
