@@ -233,7 +233,7 @@ const LoginNew = (props) => {
                                                 className="mb-2"
                                                 htmlFor="phone"
                                             >
-                                                Email Address
+                                                Email Address11
                                             </Label>
                                             <InputBox
                                                 {...inputUserId}
