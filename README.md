@@ -69,7 +69,6 @@ Your app is ready to be deployed!
 See also the list of
 [contributors]
 who participated in this project.
- - **Bhuvaneshwari**
  - **Jhani Pasha**
  - **Arshad Shaik**
 
