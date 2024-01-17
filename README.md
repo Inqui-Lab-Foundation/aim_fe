@@ -71,6 +71,7 @@ See also the list of
 who participated in this project.
  - **Jhani Pasha**
  - **Arshad Shaik**
+ - **Ramant**
 
 ## Resources
 Figma - digital design and prototyping tool
