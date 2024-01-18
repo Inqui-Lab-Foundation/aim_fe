@@ -134,19 +134,18 @@ const AdminResources = () => {
 
             {
                 name: 'Role',
-                selector: 'role',
+                selector: (row) => row.role,
                 width: '10rem'
                 // center: true,
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '35rem'
             },
 
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '15rem',
                 cell: (record) => {
                     if (record.type === 'file') {
@@ -181,7 +180,6 @@ const AdminResources = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '30rem',
                 cell: (record) => [

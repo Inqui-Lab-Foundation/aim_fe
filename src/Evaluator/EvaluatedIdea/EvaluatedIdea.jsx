@@ -143,9 +143,6 @@ const EvaluatedIdea = () => {
             },
             {
                 name: 'Theme',
-                // selector: (row) => row.sdg,
-                selector: 'sdg',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -161,9 +158,6 @@ const EvaluatedIdea = () => {
 
             {
                 name: 'Problem Statement',
-                // selector: (row) => row.sub_category,
-                selector: 'sub_category',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -178,8 +172,6 @@ const EvaluatedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
-                selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div

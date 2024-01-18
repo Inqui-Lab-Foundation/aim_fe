@@ -51,24 +51,22 @@ const TeacherResources = () => {
         columns: [
             {
                 name: 'No',
-                // selector: 'id',
                 selector: (row, key) => key + 1,
                 sortable: true,
                 width: '15%'
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '45%'
             },
             // {
             //     name: 'Type',
-            //     selector: 'type',
+            //     selector: (row) => row.type,
             //     width: '25%'
             // },
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '40%',
                 cell: (record) => {
                     if (record.type === 'file') {

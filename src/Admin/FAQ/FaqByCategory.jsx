@@ -108,7 +108,7 @@ const FaqByCategory = () => {
         columns: [
             {
                 name: 'No.',
-                selector: 'key',
+                selector: (row) => row.key,
                 sortable: true,
                 width: '9rem'
             },
@@ -120,7 +120,7 @@ const FaqByCategory = () => {
             },
             {
                 name: 'Questions',
-                selector: 'question',
+                selector: (row) => row.question,
                 width: '70rem',
                 sortable: true
             },

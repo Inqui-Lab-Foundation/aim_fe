@@ -76,26 +76,26 @@ const Translation = (props) => {
             },
             /*  {
                 name: 'From',
-                selector: 'from_locale',
+                selector: (row) => row.from_locale,
                 width: '8%'
             },
             {
                 name: 'To',
-                selector: 'to_locale',
+                selector: (row) => row.to_locale,
                 width: '5%'
             }, */
             {
                 name: 'English',
-                selector: 'key',
+                selector: (row) => row.key,
                 width: '50rem'
             },
             {
                 name: 'language',
-                selector: 'to_locale'
+                selector: (row) => row.to_locale
             },
             {
                 name: 'Translation',
-                selector: 'value',
+                selector: (row) => row.value,
                 width: '50rem'
             }
         ]
