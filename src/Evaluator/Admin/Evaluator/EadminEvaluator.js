@@ -180,22 +180,22 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '6rem'
             },
             {
                 name: 'Evaluator Name',
-                selector: 'user.full_name',
+                selector: (row) => row.user.full_name,
                 width: '20rem'
             },
             {
                 name: 'Email',
-                selector: 'user.username',
+                selector: (row) => row.user.username,
                 width: '25rem'
             },
             {
                 name: 'Mobile No',
-                selector: 'mobile',
+                selector: (row) => row.mobile,
                 width: '20rem'
             },
             // {
@@ -220,7 +220,6 @@ const TicketsPage = (props) => {
             {
                 name: 'Actions',
                 sortable: false,
-                selector: 'null',
                 width: '25rem',
                 cell: (record) => [
                     // <div

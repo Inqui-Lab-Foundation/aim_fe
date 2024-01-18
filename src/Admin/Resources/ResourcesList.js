@@ -57,20 +57,19 @@ const AdminResources = () => {
         columns: [
             {
                 name: 'No',
-                // selector: 'id',
                 selector: (row, key) => key + 1,
                 sortable: true,
                 width: '10rem'
             },
             {
                 name: 'Role',
-                selector: 'role',
+                selector: (row) => row.role,
                 width: '15rem'
                 // center: true,
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '40rem'
             },
             // {
@@ -80,7 +79,6 @@ const AdminResources = () => {
             // },
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '10rem',
                 cell: (record) => {
                     if (record.type === 'file') {
@@ -115,7 +113,6 @@ const AdminResources = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '25rem',
                 cell: (record) => [
@@ -278,13 +275,13 @@ const AdminResources = () => {
             },
             {
                 name: 'Role',
-                selector: 'role',
+                selector: (row) => row.role,
                 width: '15rem'
                 // center: true,
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '40rem'
             },
             // {
@@ -294,7 +291,6 @@ const AdminResources = () => {
             // },
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '10rem',
                 cell: (record) => {
                     if (record.type === 'file') {
@@ -329,7 +325,6 @@ const AdminResources = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '25rem',
                 cell: (record) => [

@@ -37,18 +37,18 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '13rem'
             },
             {
                 name: ' Query Category',
-                selector: 'query_category',
+                selector: (row) => row.query_category,
                 sortable: true,
                 width: '25rem'
             },
             {
                 name: 'Query Details',
-                selector: 'query_details',
+                selector: (row) => row.query_details,
                 sortable: true,
                 width: '42rem',
 

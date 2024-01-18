@@ -74,7 +74,6 @@ const Evalprocess = () => {
 
             {
                 name: 'Level Name',
-                // selector: 'level_name',
                 // sortable: true,
                 cellExport: (row) => row.state,
                 selector: (row) => row.level_name,
@@ -83,7 +82,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'Evaluation Schema',
-                // selector: 'eval_schema',
                 selector: (row) => row.eval_schema,
                 cellExport: (row) => row.eval_schema,
 
@@ -91,7 +89,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'No of Evaluations',
-                // selector: 'no_of_evaluation',
                 selector: (row) => row.no_of_evaluation,
                 cellExport: (row) => row.no_of_evaluation,
                 width: '15%'
@@ -114,7 +111,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'Actions',
-                // selector: 'action',
                 cellExport: (row) => '',
                 center: true,
                 width: '40%',

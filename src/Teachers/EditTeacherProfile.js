@@ -32,7 +32,10 @@ const EditTeacherProfileDetails = (props) => {
             whatapp_mobile: Yup.string()
                 .required('required')
                 .trim()
-                .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
+                .matches(
+                    /^\d+$/,
+                    'Mobile number is not valid (Enter only digits)'
+                )
                 .min(10, 'Please enter valid number')
                 .max(10, 'Please enter valid number'),
             gender: Yup.string().required('Please select valid gender'),
@@ -47,7 +50,10 @@ const EditTeacherProfileDetails = (props) => {
                 .required('Required'),
             phone: Yup.string()
                 .trim()
-                .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
+                .matches(
+                    /^\d+$/,
+                    'Mobile number is not valid (Enter only digits)'
+                )
                 .min(10, 'Enter a valid mobile number')
                 .max(10, 'Mobile number must be 10 Digit')
                 .required('Mobile Number is Required')

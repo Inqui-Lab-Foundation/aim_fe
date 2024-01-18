@@ -78,12 +78,12 @@ const TicketsPage = () => {
         columns: [
             {
                 name: t('teacher_teams.s_no'),
-                selector: 'key',
+                selector: (row) => row.key,
                 width: '6rem'
             },
             {
                 name: t('teacher_teams.team_name'),
-                selector: 'team_name',
+                selector: (row) => row.team_name,
                 sortable: true,
                 // maxlength: '5',
                 width: '20rem'
@@ -110,7 +110,7 @@ const TicketsPage = () => {
             // },
             {
                 name: 'Team Count',
-                selector: 'StudentCount',
+                selector: (row) => row.StudentCount,
                 width: '15rem'
             },
             {

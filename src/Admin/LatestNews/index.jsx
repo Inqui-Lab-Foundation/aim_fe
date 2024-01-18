@@ -199,7 +199,7 @@ const AdminLatestNews = () => {
             },
             {
                 name: 'Role',
-                selector: 'category',
+                selector: (row) => row.category,
                 width: '12rem'
             },
             {
@@ -233,7 +233,7 @@ const AdminLatestNews = () => {
             },
             {
                 name: 'Details',
-                selector: 'details',
+                selector: (row) => row.details,
                 width: '40rem'
             },
             {
@@ -280,7 +280,6 @@ const AdminLatestNews = () => {
             {
                 name: 'Actions',
                 width: '20rem',
-                selector: 'action',
                 center: true,
                 cell: (record) => [
                     <>

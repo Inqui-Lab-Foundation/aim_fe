@@ -319,25 +319,25 @@ const Dashboard = () => {
         columns: [
             {
                 name: 'No',
-                selector: 'key',
+                selector: (row) => row.key,
                 width: '12%'
             },
             {
                 name: 'Team Name',
-                selector: 'team_name',
+                selector: (row) => row.team_name,
                 sortable: true,
                 center: true,
                 width: '25%'
             },
             {
                 name: 'Student Count',
-                selector: 'student_count',
+                selector: (row) => row.student_count,
                 center: true,
                 width: '20%'
             },
             {
                 name: 'Idea Sub Status',
-                selector: 'ideaStatus',
+                selector: (row) => row.ideaStatus,
                 center: true,
                 width: '25%'
             }

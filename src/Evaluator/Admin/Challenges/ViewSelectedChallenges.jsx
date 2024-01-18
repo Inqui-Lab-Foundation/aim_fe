@@ -135,8 +135,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'State',
-                // selector: 'state',
-                // selector: (row) => row.state,
                 cellExport: (row) => row.state,
                 cell: (row) => (
                     <div
@@ -153,21 +151,18 @@ const ViewSelectedIdea = () => {
             {
                 name: 'ATL Code',
                 selector: (row) => row.organization_code,
-                // selector: 'organization_code',
                 cellExport: (row) => row.organization_code,
                 width: '15rem'
             },
             {
                 name: 'Team Name',
                 selector: (row) => row.team_name,
-                // selector: 'team_name',
                 cellExport: (row) => row.team_name,
                 width: '15rem'
             },
             {
                 name: 'CID',
                 selector: (row) => row.challenge_response_id,
-                // selector: 'challenge_response_id',
                 cellExport: (row) => row.challenge_response_id,
                 width: '10rem'
             },
@@ -179,8 +174,6 @@ const ViewSelectedIdea = () => {
 
             {
                 name: 'Theme',
-                // selector: (row) => row.sdg,
-                // selector: 'sdg',
                 cellExport: (row) => row.sdg,
                 cell: (row) => (
                     <div
@@ -196,8 +189,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Problem Statement',
-                // selector: (row) => row.sub_category,
-                // selector: 'sub_category',
                 cellExport: (row) => row.sub_category,
                 cell: (row) => (
                     <div
@@ -213,10 +204,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
-                // sortable: true,
-                // selector: 'response[1]?.selected_option',
-                // sortable: true,
                 cellExport: (row) => row.response[1]?.selected_option,
                 cell: (row) => (
                     <div
@@ -243,7 +230,6 @@ const ViewSelectedIdea = () => {
             // },
             {
                 name: 'Status',
-                // selector: 'status',
                 selector: (row) => row.status,
                 cellExport: (row) => row.status,
 
@@ -252,9 +238,7 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Actions',
-                // selector: 'actions',
                 cellExport: (row) => '',
-                // selector: (row) => row.actions,
                 cell: (params) => {
                     return [
                         <div className="d-flex" key={params}>

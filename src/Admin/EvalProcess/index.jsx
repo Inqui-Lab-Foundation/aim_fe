@@ -110,36 +110,29 @@ const Evalprocess = () => {
             {
                 name: 'No',
                 selector: (row, key) => key + 1,
-                // sortable: true,
                 width: '6%'
             },
 
             {
                 name: 'Level Name',
-                // selector: 'level_name',
-                // sortable: true,
                 selector: (row) => row.level_name,
                 sortable: true,
                 width: '10%'
             },
             {
                 name: 'Evaluation Schema',
-                // selector: 'eval_schema',
                 selector: (row) => row.eval_schema,
 
                 width: '15%'
             },
             {
                 name: 'No of Evaluations',
-                // selector: 'no_of_evaluation',
                 selector: (row) => row.no_of_evaluation,
 
                 width: '15%'
             },
             {
                 name: 'Status',
-                // cellExport: (row) => row.status,
-
                 cell: (row) => [
                     <Badge
                         key={row.evaluation_process_id}
@@ -154,7 +147,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '40%',
                 cell: (record) => [
