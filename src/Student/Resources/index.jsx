@@ -52,17 +52,16 @@ const StudentResources = () => {
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '50rem'
             },
             // {
             //     name: 'Type',
-            //     selector: 'type',
+            //     selector: (row) => row.type,
             //     width: '25%'
             // },
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '30rem',
                 cell: (record) => {
                     if (record.type === 'file') {

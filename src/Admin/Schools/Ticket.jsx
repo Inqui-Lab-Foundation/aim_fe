@@ -285,13 +285,13 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'State',
-                selector: 'state',
+                selector: (row) => row.state,
                 cellExport: (row) => row.state,
                 width: '17rem'
             },
             {
                 name: 'ATL Code ',
-                selector: 'organization_code',
+                selector: (row) => row.organization_code,
                 cellExport: (row) => row.organization_code,
                 sortable: true,
 
@@ -299,21 +299,21 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'District',
-                selector: 'district',
+                selector: (row) => row.district,
                 cellExport: (row) => row.district,
                 width: '18rem'
             },
 
             {
                 name: 'Institution Name',
-                selector: 'organization_name',
+                selector: (row) => row.organization_name,
                 cellExport: (row) => row.organization_name,
                 width: '20rem'
             },
 
             {
                 name: 'Category',
-                selector: 'category',
+                selector: (row) => row.category,
                 cellExport: (row) => row.category,
                 width: '12rem'
             },
@@ -340,7 +340,6 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 width: '25rem',
                 center: true,
                 cellExport: (row) => {},
@@ -391,32 +390,32 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'ATL Code ',
-                selector: 'organization_code',
+                selector: (row) => row.organization_code,
                 cellExport: (row) => row.organization_code,
                 sortable: true,
                 width: '15rem'
             },
             {
                 name: 'State',
-                selector: 'state',
+                selector: (row) => row.state,
                 cellExport: (row) => row.state,
                 width: '20rem'
             },
             {
                 name: 'Institution Name',
-                selector: 'organization_name',
+                selector: (row) => row.organization_name,
                 cellExport: (row) => row.organization_name,
                 width: '20rem'
             },
             {
                 name: 'District',
-                selector: 'district',
+                selector: (row) => row.district,
                 cellExport: (row) => row.district,
                 width: '20rem'
             },
             {
                 name: 'Category',
-                selector: 'category',
+                selector: (row) => row.category,
                 cellExport: (row) => row.category,
                 width: '12rem'
             },
@@ -437,7 +436,6 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '20rem',
                 cell: (record) => [
@@ -483,7 +481,7 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'ATL Code ',
-                selector: 'organization_code',
+                selector: (row) => row.organization_code,
                 cellExport: (row) => row.organization_code,
                 sortable: true,
 
@@ -491,25 +489,25 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'State',
-                selector: 'state',
+                selector: (row) => row.state,
                 cellExport: (row) => row.state,
                 width: '17rem'
             },
             {
                 name: 'Institution Name',
-                selector: 'organization_name',
+                selector: (row) => row.organization_name,
                 cellExport: (row) => row.organization_name,
                 width: '24rem'
             },
             {
                 name: 'District',
-                selector: 'district',
+                selector: (row) => row.district,
                 cellExport: (row) => row.district,
                 width: '20rem'
             },
             {
                 name: 'Category',
-                selector: 'category',
+                selector: (row) => row.category,
                 cellExport: (row) => row.category,
                 width: '12rem'
             },
@@ -533,7 +531,6 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 width: '24rem',
                 center: true,
                 cell: (record) => [

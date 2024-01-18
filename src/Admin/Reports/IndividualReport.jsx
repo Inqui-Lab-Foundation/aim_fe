@@ -16,33 +16,33 @@ const IndividualReport = () => {
         columns: [
             {
                 name: 'S.No.',
-                selector: 'student_id',
+                selector: (row) => row.student_id,
                 width: '10%'
             },
             {
                 name: 'Team Code',
-                selector: 'team_id',
+                selector: (row) => row.team_id,
 
                 width: '20%'
             },
             {
                 name: 'Student Name',
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 width: '21%'
             },
             {
                 name: 'Institute',
-                selector: 'institute_name',
+                selector: (row) => row.institute_name,
                 width: '20%'
             },
             {
                 name: 'Qualification',
-                selector: 'qualification',
+                selector: (row) => row.qualification,
                 width: '15%'
             },
             {
                 name: 'Action',
-                selector: 'Action',
+                selector: (row) => row.Action,
                 width: '12%'
             }
         ]

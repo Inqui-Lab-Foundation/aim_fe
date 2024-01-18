@@ -350,7 +350,7 @@ const ViewTeamMember = (props) => {
             },
             {
                 name: 'User Id',
-                selector: 'user.username',
+                selector: (row) => row.user.username,
                 // width: '35rem',
                 cell: (row) => (
                     <div
@@ -365,7 +365,7 @@ const ViewTeamMember = (props) => {
             },
             {
                 name: 'Password',
-                selector: 'UUID',
+                selector: (row) => row.UUID,
                 // width: '15rem'
                 cell: (row) => (
                     <div
@@ -380,7 +380,7 @@ const ViewTeamMember = (props) => {
             },
             {
                 name: t('teacher_teams.student_name'),
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 cell: (row) => (
                     <div
                         style={{
@@ -400,23 +400,23 @@ const ViewTeamMember = (props) => {
             // },
             {
                 name: 'Disability',
-                selector: 'disability',
+                selector: (row) => row.disability,
                 width: '15rem'
             },
             {
                 name: 'Class',
-                selector: 'Grade',
+                selector: (row) => row.Grade,
                 width: '7rem'
             },
             {
                 name: t('teacher_teams.age'),
-                selector: 'Age',
+                selector: (row) => row.Age,
                 width: '7rem'
             },
 
             {
                 name: t('teacher_teams.gender'),
-                selector: 'Gender',
+                selector: (row) => row.Gender,
                 width: '10rem'
             },
             {

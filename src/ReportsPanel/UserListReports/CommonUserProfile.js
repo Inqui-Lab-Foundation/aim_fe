@@ -201,7 +201,6 @@ const CommonUserProfile = (props) => {
             },
             {
                 name: 'Quiz',
-                // selector: 'level_name',
                 // sortable: true,
                 selector: (row) => row.quiz_id,
                 sortable: true,
@@ -210,7 +209,6 @@ const CommonUserProfile = (props) => {
 
             {
                 name: 'Attempts',
-                // selector: 'level_name',
                 // sortable: true,
                 selector: (row) => row.attempts,
                 sortable: true,
@@ -218,7 +216,6 @@ const CommonUserProfile = (props) => {
             },
             {
                 name: 'Score',
-                // selector: 'eval_schema',
                 selector: (row) => (row.score ? row.score : '-'),
 
                 width: '20rem'
