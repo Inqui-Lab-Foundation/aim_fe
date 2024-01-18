@@ -1,3 +1,6 @@
+<FilesMatch "\.(html|htm|xml|txt|xsl|css|js)$">
+  Header set Cache-Control "no-store, must-revalidate"
+</FilesMatch>
 Options All -Indexes
 Options +FollowSymLinks
 RewriteEngine On
