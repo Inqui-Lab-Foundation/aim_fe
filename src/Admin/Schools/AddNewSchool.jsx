@@ -88,7 +88,7 @@ const AddNewSchool = (props) => {
                 .required('UDISE Code is Required'),
             address: Yup.string()
                 .required('Address is required')
-                .matches(/^[a-zA-Z0-9\s\-/_]+$/),
+                .matches(/^[a-zA-Z0-9\s\-/_]+$/, 'please enter valid address'),
             pin_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('Please Enter PinCode'),
