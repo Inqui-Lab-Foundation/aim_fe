@@ -60,6 +60,7 @@ function RegisterNew() {
 
     const [textData, setTextData] = useState('');
     const [schoolname, setSchoolname] = useState('');
+    const [newDistrict, setnewDistrict] = useState('');
     const [error, setError] = useState('');
     const [btnOtp, setBtnOtp] = useState(false);
     const [otpRes, setOtpRes] = useState('');
@@ -297,6 +298,14 @@ function RegisterNew() {
             setSchoolname(inputValue);
         }
     };
+    const handleOnChangeNewDistrict = (e) => {
+        const inputValue = e.target.value;
+        const isValidInput =
+            /^[a-zA-Z\s]+$/.test(inputValue) || inputValue === '';
+        if (isValidInput) {
+            setnewDistrict(e.target.value);
+        }
+    };
     const handleSubmit = (e) => {
         const body = {
             state: stateData,
@@ -305,7 +314,7 @@ function RegisterNew() {
             category: 'Non ATL',
             organization_code: atlCode,
             organization_name: schoolname,
-
+            new_district: newDistrict,
             address: textData
         };
         setOrgData(body);
@@ -367,6 +376,7 @@ function RegisterNew() {
             category: 'Non ATL',
             organization_code: atlCode,
             organization_name: schoolname,
+            new_district: newDistrict,
             unique_code: diesCode,
             address: textData
         });
@@ -785,6 +795,39 @@ function RegisterNew() {
                                                 value={textData}
                                                 name="address"
                                                 placeholder="Enter Your School Address"
+                                                className="w-100 mb-3 mb-md-0"
+                                                style={{
+                                                    borderRadius: '0px',
+                                                    padding: '9px 11px'
+                                                    // color: 'red'
+                                                }}
+                                            />
+                                        </Col>
+                                    </div>
+                                    <div className="form-row row mb-3">
+                                        <Col
+                                            className="form-group"
+                                            xs={12}
+                                            sm={12}
+                                            md={12}
+                                            xl={12}
+                                        >
+                                            <Label
+                                                className="mb-2"
+                                                htmlFor="new_district"
+                                            >
+                                                New District Name (if
+                                                applicable)
+                                            </Label>
+                                            <Input
+                                                {...inputField}
+                                                id="new_district"
+                                                onChange={(e) =>
+                                                    handleOnChangeNewDistrict(e)
+                                                }
+                                                value={newDistrict}
+                                                name="new_district"
+                                                placeholder="Enter New District"
                                                 className="w-100 mb-3 mb-md-0"
                                                 style={{
                                                     borderRadius: '0px',
