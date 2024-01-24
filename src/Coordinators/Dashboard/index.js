@@ -65,7 +65,6 @@ const Dashboard = () => {
         setError('');
     };
 
-    
     useEffect(async () => {
         // where list = diescode //
         //where organization_code = diescode //
@@ -84,7 +83,7 @@ const Dashboard = () => {
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -95,7 +94,7 @@ const Dashboard = () => {
 
                 if (response.status == 200) {
                     setOrgData(response?.data?.data[0]);
-                    
+
                     setCount(count + 1);
                     setMentorId(response?.data?.data[0]?.mentor.mentor_id);
                     setError('');
@@ -128,7 +127,7 @@ const Dashboard = () => {
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -409,7 +408,6 @@ const Dashboard = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    
                     setAtlData(response?.data?.data[0]?.orgdata[0]?.ATL_Count);
                     setAtl(response?.data?.data[0]?.orgdata[0]?.ATL_Reg_Count);
                     setNonAtl(
@@ -526,7 +524,7 @@ const Dashboard = () => {
     //     axios(config)
     //         .then((response) => {
     //             if (response.status === 200) {
-    //               
+    //
     //                 setRegData(response?.data?.data);
     //             }
     //         })
@@ -1274,8 +1272,9 @@ const Dashboard = () => {
                                                         mentor_id:
                                                             orgData.mentor
                                                                 .mentor_id,
-                                                        organization_code:
-                                                            orgData.organization_code
+                                                        username:
+                                                            orgData.mentor.user
+                                                                .username
                                                     })
                                                 }
                                                 className="btn btn-info rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"
