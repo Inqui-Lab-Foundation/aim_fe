@@ -22,6 +22,7 @@ import { getDistrictData } from '../../redux/studentRegistration/actions';
 import { useTranslation } from 'react-i18next';
 
 import { useSelector } from 'react-redux';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditProfile = (props) => {
     // here we can edit the users details //
     const history = useHistory();
@@ -89,10 +90,8 @@ const EditProfile = (props) => {
                 mobile: mentorData.mobile,
                 username: mentorData.username
             });
-            const url =
-                process.env.REACT_APP_API_BASE_URL +
-                '/mentors/' +
-                mentorData.mentor_id;
+            const ment = encryptGlobal(JSON.stringify(mentorData.mentor_id));
+            const url = process.env.REACT_APP_API_BASE_URL + '/mentors/' + ment;
             var config = {
                 method: 'put',
                 url: url,

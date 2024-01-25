@@ -49,12 +49,12 @@ const ReportsView = () => {
         columns: [
             {
                 name: 'District',
-                selector: 'district',
+                selector: (row) => row.district,
                 width: '50%'
             },
             {
                 name: 'Count',
-                selector: 'count',
+                selector: (row) => row.count,
                 width: '16%'
             }
         ]

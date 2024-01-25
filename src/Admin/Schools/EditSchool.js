@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable no-unused-vars */
 /* eslint-disable indent */
 import React, { useEffect } from 'react';
@@ -10,7 +11,7 @@ import Layout from '../../Admin/Layout';
 import { Button } from '../../stories/Button';
 
 import axios from 'axios';
-import Select from './../Challenges/pages/Select';
+import Select from './Select';
 import { getCurrentUser } from '../../helpers/Utils';
 
 import { InputBox } from '../../stories/InputBox/InputBox';
@@ -30,6 +31,7 @@ import {
     getStateData,
     getFetchDistData
 } from '../../redux/studentRegistration/actions';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditSchool = (props) => {
     const currentUser = getCurrentUser('current_user');
 
@@ -49,7 +51,7 @@ const EditSchool = (props) => {
         type: 'text',
         className: 'defaultInput'
     };
-    // console.log(listID, '1');
+
     const filterCategory = ['ATL', 'Non ATL'];
 
     const fullStatesNames = useSelector(
@@ -58,6 +60,11 @@ const EditSchool = (props) => {
     const fiterDistData = useSelector(
         (state) => state?.studentRegistration?.fetchdist
     );
+    // var distArray = fiterDistData;
+
+    // distArray.unshift('Select District');
+    // let fullDistrictsNames = distArray.map((item) => item !== 'Select Any');
+    // option !== 'Restricted Option'
     // const phoneRegExp = /^[0-9\s]+$/;
     // const headingDetails = {
     //     title: 'Edit Institutions Details',
@@ -95,18 +102,21 @@ const EditSchool = (props) => {
         validationSchema: Yup.object({
             organization_code: Yup.string()
                 .matches(
-                    /^[A-Za-z0-9]*$/,
+                    /^[A-Za-z0-9/-]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim()
                 .required('UDISE  Code is Required'),
-            organization_name: Yup.string().required(
-                'Organization  Name is Required'
-            ),
+            organization_name: Yup.string()
+                .required('Organization  Name is Required')
+                .matches(/^[a-zA-Z\s]+$/, 'Only Alpha characters are allowed'),
             unique_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('UDISE Code is Required'),
-            address: Yup.string().required('Address is required'),
+            address: Yup.string()
+                .required('Address is required')
+                .matches(/^[a-zA-Z0-9\s\-/_]+$/, 'please enter valid address'),
+
             pin_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('Please Enter PinCode'),
@@ -125,8 +135,11 @@ const EditSchool = (props) => {
             principal_name: Yup.string()
                 .optional()
                 .matches(/^[aA-zZ\s/^.*$/]+$/, 'Invalid Name')
-                .trim()
-            // city: Yup.string().matches(/^[aA-zZ\s/^.*$/]+$/)
+                .trim(),
+            city: Yup.string().matches(
+                /^[aA-zZ\s/^.*$/]+$/,
+                'please enter valid city'
+            )
         }),
 
         onSubmit: (values) => {
@@ -139,19 +152,21 @@ const EditSchool = (props) => {
                 pin_code: values.pin_code,
                 address: values.address,
                 unique_code: values.unique_code,
+                city: values.city,
                 district: values.district,
                 organization_name: values.organization_name,
                 status: values.status
             };
-            // if (listId && listId.district !== values.district) {
-            //     body['district'] = values.district;
-            // }
+
+            const editId = encryptGlobal(
+                JSON.stringify(listId.organization_id)
+            );
             var config = {
                 method: 'put',
                 url:
                     process.env.REACT_APP_API_BASE_URL +
                     '/organizations/' +
-                    listId.organization_id,
+                    editId,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -175,15 +190,15 @@ const EditSchool = (props) => {
     });
     useEffect(() => {
         dispatch(getStateData());
-        dispatch(getFetchDistData());
     }, []);
-    // useEffect(() => {
-    //     if (formik.values.state) {
-    //         dispatch(getFetchDistData());
-    //     }
-    // }, [formik.values.state]);
-    console.log(listId && listId.district, formik.values.district);
 
+    useEffect(() => {
+        if (formik.values.state !== listId && listId.state) {
+            dispatch(getFetchDistData(formik.values.state));
+        }
+    }, [formik.values.state, formik.values.district]);
+
+    // console.log(listId && listId.district, formik.values.district, 'dist');
     return (
         <Layout>
             <div className="EditPersonalDetails new-member-page">
@@ -198,10 +213,8 @@ const EditSchool = (props) => {
                                     <FormGroup className="form-group">
                                         <Row className="justify-content-center">
                                             <p style={{ color: 'red' }}>
-                                                Note : Here Editable Fields are
-                                                Institute/School
-                                                Name,City,Address,Principal
-                                                Name,Principal Email.
+                                                Note : Here Non-Editable Fields
+                                                are ATL Code and category
                                             </p>
                                             <Col md={4}>
                                                 <Label
@@ -251,7 +264,7 @@ const EditSchool = (props) => {
                                                     {...inputDICE}
                                                     id="unique_code"
                                                     name="unique_code"
-                                                    isDisabled={true}
+                                                    // isDisabled={true}
                                                     placeholder="Please enter Unique Code"
                                                     onChange={
                                                         formik.handleChange
@@ -313,7 +326,7 @@ const EditSchool = (props) => {
                                                     {...inputDICE}
                                                     id="pin_code"
                                                     name="pin_code"
-                                                    isDisabled={true}
+                                                    // isDisabled={true}
                                                     placeholder="Please enter PinCode"
                                                     onChange={
                                                         formik.handleChange
@@ -460,10 +473,10 @@ const EditSchool = (props) => {
                                                     State
                                                 </Label>
                                                 <div className=" d-md-block d-flex justify-content-center">
-                                                    <InputBox
+                                                    {/* <InputBox
                                                         {...inputDICE}
                                                         id="state"
-                                                        isDisabled={true}
+                                                        // isDisabled={true}
                                                         name="state"
                                                         placeholder="Please enter state"
                                                         onChange={
@@ -475,10 +488,10 @@ const EditSchool = (props) => {
                                                         value={
                                                             formik.values.state
                                                         }
-                                                    />
-                                                    {/* <Select
+                                                    /> */}
+                                                    <Select
                                                         list={fullStatesNames}
-                                                        disabled={true}
+                                                        // disabled={true}
                                                         setValue={(value) =>
                                                             formik.setFieldValue(
                                                                 'state',
@@ -491,7 +504,7 @@ const EditSchool = (props) => {
                                                         value={
                                                             formik.values.state
                                                         }
-                                                    /> */}
+                                                    />
                                                 </div>
 
                                                 {formik.touched.state &&
@@ -511,10 +524,10 @@ const EditSchool = (props) => {
                                                 </Label>
                                                 {/* <Col md={3}> */}
                                                 <div className=" d-md-block d-flex justify-content-center">
-                                                    <InputBox
+                                                    {/* <InputBox
                                                         {...inputDICE}
                                                         id="district"
-                                                        isDisabled={true}
+                                                        // isDisabled={true}
                                                         name="district"
                                                         placeholder="Please enter district"
                                                         onChange={
@@ -527,10 +540,10 @@ const EditSchool = (props) => {
                                                             formik.values
                                                                 .district
                                                         }
-                                                    />
-                                                    {/* <Select
+                                                    /> */}
+                                                    <Select
                                                         list={fiterDistData}
-                                                        disabled={true}
+                                                        // disabled={true}
                                                         setValue={(value) =>
                                                             formik.setFieldValue(
                                                                 'district',
@@ -544,7 +557,12 @@ const EditSchool = (props) => {
                                                             formik.values
                                                                 .district
                                                         }
-                                                    /> */}
+                                                        // drop={1}
+                                                        // setNew={
+                                                        //     formik.values
+                                                        //         .district
+                                                        // }
+                                                    />
                                                 </div>
 
                                                 {formik.touched.district &&

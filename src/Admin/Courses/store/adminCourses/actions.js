@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 
 import {
@@ -26,6 +28,7 @@ import {
 import { URL, KEY } from '../../../../constants/defaultValues.js';
 import { getNormalHeaders } from '../../../../helpers/Utils.js';
 import { getLanguage } from '../../../../constants/languageOptions.js';
+import { encryptGlobal } from '../../../../constants/encryptDecrypt.js';
 
 export const getAdminCorsesListSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -45,8 +48,10 @@ export const getAdminCoursesList = (lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_LIST });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale = getLanguage(lang);
+        const pars = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
-            .get(`${URL.getAdminCouses}?${getLanguage(lang)}`, axiosConfig)
+            .get(`${URL.getAdminCouses}?Data=${pars}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -80,12 +85,10 @@ export const adminCoursesCreate = (data, history, lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_CREATE });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale = getLanguage(lang);
+        const parss = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
-            .post(
-                `${URL.addAdminCourses}?${getLanguage(lang)}`,
-                data,
-                axiosConfig
-            )
+            .post(`${URL.addAdminCourses}?Data=${parss}`, data, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;
@@ -125,9 +128,12 @@ export const getAdminCourseDetails = (courseId, lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_DETAILS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const couId = encryptGlobal(JSON.stringify(courseId));
+        const locale = getLanguage(lang);
+        const resLang = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
             .get(
-                `${URL.getAdminCousesDetails + courseId}?${getLanguage(lang)}`,
+                `${URL.getAdminCousesDetails + couId}?Data=${resLang}`,
                 axiosConfig
             )
             .then((user) => user)
@@ -159,35 +165,45 @@ export const getAdminQuizQuestionsError = (message) => async (dispatch) => {
     });
 };
 
-export const getAdminQuizQuestions = (quizId, lang, attempt) => async (dispatch) => {
-    // here quizId = quizId //
-    try {
-        dispatch({ type: ADMIN_COURSES_QUESTIONS });
-        const axiosConfig = getNormalHeaders(KEY.User_API_Key);
-        const result = await axios
-            .get(
-                `${
-                    URL.getAdminQstList + quizId + '/' + 'nextQuestion'
-                }?${getLanguage(lang)}&attempts=${attempt}`,
-                axiosConfig
-            )
-            .then((user) => user)
-            .catch((err) => {
-                return err.response;
-            });
-        if (result && result.status === 200) {
-            const data = result;
-            dispatch(getAdminQuizQuestionsSuccess(data));
-            dispatch(getAdminQuizResponceSuccess({}));
-        } else {
-            dispatch(getAdminQuizQuestionsError(result.statusText));
+export const getAdminQuizQuestions =
+    (quizId, lang, attempt) => async (dispatch) => {
+        // here quizId = quizId //
+        try {
+            
+            dispatch({ type: ADMIN_COURSES_QUESTIONS });
+            const quizParam = encryptGlobal(JSON.stringify(quizId));
+            const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const locale = getLanguage(lang);
+            const resGet = encryptGlobal(
+                JSON.stringify({
+                    attempts: attempt,
+                    locale
+                })
+            );
+            // const attRes = encryptGlobal(JSON.stringify(att));
+            const result = await axios
+                .get(
+                    `${URL.getAdminQstList}${quizParam}/nextQuestion?Data=${resGet}
+                    `,
+                    axiosConfig
+                )
+                .then((user) => user)
+                .catch((err) => {
+                    return err.response;
+                });
+            if (result && result.status === 200) {
+                const data = result;
+                dispatch(getAdminQuizQuestionsSuccess(data));
+                dispatch(getAdminQuizResponceSuccess({}));
+            } else {
+                dispatch(getAdminQuizQuestionsError(result.statusText));
+                dispatch(getAdminQuizResponceSuccess({}));
+            }
+        } catch (error) {
+            dispatch(getAdminQuizQuestionsError({}));
             dispatch(getAdminQuizResponceSuccess({}));
         }
-    } catch (error) {
-        dispatch(getAdminQuizQuestionsError({}));
-        dispatch(getAdminQuizResponceSuccess({}));
-    }
-};
+    };
 
 export const getAdminQuizResponceSuccess = (user) => async (dispatch) => {
     dispatch({
@@ -207,12 +223,15 @@ export const getAdminQuizResponce =
     (quizId, body, lang) => async (dispatch) => {
         try {
             dispatch({ type: ADMIN_COURSES_QUESTIONS_RESPONCE });
+            const resId = encryptGlobal(JSON.stringify(quizId));
+            const locale = getLanguage(lang);
+            const Lngparam = encryptGlobal(JSON.stringify({locale}));
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
             const result = await axios
                 .post(
                     `${
-                        URL.putAdminQuizResponce + quizId + '/' + 'response'
-                    }?${getLanguage(lang)}`,
+                        URL.putAdminQuizResponce + resId + '/' + 'response'
+                    }?Data=${Lngparam}`,
                     body,
                     axiosConfig
                 )
@@ -250,11 +269,13 @@ export const getAdminRfQuizResponce =
         try {
             dispatch({ type: ADMIN_COURSES_REF_QUESTIONS_RESPONCE });
             const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+            const locale = getLanguage(lang);
+            const parse = encryptGlobal(JSON.stringify({locale}));
             const result = await axios
                 .post(
                     `${
                         URL.postAdminRefQuizResponce + quizId + '/' + 'response'
-                    }?${getLanguage(lang)}`,
+                    }?Data=${parse}`,
                     body,
                     axiosConfig
                 )
@@ -291,11 +312,13 @@ export const getAdminRefQuizQst = (refQizId, lang) => async (dispatch) => {
     try {
         dispatch({ type: ADMIN_COURSES_REF_QUESTIONS });
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const locale= getLanguage(lang);
+        const parseQ = encryptGlobal(JSON.stringify({locale}));
         const result = await axios
             .get(
                 `${
                     URL.getAdminRefQizList + refQizId + '/' + 'nextQuestion'
-                }?${getLanguage(lang)}`,
+                }?Data=${parseQ}`,
                 axiosConfig
             )
             .then((user) => user)

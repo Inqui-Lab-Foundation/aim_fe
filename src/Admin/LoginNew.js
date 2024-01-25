@@ -25,7 +25,6 @@ const LoginNew = (props) => {
     useLayoutEffect(() => {
         const moduleName = localStorage.getItem('module');
         const loginTime = localStorage.getItem('time');
-        // console.log(loginTime, 'q');
 
         if (
             localStorage.getItem('current_user') &&
@@ -49,7 +48,9 @@ const LoginNew = (props) => {
         },
 
         validationSchema: Yup.object({
-            email: Yup.string().required('required'),
+            email: Yup.string()
+                .email('Must be a valid email')
+                .required('required'),
             password: Yup.string().required('required')
         }),
         // ADMIN ROLE

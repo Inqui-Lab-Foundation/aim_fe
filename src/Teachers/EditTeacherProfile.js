@@ -15,6 +15,7 @@ import {
     setCurrentUser
 } from '../helpers/Utils';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../constants/encryptDecrypt';
 
 const EditTeacherProfileDetails = (props) => {
     // here we can edit the users details //
@@ -31,7 +32,10 @@ const EditTeacherProfileDetails = (props) => {
             whatapp_mobile: Yup.string()
                 .required('required')
                 .trim()
-                .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
+                .matches(
+                    /^\d+$/,
+                    'Mobile number is not valid (Enter only digits)'
+                )
                 .min(10, 'Please enter valid number')
                 .max(10, 'Please enter valid number'),
             gender: Yup.string().required('Please select valid gender'),
@@ -46,7 +50,10 @@ const EditTeacherProfileDetails = (props) => {
                 .required('Required'),
             phone: Yup.string()
                 .trim()
-                .matches(/^[0-9\s]+$/, 'Mobile number is not valid')
+                .matches(
+                    /^\d+$/,
+                    'Mobile number is not valid (Enter only digits)'
+                )
                 .min(10, 'Enter a valid mobile number')
                 .max(10, 'Mobile number must be 10 Digit')
                 .required('Mobile Number is Required')
@@ -82,10 +89,8 @@ const EditTeacherProfileDetails = (props) => {
                 mobile: mobile,
                 username: mentorData.username
             });
-            const url =
-                process.env.REACT_APP_API_BASE_URL +
-                '/mentors/' +
-                mentorData.mentor_id;
+            const ment = encryptGlobal(JSON.stringify(mentorData.mentor_id));
+            const url = process.env.REACT_APP_API_BASE_URL + '/mentors/' + ment;
             var config = {
                 method: 'put',
                 url: url,
@@ -295,7 +300,6 @@ const EditTeacherProfileDetails = (props) => {
                                         </Col>
                                     </Row>
                                 </div>
-
                                 <hr className="mt-4 mb-4"></hr>
                                 <Row>
                                     <Col className="col-xs-12 col-sm-6">

@@ -17,6 +17,7 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import logout from '../../assets/media/logout.svg';
 
 import 'sweetalert2/src/sweetalert2.scss';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const AdminResources = () => {
     const history = useHistory();
     const [resList, setResList] = useState([]);
@@ -76,12 +77,15 @@ const AdminResources = () => {
             })
             .then((result) => {
                 if (result.isConfirmed) {
+                    const delParam = encryptGlobal(
+                        JSON.stringify(item.resource_id)
+                    );
                     var config = {
                         method: 'delete',
                         url:
                             process.env.REACT_APP_API_BASE_URL +
                             '/resource/' +
-                            item.resource_id,
+                            delParam,
                         headers: {
                             'Content-Type': 'application/json',
                             // Accept: "application/json",
@@ -130,19 +134,18 @@ const AdminResources = () => {
 
             {
                 name: 'Role',
-                selector: 'role',
+                selector: (row) => row.role,
                 width: '10rem'
                 // center: true,
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '35rem'
             },
 
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '15rem',
                 cell: (record) => {
                     if (record.type === 'file') {
@@ -177,7 +180,6 @@ const AdminResources = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '30rem',
                 cell: (record) => [

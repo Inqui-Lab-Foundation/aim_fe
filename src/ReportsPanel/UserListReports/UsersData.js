@@ -41,6 +41,7 @@ import Register from '../../Evaluator/Register';
 import dist from 'react-data-table-component-extensions';
 // import AddADmins from './AddAdmins';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 
 const { TabPane } = Tabs;
 
@@ -356,8 +357,9 @@ const TicketsPage = (props) => {
         // where id = admin id //
         // where data = status //
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const adUp = encryptGlobal(JSON.stringify(id));
         await axios
-            .put(`${URL.updateMentorStatus + '/' + id}`, data, axiosConfig)
+            .put(`${URL.updateMentorStatus + '/' + adUp}`, data, axiosConfig)
             .then((user) => console.log(user))
             .catch((err) => {
                 console.log('error', err);
@@ -467,25 +469,23 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '9rem'
             },
             {
                 name: 'UDISE',
-                selector: 'organization_code',
+                selector: (row) => row.organization_code,
                 cellExport: (row) => row.organization_code,
                 width: '13rem'
             },
             {
                 name: 'Category',
-                // selector: 'organization_name',
                 selector: (row) => row.organization.category,
                 cellExport: (row) => row.organization.category,
                 width: '15rem'
             },
             {
                 name: 'School Name',
-                // selector: 'organization_name',
                 selector: (row) => row.organization.organization_name,
                 cellExport: (row) => row.organization.organization_name,
                 width: '15rem'
@@ -493,7 +493,7 @@ const TicketsPage = (props) => {
 
             {
                 name: 'Teacher Name',
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 cellExport: (row) => row.full_name,
 
                 width: '15rem'
@@ -501,7 +501,7 @@ const TicketsPage = (props) => {
 
             {
                 name: 'Mobile No',
-                selector: 'username',
+                selector: (row) => row.username,
                 cellExport: (row) => row.username,
 
                 width: '15rem'
@@ -523,7 +523,6 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 width: '27rem',
                 cell: (record) => [
                     // <div
@@ -552,55 +551,55 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '9rem'
             },
             {
                 name: 'UDISE',
-                selector: 'team.mentor.organization.organization_code',
+                selector: (row) => row.team.mentor.organization.organization_code,
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_code,
                 width: '13rem'
             },
             {
                 name: 'Category',
-                selector: 'team.mentor.organization.category',
+                selector: (row) => row.team.mentor.organization.category,
                 cellExport: (row) => row.team.mentor.organization.category,
                 width: '13rem'
             },
             {
                 name: 'School Name',
-                selector: 'team.mentor.organization.organization_name',
+                selector: (row) => row.team.mentor.organization.organization_name,
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_name,
                 width: '13rem'
             },
             {
                 name: 'Team Name',
-                selector: 'team.team_name',
+                selector: (row) => row.team.team_name,
                 cellExport: (row) => row.team.team_name,
 
                 width: '17rem'
             },
             {
                 name: 'Student Name',
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 cellExport: (row) => row.full_name,
                 width: '20rem'
             },
             {
                 name: 'Grade',
-                selector: 'Grade',
+                selector: (row) => row.Grade,
                 width: '9rem'
             },
             {
                 name: 'Age',
-                selector: 'Age',
+                selector: (row) => row.Age,
                 width: '8rem'
             },
             {
                 name: 'Gender',
-                selector: 'Gender',
+                selector: (row) => row.Gender,
                 width: '10rem'
             },
             {
@@ -620,7 +619,6 @@ const TicketsPage = (props) => {
             {
                 name: 'Actions',
                 sortable: false,
-                selector: 'null',
                 width: '19rem',
                 cell: (record) => [
                     <div

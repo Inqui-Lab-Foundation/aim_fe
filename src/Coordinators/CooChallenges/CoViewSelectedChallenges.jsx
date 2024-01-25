@@ -28,6 +28,7 @@ import { useLocation } from 'react-router-dom';
 import CoDetailToDown from './CoDetailToDown';
 import { useReactToPrint } from 'react-to-print';
 import { FaDownload } from 'react-icons/fa';
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     // here we can see the selected ideas in district wise and sdg //
@@ -94,13 +95,15 @@ const ViewSelectedIdea = () => {
         //where we can see all ideas in districtwise //
         settableData([]);
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const tit = status ? status : 'ALL';
+        const newCo = encryptGlobal(
+            JSON.stringify({
+                status: tit,
+                filterParams
+            })
+        );
         await axios
-            .get(
-                `${URL.getidealist}status=${
-                    status ? status : 'ALL'
-                }${filterParams}`,
-                axiosConfig
-            )
+            .get(`${URL.getidealist}Data=${newCo}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     // console.log()
@@ -153,9 +156,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Theme',
-                // selector: (row) => row.sdg,
-                selector: 'sdg',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -171,9 +171,6 @@ const ViewSelectedIdea = () => {
 
             {
                 name: 'Problem Statement',
-                // selector: (row) => row.sub_category,
-                selector: 'sub_category',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -188,8 +185,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
-                selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div

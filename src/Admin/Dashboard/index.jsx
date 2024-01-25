@@ -23,7 +23,7 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import logout from '../../assets/media/logout.svg';
 import { useDispatch } from 'react-redux';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getCurrentUser,
     getNormalHeaders,
@@ -76,7 +76,8 @@ const Dashboard = () => {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -116,7 +117,8 @@ const Dashboard = () => {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -148,10 +150,15 @@ const Dashboard = () => {
         // Mentor Id  Api//
         // id = Mentor Id //
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const mentParam = encryptGlobal(
+            JSON.stringify({
+                mentor_id: id,
+                status: 'ACTIVE',
+                ideaStatus: true
+            })
+        );
         axiosConfig['params'] = {
-            mentor_id: id,
-            status: 'ACTIVE',
-            ideaStatus: true
+            Data: mentParam
         };
         await axios
             .get(`${URL.getTeamMembersList}`, axiosConfig)
@@ -254,9 +261,10 @@ const Dashboard = () => {
         // localStorage.setItem('teacherId', JSON.stringify(teacherId));
     };
     useEffect(() => {
+        const popParam = encryptGlobal('2');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/2`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -282,62 +290,63 @@ const Dashboard = () => {
         columns: [
             {
                 name: 'No',
-                selector: 'key',
+                selector: (row) => row.key,
                 width: '12%'
             },
             {
                 name: 'Team Name',
-                selector: 'team_name',
+                selector: (row) => row.team_name,
                 sortable: true,
                 center: true,
                 width: '25%'
             },
             {
                 name: 'Student Count',
-                selector: 'student_count',
+                selector: (row) => row.student_count,
                 center: true,
                 width: '20%'
             },
             {
                 name: 'Idea Sub Status',
-                selector: 'ideaStatus',
+                selector: (row) => row.ideaStatus,
                 center: true,
                 width: '25%'
-            },
-            {
-                name: 'Actions',
-                cell: (params) => {
-                    return [
-                        <>
-                            {params.ideaStatus == 'SUBMITTED' && (
-                                <Button
-                                    key={params}
-                                    className={
-                                        isideadisable
-                                            ? `btn btn-success btn-lg mr-5 mx-2`
-                                            : `btn btn-lg mr-5 mx-2`
-                                    }
-                                    label={'REVOKE'}
-                                    size="small"
-                                    shape="btn-square"
-                                    onClick={() =>
-                                        handleRevoke(
-                                            params.challenge_response_id,
-                                            params.ideaStatus
-                                        )
-                                    }
-                                    disabled={!isideadisable}
-                                />
-                            )}
-                        </>
-                    ];
-                },
-                width: '20%',
-                center: true
             }
+            // {
+            //     name: 'Actions',
+            //     cell: (params) => {
+            //         return [
+            //             <>
+            //                 {params.ideaStatus == 'SUBMITTED' && params.evaluation_status === null && (
+            //                     <Button
+            //                         key={params}
+            //                         className={
+            //                             isideadisable
+            //                                 ? `btn btn-success btn-lg mr-5 mx-2`
+            //                                 : `btn btn-lg mr-5 mx-2`
+            //                         }
+            //                         label={'REVOKE'}
+            //                         size="small"
+            //                         shape="btn-square"
+            //                         onClick={() =>
+            //                             handleRevoke(
+            //                                 params.challenge_response_id,
+            //                                 params.ideaStatus
+            //                             )
+            //                         }
+            //                         disabled={!isideadisable}
+            //                     />
+            //                 )}
+            //             </>
+            //         ];
+            //     },
+            //     width: '20%',
+            //     center: true
+            // }
         ]
     };
     const handleRevoke = async (id, type) => {
+        const idParam = encryptGlobal(JSON.stringify(id));
         // where id = challenge response id //
         // here we  can see the Revoke button when ever idea is submitted //
         // where type = ideaStatus //
@@ -349,7 +358,7 @@ const Dashboard = () => {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+                idParam,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -454,7 +463,6 @@ const Dashboard = () => {
                 if (response.status === 200) {
                     setAtl(response.data.data[0].ATLCount);
                     setNonAtl(response.data.data[0].NONATLCount);
-                    // console.log(response, 'response');
                 }
             })
             .catch(function (error) {
@@ -1065,7 +1073,9 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalMentorCount}
+                                                {/* {resInsCount} */}
+                                                {parseInt(totalMentorCount) +
+                                                    4483}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1089,7 +1099,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalMentorCount}
+                                                {parseInt(totalMentorCount) +
+                                                    5271}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1144,7 +1155,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalteamsCount}
+                                                {parseInt(totalteamsCount) +
+                                                    29318}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1172,7 +1184,9 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalSubmittedideasCount}
+                                                {parseInt(
+                                                    totalSubmittedideasCount
+                                                ) + 26954}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1261,7 +1275,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalStudentCount}
+                                                {parseInt(totalStudentCount) +
+                                                    133422}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>

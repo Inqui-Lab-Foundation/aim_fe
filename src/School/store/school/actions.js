@@ -12,6 +12,7 @@ import {
     getNormalHeaders,
     openNotificationWithIcon
 } from '../../../helpers/Utils.js';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 export const schoolLoginUserSuccess = (user) => async (dispatch) => {
     dispatch({
         type: SCHOOL_LOGIN_USER_SUCCESS,
@@ -61,7 +62,7 @@ export const schoolLoginUser = (data, history, module) => async (dispatch) => {
             } else {
                 openNotificationWithIcon(
                     'error',
-                    'Enter the correct credentials'
+                    'Invalid Username or Password'
                 );
             }
         }
@@ -73,8 +74,9 @@ export const schoolLoginUser = (data, history, module) => async (dispatch) => {
 export const getSchoolByID = (id) => async (dispatch) => {
     try {
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const schId = encryptGlobal(JSON.stringify(id));
         const result = await axios
-            .get(`${URL.getSchoolById}${id}`, axiosConfig)
+            .get(`${URL.getSchoolById}${schId}`, axiosConfig)
             .then((user) => user)
             .catch((err) => {
                 return err.response;

@@ -34,16 +34,16 @@ export const languageOptions = [
 
 export const getLanguage = (lang) => {
     if (lang?.code == 'en' || lang?.code == '' || lang?.code == undefined) {
-        return `locale=en`;
+        return `en`;
     } else if (lang?.code == 'hi') {
-        return `locale=hi`;
+        return `hi`;
     } else if (lang?.code == 'te') {
-        return `locale=te`;
+        return `te`;
     } else if (lang?.code == 'ka') {
-        return `locale=ka`;
+        return `ka`;
     } else if (lang?.code == 'tn') {
-        return `locale=tn`;
+        return `tn`;
     } else {
-        return `locale=en`;
+        return `en`;
     }
 };

@@ -39,6 +39,7 @@ import {
     getPinCodeData
 } from '../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { decryptGlobal, encryptGlobal } from '../../constants/encryptDecrypt';
 
 function RegisterNew() {
     const { t } = useTranslation();
@@ -131,7 +132,7 @@ function RegisterNew() {
     let pattern = /[0-9]*$/;
     const handleRegister = (e) => {
         const { index } = diesCode.match(pattern);
-        // console.log(index, '=====', diesCode);
+
         if (index) {
             setError('Only numeric are allowed');
         } else if (diesCode.length < 11) {
@@ -146,7 +147,8 @@ function RegisterNew() {
                     process.env.REACT_APP_API_BASE_URL +
                     '/organizations/checkUniqueCode',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
                 },
                 data: body
             };
@@ -278,10 +280,31 @@ function RegisterNew() {
         className: 'defaultInput'
     };
     const handleOnChange = (e) => {
-        setTextData(e.target.value);
+        // setTextData(e.target.value);
+        const inputValues = e.target.value;
+        const isValidInputs =
+            /^[a-zA-Z0-9\s\-/_]+$/.test(inputValues) || inputValues === '';
+        if (isValidInputs) {
+            setTextData(inputValues);
+        }
     };
     const handleOnChangeSchool = (e) => {
-        setSchoolname(e.target.value);
+        // setSchoolname(e.target.value);
+        const inputValue = e.target.value;
+
+        const isValidInput =
+            /^[a-zA-Z\s]+$/.test(inputValue) || inputValue === '';
+        if (isValidInput) {
+            setSchoolname(inputValue);
+        }
+    };
+    const handleOnChangeNewDistrict = (e) => {
+        const inputValue = e.target.value;
+        const isValidInput =
+            /^[a-zA-Z\s]+$/.test(inputValue) || inputValue === '';
+        if (isValidInput) {
+            setnewDistrict(e.target.value);
+        }
     };
     const handleOnChangeNewDistrict = (e) => {
         setnewDistrict(e.target.value);
@@ -309,7 +332,8 @@ function RegisterNew() {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/mentors/register',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
 
             data: JSON.stringify(body)
@@ -359,13 +383,19 @@ function RegisterNew() {
             unique_code: diesCode,
             address: textData
         });
+        const varible = encryptGlobal(
+            JSON.stringify({
+                nonatlcode: 'true'
+            })
+        );
         var config = {
             method: 'post',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/organizations/createOrg?nonatlcode=true',
+                `/organizations/createOrg?Data=${varible}`,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -414,19 +444,18 @@ function RegisterNew() {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/mentors/mobileOtp',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
         axios(config)
             .then(function (response) {
                 if (response.status === 202) {
-                    const key = 'PMBXDE9N53V89K65';
-                    const UNhashedPassword = CryptoJS.AES.decrypt(
-                        response?.data?.data,
-                        key
-                    ).toString(CryptoJS.enc.Utf8);
-                    setOtpRes(UNhashedPassword);
+                    const UNhashedPassword = decryptGlobal(
+                        response?.data?.data
+                    );
+                    setOtpRes(JSON.parse(UNhashedPassword));
                     openNotificationWithIcon('success', 'Otp send to Email Id');
                     setBtnOtp(true);
                     setTimeout(() => {

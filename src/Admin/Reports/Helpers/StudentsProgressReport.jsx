@@ -24,6 +24,7 @@ import { categoryValue } from '../../Schools/constentText';
 import '../reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 
 const ReportsRegistration = () => {
     const stackedBarChart = {
@@ -151,8 +152,8 @@ const ReportsRegistration = () => {
     }, [RegTeachersState]);
     const studentTableHeaders = [
         {
-            label: 'District Name',
-            key: 'district'
+            label: 'State Name',
+            key: 'state'
         },
         {
             label: 'Total No.Of TEAMS created',
@@ -357,7 +358,14 @@ const ReportsRegistration = () => {
     };
 
     const fetchData = () => {
-        const url = `/reports/studentdetailsreport?state=${RegTeachersState}&district=${RegTeachersdistrict===''?'All Districts':RegTeachersdistrict}&category=${category}`;
+        const param = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                district: RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict,
+                category: category
+            })
+        );
+        const url = `/reports/studentdetailsreport?Data=${param}`;
 
         const config = {
             method: 'get',
@@ -571,9 +579,6 @@ const ReportsRegistration = () => {
                             ideaNotStarted: 0
                         }
                     );
-                    console.log('Combined Array:', combinedArray);
-                    console.log('Total count', total);
-
                     const doughNutData1 = {
                         labels: ['Completed', 'IN Progress', 'NOT Started'],
                         datasets: [
@@ -689,7 +694,6 @@ const ReportsRegistration = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>

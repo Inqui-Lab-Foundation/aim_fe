@@ -9,7 +9,7 @@ import { getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 // import { Link } from 'react-router-dom';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const TeacherResources = () => {
     const [resList, setResList] = useState([]);
     const [rows, setRows] = React.useState([]);
@@ -22,9 +22,15 @@ const TeacherResources = () => {
     }, []);
 
     async function fetchResourceList() {
+        const fectchTecParam = encryptGlobal(
+            JSON.stringify({
+                role: 'mentor'
+            })
+        );
+
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_BASE_URL}/resource/list?role=mentor`,
+                `${process.env.REACT_APP_API_BASE_URL}/resource/list?Data=${fectchTecParam}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -45,24 +51,22 @@ const TeacherResources = () => {
         columns: [
             {
                 name: 'No',
-                // selector: 'id',
                 selector: (row, key) => key + 1,
                 sortable: true,
                 width: '15%'
             },
             {
                 name: 'Details',
-                selector: 'description',
+                selector: (row) => row.description,
                 width: '45%'
             },
             // {
             //     name: 'Type',
-            //     selector: 'type',
+            //     selector: (row) => row.type,
             //     width: '25%'
             // },
             {
                 name: 'File/Link',
-                selector: 'attachments',
                 width: '40%',
                 cell: (record) => {
                     if (record.type === 'file') {

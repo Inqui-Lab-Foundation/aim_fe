@@ -54,11 +54,16 @@ const CommonUserProfile = (props) => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
     useEffect(() => {
+        const userIdParam = encryptGlobal(
+            JSON.stringify({
+                user_id: StudentsDaTa.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${StudentsDaTa.user_id}`,
+                `/dashboard/quizscores?Data=${userIdParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -196,7 +201,6 @@ const CommonUserProfile = (props) => {
             },
             {
                 name: 'Quiz',
-                // selector: 'level_name',
                 // sortable: true,
                 selector: (row) => row.quiz_id,
                 sortable: true,
@@ -205,7 +209,6 @@ const CommonUserProfile = (props) => {
 
             {
                 name: 'Attempts',
-                // selector: 'level_name',
                 // sortable: true,
                 selector: (row) => row.attempts,
                 sortable: true,
@@ -213,7 +216,6 @@ const CommonUserProfile = (props) => {
             },
             {
                 name: 'Score',
-                // selector: 'eval_schema',
                 selector: (row) => (row.score ? row.score : '-'),
 
                 width: '20rem'

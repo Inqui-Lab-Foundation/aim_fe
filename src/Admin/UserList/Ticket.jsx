@@ -28,6 +28,11 @@ import DataTable, { Alignment } from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
 import {
+    getCurrentUser,
+    // getNormalHeaders,
+    openNotificationWithIcon
+} from '../../helpers/Utils';
+import {
     getDistrictData,
     getStateData,
     getStudentListSuccess,
@@ -42,6 +47,7 @@ import Register from '../../Evaluator/Register';
 import dist from 'react-data-table-component-extensions';
 import AddADmins from './AddAdmins';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { encryptGlobal } from '../../constants/encryptDecrypt.js';
 
 const { TabPane } = Tabs;
 
@@ -94,6 +100,7 @@ const SelectDists = ({
 const TicketsPage = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const currentUser = getCurrentUser('current_user');
 
     const district = localStorage.getItem('dist');
     const [menter, activeMenter] = useState(false);
@@ -106,6 +113,8 @@ const TicketsPage = (props) => {
     const [newDist, setNewDists] = useState('');
     const [registerModalShow, setRegisterModalShow] = useState(false);
     const [fetchData, setFetchData] = useState(false);
+    const [allCooUsers, setAllCooUsers] = useState([]);
+
     let State = localStorage.getItem('state');
 
     useEffect(() => {
@@ -173,6 +182,34 @@ const TicketsPage = (props) => {
             setLoading(false);
         }
     }, [props.studentList]);
+    useEffect(async () => {
+        await listApi();
+    }, []);
+
+    async function listApi() {
+        // where we can see all tickets //
+        // alert('hii');
+        var config = {
+            method: 'get',
+            url: process.env.REACT_APP_API_BASE_URL + '/state_coordinators',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser?.data[0]?.token}`
+            }
+        };
+        await axios(config)
+            .then(function (response) {
+                if (response.status === 200) {
+                    setAllCooUsers(
+                        response.data.data[0] &&
+                            response.data.data[0].dataValues
+                    );
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
     const changeTab = (e) => {
         // here we can see 4 tabs //
         // here e = students / teachers / evaluators / admins //
@@ -180,7 +217,9 @@ const TicketsPage = (props) => {
         setNewDists('');
         setstudentDist('');
         localStorage.setItem('tab', e);
-        if (e === '4') {
+        if (e === '5') {
+            listApi();
+        } else if (e === '4') {
             activeMenter(false);
             activeEvaluater(false);
             props.getAdminListAction();
@@ -338,8 +377,9 @@ const TicketsPage = (props) => {
         // where id = admin id //
         // where data = status //
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const upad = encryptGlobal(JSON.stringify(id));
         await axios
-            .put(`${URL.updateMentorStatus + '/' + id}`, data, axiosConfig)
+            .put(`${URL.updateMentorStatus + '/' + upad}`, data, axiosConfig)
             .then((user) => console.log(user))
             .catch((err) => {
                 console.log('error', err);
@@ -440,6 +480,123 @@ const TicketsPage = (props) => {
                 }
             });
     };
+    const handleResetPass = async (data) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons
+            .fire({
+                title: 'You are attempting to reset the password',
+                text: 'Are you sure?',
+                imageUrl: `${logout}`,
+                showCloseButton: true,
+                confirmButtonText: 'Reset Password',
+                showCancelButton: true,
+                cancelButtonText: 'cancel',
+                reverseButtons: false
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    var config = {
+                        method: 'put',
+                        url:
+                            process.env.REACT_APP_API_BASE_URL +
+                            '/evaluators/resetPassword',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${currentUser?.data[0]?.token}`
+                        },
+                        data: JSON.stringify({
+                            username: data?.user?.username,
+                            mobile: data?.mobile
+                        })
+                    };
+                    axios(config)
+                        .then(function (response) {
+                            if (response.status === 202) {
+                                openNotificationWithIcon(
+                                    'success',
+                                    'Reset Password Successfully Update!',
+                                    ''
+                                );
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Reset password is cancelled',
+                        'error'
+                    );
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+    const handleCooResetPass = async (data) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons
+            .fire({
+                title: 'You are attempting to reset the password',
+                text: 'Are you sure?',
+                imageUrl: `${logout}`,
+                showCloseButton: true,
+                confirmButtonText: 'Reset Password',
+                showCancelButton: true,
+                cancelButtonText: 'cancel',
+                reverseButtons: false
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    var config = {
+                        method: 'put',
+                        url:
+                            process.env.REACT_APP_API_BASE_URL +
+                            '/state_coordinators/resetPassword',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${currentUser?.data[0]?.token}`
+                        },
+                        data: JSON.stringify({
+                            id: data?.state_coordinators_id
+                        })
+                    };
+                    axios(config)
+                        .then(function (response) {
+                            if (response.status === 202) {
+                                openNotificationWithIcon(
+                                    'success',
+                                    'Reset Password Successfully Update!',
+                                    ''
+                                );
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Reset password is cancelled',
+                        'error'
+                    );
+                }
+            })
+            .catch((err) => console.log(err));
+    };
 
     const TableMentorsProps = {
         data:
@@ -450,12 +607,12 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '6rem'
             },
             {
                 name: 'ATL Code',
-                selector: 'organization_code',
+                selector: (row) => row.organization_code,
                 cellExport: (row) => row.organization_code,
                 width: '13rem'
             },
@@ -467,14 +624,12 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'Category',
-                // selector: 'organization_name',
                 selector: (row) => row.organization.category,
                 cellExport: (row) => row.organization.category,
                 width: '15rem'
             },
             {
                 name: 'School Name',
-                // selector: 'organization_name',
                 selector: (row) => row.organization.organization_name,
                 cellExport: (row) => row.organization.organization_name,
                 width: '17rem'
@@ -482,7 +637,7 @@ const TicketsPage = (props) => {
 
             {
                 name: 'Teacher Name',
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 cellExport: (row) => row.full_name,
 
                 width: '15rem'
@@ -490,7 +645,7 @@ const TicketsPage = (props) => {
 
             {
                 name: 'Email Id',
-                selector: 'username',
+                selector: (row) => row.username,
                 cellExport: (row) => row.username,
 
                 width: '33rem'
@@ -512,7 +667,6 @@ const TicketsPage = (props) => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 width: '27rem',
                 cell: (record) => [
                     // <div
@@ -578,63 +732,63 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '6rem'
             },
             {
                 name: 'ATL Code',
-                selector: 'team.mentor.organization.organization_code',
+                selector: (row) =>
+                    row.team.mentor.organization.organization_code,
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_code,
                 width: '13rem'
             },
             {
                 name: 'State',
-                selector: 'team.mentor.organization.state',
+                selector: (row) => row.team.mentor.organization.state,
                 cellExport: (row) => row.team.mentor.organization.state,
-                // selector: 'state',
-                // cellExport: (row) => row.state,
                 width: '13rem'
             },
             {
                 name: 'Category',
-                selector: 'team.mentor.organization.category',
+                selector: (row) => row.team.mentor.organization.category,
                 cellExport: (row) => row.team.mentor.organization.category,
                 width: '13rem'
             },
             {
                 name: 'School Name',
-                selector: 'team.mentor.organization.organization_name',
+                selector: (row) =>
+                    row.team.mentor.organization.organization_name,
                 cellExport: (row) =>
                     row.team.mentor.organization.organization_name,
                 width: '15rem'
             },
             {
                 name: 'Team Name',
-                selector: 'team.team_name',
+                selector: (row) => row.team.team_name,
                 cellExport: (row) => row.team.team_name,
 
                 width: '17rem'
             },
             {
                 name: 'Student Name',
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 cellExport: (row) => row.full_name,
                 width: '20rem'
             },
             {
                 name: 'Grade',
-                selector: 'Grade',
+                selector: (row) => row.Grade,
                 width: '9rem'
             },
             {
                 name: 'Age',
-                selector: 'Age',
+                selector: (row) => row.Age,
                 width: '8rem'
             },
             {
                 name: 'Gender',
-                selector: 'Gender',
+                selector: (row) => row.Gender,
                 width: '10rem'
             },
             {
@@ -654,7 +808,6 @@ const TicketsPage = (props) => {
             {
                 name: 'Actions',
                 sortable: false,
-                selector: 'null',
                 width: '19rem',
                 cell: (record) => [
                     <div
@@ -691,27 +844,27 @@ const TicketsPage = (props) => {
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '6rem'
             },
             {
                 name: 'Evaluator Name',
-                selector: 'user.full_name',
+                selector: (row) => row.user.full_name,
                 width: '20rem'
             },
             {
                 name: 'Email',
-                selector: 'user.username',
+                selector: (row) => row.user.username,
                 width: '25rem'
             },
             {
                 name: 'Mobile No',
-                selector: 'mobile',
+                selector: (row) => row.mobile,
                 width: '20rem'
             },
             // {
             //     name: 'District',
-            //     selector: 'district',
+            //     selector: (row) => row.district,
             //     width: '11rem'
             // },
             {
@@ -731,7 +884,6 @@ const TicketsPage = (props) => {
             {
                 name: 'Actions',
                 sortable: false,
-                selector: 'null',
                 width: '25rem',
                 cell: (record) => [
                     // <div
@@ -769,11 +921,144 @@ const TicketsPage = (props) => {
                         ) : (
                             <div className="btn btn-warning ">ACTIVE</div>
                         )}
+                    </div>,
+                    <div
+                        key={record.id}
+                        onClick={() => handleResetPass(record)}
+                        style={{ marginLeft: '10px' }}
+                    >
+                        <div className="btn btn-success btn-lg text-white">
+                            RESET
+                        </div>
                     </div>
                 ]
             }
         ]
     };
+    const coordinatorsData = {
+        data: allCooUsers,
+        columns: [
+            {
+                name: 'No',
+                // selector: (row) => row.index,
+                selector: (row, key) => key + 1,
+                cellExport: (row) => row.index,
+                width: '8rem'
+            },
+            // {
+            //     name: 'Role',
+            //     selector: (row) => row.role,
+            //     width: '9rem'
+            // },
+            {
+                name: 'State',
+                selector: (row) => row.state_name,
+                cell: (row) => (
+                    <div
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word'
+                        }}
+                    >
+                        {row.state_name}
+                    </div>
+                ),
+                width: '18rem'
+            },
+            // {
+            //     name: 'LogIn status',
+            //     selector: (row) => row.is_loggedin,
+            //     width: '15rem'
+            // },
+            // {
+            //     name: 'Last Login',
+            //     selector: (row) => row.last_login,
+            //     cell: (row) => (
+            //         <div
+            //             style={{
+            //                 whiteSpace: 'pre-wrap',
+            //                 wordWrap: 'break-word'
+            //             }}
+            //         >
+            //             {row.last_login}
+            //         </div>
+            //     ),
+            //     width: '20rem'
+            // },
+            {
+                name: 'Username',
+                selector: (row) => row.username,
+                width: '15rem'
+            },
+            {
+                name: 'Status',
+                cell: (row) => [
+                    <Badge
+                        key={row.mentor_id}
+                        bg={`${
+                            row.status === 'ACTIVE' ? 'secondary' : 'danger'
+                        }`}
+                    >
+                        {row.status}
+                    </Badge>
+                ],
+                width: '10rem'
+            },
+            {
+                name: 'Actions',
+                sortable: false,
+                width: '25rem',
+                cell: (record) => [
+                    // <div
+                    //     key={record.id}
+                    //
+                    //     onClick={() => handleSelect(record)}
+                    //     style={{ marginRight: '10px' }}
+                    // >
+                    //     <div className="btn btn-primary btn-lg mr-5">View</div>
+                    // </div>,
+                    // <div
+                    //     key={record.id}
+                    //     onClick={() => handleEdit(record)}
+                    //     style={{ marginRight: '10px' }}
+                    // >
+                    //     <div className="btn btn-primary btn-lg">EDIT</div>
+                    // </div>,
+                    // <div
+                    //     key={record.id}
+                    //     className="mr-5"
+                    //     onClick={() => {
+                    //         let status =
+                    //             record?.status === 'ACTIVE'
+                    //                 ? 'INACTIVE'
+                    //                 : 'ACTIVE';
+                    //         handleStatus(
+                    //             status,
+                    //             record?.evaluator_id,
+                    //             'evaluator'
+                    //         );
+                    //     }}
+                    // >
+                    //     {record?.status === 'ACTIVE' ? (
+                    //         <div className="btn btn-danger ">INACTIVE</div>
+                    //     ) : (
+                    //         <div className="btn btn-warning ">ACTIVE</div>
+                    //     )}
+                    // </div>,
+                    <div
+                        key={record.id}
+                        onClick={() => handleCooResetPass(record)}
+                        style={{ marginLeft: '10px' }}
+                    >
+                        <div className="btn btn-success btn-lg text-white">
+                            RESET
+                        </div>
+                    </div>
+                ]
+            }
+        ]
+    };
+
     const adminData = {
         data:
             props.adminData && props.adminData.length > 0
@@ -839,8 +1124,6 @@ const TicketsPage = (props) => {
             {
                 name: 'Actions',
                 sortable: false,
-                selector: 'null',
-
                 width: '25rem',
                 cell: (record) => [
                     <div
@@ -1110,6 +1393,31 @@ const TicketsPage = (props) => {
                                 <div className="my-5">
                                     <DataTableExtensions
                                         {...adminData}
+                                        exportHeaders
+                                        print={false}
+                                        export={true}
+                                    >
+                                        <DataTable
+                                            data={props.adminData}
+                                            defaultSortField="id"
+                                            defaultSortAsc={false}
+                                            pagination
+                                            highlightOnHover
+                                            fixedHeader
+                                            subHeaderAlign={Alignment.Center}
+                                        />
+                                    </DataTableExtensions>
+                                </div>
+                            </TabPane>
+                            <TabPane
+                                tab="Coordinators"
+                                key="5"
+                                className="bg-white p-3 mt-2 sub-tab"
+                                tabId="5"
+                            >
+                                <div className="my-5">
+                                    <DataTableExtensions
+                                        {...coordinatorsData}
                                         exportHeaders
                                         print={false}
                                         export={true}

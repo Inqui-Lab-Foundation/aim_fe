@@ -66,7 +66,11 @@ const LoginNew = (props) => {
             //     // .matches(/^$|^[1-9]\d*$/, 'Mobile number is not valid')
             //     .max(10, 'Please enter only 10 digit valid number')
             //     .min(10, 'Number is less than 10 digits'),
-            phone: Yup.string().email('Must be a valid email').max(255).trim(),
+            phone: Yup.string()
+                .email('Must be a valid email')
+                .required('required')
+                .max(255)
+                .trim(),
             password: Yup.string().required('Required password').trim()
         }),
         // TEACHER ROLE

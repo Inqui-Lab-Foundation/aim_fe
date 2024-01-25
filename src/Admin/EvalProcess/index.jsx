@@ -9,6 +9,7 @@ import axios from 'axios';
 import { openNotificationWithIcon } from '../../helpers/Utils';
 import { Button } from '../../stories/Button';
 import { useHistory } from 'react-router-dom';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const Evalprocess = () => {
     const history = useHistory();
     const [evalList, setEvalList] = useState([]);
@@ -18,11 +19,16 @@ const Evalprocess = () => {
     }, []);
     async function handleEvalList() {
         //  handleEvalList Api where we can see list of all evaluationProcess //
+        const statusParam = encryptGlobal(
+            JSON.stringify({
+                status: 'ALL'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/evaluationProcess?status=ALL',
+                `/evaluationProcess?Data=${statusParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -64,6 +70,7 @@ const Evalprocess = () => {
         // where we can update the evaluation status //
         // where item = evaluation process id //
         // where itemA = status //
+        const evlId = encryptGlobal(JSON.stringify(item.evaluation_process_id));
         const body = {
             status: itemA,
             level_name: item.level_name,
@@ -74,7 +81,7 @@ const Evalprocess = () => {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/evaluationProcess/' +
-                item.evaluation_process_id,
+                evlId,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -103,36 +110,29 @@ const Evalprocess = () => {
             {
                 name: 'No',
                 selector: (row, key) => key + 1,
-                // sortable: true,
                 width: '6%'
             },
 
             {
                 name: 'Level Name',
-                // selector: 'level_name',
-                // sortable: true,
                 selector: (row) => row.level_name,
                 sortable: true,
                 width: '10%'
             },
             {
                 name: 'Evaluation Schema',
-                // selector: 'eval_schema',
                 selector: (row) => row.eval_schema,
 
                 width: '15%'
             },
             {
                 name: 'No of Evaluations',
-                // selector: 'no_of_evaluation',
                 selector: (row) => row.no_of_evaluation,
 
                 width: '15%'
             },
             {
                 name: 'Status',
-                // cellExport: (row) => row.status,
-
                 cell: (row) => [
                     <Badge
                         key={row.evaluation_process_id}
@@ -147,7 +147,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'Actions',
-                selector: 'action',
                 center: true,
                 width: '40%',
                 cell: (record) => [

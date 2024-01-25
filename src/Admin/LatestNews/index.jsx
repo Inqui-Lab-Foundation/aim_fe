@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom';
 // import * as ReactDOM from 'react-dom';
 import Swal from 'sweetalert2/dist/sweetalert2';
 import logout from '../../assets/media/logout.svg';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import 'sweetalert2/src/sweetalert2.scss';
 const AdminLatestNews = () => {
     const history = useHistory();
@@ -55,11 +55,10 @@ const AdminLatestNews = () => {
             details: data.details,
             new_status: value
         };
+        const newId = encryptGlobal(JSON.stringify(data.latest_news_id));
         let config = {
             method: 'put',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                `/latest_news/${data.latest_news_id}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/latest_news/${newId}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -146,12 +145,15 @@ const AdminLatestNews = () => {
             })
             .then((result) => {
                 if (result.isConfirmed) {
+                    const newsId = encryptGlobal(
+                        JSON.stringify(item.latest_news_id)
+                    );
                     var config = {
                         method: 'delete',
                         url:
                             process.env.REACT_APP_API_BASE_URL +
                             '/latest_news/' +
-                            item.latest_news_id,
+                            newsId,
                         headers: {
                             'Content-Type': 'application/json',
                             // Accept: "application/json",
@@ -197,7 +199,7 @@ const AdminLatestNews = () => {
             },
             {
                 name: 'Role',
-                selector: 'category',
+                selector: (row) => row.category,
                 width: '12rem'
             },
             {
@@ -231,7 +233,7 @@ const AdminLatestNews = () => {
             },
             {
                 name: 'Details',
-                selector: 'details',
+                selector: (row) => row.details,
                 width: '40rem'
             },
             {
@@ -278,7 +280,6 @@ const AdminLatestNews = () => {
             {
                 name: 'Actions',
                 width: '20rem',
-                selector: 'action',
                 center: true,
                 cell: (record) => [
                     <>

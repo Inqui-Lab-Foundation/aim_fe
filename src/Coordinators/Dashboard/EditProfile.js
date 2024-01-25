@@ -20,6 +20,7 @@ import Select from '../../Admin/Challenges/pages/Select';
 import { getDistrictData } from '../../redux/studentRegistration/actions';
 
 import { useSelector } from 'react-redux';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditProfile = (props) => {
     // here we can edit the users details //
     const history = useHistory();
@@ -87,6 +88,11 @@ const EditProfile = (props) => {
             const email = values.email;
             // const mobile = values.phone;
             const district = values.district;
+            const evlId = encryptGlobal(
+                JSON.stringify(mentorData.evaluator_id)
+            );
+            const admId = encryptGlobal(JSON.stringify(mentorData.admin_id));
+            const mentId = encryptGlobal(JSON.stringify(mentorData.mentor_id));
             const body = mentorData?.evaluator_id
                 ? JSON.stringify({
                       full_name: full_name,
@@ -104,16 +110,10 @@ const EditProfile = (props) => {
                       //   mobile: email
                   });
             const url = mentorData?.evaluator_id
-                ? process.env.REACT_APP_API_BASE_URL +
-                  '/evaluators/' +
-                  mentorData.evaluator_id
+                ? process.env.REACT_APP_API_BASE_URL + '/evaluators/' + evlId
                 : mentorData?.admin_id
-                ? process.env.REACT_APP_API_BASE_URL +
-                  '/admins/' +
-                  mentorData.admin_id
-                : process.env.REACT_APP_API_BASE_URL +
-                  '/mentors/' +
-                  mentorData.mentor_id;
+                ? process.env.REACT_APP_API_BASE_URL + '/admins/' + admId
+                : process.env.REACT_APP_API_BASE_URL + '/mentors/' + mentId;
             var config = {
                 method: 'put',
                 url: url,

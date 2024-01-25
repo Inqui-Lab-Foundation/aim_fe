@@ -23,7 +23,7 @@ import Swal from 'sweetalert2/dist/sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import logout from '../../assets/media/logout.svg';
 import { useDispatch } from 'react-redux';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getCurrentUser,
     getNormalHeaders,
@@ -65,7 +65,6 @@ const Dashboard = () => {
         setError('');
     };
 
-    // console.log(stuData, 'reg');
     useEffect(async () => {
         // where list = diescode //
         //where organization_code = diescode //
@@ -83,7 +82,8 @@ const Dashboard = () => {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -94,7 +94,7 @@ const Dashboard = () => {
 
                 if (response.status == 200) {
                     setOrgData(response?.data?.data[0]);
-                    // console.log(orgData);
+
                     setCount(count + 1);
                     setMentorId(response?.data?.data[0]?.mentor.mentor_id);
                     setError('');
@@ -126,7 +126,8 @@ const Dashboard = () => {
             method: 'post',
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -172,11 +173,21 @@ const Dashboard = () => {
         // Mentor Id  Api//
         // id = Mentor Id //
         let axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        let enParamData = encryptGlobal(
+            JSON.stringify({
+                mentor_id: id,
+                status: 'ACTIVE',
+                ideaStatus: true
+            })
+        );
         axiosConfig['params'] = {
-            mentor_id: id,
-            status: 'ACTIVE',
-            ideaStatus: true
+            Data: enParamData
         };
+        // axiosConfig['params'] = {
+        //     mentor_id: id,
+        //     status: 'ACTIVE',
+        //     ideaStatus: true
+        // };
         await axios
             .get(`${URL.getTeamMembersList}`, axiosConfig)
             .then((res) => {
@@ -242,7 +253,7 @@ const Dashboard = () => {
                 if (result.isConfirmed) {
                     dispatch(
                         teacherResetPassword({
-                            organization_code: data.organization_code,
+                            username: orgData.mentor?.user?.username,
                             mentor_id: data.mentor_id,
                             otp: false
                         })
@@ -278,9 +289,10 @@ const Dashboard = () => {
         localStorage.setItem('orgData', JSON.stringify(orgData));
     };
     useEffect(() => {
+        const popParam = encryptGlobal('2');
         var config = {
             method: 'get',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/2`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -306,59 +318,59 @@ const Dashboard = () => {
         columns: [
             {
                 name: 'No',
-                selector: 'key',
+                selector: (row) => row.key,
                 width: '12%'
             },
             {
                 name: 'Team Name',
-                selector: 'team_name',
+                selector: (row) => row.team_name,
                 sortable: true,
                 center: true,
                 width: '25%'
             },
             {
                 name: 'Student Count',
-                selector: 'student_count',
+                selector: (row) => row.student_count,
                 center: true,
                 width: '20%'
             },
             {
                 name: 'Idea Sub Status',
-                selector: 'ideaStatus',
+                selector: (row) => row.ideaStatus,
                 center: true,
                 width: '25%'
-            },
-            {
-                name: 'Actions',
-                cell: (params) => {
-                    return [
-                        <>
-                            {params.ideaStatus == 'SUBMITTED' && (
-                                <Button
-                                    key={params}
-                                    className={
-                                        isideadisable
-                                            ? `btn btn-success btn-lg mr-5 mx-2`
-                                            : `btn btn-lg mr-5 mx-2`
-                                    }
-                                    label={'REVOKE'}
-                                    size="small"
-                                    shape="btn-square"
-                                    onClick={() =>
-                                        handleRevoke(
-                                            params.challenge_response_id,
-                                            params.ideaStatus
-                                        )
-                                    }
-                                    disabled={!isideadisable}
-                                />
-                            )}
-                        </>
-                    ];
-                },
-                width: '20%',
-                center: true
             }
+            // {
+            //     name: 'Actions',
+            //     cell: (params) => {
+            //         return [
+            //             <>
+            //                 {params.ideaStatus == 'SUBMITTED' && params.evaluation_status === null && (
+            //                     <Button
+            //                         key={params}
+            //                         className={
+            //                             isideadisable
+            //                                 ? `btn btn-success btn-lg mr-5 mx-2`
+            //                                 : `btn btn-lg mr-5 mx-2`
+            //                         }
+            //                         label={'REVOKE'}
+            //                         size="small"
+            //                         shape="btn-square"
+            //                         onClick={() =>
+            //                             handleRevoke(
+            //                                 params.challenge_response_id,
+            //                                 params.ideaStatus
+            //                             )
+            //                         }
+            //                         disabled={!isideadisable}
+            //                     />
+            //                 )}
+            //             </>
+            //         ];
+            //     },
+            //     width: '20%',
+            //     center: true
+            // }
         ]
     };
     const [teams, setTeam] = useState('-');
@@ -378,11 +390,16 @@ const Dashboard = () => {
         newData();
     }, []);
     const newData = () => {
+        const newParam = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/StateDashboard?state=${currentUser?.data[0]?.state_name}`,
+                `/dashboard/StateDashboard?Data=${newParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -391,7 +408,6 @@ const Dashboard = () => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response);
                     setAtlData(response?.data?.data[0]?.orgdata[0]?.ATL_Count);
                     setAtl(response?.data?.data[0]?.orgdata[0]?.ATL_Reg_Count);
                     setNonAtl(
@@ -426,6 +442,7 @@ const Dashboard = () => {
     };
 
     const handleRevoke = async (id, type) => {
+        const revoPram = encryptGlobal(JSON.stringify(id));
         // where id = challenge response id //
         // here we  can see the Revoke button when ever idea is submitted //
         // where type = ideaStatus //
@@ -434,10 +451,7 @@ const Dashboard = () => {
         };
         var config = {
             method: 'put',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/challenge_response/updateEntry/' +
-                JSON.stringify(id),
+            url: `${process.env.REACT_APP_API_BASE_URL}/challenge_response/updateEntry/${revoPram}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -510,7 +524,7 @@ const Dashboard = () => {
     //     axios(config)
     //         .then((response) => {
     //             if (response.status === 200) {
-    //                 // console.log(response);
+    //
     //                 setRegData(response?.data?.data);
     //             }
     //         })
@@ -1258,8 +1272,9 @@ const Dashboard = () => {
                                                         mentor_id:
                                                             orgData.mentor
                                                                 .mentor_id,
-                                                        organization_code:
-                                                            orgData.organization_code
+                                                        username:
+                                                            orgData.mentor.user
+                                                                .username
                                                     })
                                                 }
                                                 className="btn btn-info rounded-pill px-4  text-white mt-2 mt-md-0 ml-md-2"

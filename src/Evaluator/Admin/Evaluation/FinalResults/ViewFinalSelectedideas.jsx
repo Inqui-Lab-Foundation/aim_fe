@@ -28,6 +28,7 @@ import html2canvas from 'html2canvas';
 import TableDetailPdf from './TableDetailPdf';
 import { useReactToPrint } from 'react-to-print';
 import DetailToDownload from '../../Challenges/DetailToDownload';
+import { encryptGlobal } from '../../../../constants/encryptDecrypt.js';
 
 const ViewSelectedIdea = () => {
     const { search } = useLocation();
@@ -72,12 +73,13 @@ const ViewSelectedIdea = () => {
 
     async function promoteapi(id) {
         const body = JSON.stringify({ final_result: '1' });
+        const promPram = encryptGlobal(JSON.stringify(id));
         var config = {
             method: 'put',
             url: `${
                 process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/updateEntry/' +
-                id
+                promPram
             }`,
             headers: {
                 'Content-Type': 'application/json',
@@ -103,13 +105,15 @@ const ViewSelectedIdea = () => {
     async function handleideaList() {
         settableData({});
         const axiosConfig = getNormalHeaders(KEY.User_API_Key);
+        const apiParam = encryptGlobal(
+            JSON.stringify({
+                key: title == '0' ? '0' : '1',
+                state : state !== 'All States' ? state : '',
+                sdg : sdg !== 'All Themes' ? sdg : ''
+            })
+        );
         await axios
-            .get(
-                `${URL.getFinalEvaluation}?key=${
-                    title && title == '0' ? '0' : '1'
-                }${filterParamsfinal}`,
-                axiosConfig
-            )
+            .get(`${URL.getFinalEvaluation}?Data=${apiParam}`, axiosConfig)
             .then(function (response) {
                 if (response.status === 200) {
                     const updatedWithKey =
@@ -141,7 +145,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'State',
-                // selector: 'state',
                 cellExport: (row) => row.state,
                 cell: (row) => (
                     <div
@@ -174,9 +177,12 @@ const ViewSelectedIdea = () => {
                 width: '6rem'
             },
             {
+                name: 'Category',
+                selector: (row) => row.category,
+                width: '15rem'
+            },
+            {
                 name: 'Theme',
-                // selector: (row) => row.sdg,
-                // selector: 'sdg',
                 cellExport: (row) => row.sdg,
                 cell: (row) => (
                     <div
@@ -192,8 +198,6 @@ const ViewSelectedIdea = () => {
             },
             {
                 name: 'Problem Statement',
-                // selector: (row) => row.sub_category,
-                // selector: 'sub_category',
                 cellExport: (row) => row.sub_category,
                 cell: (row) => (
                     <div
@@ -210,8 +214,6 @@ const ViewSelectedIdea = () => {
             {
                 name: 'Idea Name',
                 cellExport: (row) => row?.response[1]?.selected_option || '',
-                // sortable: true,
-                // selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div

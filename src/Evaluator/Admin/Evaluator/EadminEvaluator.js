@@ -23,7 +23,10 @@ import logout from '../../../assets/media/logout.svg';
 import DataTable, { Alignment } from 'react-data-table-component';
 import DataTableExtensions from 'react-data-table-component-extensions';
 import 'react-data-table-component-extensions/dist/index.css';
-
+import {
+    getCurrentUser,
+    openNotificationWithIcon
+} from '../../../helpers/Utils.js';
 import { Badge } from 'react-bootstrap';
 import CommonPage from '../../../components/CommonPage';
 import { updateEvaluator } from '../../../redux/actions';
@@ -36,6 +39,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 const TicketsPage = (props) => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const currentUser = getCurrentUser('current_user');
 
     const district = localStorage.getItem('dist');
     const [menter, activeMenter] = useState(false);
@@ -174,28 +178,87 @@ const TicketsPage = (props) => {
                 }
             });
     };
+    const handleResetPass = async (data) => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons
+            .fire({
+                title: 'You are attempting to reset the password',
+                text: 'Are you sure?',
+                imageUrl: `${logout}`,
+                showCloseButton: true,
+                confirmButtonText: 'Reset Password',
+                showCancelButton: true,
+                cancelButtonText: 'cancel',
+                reverseButtons: false
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    var config = {
+                        method: 'put',
+                        url:
+                            process.env.REACT_APP_API_BASE_URL +
+                            '/evaluators/resetPassword',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${currentUser?.data[0]?.token}`
+                        },
+                        data: JSON.stringify({
+                            username: data.user.username,
+                            mobile: data.mobile
+                        })
+                    };
+                    axios(config)
+                        .then(function (response) {
+                            if (response.status === 202) {
+                                openNotificationWithIcon(
+                                    'success',
+                                    'Reset Password Successfully Update!',
+                                    ''
+                                );
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Reset password is cancelled',
+                        'error'
+                    );
+                }
+            })
+            .catch((err) => console.log(err.response));
+    };
 
     const evaluatorsData = {
         data: props.evalutorsList,
         columns: [
             {
                 name: 'No',
-                selector: 'id',
+                selector: (row) => row.id,
                 width: '6rem'
             },
             {
                 name: 'Evaluator Name',
-                selector: 'user.full_name',
+                selector: (row) => row.user.full_name,
                 width: '20rem'
             },
             {
                 name: 'Email',
-                selector: 'user.username',
+                selector: (row) => row.user.username,
                 width: '25rem'
             },
             {
                 name: 'Mobile No',
-                selector: 'mobile',
+                selector: (row) => row.mobile,
                 width: '20rem'
             },
             // {
@@ -220,7 +283,6 @@ const TicketsPage = (props) => {
             {
                 name: 'Actions',
                 sortable: false,
-                selector: 'null',
                 width: '25rem',
                 cell: (record) => [
                     // <div
@@ -254,6 +316,15 @@ const TicketsPage = (props) => {
                         ) : (
                             <div className="btn btn-warning ">ACTIVE</div>
                         )}
+                    </div>,
+                    <div
+                        key={record.id}
+                        onClick={() => handleResetPass(record)}
+                        style={{ marginLeft: '10px' }}
+                    >
+                        <div className="btn btn-success btn-lg text-white">
+                            RESET
+                        </div>
                     </div>
                 ]
             }

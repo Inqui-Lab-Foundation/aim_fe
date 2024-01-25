@@ -200,7 +200,8 @@ const LogInNew = (props) => {
                                             {formik.touched.district &&
                                             formik.errors.district ? (
                                                 <small className="error-cls">
-                                                    Required
+                                                    {formik.errors.district}
+                                                    {/* Required */}
                                                 </small>
                                             ) : null}
                                         </Col>

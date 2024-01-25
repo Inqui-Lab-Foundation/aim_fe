@@ -11,7 +11,7 @@ import { openNotificationWithIcon, getCurrentUser } from '../../helpers/Utils';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const EditTeam = (props) => {
     const { t } = useTranslation();
     const history = useHistory();
@@ -30,7 +30,7 @@ const EditTeam = (props) => {
                 .max(40)
                 .required('Please enter Team name')
                 .matches(
-                    /^[A-Za-z0-9 ]*$/,
+                    /^[A-Za-z0-9]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim()
@@ -41,9 +41,10 @@ const EditTeam = (props) => {
                 status: 'ACTIVE',
                 team_name: values.teamName
             });
+            const editParam = encryptGlobal(JSON.stringify(teamId));
             var config = {
                 method: 'put',
-                url: process.env.REACT_APP_API_BASE_URL + '/teams/' + teamId,
+                url: process.env.REACT_APP_API_BASE_URL + '/teams/' + editParam,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${currentUser?.data[0]?.token}`

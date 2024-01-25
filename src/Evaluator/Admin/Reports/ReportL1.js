@@ -25,6 +25,7 @@ import axios from 'axios';
 import '../../../Admin/Reports/reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportL1 = () => {
@@ -228,9 +229,18 @@ const ReportL1 = () => {
     }, []);
 
     const fetchData = () => {
-        const url = `/reports/L1deatilreport?status=ACTIVE&state=${RegTeachersState}&district=${
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
-        }&category=${category}&sdg=${sdg}`;
+        const edist =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const param = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE',
+                state: RegTeachersState,
+                district: edist,
+                category: category,
+                sdg: sdg
+            })
+        );
+        const url = `/reports/L1deatilreport?Data=${param}`;
 
         const config = {
             method: 'get',
@@ -254,8 +264,19 @@ const ReportL1 = () => {
                         Object.keys(parsedResponse).forEach((key) => {
                             const { challenge_question_id, selected_option } =
                                 parsedResponse[key];
-                            entry[challenge_question_id] =
-                                selected_option.toString();
+                            var newSelectedOption;
+                            const tostringCovert = selected_option.toString();
+                            if (
+                                tostringCovert === null ||
+                                tostringCovert === undefined
+                            ) {
+                                newSelectedOption = selected_option;
+                            } else {
+                                newSelectedOption = tostringCovert
+                                    .replace(/\n/g, ' ')
+                                    .replace(/,/g, ';');
+                            }
+                            entry[challenge_question_id] = newSelectedOption;
                         });
 
                         return {
@@ -263,7 +284,6 @@ const ReportL1 = () => {
                         };
                     });
                     setDownloadData(transformedData);
-                    console.log(transformedData, 'Data');
 
                     csvLinkRef.current.link.click();
                     openNotificationWithIcon(
@@ -352,7 +372,7 @@ const ReportL1 = () => {
                             rejected: 0
                         }
                     );
-                    console.log(total, 'Total');
+
                     var array = chartTableData;
                     array.push({ state: 'Total Count', ...total });
                     setChartTableData(array);
@@ -377,7 +397,6 @@ const ReportL1 = () => {
         axios(config)
             .then((res) => {
                 if (res.status === 200) {
-                    console.log(res, '6');
                     const chartTableData2 = res?.data?.data || [];
 
                     setChartTableData2(chartTableData2);
@@ -542,7 +561,7 @@ const ReportL1 = () => {
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
-                                                                    Evaluated
+                                                                    Submitted
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
@@ -672,7 +691,7 @@ const ReportL1 = () => {
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas
-                                                                    Submitted
+                                                                    Evaluated
                                                                 </th>
                                                                 <th>
                                                                     No of Ideas

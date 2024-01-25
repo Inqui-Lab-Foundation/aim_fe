@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next';
 import DoubleBounce from '../../components/Loaders/DoubleBounce';
 import Select from '../../Admin/Challenges/pages/Select';
 import { Modal } from 'react-bootstrap';
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 // const { TabPane } = Tabs;
 
 const ViewTeamMember = (props) => {
@@ -70,11 +71,17 @@ const ViewTeamMember = (props) => {
     }, [teamId, count]);
 
     const teamListbymentorid = () => {
+        const teamListbymentorparam = encryptGlobal(
+            JSON.stringify({
+                mentor_id: mentorId
+            })
+        );
+
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/listwithideaStatus?mentor_id=${mentorId}`,
+                `/teams/listwithideaStatus?Data=${teamListbymentorparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -114,11 +121,16 @@ const ViewTeamMember = (props) => {
             });
     };
     const ideaStatusfun = () => {
+        const ideaStatusparam = encryptGlobal(
+            JSON.stringify({
+                team_id: teamId
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/challenge_response/ideastatusbyteamId?team_id=${teamId}`,
+                `/challenge_response/ideastatusbyteamId?Data=${ideaStatusparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -139,11 +151,16 @@ const ViewTeamMember = (props) => {
         mentorsData();
     }, []);
     const mentorsData = () => {
+        const mentorsparam = encryptGlobal(
+            JSON.stringify({
+                team_id: teamId
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${teamId}`,
+                `/teams/teamMentor?Data=${mentorsparam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -187,10 +204,13 @@ const ViewTeamMember = (props) => {
             })
             .then((result) => {
                 if (result.isConfirmed) {
+                    const paramId = encryptGlobal(JSON.stringify(id));
                     var config = {
                         method: 'delete',
                         url:
-                            process.env.REACT_APP_API_BASE_URL + '/teams/' + id,
+                            process.env.REACT_APP_API_BASE_URL +
+                            '/teams/' +
+                            paramId,
                         headers: {
                             'Content-Type': 'application/json',
                             // Accept: "application/json",
@@ -240,12 +260,12 @@ const ViewTeamMember = (props) => {
             team_id: teamchangeobj[name].toString(),
             full_name: selectedstudent.full_name
         };
+        const stuparamId = encryptGlobal(
+            JSON.stringify(selectedstudent.student_id)
+        );
         var config = {
             method: 'PUT',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/students/' +
-                selectedstudent.student_id,
+            url: process.env.REACT_APP_API_BASE_URL + '/students/' + stuparamId,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -330,7 +350,7 @@ const ViewTeamMember = (props) => {
             },
             {
                 name: 'User Id',
-                selector: 'user.username',
+                selector: (row) => row.user.username,
                 // width: '35rem',
                 cell: (row) => (
                     <div
@@ -345,7 +365,7 @@ const ViewTeamMember = (props) => {
             },
             {
                 name: 'Password',
-                selector: 'UUID',
+                selector: (row) => row.UUID,
                 // width: '15rem'
                 cell: (row) => (
                     <div
@@ -360,7 +380,7 @@ const ViewTeamMember = (props) => {
             },
             {
                 name: t('teacher_teams.student_name'),
-                selector: 'full_name',
+                selector: (row) => row.full_name,
                 cell: (row) => (
                     <div
                         style={{
@@ -380,23 +400,23 @@ const ViewTeamMember = (props) => {
             // },
             {
                 name: 'Disability',
-                selector: 'disability',
+                selector: (row) => row.disability,
                 width: '15rem'
             },
             {
                 name: 'Class',
-                selector: 'Grade',
+                selector: (row) => row.Grade,
                 width: '7rem'
             },
             {
                 name: t('teacher_teams.age'),
-                selector: 'Age',
+                selector: (row) => row.Age,
                 width: '7rem'
             },
 
             {
                 name: t('teacher_teams.gender'),
-                selector: 'Gender',
+                selector: (row) => row.Gender,
                 width: '10rem'
             },
             {
@@ -483,12 +503,15 @@ const ViewTeamMember = (props) => {
             })
             .then((result) => {
                 if (result.isConfirmed) {
+                    const delparamId = encryptGlobal(
+                        JSON.stringify(item.student_id)
+                    );
                     var config = {
                         method: 'delete',
                         url:
                             process.env.REACT_APP_API_BASE_URL +
                             '/students/' +
-                            item.student_id,
+                            delparamId,
                         headers: {
                             'Content-Type': 'application/json',
                             Authorization: `Bearer ${currentUser?.data[0]?.token}`

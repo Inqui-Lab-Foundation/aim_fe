@@ -40,7 +40,7 @@ function ForgotPassword(props) {
                         props.setShow(false);
                         openNotificationWithIcon(
                             'success',
-                            'Temporary Password Sent Successfully'
+                            'Password reset link will be sent to registered email'
                         );
                     }
                 })

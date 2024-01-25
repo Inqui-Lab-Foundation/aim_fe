@@ -59,14 +59,20 @@ const EvaluatedIdea = () => {
 
     const handleclickcall = () => {
         // here we can select status , district , SDG //
+        const newQuery = {
+            evaluation_status : 'SELECTEDROUND1',
+            level:'L2',
+            state: state !== 'All States' ? state : '',
+            sdg: sdg !== 'All Themes' ? sdg : '',
+        };
         setshowspin(true);
-        dispatch(getL1EvaluatedIdea(filterParams, setshowspin));
+        dispatch(getL1EvaluatedIdea(newQuery, setshowspin));
     };
-    const levelparam = '?evaluation_status=SELECTEDROUND1&level=L2';
-    const districtparam =
-        state && state !== 'All States' ? '&state=' + state : '';
-    const sdgparam = sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '';
-    const filterParams = levelparam + districtparam + sdgparam;
+    // const levelparam = '?evaluation_status=SELECTEDROUND1&level=L2';
+    // const districtparam =
+    //     state && state !== 'All States' ? '&state=' + state : '';
+    // const sdgparam = sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '';
+    // const filterParams = levelparam + districtparam + sdgparam;
     const [isDetail, setIsDetail] = React.useState(false);
     const [ideaDetails, setIdeaDetails] = React.useState([]);
     const [currentRow, setCurrentRow] = React.useState(1);
@@ -110,10 +116,7 @@ const EvaluatedIdea = () => {
                 width: '10rem'
             },
             {
-                name: 'Theme',
-                // selector: (row) => row.sdg,
-                selector: 'sdg',
-
+                name: 'Theme', 
                 cell: (row) => (
                     <div
                         style={{
@@ -129,9 +132,6 @@ const EvaluatedIdea = () => {
 
             {
                 name: 'Problem Statement',
-                // selector: (row) => row.sub_category,
-                selector: 'sub_category',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -146,8 +146,6 @@ const EvaluatedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
-                selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div

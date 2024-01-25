@@ -37,14 +37,14 @@ const CreateTeam = (props) => {
             teamName: Yup.string()
                 .required('Please enter Team name')
                 .matches(
-                    /^[A-Za-z0-9 ]*$/,
+                    /^[a-zA-Z0-9\s]+$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),
             name: Yup.string()
                 // .required('Please enter Mentor Details')
                 .matches(
-                    /^[A-Za-z0-9 ]*$/,
+                    /^[a-zA-Z0-9\s]+$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim(),

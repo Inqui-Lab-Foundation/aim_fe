@@ -15,7 +15,7 @@ import { getCurrentUser, openNotificationWithIcon } from '../../helpers/Utils';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 import {
     getStudentDashboardStatus,
     getStudentDashboardTeamProgressStatus
@@ -53,11 +53,16 @@ const CommonUserProfile = (props) => {
         }
     }, [currentUser?.data[0]?.user_id, language]);
     useEffect(() => {
+        const stuParam = encryptGlobal(
+            JSON.stringify({
+                user_id: StudentsDaTa.user_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/dashboard/quizscores?user_id=${StudentsDaTa.user_id}`,
+                `/dashboard/quizscores?Data=${stuParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -84,7 +89,7 @@ const CommonUserProfile = (props) => {
         localStorage.setItem('dist', props.location.dist);
         localStorage.setItem('num', props.location.num);
     };
-    // console.log(StudentsDaTa?.team?.mentor?.organization.state, '1');
+   
     const handleReset = () => {
         // here we can reset password as  user_id //
         // here data = student_id //
@@ -128,11 +133,16 @@ const CommonUserProfile = (props) => {
         mentorsData();
     }, []);
     const mentorsData = () => {
+        const mentorsParam = encryptGlobal(
+            JSON.stringify({
+                team_id: StudentsDaTa.team.team_id
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/teams/teamMentor?team_id=${StudentsDaTa.team.team_id}`,
+                `/teams/teamMentor?Data=${mentorsParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -142,7 +152,7 @@ const CommonUserProfile = (props) => {
         axios(config)
             .then(function (response) {
                 if (response.status === 200) {
-                    // console.log(response, 'res');
+                   
                     setData(response?.data?.data[0]);
                     setButton(response.data.data[0].moc_name);
                     // if (response.data.data[0].moc_name !== null) {
@@ -227,7 +237,6 @@ const CommonUserProfile = (props) => {
             },
             {
                 name: 'Quiz',
-                // selector: 'level_name',
                 // sortable: true,
                 selector: (row) => row.quiz_id,
                 sortable: true,
@@ -236,7 +245,6 @@ const CommonUserProfile = (props) => {
 
             {
                 name: 'Attempts',
-                // selector: 'level_name',
                 // sortable: true,
                 selector: (row) => row.attempts,
                 sortable: true,
@@ -244,9 +252,7 @@ const CommonUserProfile = (props) => {
             },
             {
                 name: 'Score',
-                // selector: 'eval_schema',
                 selector: (row) => (row.score ? row.score : '-'),
-
                 width: '20rem'
             }
         ]

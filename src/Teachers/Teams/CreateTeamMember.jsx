@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { teacherCreateMultipleStudent } from '../store/teacher/actions';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const studentBody = {
     full_name: '',
     Age: '',
@@ -515,13 +515,16 @@ const CreateTeamMember = (props) => {
     }, [id]);
 
     async function handleCreateMemberAPI(teamId) {
+        const creaParam = encryptGlobal(JSON.stringify(teamId));
+        const param = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE'
+            })
+        );
+
         var config = {
             method: 'get',
-            url:
-                process.env.REACT_APP_API_BASE_URL +
-                '/teams/' +
-                teamId +
-                '?status=ACTIVE',
+            url:`${process.env.REACT_APP_API_BASE_URL}/teams/${creaParam}?Data=${param}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

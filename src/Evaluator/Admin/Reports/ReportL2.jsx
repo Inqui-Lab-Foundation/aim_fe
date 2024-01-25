@@ -25,6 +25,7 @@ import axios from 'axios';
 import '../../../Admin/Reports/reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportL2 = () => {
@@ -246,9 +247,18 @@ const ReportL2 = () => {
     // }, []);
 
     const fetchData = () => {
-        const url = `/reports/L2deatilreport?status=ACTIVE&state=${RegTeachersState}&district=${
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
-        }&category=${category}&sdg=${sdg}`;
+        const eDistParam =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const api = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE',
+                state: RegTeachersState,
+                district: eDistParam,
+                category: category,
+                sdg: sdg
+            })
+        );
+        const url = `/reports/L2deatilreport?Data=${api}`;
 
         const config = {
             method: 'get',
@@ -279,8 +289,19 @@ const ReportL2 = () => {
                         Object.keys(parsedResponse).forEach((key) => {
                             const { challenge_question_id, selected_option } =
                                 parsedResponse[key];
-                            entry[challenge_question_id] =
-                                selected_option.toString();
+                            var newSelectedOption;
+                            const tostringCovert = selected_option.toString();
+                            if (
+                                tostringCovert === null ||
+                                tostringCovert === undefined
+                            ) {
+                                newSelectedOption = selected_option;
+                            } else {
+                                newSelectedOption = tostringCovert
+                                    .replace(/\n/g, ' ')
+                                    .replace(/,/g, ';');
+                            }
+                            entry[challenge_question_id] = newSelectedOption;
                         });
 
                         return {

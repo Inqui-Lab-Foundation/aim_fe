@@ -12,6 +12,7 @@ import {
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../../../stories/Button';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 const Evalprocess = () => {
     const history = useHistory();
     const [evalList, setEvalList] = useState([]);
@@ -21,11 +22,16 @@ const Evalprocess = () => {
     }, []);
     async function handleEvalList() {
         //  handleEvalList Api where we can see list of all evaluationProcess //
+        const statusParam = encryptGlobal(
+            JSON.stringify({
+                status: 'ALL'
+            })
+        );
         var config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                '/evaluationProcess?status=ALL',
+                `/evaluationProcess?Data=${statusParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -68,7 +74,6 @@ const Evalprocess = () => {
 
             {
                 name: 'Level Name',
-                // selector: 'level_name',
                 // sortable: true,
                 cellExport: (row) => row.state,
                 selector: (row) => row.level_name,
@@ -77,7 +82,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'Evaluation Schema',
-                // selector: 'eval_schema',
                 selector: (row) => row.eval_schema,
                 cellExport: (row) => row.eval_schema,
 
@@ -85,7 +89,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'No of Evaluations',
-                // selector: 'no_of_evaluation',
                 selector: (row) => row.no_of_evaluation,
                 cellExport: (row) => row.no_of_evaluation,
                 width: '15%'
@@ -108,7 +111,6 @@ const Evalprocess = () => {
             },
             {
                 name: 'Actions',
-                // selector: 'action',
                 cellExport: (row) => '',
                 center: true,
                 width: '40%',
@@ -158,9 +160,10 @@ const Evalprocess = () => {
     }
 
     const Statusfunc = async (item, id) => {
+        const popId = encryptGlobal(JSON.stringify(id));
         let config = {
             method: 'put',
-            url: process.env.REACT_APP_API_BASE_URL + `/popup/${id}`,
+            url: process.env.REACT_APP_API_BASE_URL + `/popup/${popId}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`

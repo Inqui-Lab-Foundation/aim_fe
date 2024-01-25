@@ -25,6 +25,7 @@ import axios from 'axios';
 import '../../../Admin/Reports/reports.scss';
 import { Doughnut } from 'react-chartjs-2';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt.js';
 // import { categoryValue } from '../../Schools/constentText';
 
 const ReportL3 = () => {
@@ -261,9 +262,18 @@ const ReportL3 = () => {
     // }, []);
 
     const fetchData = () => {
-        const url = `/reports/L3deatilreport?status=ACTIVE&state=${RegTeachersState}&district=${
-            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict
-        }&category=${category}&sdg=${sdg}`;
+        const distApi =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const variables = encryptGlobal(
+            JSON.stringify({
+                status: 'ACTIVE',
+                state: RegTeachersState,
+                district: distApi,
+                category: category,
+                sdg: sdg
+            })
+        );
+        const url = `/reports/L3deatilreport?Data=${variables}`;
 
         const config = {
             method: 'get',
@@ -296,8 +306,19 @@ const ReportL3 = () => {
                         Object.keys(parsedResponse).forEach((key) => {
                             const { challenge_question_id, selected_option } =
                                 parsedResponse[key];
-                            entry[challenge_question_id] =
-                                selected_option.toString();
+                            var newSelectedOption;
+                            const tostringCovert = selected_option.toString();
+                            if (
+                                tostringCovert === null ||
+                                tostringCovert === undefined
+                            ) {
+                                newSelectedOption = selected_option;
+                            } else {
+                                newSelectedOption = tostringCovert
+                                    .replace(/\n/g, ' ')
+                                    .replace(/,/g, ';');
+                            }
+                            entry[challenge_question_id] = newSelectedOption;
                         });
 
                         return {
@@ -377,7 +398,7 @@ const ReportL3 = () => {
             .then((response) => {
                 if (response.status === 200) {
                     // console.log(res, '6');
-                    console.log(response.data.data, 'response.data.data');
+
                     const countData = {
                         overall: {
                             '1to3': 0,
@@ -500,7 +521,7 @@ const ReportL3 = () => {
                             runners: 0
                         }
                     );
-                    console.log(total, 'Total');
+
                     var array = chartTableData2;
                     array.push({ state: 'Total Count', ...total });
                     setChartTableData2(array);

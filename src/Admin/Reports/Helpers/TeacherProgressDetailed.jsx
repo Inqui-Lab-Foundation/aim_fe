@@ -20,6 +20,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
 import { categoryValue } from '../../Schools/constentText';
 import { notification } from 'antd';
+import { encryptGlobal } from '../../../constants/encryptDecrypt';
 
 const TeacherDetailed = () => {
     const [district, setdistrict] = React.useState('');
@@ -379,7 +380,6 @@ const TeacherDetailed = () => {
         axios(config)
             .then(function (res) {
                 if (res.status === 200) {
-                    console.log(res);
                     var mentorStuArray = [];
                     res &&
                         res.data &&
@@ -389,7 +389,6 @@ const TeacherDetailed = () => {
                             return mentorStuArray.push({ ...students, key });
                         });
                     setAtl(mentorStuArray);
-                    // console.log(mentorStuArray);
 
                     // setAtl(response.data.data);
                     const barStudentData = {
@@ -434,13 +433,18 @@ const TeacherDetailed = () => {
         fetchData();
     };
     const fetchData = () => {
+        const apiRes = encryptGlobal(
+            JSON.stringify({
+                state: state,
+                district: district === '' ? 'All Districts' : district,
+                category: category
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailsreport?state=${state}&district=${
-                    district === '' ? 'All Districts' : district
-                }&category=${category}`,
+                `/reports/mentordetailsreport?Data=${apiRes}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -565,8 +569,6 @@ const TeacherDetailed = () => {
                             courseINcompleted: 0
                         }
                     );
-                    console.log('Total count', total);
-
                     const doughnutData = {
                         labels: ['Male', 'Female'],
                         datasets: [
@@ -639,7 +641,6 @@ const TeacherDetailed = () => {
                 console.log('API error:', error);
             });
     };
-    // console.log(downloadTableData);
 
     return (
         <>

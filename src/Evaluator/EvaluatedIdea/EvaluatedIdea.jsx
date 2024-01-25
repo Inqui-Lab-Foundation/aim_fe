@@ -73,25 +73,33 @@ const EvaluatedIdea = () => {
 
     const handleclickcall = () => {
         // here we can select status , district , SDG //
+        const newQuery = {
+            level:'L1',
+            evaluation_status: status !== 'Both'? (status === 'Accepted' ? 'SELECTEDROUND1' : 'REJECTEDROUND1'): '',
+            state: state !== 'All States' ? state : '',
+            sdg: sdg !== 'All Themes' ? sdg : '',
+            rejected_reason : reason,
+            rejected_reasonSecond : reason2
+        };
         setshowspin(true);
-        dispatch(getL1EvaluatedIdea(filterParams, setshowspin));
+        dispatch(getL1EvaluatedIdea(newQuery, setshowspin));
     };
-    const levelparam = '?level=L1';
-    const statusparam =
-        status && status !== 'Both'
-            ? '&evaluation_status=' +
-              (status === 'Accepted' ? 'SELECTEDROUND1' : 'REJECTEDROUND1')
-            : '';
-    const districtparam =
-        state && state !== 'All States' ? '&state=' + state : '';
-    const sdgparam = sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '';
-    const filterParams =
-        levelparam +
-        statusparam +
-        districtparam +
-        sdgparam +
-        (reason && '&rejected_reason=' + reason) +
-        (reason2 && '&rejected_reasonSecond=' + reason2);
+    // const levelparam = '?level=L1';
+    // const statusparam =
+    //     status && status !== 'Both'
+    //         ? '&evaluation_status=' +
+    //           (status === 'Accepted' ? 'SELECTEDROUND1' : 'REJECTEDROUND1')
+    //         : '';
+    // const districtparam =
+    //     state && state !== 'All States' ? '&state=' + state : '';
+    // const sdgparam = sdg && sdg !== 'All Themes' ? '&sdg=' + sdg : '';
+    // const filterParams =
+    //     levelparam +
+    //     statusparam +
+    //     districtparam +
+    //     sdgparam +
+    //     (reason && '&rejected_reason=' + reason) +
+    //     (reason2 && '&rejected_reasonSecond=' + reason2);
     const [isDetail, setIsDetail] = React.useState(false);
     const [ideaDetails, setIdeaDetails] = React.useState([]);
     const [currentRow, setCurrentRow] = React.useState(1);
@@ -135,9 +143,6 @@ const EvaluatedIdea = () => {
             },
             {
                 name: 'Theme',
-                // selector: (row) => row.sdg,
-                selector: 'sdg',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -153,9 +158,6 @@ const EvaluatedIdea = () => {
 
             {
                 name: 'Problem Statement',
-                // selector: (row) => row.sub_category,
-                selector: 'sub_category',
-
                 cell: (row) => (
                     <div
                         style={{
@@ -170,8 +172,6 @@ const EvaluatedIdea = () => {
             },
             {
                 name: 'Idea Name',
-                // selector: (row) => row?.response[1]?.selected_option || '',
-                selector: 'response[1]?.selected_option',
                 // sortable: true,
                 cell: (row) => (
                     <div

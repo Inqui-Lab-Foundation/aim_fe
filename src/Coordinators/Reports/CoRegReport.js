@@ -20,10 +20,10 @@ import { notification } from 'antd';
 import { categoryValue } from '../../Admin/Schools/constentText';
 // import { getDistrictByName } from '../../Coordinators/store/Coordinator/actions';
 import { Bar } from 'react-chartjs-2';
-
+import { encryptGlobal } from '../../constants/encryptDecrypt';
 const CoRegReport = () => {
     const currentUser = getCurrentUser('current_user');
-    // console.log(currentUser);
+   
     const [RegTeachersState, setRegTeachersState] = React.useState(
         currentUser?.data[0]?.state_name
     );
@@ -38,7 +38,7 @@ const CoRegReport = () => {
     const [downloadNotRegisteredData, setDownloadNotRegisteredData] =
         useState(null);
     const [chartTableData, setChartTableData] = useState([]);
-    // console.log(chartTableData);
+ 
 
     const csvLinkRefTable = useRef();
     const csvLinkRef = useRef();
@@ -56,7 +56,6 @@ const CoRegReport = () => {
         (state) => state?.studentRegistration?.fetchdist
     );
     // const coordinator = useSelector((state) => state.coordinator);
-    // console.log(coordinator, 'coordinator');
 
     // useLayoutEffect(() => {
     //     if (currentUser?.data[0]?.district_name) {
@@ -323,19 +322,29 @@ const CoRegReport = () => {
         }
     };
     const fetchData = (item) => {
+        const regaram =
+            RegTeachersdistrict === '' ? 'All Districts' : RegTeachersdistrict;
+        const param = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                status: 'ACTIVE',
+                district: regaram,
+                category: category
+            })
+        );
+
+        const params = encryptGlobal(
+            JSON.stringify({
+                state: RegTeachersState,
+                district: regaram,
+                category: category
+            })
+        );
         const url =
             item === 'Registered'
-                ? `/reports/mentorRegList?status=ACTIVE&state=${RegTeachersState}&district=${
-                      RegTeachersdistrict === ''
-                          ? 'All Districts'
-                          : RegTeachersdistrict
-                  }&category=${category}`
+                ? `/reports/mentorRegList?Data=${param}`
                 : item === 'Not Registered'
-                ? `/reports/notRegistered?&state=${RegTeachersState}&district=${
-                      RegTeachersdistrict === ''
-                          ? 'All Districts'
-                          : RegTeachersdistrict
-                  }&category=${category}`
+                ? `/reports/notRegistered?Data=${params}`
                 : '';
 
         const config = {
@@ -408,11 +417,16 @@ const CoRegReport = () => {
     }, [downloadComplete]);
 
     const fetchChartTableData = () => {
+        const tabParam = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentorsummary?state=${currentUser?.data[0]?.state_name}`,
+                `/reports/mentorsummary?Data=${tabParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -422,7 +436,6 @@ const CoRegReport = () => {
         axios(config)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response);
                     const chartTableData = response?.data?.data || [];
                     setChartTableData(chartTableData);
                     setDownloadTableData(chartTableData);
