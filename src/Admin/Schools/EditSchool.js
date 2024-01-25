@@ -102,7 +102,7 @@ const EditSchool = (props) => {
         validationSchema: Yup.object({
             organization_code: Yup.string()
                 .matches(
-                    /^[A-Za-z0-9]*$/,
+                    /^[A-Za-z0-9/-]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim()
@@ -113,7 +113,10 @@ const EditSchool = (props) => {
             unique_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('UDISE Code is Required'),
-            address: Yup.string().required('Address is required'),
+            address: Yup.string()
+                .required('Address is required')
+                .matches(/^[a-zA-Z0-9\s\-/_]+$/, 'please enter valid address'),
+
             pin_code: Yup.string()
                 .matches(/^[0-9]*$/, 'Please enter Numeric values')
                 .required('Please Enter PinCode'),
@@ -133,7 +136,10 @@ const EditSchool = (props) => {
                 .optional()
                 .matches(/^[aA-zZ\s/^.*$/]+$/, 'Invalid Name')
                 .trim(),
-            city: Yup.string().matches(/^[aA-zZ\s/^.*$/]+$/)
+            city: Yup.string().matches(
+                /^[aA-zZ\s/^.*$/]+$/,
+                'please enter valid city'
+            )
         }),
 
         onSubmit: (values) => {
