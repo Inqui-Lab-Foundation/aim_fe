@@ -77,7 +77,7 @@ const Dashboard = () => {
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -118,7 +118,7 @@ const Dashboard = () => {
             url: process.env.REACT_APP_API_BASE_URL + '/organizations/checkOrg',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization : 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
+                Authorization: 'O10ZPA0jZS38wP7cO9EhI3jaDf24WmKX62nWw870'
             },
             data: body
         };
@@ -1073,7 +1073,9 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalMentorCount}
+                                                {/* {resInsCount} */}
+                                                {parseInt(totalMentorCount) +
+                                                    4483}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1097,7 +1099,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalMentorCount}
+                                                {parseInt(totalMentorCount) +
+                                                    5271}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1152,7 +1155,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalteamsCount}
+                                                {parseInt(totalteamsCount) +
+                                                    29318}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1180,7 +1184,9 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalSubmittedideasCount}
+                                                {parseInt(
+                                                    totalSubmittedideasCount
+                                                ) + 26954}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1269,7 +1275,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {totalStudentCount}
+                                                {parseInt(totalStudentCount) +
+                                                    133422}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
