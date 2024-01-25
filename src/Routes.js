@@ -180,7 +180,7 @@ import CooMentorEditProfile from './Coordinators/UsersList/MentorEditProfile';
 import CooTeacherViewDetails from './Coordinators/UsersList/TeacView';
 import CooRegister from './Coordinators/UsersList/TeacReg';
 import CooAtlReg from './Coordinators/UsersList/AtlReg';
-import CooSucsessAtl from './Coordinators/UsersList/AtlReg';
+import CooSucsessAtl from './Coordinators/UsersList/SuccessAtl';
 import CooNonAtlReg from './Coordinators/UsersList/NonAtlReg';
 import CooSuccessNonAtl from './Coordinators/UsersList/SuccessNonAtl';
 import CooUserProfileEdit from './Coordinators/Dashboard/EditProfile';
