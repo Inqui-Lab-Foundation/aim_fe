@@ -647,11 +647,7 @@ const Dashboard = () => {
                 console.log(error);
             });
     };
-    const resInsCount = parseInt(totalMentorCount) + 4483;
-    const resMentCount = parseInt(totalMentorCount) + 5271;
-    const resTeams = parseInt(totalteamsCount) + 29318;
-    const resIdeas = parseInt(totalSubmittedideasCount) + 26954;
-    const resstu = parseInt(totalStudentCount) + 133422;
+
     //     return (
     //         <Layout>
     //             <Container>
@@ -1077,7 +1073,9 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {resInsCount}
+                                                {/* {resInsCount} */}
+                                                {parseInt(totalMentorCount) +
+                                                    4483}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1101,7 +1099,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {resMentCount}
+                                                {parseInt(totalMentorCount) +
+                                                    5271}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1156,7 +1155,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {resTeams}
+                                                {parseInt(totalteamsCount) +
+                                                    29318}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1184,7 +1184,9 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {resIdeas}
+                                                {parseInt(
+                                                    totalSubmittedideasCount
+                                                ) + 26954}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
@@ -1273,7 +1275,8 @@ const Dashboard = () => {
                                                     marginBottom: '20px'
                                                 }}
                                             >
-                                                {resstu}
+                                                {parseInt(totalStudentCount) +
+                                                    133422}
                                             </Card.Text>
                                         </Card.Body>
                                     </Card>
