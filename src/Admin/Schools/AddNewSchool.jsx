@@ -73,7 +73,7 @@ const AddNewSchool = (props) => {
         validationSchema: Yup.object({
             organization_code: Yup.string()
                 .matches(
-                    /^[A-Za-z0-9]*$/,
+                    /^[A-Za-z0-9/-]*$/,
                     'Please enter only alphanumeric characters'
                 )
                 .trim()
@@ -108,7 +108,10 @@ const AddNewSchool = (props) => {
                 .optional()
                 .matches(/^[aA-zZ\s/^.*$/]+$/, 'Invalid Name')
                 .trim(),
-            city: Yup.string().matches(/^[aA-zZ\s/^.*$/]+$/)
+            city: Yup.string().matches(
+                /^[aA-zZ\s/^.*$/]+$/,
+                'please enter valid city name'
+            )
         }),
 
         onSubmit: async (values) => {
