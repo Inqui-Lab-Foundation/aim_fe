@@ -306,9 +306,6 @@ function RegisterNew() {
             setnewDistrict(e.target.value);
         }
     };
-    const handleOnChangeNewDistrict = (e) => {
-        setnewDistrict(e.target.value);
-    };
     const handleSubmit = (e) => {
         const body = {
             state: stateData,
