@@ -39,7 +39,7 @@ import {
     getPinCodeData
 } from '../../redux/studentRegistration/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { decryptGlobal } from '../../constants/encryptDecrypt';
+import { decryptGlobal, encryptGlobal } from '../../constants/encryptDecrypt';
 
 function RegisterNew() {
     const { t } = useTranslation();
