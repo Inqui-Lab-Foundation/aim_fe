@@ -132,8 +132,8 @@ const EditSchool = (props) => {
             principal_name: Yup.string()
                 .optional()
                 .matches(/^[aA-zZ\s/^.*$/]+$/, 'Invalid Name')
-                .trim()
-            // city: Yup.string().matches(/^[aA-zZ\s/^.*$/]+$/)
+                .trim(),
+            city: Yup.string().matches(/^[aA-zZ\s/^.*$/]+$/)
         }),
 
         onSubmit: (values) => {
@@ -146,6 +146,7 @@ const EditSchool = (props) => {
                 pin_code: values.pin_code,
                 address: values.address,
                 unique_code: values.unique_code,
+                city: values.city,
                 district: values.district,
                 organization_name: values.organization_name,
                 status: values.status
