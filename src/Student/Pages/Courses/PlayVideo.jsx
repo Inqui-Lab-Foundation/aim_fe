@@ -320,7 +320,7 @@ const PlayVideoCourses = (props) => {
                 process.env.REACT_APP_API_BASE_URL +
                 '/videos/' +
                 videoParam +
-                '?' +
+                '?Data='+
                 New,
             headers: {
                 'Content-Type': 'application/json',
@@ -398,7 +398,7 @@ const PlayVideoCourses = (props) => {
             url:
                 process.env.REACT_APP_API_BASE_URL +
                 '/userTopicProgress' +
-                '?' +
+                '?Data=' +
                 resapi,
             headers: {
                 'Content-Type': 'application/json',
@@ -769,7 +769,7 @@ const PlayVideoCourses = (props) => {
                     '/worksheets/' +
                     worksheetId +
                     '/response' +
-                    '?' +
+                    '?Data=' +
                     getres,
                 headers: {
                     'Content-Type': 'application/json',
