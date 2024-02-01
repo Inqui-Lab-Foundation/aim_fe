@@ -352,7 +352,6 @@ const CoTeacherDetailedReport = () => {
         axios(config)
             .then(function (res) {
                 if (res.status === 200) {
-                   
                     var mentorStuArray = [];
                     res &&
                         res.data &&
@@ -362,7 +361,6 @@ const CoTeacherDetailedReport = () => {
                             return mentorStuArray.push({ ...students, key });
                         });
                     setAtl(mentorStuArray);
-                    
 
                     // setAtl(response.data.data);
                     const barStudentData = {
@@ -455,11 +453,16 @@ const CoTeacherDetailedReport = () => {
     };
 
     const fetchChartTableData = () => {
+        const staParam = encryptGlobal(
+            JSON.stringify({
+                state: currentUser?.data[0]?.state_name
+            })
+        );
         const config = {
             method: 'get',
             url:
                 process.env.REACT_APP_API_BASE_URL +
-                `/reports/mentordetailstable?state=${currentUser?.data[0]?.state_name}`,
+                `/reports/mentordetailstable?Data=${staParam}`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
