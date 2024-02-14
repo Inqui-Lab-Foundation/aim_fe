@@ -291,7 +291,6 @@ const PostSurvey = () => {
                             <CardBody>
                                 {teamsCount !== 0 &&
                                 ideaCount !== 0 &&
-                                teamsCount === ideaCount &&
                                 postSurveyStatus != 'COMPLETED' ? (
                                     <>
                                         <UncontrolledAlert

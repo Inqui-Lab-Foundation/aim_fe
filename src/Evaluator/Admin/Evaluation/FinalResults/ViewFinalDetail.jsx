@@ -230,6 +230,16 @@ const ViewDetail = (props) => {
                                                 )}
                                             </p>
                                         </div>
+                                        {
+                                            item.challenge_question_id === 5 && (
+                                                <>
+                                                    < a href={item.selected_option} target="_blank" rel="noopener noreferrer">
+                                                        {`Watch Here`}
+                                                    </a>
+                                                    <p>(Note : if students submitted multiple links, please copy paste in browser.)</p>
+                                                </>
+                                            )
+                                        }
                                     </div>
                                 );
                             })}
