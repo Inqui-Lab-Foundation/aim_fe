@@ -101,11 +101,10 @@ const IdeaDetail = (props) => {
         );
         var config = {
             method: 'put',
-            url: `${
-                process.env.REACT_APP_API_BASE_URL +
+            url: `${process.env.REACT_APP_API_BASE_URL +
                 '/challenge_response/' +
                 challId
-            }`,
+                }`,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${currentUser?.data[0]?.token}`
@@ -138,7 +137,6 @@ const IdeaDetail = (props) => {
             setIsreject(false);
         }
     };
-
     return (
         <>
             {teamResponse && teamResponse?.length > 0 ? (
@@ -218,11 +216,10 @@ const IdeaDetail = (props) => {
                         </div>
 
                         <div
-                            className={`${
-                                props?.ideaDetails?.status === 'SUBMITTED'
-                                    ? 'col-12'
-                                    : 'col-lg-8'
-                            } order-lg-0 order-1 p-0 h-100`}
+                            className={`${props?.ideaDetails?.status === 'SUBMITTED'
+                                ? 'col-12'
+                                : 'col-lg-8'
+                                } order-lg-0 order-1 p-0 h-100`}
                         >
                             {teamResponse?.map((item, index) => {
                                 return (
@@ -247,7 +244,7 @@ const IdeaDetail = (props) => {
                                                 }}
                                             >
                                                 {item?.question_type ===
-                                                'MCQ' ? (
+                                                    'MCQ' ? (
                                                     item?.selected_option?.map(
                                                         (data, i) => {
                                                             return (
@@ -258,12 +255,12 @@ const IdeaDetail = (props) => {
                                                         }
                                                     )
                                                 ) : item?.question_type ===
-                                                      'TEXT' ||
-                                                  item?.question_type ===
-                                                      'MRQ' ? (
+                                                    'TEXT' ||
+                                                    item?.question_type ===
+                                                    'MRQ' ? (
                                                     item?.selected_option
                                                 ) : item?.question_type ===
-                                                  'DRAW' ? (
+                                                    'DRAW' ? (
                                                     <LinkComponent
                                                         item={
                                                             item.selected_option
@@ -274,6 +271,16 @@ const IdeaDetail = (props) => {
                                                 )}
                                             </p>
                                         </div>
+                                        {
+                                            item.challenge_question_id === 5 && (
+                                                <>
+                                                    < a href={item.selected_option} target="_blank" rel="noopener noreferrer">
+                                                        {`Watch Here`}
+                                                    </a>
+                                                    <p>(Note : if students submitted multiple links, please copy paste in browser.)</p>
+                                                </>
+                                            )
+                                        }
                                     </div>
                                 );
                             })}
@@ -340,7 +347,8 @@ const IdeaDetail = (props) => {
                         />
                     </div>
                 </>
-            )}
+            )
+            }
             {/* ----------reject-modal----- */}
             <Modal
                 show={isReject}
