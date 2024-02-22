@@ -212,6 +212,26 @@ const ReportL2 = () => {
             key: '5'
         },
         {
+            label: 'Novelty',
+            key: 'novelty'
+        },
+        {
+            label: 'Useful',
+            key: 'useful'
+        },
+        {
+            label: 'Feasibility',
+            key: 'feasibility'
+        },
+        {
+            label: 'Scalability',
+            key: 'scalability'
+        },
+        {
+            label: 'Sustainability',
+            key: 'sustainability'
+        },
+        {
             label: 'Overall Score',
             key: 'Overall score'
         },
@@ -224,8 +244,12 @@ const ReportL2 = () => {
             key: 'Feasibility score'
         },
         {
-            label: 'L2 Status',
+            label: 'L3 Status',
             key: 'final_result'
+        },
+        {
+            label: 'Evaluator Count',
+            key: 'eval_count'
         }
     ];
 
