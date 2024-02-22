@@ -221,6 +221,30 @@ const ReportL3 = () => {
             label: 'Upload Video of your project (Share Youtube link)',
             key: '5'
         },
+        // {
+        //     label: 'L3 Status (Promoted/Not Promoted)',
+        //     key: 'final_result'
+        // }
+        {
+            label: 'Novelty',
+            key: 'novelty'
+        },
+        {
+            label: 'Useful',
+            key: 'useful'
+        },
+        {
+            label: 'Feasibility',
+            key: 'feasibility'
+        },
+        {
+            label: 'Scalability',
+            key: 'scalability'
+        },
+        {
+            label: 'Sustainability',
+            key: 'sustainability'
+        },
         {
             label: 'Overall Score',
             key: 'Overall score'
@@ -233,9 +257,8 @@ const ReportL3 = () => {
             label: 'Feasibility Score',
             key: 'Feasibility score'
         },
-
         {
-            label: 'L3 Status (Promoted/Not Promoted)',
+            label: 'Status',
             key: 'final_result'
         }
         // {
