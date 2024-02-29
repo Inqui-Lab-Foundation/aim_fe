@@ -18,7 +18,7 @@ const Header = (props) => {
     const allIdeaList = useSelector(
         (state) => state?.evaluator.submittedIdeaList
     );
-        console.log(allIdeaList,"allIdeaList");
+    
     return (
         <header>
             <div className="header-comp sticky-top py-3">
