@@ -18,7 +18,7 @@ const Header = (props) => {
     const allIdeaList = useSelector(
         (state) => state?.evaluator.submittedIdeaList
     );
-
+        console.log(allIdeaList,"allIdeaList");
     return (
         <header>
             <div className="header-comp sticky-top py-3">
@@ -60,7 +60,7 @@ const Header = (props) => {
                                                     </span>
                                                 </p>
                                             </div>
-                                            <div className="col-sm-4 col-6">
+                                            {/* <div className="col-sm-4 col-6">
                                                 <p className="m-0 fs-3">
                                                     Yet to Process:&nbsp;
                                                     <span className="fs-4 text-danger">
@@ -69,7 +69,7 @@ const Header = (props) => {
                                                             0}
                                                     </span>
                                                 </p>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     )}
                                 </Col>
