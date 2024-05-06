@@ -131,7 +131,7 @@ function RegisterNew() {
                     </Row>
                     <Row className="article-header mb-4 mt-4 text-center">
                         <h3 className="mb-4">
-                            <span className="color-blue">Register As ?</span>
+                            <span className="color-blue">Register As As ?</span>
                         </h3>
                     </Row>
 
