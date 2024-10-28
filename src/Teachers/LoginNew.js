@@ -326,27 +326,51 @@ const LoginNew = (props) => {
                                         >
                                             <Button
                                                 {...logInBtn}
-                                                type="submit"
+                                                // type="submit"
                                                 btnClass={
                                                     !(
                                                         formik.dirty &&
                                                         formik.isValid
                                                     )
                                                         ? 'default'
-                                                        : 'primary'
+                                                        : 'default'
                                                 }
                                                 disabled={
-                                                    !(
-                                                        formik.dirty &&
-                                                        formik.isValid
-                                                    )
+                                                  true
                                                 }
+
                                                 style={{ borderRadius: '0' }}
                                             />
                                         </Col>
                                     </div>
                                     <div className="form-row row mb-5">
-                                        <Link
+                                        <p>ATL Marathon is now School Innovation Marathon this year.
+                                            {/* <br/> */}
+                                            Go to New Portal by
+                                    <a
+                                                    href="https://schoolinnovationmarathon.org/lp/"
+                                                    target="_blank"
+                                                    // type='button'
+                                                    rel="noopener noreferrer"
+                                                    className="m-3 text-center"
+                                                    style={{
+                                                        color: 'blue'
+                                                    }}
+                                                    // style={{
+                                                    //     display: 'inline-block',  
+                                                    //     padding: '10px 20px',     
+                                                    //     backgroundColor: '#f0f8ff', 
+                                                    //     borderRadius: '5px',      
+                                                    //     color: 'blue',
+                                                    //     textDecoration: 'none',   
+                                                    //     border: '1px solid blue', 
+                                                    // }}
+                                                >
+                                                    Clicking Here 
+                                                </a>
+                                                {/* to move to this year program */}
+                                                </p>
+                                        {/* <Link
                                             to={'/registration'}
                                             exact
                                             className="w-100 d-block text-center"
@@ -354,7 +378,7 @@ const LoginNew = (props) => {
                                             <strong>
                                                 Click Here To Register
                                             </strong>
-                                        </Link>
+                                        </Link> */}
                                     </div>
                                 </Form>
                             </Col>

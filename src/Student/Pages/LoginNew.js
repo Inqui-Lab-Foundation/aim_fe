@@ -296,21 +296,24 @@ const LoginNew = (props) => {
                                             >
                                                 <Button
                                                     {...logInBtn}
-                                                    type="submit"
+                                                    // type="submit"
                                                     btnClass={
                                                         !(
                                                             formik.dirty &&
                                                             formik.isValid
                                                         )
                                                             ? 'default'
-                                                            : 'primary'
+                                                            : 'default'
                                                     }
+                                                    // disabled={
+                                                    //     !(
+                                                    //         formik.dirty &&
+                                                    //         formik.isValid
+                                                    //     )
+                                                    // }
                                                     disabled={
-                                                        !(
-                                                            formik.dirty &&
-                                                            formik.isValid
-                                                        )
-                                                    }
+                                                        true
+                                                      }
                                                     style={{
                                                         borderRadius: '0'
                                                     }}

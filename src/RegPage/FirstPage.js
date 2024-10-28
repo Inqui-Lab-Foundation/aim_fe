@@ -148,7 +148,45 @@ function RegisterNew() {
                                         xl={12}
                                     >
                                         <div className="mt-6 mb-5 text-center">
-                                            <Button
+                                            <p>
+                                                {' '}
+                                                <span style={{color:"red"}}>
+                                                🔔 Important Update for ATL
+                                                Marathon Participants
+                                                <br />
+                                                </span>
+                                                The ATL Marathon is now the
+                                                School Innovation Marathon
+                                                2024-2025. To register and
+                                                submit your ideas for the
+                                                2024-2025 Marathon, please visit
+                                                the new portal by clicking the
+                                                button below.
+                                                <br />
+                                                <a
+                                                    href="https://schoolinnovationmarathon.org/lp/"
+                                                    target="_blank"
+                                                    // type='button'
+                                                    rel="noopener noreferrer"
+                                                    className="m-3 text-center"
+                                                    // style={{
+                                                    //     color: 'blue'
+                                                    // }}
+                                                    style={{
+                                                        display: 'inline-block',  
+                                                        padding: '10px 20px',     
+                                                        backgroundColor: '#f0f8ff', 
+                                                        borderRadius: '5px',      
+                                                        color: 'blue',
+                                                        textDecoration: 'none',   
+                                                        border: '1px solid blue', 
+                                                    }}
+                                                >
+                                                   Go to New Portal
+                                                </a>
+                                            </p>
+                                            <p>Thank you for joining us on this exciting journey!</p>
+                                            {/* <Button
                                                 label={'ATL School'}
                                                 btnClass="primary tex-center my-0 py-0 mx-3 px-3"
                                                 style={{
@@ -163,8 +201,7 @@ function RegisterNew() {
                                                     )
                                                 }
                                             />
-                                            {/* </div> */}
-                                            {/* <div className="mt-6 mb-5"> */}
+                                         
                                             <Button
                                                 btnClass="primary tex-center my-0 py-0 mx-3 px-3"
                                                 style={{
@@ -180,9 +217,9 @@ function RegisterNew() {
                                                         '/register/non-atl'
                                                     )
                                                 }
-                                            />
+                                            /> */}
                                         </div>
-                                        <div className="form-row row mb-5 mt-5 text-center">
+                                        {/* <div className="form-row row mb-5 mt-5 text-center">
                                             <p>
                                                 {' '}
                                                 Already a member ?
@@ -197,8 +234,8 @@ function RegisterNew() {
                                                     Login Here
                                                 </Link>
                                             </p>
-                                        </div>
-                                        <div className="form-row row mb-5 mt-5 text-left">
+                                        </div> */}
+                                        {/* <div className="form-row row mb-5 mt-5 text-left">
                                             <p>
                                                 {' '}
                                                 <span style={{ color: 'red' }}>
@@ -211,7 +248,7 @@ function RegisterNew() {
                                                 as mentors while creating
                                                 student teams.
                                             </p>
-                                        </div>
+                                        </div> */}
                                         {/* </Col> */}
                                         {/* <Col md={12} className="m-5"> */}
 
