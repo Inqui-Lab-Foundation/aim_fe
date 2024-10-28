@@ -205,11 +205,11 @@ const Routers = () => {
                         path="/login"
                         render={() => <LoginNew />}
                     />
-                    <Route
+                    {/* <Route
                         exact={true}
                         path="/register"
                         render={() => <RegisterNew />}
-                    />
+                    /> */}
                     <Route
                         exact={true}
                         path="/registration"
